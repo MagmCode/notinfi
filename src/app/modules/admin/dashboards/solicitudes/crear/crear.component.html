@@ -1,0 +1,90 @@
+<div class="absolute inset-0 flex flex-col min-w-0 overflow-hidden">
+
+    <!-- Main -->
+    <div class="flex flex-col flex-auto">
+
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-6 sm:py-12 md:px-8 border-b bg-card dark:bg-transparent">
+            <!-- Title -->
+            <div>
+                <div class="text-4xl font-extrabold tracking-tight leading-none">Creacion de Solicitud</div>
+                <div class="flex items-center mt-0.5 font-medium text-secondary">
+                    
+                    <!-- Breadcrumbs -->
+                  
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="mt-4 sm:mt-0">
+                <span></span>
+            </div>
+        </div>
+
+        <!-- <div class="w-full max-w-screen-xl mx-auto">
+            <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="text-lg font-medium tracking-tight leading-6 truncate">Seleccione el tipo de servicio</div>
+                <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                   
+                </div>
+            </div>
+        </div> -->
+    
+        <div >
+
+        
+        <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+            <div class="w-full max-w-screen-xl mx-auto">
+                                    
+                 <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden margin-center-card">
+                     <div class="text-lg font-medium tracking-tight leading-6 truncate">Seleccione el tipo de servicio</div>
+                     <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                        <div  class="grid grid-cols-3 gap-4">
+                            <mat-form-field>
+                                <mat-label>Categoria</mat-label>                                
+                                <mat-select class="inputMat"
+                                    [value]="'buy'"
+                                    #buySellSelect="matSelect">
+                                    <mat-option  *ngFor="let categoria of filtrocategoria | async" [value]="categoria">
+                                        {{categoria.name}}
+                                      </mat-option>
+                                
+                                </mat-select>
+                            </mat-form-field>
+                                    
+                                    
+                             <mat-form-field>
+                                 <mat-label>Tipo Servicio</mat-label>                                
+                                 <mat-select
+                                     [value]="'buy'"
+                                     #buySellSelect="matSelect">
+                                     <mat-option [value]="'buy'">Buy</mat-option>
+                                     <mat-option [value]="'sell'">Sell</mat-option>
+                                 </mat-select>
+                             </mat-form-field>
+                               
+
+                               
+                           <mat-form-field>
+                               <mat-label>Servicio</mat-label>                                
+                               <mat-select
+                                   [value]="'buy'"
+                                   #buySellSelect="matSelect">
+                                   <mat-option [value]="'buy'">Buy</mat-option>
+                                   <mat-option [value]="'sell'">Sell</mat-option>
+                               </mat-select>
+                           </mat-form-field>
+                                
+                           
+                        </div>
+                     </div>
+                 </div>
+            </div>
+        </div>
+
+    </div>
+        
+    
+
+    </div>
+
+</div>
