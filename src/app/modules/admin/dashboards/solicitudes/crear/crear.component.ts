@@ -53,6 +53,11 @@ export class CrearComponent implements OnInit {
   }  
 
 
+  obtenerTipoServicio(){
+   
+  }
+
+
   ngOnDestroy() {
     this._onDestroy.next();
     this._onDestroy.complete();
