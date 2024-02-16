@@ -4,6 +4,7 @@ import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
 import { CrearComponent } from './modules/admin/dashboards/solicitudes/crear/crear.component';
+import { RequerimientoEquipoAsignacionComponent } from './modules/admin/dashboards/solicitudes/crear/requerimiento-equipo-asignacion/requerimiento-equipo-asignacion.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -80,6 +81,7 @@ export const appRoutes: Route[] = [
             {path: 'solicitudes', children: [
                 {path: 'gestionarSolicitudes', loadChildren: () => import('app/modules/admin/dashboards/solicitudes/solicitudes.module').then(m => m.ProjectModule)},
                 {path: 'crear',  component: CrearComponent},
+                {path: 'asignacion', component: RequerimientoEquipoAsignacionComponent}
             ]},
 
             // Apps

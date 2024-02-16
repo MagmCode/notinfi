@@ -1,0 +1,13 @@
+mat-form-field{
+    width: 100% !important;
+}
+.mat-radio-button ~ .mat-radio-button {
+    margin-left: 16px;
+  }
+
+  .title-center {
+    margin: 0 auto;
+    font-size: 15pt;
+    /* Opcional: También puedes agregar text-align: center si es necesario */
+    /* text-align: center; */
+  }

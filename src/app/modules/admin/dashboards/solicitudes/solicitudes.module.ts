@@ -20,10 +20,14 @@ import { CrearComponent } from './crear/crear.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
+import { RequerimientoEquipoAsignacionComponent } from './crear/requerimiento-equipo-asignacion/requerimiento-equipo-asignacion.component';
+import {MatRadioModule} from '@angular/material/radio';
+
 @NgModule({
     declarations: [
         SolicitudesComponent,
-        CrearComponent
+        CrearComponent,
+        RequerimientoEquipoAsignacionComponent
     ],
     imports     : [
         RouterModule.forChild(solicitudesRoutes),
@@ -43,7 +47,8 @@ import { MatSelectModule } from '@angular/material/select';
         SharedModule,
         MatFormFieldModule,
         MatInputModule,
-        MatSelectModule
+        MatSelectModule,
+        MatRadioModule
     ]
 })
 export class ProjectModule

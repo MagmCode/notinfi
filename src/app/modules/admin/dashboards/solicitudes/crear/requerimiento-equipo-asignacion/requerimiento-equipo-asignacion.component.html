@@ -1,0 +1,95 @@
+
+
+<div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+
+    <div class="w-full max-w-screen-xl mx-auto">
+       
+        <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden margin-center-card">
+          
+
+         
+
+     
+                    <h2 class="title-center">¿Usted será el responsable de uso del equipo?</h2>
+             
+               
+        
+
+            <div class="title-center">
+                <mat-radio-group [(ngModel)]="selectedOption" name="radioGroup">
+                    <mat-radio-button value="Si"(change)="handleRadioChange($event)">Si</mat-radio-button>
+                    <mat-radio-button value="No"(change)="handleRadioChange($event)">No</mat-radio-button>
+                </mat-radio-group>
+            </div>
+              
+  
+        
+
+            
+            <div class="grid grid-cols-12 gap-4 mt-4 mb-4"  *ngIf="isShown"  id="divshow" >
+
+                    <div class="col-start-1 col-end-3">
+                        <mat-form-field appearance="fill" class="width100">
+                            <mat-label>NM</mat-label>
+                            <input matInput placeholder="NMXXXXX" disabled> 
+                            <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                                Campo <strong>Obligatorio</strong>
+                            </mat-error>   -->                    
+                        </mat-form-field>
+                    </div>
+                    <div class="col-end-3 col-start-6">
+                        <mat-form-field appearance="fill" class="width100">
+                            <mat-label>Cédula</mat-label>
+                            <input matInput placeholder="" disabled> 
+                            <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                                Campo <strong>Obligatorio</strong>
+                            </mat-error>   -->                    
+                        </mat-form-field>
+                    </div>
+                    <div class="col-end-6  col-start-13">
+                        <mat-form-field appearance="fill" class="width100">
+                            <mat-label>Nombre y Apellido</mat-label>
+                            <input matInput placeholder="" disabled> 
+                            <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                                Campo <strong>Obligatorio</strong>
+                            </mat-error>   -->                    
+                        </mat-form-field>
+                    </div>
+                    
+
+                    <div class="col-start-1 col-end-6">
+                <mat-form-field appearance="fill" class="width100">
+                    <mat-label>Código y nombre de la unidad </mat-label>
+                    <input matInput placeholder="" disabled> 
+                    <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                        Campo <strong>Obligatorio</strong>
+                      </mat-error>   -->                    
+                </mat-form-field>
+                    </div>
+                <div class="col-end-6  col-start-13">
+
+                    <mat-form-field appearance="fill"class="width100">
+                        <mat-label>Ubicación física</mat-label>
+                        <input matInput placeholder="" disabled> 
+                        <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                            Campo <strong>Obligatorio</strong>
+                        </mat-error>   -->                    
+                    </mat-form-field>
+                </div>
+            </div>
+
+             
+              
+      
+              
+
+                 
+       
+                
+
+         
+        </div>
+
+    </div>
+
+</div>
