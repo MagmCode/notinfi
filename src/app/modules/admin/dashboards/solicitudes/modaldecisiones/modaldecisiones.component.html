@@ -1,0 +1,64 @@
+
+
+<h2 mat-dialog-title class="title-center">Datos de la solicitud</h2>
+<form [formGroup]="datosFormulario" >
+<mat-dialog-content class="mat-typography">
+
+    <h2 class="title-center mt-4 mb-4 "> {{mensaje}}</h2>
+
+
+    <div class="grid grid-cols-12 gap-4 mt-4 mb-4"  >
+          
+
+         <div class="col-start-1 col-end-3">
+             <mat-form-field appearance="fill" class="width100">
+                 <mat-label>Id Solicitud</mat-label>
+                 <input matInput  formControlName="idSolicitud"   readonly> 
+                 <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                     Campo <strong>Obligatorio</strong>
+                 </mat-error>   -->                    
+             </mat-form-field>
+         </div>
+       
+         <div class="col-end-3  col-start-7">
+             <mat-form-field appearance="fill" class="width100">
+                 <mat-label>Nombre y Apellido</mat-label>
+                 <input matInput formControlName="nombres" readonly> 
+                 <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                     Campo <strong>Obligatorio</strong>
+                 </mat-error>   -->                    
+             </mat-form-field>
+         </div>
+
+         <div class="col-end-7  col-start-13">
+            <mat-form-field appearance="fill" class="width100">
+                <mat-label>Tarea</mat-label>
+                <input matInput formControlName="tarea" readonly> 
+                <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                    Campo <strong>Obligatorio</strong>
+                </mat-error>   -->                    
+            </mat-form-field>
+        </div>
+    
+             
+               
+
+       
+     
+ </div>
+
+
+ 
+  
+</mat-dialog-content>
+<mat-dialog-actions align="end">
+  <button mat-raised-button mat-dialog-close color="accent" >Cancelar</button>
+  <div   *ngIf="isShownA" >
+  <button mat-raised-button color="primary" cdkFocusInitial (click)="Aprobar();"  >Aprobar</button>
+  </div>
+  <div   *ngIf="isShownR" >
+  <button mat-raised-button color="warn" cdkFocusInitial  (click)="Rechazar();" >Rechazar</button>
+</div>
+</mat-dialog-actions>
+
+</form>

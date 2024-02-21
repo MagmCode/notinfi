@@ -1,3 +1,4 @@
+import { identifierModuleUrl } from '@angular/compiler';
 import { Component, OnInit } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ISelect } from 'app/models/login';
@@ -9,8 +10,12 @@ import { takeUntil } from 'rxjs/operators';
 @Component({
   selector: 'app-crear',
   templateUrl: './crear.component.html',
+
   styleUrls: ['./crear.component.scss']
 })
+
+
+
 export class CrearComponent implements OnInit {
 
   //#region Select de Categoria
@@ -67,6 +72,7 @@ export class CrearComponent implements OnInit {
       });
   //#endregion
 
+  
 //#region select de tipoServicio
       this.tipoServicioCtrl.setValue(this.tipoServicio);
       this.filtrotipoServicio.next(this.tipoServicio);
@@ -89,6 +95,7 @@ export class CrearComponent implements OnInit {
 
   }
 
+  isShownAsignacion: boolean = false; // Inicialmente oculto
   async obtenerCategorias(){
     await this._solicitudesService.consultarCategorias().subscribe(
       (response) => {
@@ -151,8 +158,16 @@ console.log('tiposervicio')
   }
 
   mostrarVista(){
-
+console.log(this.solFormulario.value.servi)
     
+if (this.solFormulario.value.servi?.id == 1) {
+
+  this.isShownAsignacion = true;
+  
+} else {
+  this.isShownAsignacion = false;
+}
+
   }
 
   //#region  inicializador de select

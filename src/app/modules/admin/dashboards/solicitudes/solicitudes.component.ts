@@ -1,444 +1,184 @@
-import { ChangeDetectionStrategy, Component, OnDestroy, OnInit, ViewEncapsulation } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ComponentFactoryResolver, OnDestroy, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Router } from '@angular/router';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { ApexOptions } from 'ng-apexcharts';
 import { LoginService } from 'app/services/login.service';
 import { User } from 'app/core/user/user.types';
-import { SolicitudesService } from './solicitudes.service';
+import { TooltipPosition } from '@angular/material/tooltip';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatTableDataSource } from '@angular/material/table';
+import { solicitudesDto } from 'app/models/usuario';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { SolicitudesService } from 'app/services/solicitudes.service';
+import { MatDialog } from '@angular/material/dialog';
+import { ToastrService } from 'ngx-toastr';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { SpinnerComponent } from 'app/modules/admin/spinner/spinner.component';
+import { Overlay, OverlayRef } from '@angular/cdk/overlay';
+import { ModaldecisionesComponent } from './modaldecisiones/modaldecisiones.component';
 
 @Component({
     selector       : 'project',
     templateUrl    : './solicitudes.component.html',
-    encapsulation  : ViewEncapsulation.None,
-    changeDetection: ChangeDetectionStrategy.OnPush
+    styleUrls: ['./solicitudes.component.scss']
 })
 export class SolicitudesComponent implements OnInit, OnDestroy
 {
-    chartGithubIssues: ApexOptions = {};
-    chartTaskDistribution: ApexOptions = {};
-    chartBudgetDistribution: ApexOptions = {};
-    chartWeeklyExpenses: ApexOptions = {};
-    chartMonthlyExpenses: ApexOptions = {};
-    chartYearlyExpenses: ApexOptions = {};
+   
     data: any;
-    selectedProject: string = 'ACME Corp. Backend App';
-    private _unsubscribeAll: Subject<any> = new Subject<any>();
     user = {} as User;
     usuario = {} as any;
+    solicitudesDto = {} as any;
+    plantillaUsuario = {} as solicitudesDto;
+    
+    //#region  tablas
+    displayedColumns: string[] = ['Idsolicitud', 'codigoUsuario', 'cedula', 'nombres', 'codUnidad','unidad','ubicacionFisica', 'tarea','fechaCreacion', 'estatus','nombresResp', 'acciones'];
+    positionOptions: TooltipPosition[] = ['below'];
+    position = new FormControl(this.positionOptions[0]);
+    dataSource: MatTableDataSource<solicitudesDto>;    
+    dataSourceP: MatTableDataSource<solicitudesDto>;
+    ELEMENT_DATA: solicitudesDto[] = [];
+    ELEMENT_PENDIENTE: solicitudesDto[] = [];
+    @ViewChild(MatPaginator) paginator: MatPaginator | any;
+    @ViewChild(MatSort) sort: MatSort = new MatSort;  
+   //#endregion
+//#region toast
+override2 = {
+    positionClass: 'toast-bottom-full-width',
+    closeButton: true,
+    
+  };
+  //#endregion
+  
+  //#region  spinner
+  private overlayRef!: OverlayRef;
+  //#endregion
+
     /**
      * Constructor
      */
-    constructor(
-        private _projectService: SolicitudesService,
-        private _router: Router,
-        private _loginService : LoginService
+    constructor(public dialog: MatDialog,
+                private _router: Router,
+                private _loginService : LoginService,        
+                private _loginservices: LoginService,
+                private _solicitudesService : SolicitudesService, 
+                private toast: ToastrService,
+                private spinner: NgxSpinnerService,
+                private componentFactoryResolver: ComponentFactoryResolver,
+                private cdRef : ChangeDetectorRef,
+                private overlay: Overlay,                
+              private formBuilder : FormBuilder,
     )
     {
+
+           // Asi la data a elemento dataSource asi se vacia para su inicializacion
+       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
+       this.dataSourceP = new MatTableDataSource(this.ELEMENT_PENDIENTE); 
+
+    
+      
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Lifecycle hooks
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * On init
-     */
+    
     ngOnInit(): void
     {
 
+        this.obtenerPlantilla();
         this.usuario = this._loginService.obterTokenInfo();
         this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
         this.user.email =this.usuario.descCargo;   
-        // Get the data
-        this._projectService.data$
-            .pipe(takeUntil(this._unsubscribeAll))
-            .subscribe((data) => {
+     
 
-                // Store the data
-                this.data = data;
-
-                // Prepare the chart data
-                this._prepareChartData();
-            });
-
-        // Attach SVG fill fixer to all ApexCharts
-        window['Apex'] = {
-            chart: {
-                events: {
-                    mounted: (chart: any, options?: any): void => {
-                        this._fixSvgFill(chart.el);
-                    },
-                    updated: (chart: any, options?: any): void => {
-                        this._fixSvgFill(chart.el);
-                    }
-                }
-            }
-        };
+ 
     }
 
-
-
-    /**
+       /**
      * On destroy
      */
-    ngOnDestroy(): void
-    {
-        // Unsubscribe from all subscriptions
-        this._unsubscribeAll.next();
-        this._unsubscribeAll.complete();
-    }
+       ngOnDestroy(): void
+       {
+       
+       }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
+    ngAfterViewInit() {
+        this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
+      }
 
-    /**
-     * Track by function for ngFor loops
-     *
-     * @param index
-     * @param item
-     */
-    trackByFn(index: number, item: any): any
-    {
-        return item.id || index;
-    }
+      applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    
+        if (this.dataSource.paginator) {
+          this.dataSource.paginator.firstPage();
+        }
+      }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Private methods
-    // -----------------------------------------------------------------------------------------------------
+      applyFilterP(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSourceP.filter = filterValue.trim().toLowerCase();
+    
+        if (this.dataSourceP.paginator) {
+          this.dataSourceP.paginator.firstPage();
+        }
+      }
+async obtenerPlantilla(){
+        this.usuario = this._loginservices.obterTokenInfo();
+        console.log(this.usuario.codigo)
+        this._solicitudesService.consultarSolicitudesCreadas(this.usuario.codigo).subscribe(
+        (response) =>{
+            console.log(response)
+            this.ELEMENT_DATA = [];
+            this.ELEMENT_DATA = response.data;
+            this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+            this.ngAfterViewInit();
+            this.dataSource.paginator = this.paginator;
+            this.dataSource.sort = this.sort;
+        }
+        )
+      }
 
-    /**
-     * Fix the SVG fill references. This fix must be applied to all ApexCharts
-     * charts in order to fix 'black color on gradient fills on certain browsers'
-     * issue caused by the '<base>' tag.
-     *
-     * Fix based on https://gist.github.com/Kamshak/c84cdc175209d1a30f711abd6a81d472
-     *
-     * @param element
-     * @private
-     */
-    private _fixSvgFill(element: Element): void
-    {
-        // Current URL
-        const currentURL = this._router.url;
+      tabClick(tab) {
 
-        // 1. Find all elements with 'fill' attribute within the element
-        // 2. Filter out the ones that doesn't have cross reference so we only left with the ones that use the 'url(#id)' syntax
-        // 3. Insert the 'currentURL' at the front of the 'fill' attribute value
-        Array.from(element.querySelectorAll('*[fill]'))
-             .filter(el => el.getAttribute('fill').indexOf('url(') !== -1)
-             .forEach((el) => {
-                 const attrVal = el.getAttribute('fill');
-                 el.setAttribute('fill', `url(${currentURL}${attrVal.slice(attrVal.indexOf('#'))}`);
-             });
-    }
-
-    /**
-     * Prepare the chart data from the data
-     *
-     * @private
-     */
-    private _prepareChartData(): void
-    {
-        // Github issues
-        this.chartGithubIssues = {
-            chart      : {
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                height    : '100%',
-                type      : 'line',
-                toolbar   : {
-                    show: false
-                },
-                zoom      : {
-                    enabled: false
-                }
-            },
-            colors     : ['#64748B', '#94A3B8'],
-            dataLabels : {
-                enabled        : true,
-                enabledOnSeries: [0],
-                background     : {
-                    borderWidth: 0
-                }
-            },
-            grid       : {
-                borderColor: 'var(--fuse-border)'
-            },
-            labels     : this.data.githubIssues.labels,
-            legend     : {
-                show: false
-            },
-            plotOptions: {
-                bar: {
-                    columnWidth: '50%'
-                }
-            },
-            series     : this.data.githubIssues.series,
-            states     : {
-                hover: {
-                    filter: {
-                        type : 'darken',
-                        value: 0.75
-                    }
-                }
-            },
-            stroke     : {
-                width: [3, 0]
-            },
-            tooltip    : {
-                followCursor: true,
-                theme       : 'dark'
-            },
-            xaxis      : {
-                axisBorder: {
-                    show: false
-                },
-                axisTicks : {
-                    color: 'var(--fuse-border)'
-                },
-                labels    : {
-                    style: {
-                        colors: 'var(--fuse-text-secondary)'
-                    }
-                },
-                tooltip   : {
-                    enabled: false
-                }
-            },
-            yaxis      : {
-                labels: {
-                    offsetX: -16,
-                    style  : {
-                        colors: 'var(--fuse-text-secondary)'
-                    }
-                }
+        console.log(tab);
+        console.log(tab.index);
+        if (tab.index == 1 ) {
+    
+            this.usuario = this._loginservices.obterTokenInfo();
+            console.log(this.usuario.codigo)
+            this._solicitudesService.consultarSolicitudesAsignadas(this.usuario.codigo).subscribe(
+            (response) =>{
+                console.log(response)
+                this.ELEMENT_PENDIENTE = [];
+                this.ELEMENT_PENDIENTE = response.data;
+                this.dataSourceP = new MatTableDataSource(this.ELEMENT_PENDIENTE);
+                this.ngAfterViewInit();
+                this.dataSourceP.paginator = this.paginator;
+                this.dataSourceP.sort = this.sort;
             }
-        };
+            )
 
-        // Task distribution
-        this.chartTaskDistribution = {
-            chart      : {
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                height    : '100%',
-                type      : 'polarArea',
-                toolbar   : {
-                    show: false
-                },
-                zoom      : {
-                    enabled: false
-                }
-            },
-            labels     : this.data.taskDistribution.labels,
-            legend     : {
-                position: 'bottom'
-            },
-            plotOptions: {
-                polarArea: {
-                    spokes: {
-                        connectorColors: 'var(--fuse-border)'
-                    },
-                    rings : {
-                        strokeColor: 'var(--fuse-border)'
-                    }
-                }
-            },
-            series     : this.data.taskDistribution.series,
-            states     : {
-                hover: {
-                    filter: {
-                        type : 'darken',
-                        value: 0.75
-                    }
-                }
-            },
-            stroke     : {
-                width: 2
-            },
-            theme      : {
-                monochrome: {
-                    enabled       : true,
-                    color         : '#93C5FD',
-                    shadeIntensity: 0.75,
-                    shadeTo       : 'dark'
-                }
-            },
-            tooltip    : {
-                followCursor: true,
-                theme       : 'dark'
-            },
-            yaxis      : {
-                labels: {
-                    style: {
-                        colors: 'var(--fuse-text-secondary)'
-                    }
-                }
-            }
-        };
 
-        // Budget distribution
-        this.chartBudgetDistribution = {
-            chart      : {
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                height    : '100%',
-                type      : 'radar',
-                sparkline : {
-                    enabled: true
-                }
-            },
-            colors     : ['#818CF8'],
-            dataLabels : {
-                enabled   : true,
-                formatter : (val: number): string | number => `${val}%`,
-                textAnchor: 'start',
-                style     : {
-                    fontSize  : '13px',
-                    fontWeight: 500
-                },
-                background: {
-                    borderWidth: 0,
-                    padding    : 4
-                },
-                offsetY   : -15
-            },
-            markers    : {
-                strokeColors: '#818CF8',
-                strokeWidth : 4
-            },
-            plotOptions: {
-                radar: {
-                    polygons: {
-                        strokeColors   : 'var(--fuse-border)',
-                        connectorColors: 'var(--fuse-border)'
-                    }
-                }
-            },
-            series     : this.data.budgetDistribution.series,
-            stroke     : {
-                width: 2
-            },
-            tooltip    : {
-                theme: 'dark',
-                y    : {
-                    formatter: (val: number): string => `${val}%`
-                }
-            },
-            xaxis      : {
-                labels    : {
-                    show : true,
-                    style: {
-                        fontSize  : '12px',
-                        fontWeight: '500'
-                    }
-                },
-                categories: this.data.budgetDistribution.categories
-            },
-            yaxis      : {
-                max       : (max: number): number => parseInt((max + 10).toFixed(0), 10),
-                tickAmount: 7
-            }
-        };
+        } else {
+            
+        }
 
-        // Weekly expenses
-        this.chartWeeklyExpenses = {
-            chart  : {
-                animations: {
-                    enabled: false
-                },
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                height    : '100%',
-                type      : 'line',
-                sparkline : {
-                    enabled: true
-                }
-            },
-            colors : ['#22D3EE'],
-            series : this.data.weeklyExpenses.series,
-            stroke : {
-                curve: 'smooth'
-            },
-            tooltip: {
-                theme: 'dark'
-            },
-            xaxis  : {
-                type      : 'category',
-                categories: this.data.weeklyExpenses.labels
-            },
-            yaxis  : {
-                labels: {
-                    formatter: (val): string => `$${val}`
-                }
-            }
-        };
 
-        // Monthly expenses
-        this.chartMonthlyExpenses = {
-            chart  : {
-                animations: {
-                    enabled: false
-                },
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                height    : '100%',
-                type      : 'line',
-                sparkline : {
-                    enabled: true
-                }
-            },
-            colors : ['#4ADE80'],
-            series : this.data.monthlyExpenses.series,
-            stroke : {
-                curve: 'smooth'
-            },
-            tooltip: {
-                theme: 'dark'
-            },
-            xaxis  : {
-                type      : 'category',
-                categories: this.data.monthlyExpenses.labels
-            },
-            yaxis  : {
-                labels: {
-                    formatter: (val): string => `$${val}`
-                }
-            }
-        };
+      }
 
-        // Yearly expenses
-        this.chartYearlyExpenses = {
-            chart  : {
-                animations: {
-                    enabled: false
-                },
-                fontFamily: 'inherit',
-                foreColor : 'inherit',
-                height    : '100%',
-                type      : 'line',
-                sparkline : {
-                    enabled: true
-                }
-            },
-            colors : ['#FB7185'],
-            series : this.data.yearlyExpenses.series,
-            stroke : {
-                curve: 'smooth'
-            },
-            tooltip: {
-                theme: 'dark'
-            },
-            xaxis  : {
-                type      : 'category',
-                categories: this.data.yearlyExpenses.labels
-            },
-            yaxis  : {
-                labels: {
-                    formatter: (val): string => `$${val}`
-                }
-            }
-        };
-    }
+      openDialog(id: number, codUsuarioI : string,nombres : string , tarea : string, decision: String) {
+        const dialogRef = this.dialog.open(ModaldecisionesComponent,{
+          data: { idSolicitud :id, codigoUsuario: codUsuarioI ,  nombres:nombres ,tarea: tarea, decision: decision },
+        });
+        
+        dialogRef.afterClosed().subscribe(result => {
+          
+        });
+      }
+      
+      redirigirSuccess(){
+        
+        this._router.navigate(['/solicitudes/gestionarSolicitudes']);
+      }
+
+
 }

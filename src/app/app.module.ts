@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ExtraOptions, PreloadAllModules, RouterModule } from '@angular/router';
@@ -24,6 +24,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatSnackBarModule } from '@angular/material/snack-bar';
+import { ToastrModule } from 'ngx-toastr';
+import { NgxSpinnerModule } from "ngx-spinner";
+import { SpinnerComponent } from './modules/admin/spinner/spinner.component';
 
 
 const routerConfig: ExtraOptions = {
@@ -34,6 +38,7 @@ const routerConfig: ExtraOptions = {
 @NgModule({
     declarations: [
         AppComponent,
+        SpinnerComponent
     ],
     imports     : [
         BrowserModule,
@@ -64,8 +69,16 @@ const routerConfig: ExtraOptions = {
           MatSidenavModule,
           MatSortModule,
           MatTableModule,
-          MatTabsModule
+          MatTabsModule,
+          ToastrModule.forRoot(),
+          NgxSpinnerModule,
+          
     ],
+    exports: [NgxSpinnerModule],
+    schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    entryComponents:[
+        SpinnerComponent
+      ],
     bootstrap   : [
         AppComponent
     ]

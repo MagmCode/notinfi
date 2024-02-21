@@ -6,7 +6,7 @@ import { tap } from 'rxjs/operators';
 @Injectable({
     providedIn: 'root'
 })
-export class SolicitudesService
+export class SolicitudesServicess
 {
     private _data: BehaviorSubject<any> = new BehaviorSubject(null);
 

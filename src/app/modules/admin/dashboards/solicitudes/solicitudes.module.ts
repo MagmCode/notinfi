@@ -22,12 +22,22 @@ import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { RequerimientoEquipoAsignacionComponent } from './crear/requerimiento-equipo-asignacion/requerimiento-equipo-asignacion.component';
 import {MatRadioModule} from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import { DatosAsignadoComponent } from './crear/datos-asignado/datos-asignado.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import { ModaldecisionesComponent } from './modaldecisiones/modaldecisiones.component';
+
 
 @NgModule({
     declarations: [
         SolicitudesComponent,
         CrearComponent,
-        RequerimientoEquipoAsignacionComponent
+        RequerimientoEquipoAsignacionComponent,
+        DatosAsignadoComponent,
+        ModaldecisionesComponent
     ],
     imports     : [
         RouterModule.forChild(solicitudesRoutes),
@@ -48,8 +58,14 @@ import {MatRadioModule} from '@angular/material/radio';
         MatFormFieldModule,
         MatInputModule,
         MatSelectModule,
-        MatRadioModule
-    ]
+        MatRadioModule,
+        MatCheckboxModule,
+        MatPaginatorModule,
+        MatSlideToggleModule,
+        MatTooltipModule,
+        MatDialogModule,
+    
+    ],
 })
 export class ProjectModule
 {

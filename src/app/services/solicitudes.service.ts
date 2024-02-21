@@ -35,4 +35,57 @@ export class SolicitudesService {
     return this.http.post(url, dataBusqueda);
   }
 
+  consultarDetalleUsuario(codigoUsuario: any): Observable <any>{
+
+    const url = this.urlEndPoint + 'ldapWS/detalleUsuario';
+    const dataBusqueda = {
+      codUsuario : codigoUsuario
+    };
+    return this.http.post(url, dataBusqueda);
+
+  }
+
+  consultarobtenerPlantilla(codigoUsuario: any, codigoUnidad: any): Observable <any>{
+
+    const url = this.urlEndPoint + 'ldapWS/obtenerPlantilla';
+    const dataBusqueda = {
+      codUsuario : codigoUsuario,
+      codUnidad: codigoUnidad
+    };
+    return this.http.post(url, dataBusqueda);
+
+  }
+
+  crear(usuario : any):Observable<any>{
+    const url = this.urlEndPoint + '/crearSolicitud';
+    const jsonEnvio = JSON.stringify(usuario);
+    return this.http.post(url, usuario);
+}
+
+consultarSolicitudesCreadas(codigoUsuario: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'consultarSolicitudesCreadas';
+  const dataBusqueda = {
+    codUsuario : codigoUsuario
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+consultarSolicitudesAsignadas(codigoUsuario: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'consultarSolicitudesAsignadas';
+  const dataBusqueda = {
+    codUsuario : codigoUsuario
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+gestionFlujoTarea (solicitudesDto : any):Observable<any>{
+  const url = this.urlEndPoint + '/gestionFlujoTarea ';
+  const jsonEnvio = JSON.stringify(solicitudesDto);
+  return this.http.post(url, solicitudesDto);
+}
+
 }
