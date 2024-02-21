@@ -32,7 +32,8 @@ import { SpinnerComponent } from './modules/admin/spinner/spinner.component';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
-    scrollPositionRestoration: 'enabled'
+    scrollPositionRestoration: 'enabled',
+    useHash :true
 };
 
 @NgModule({
@@ -76,6 +77,7 @@ const routerConfig: ExtraOptions = {
     ],
     exports: [NgxSpinnerModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
+    
     entryComponents:[
         SpinnerComponent
       ],
