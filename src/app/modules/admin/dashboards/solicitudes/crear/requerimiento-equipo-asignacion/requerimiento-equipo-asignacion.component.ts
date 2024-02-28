@@ -224,12 +224,12 @@ this._solicitudesService.consultarDetalleUsuario(this.usuFormulario.value.codigo
       /*     this.spinner.hide('sp1'); */
               }, 
         (error) =>{
-    
+          this.toast.error(data.mensaje, '', this.override2);
         }
       ); 
 
     }else{
-      
+      this.toast.error(data.mensaje, '', this.override2);
     }
            
   }, 

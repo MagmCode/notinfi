@@ -27,6 +27,7 @@ export interface usuario {
     fechaModificacion: String,
     estatus:String,
     idServicio: number,
+    servicio: String,
     responsable: String,
     codigoUsuarioResp: String,
     cedulaResp: String,
@@ -34,8 +35,33 @@ export interface usuario {
     codUnidadResp:String,
     unidadResp: String,
     idTarea: number,
-    tarea: String
+    tarea: String,
     codusuarioGestion: String,
-    decision:String
+    decision:String,   
+    idCategoria:   number,
+    categoria: String,
+    idTipoServicio: number,
+    tipoServicio: String 
 
+  }
+
+
+  export interface trancking{
+
+    idSeguimiento: number,
+    idSolicitud:number,
+    idTarea : number,
+    nombreTarea: String,
+    codUsuarioInicio : String,
+    nombreUsuarioInicio: String,
+    fechaInicio: String,
+    codUsuarioFin: String,
+    nombreUsuarioFin: String,
+    fechaFin: String,
+    idDecision: String,
+    decision: String,
+    observacion: String,
+    idMotivo : number,
+    motivo: String,
+   
   }

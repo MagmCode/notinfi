@@ -28,7 +28,23 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { ToastrModule } from 'ngx-toastr';
 import { NgxSpinnerModule } from "ngx-spinner";
 import { SpinnerComponent } from './modules/admin/spinner/spinner.component';
+import { InventarioComponent } from './modules/admin/dashboards/inventario/inventario.component';
+import { BuzonPendienteComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/buzon-pendiente.component';
 
+import { MatDividerModule } from '@angular/material/divider';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import { MatRippleModule } from '@angular/material/core';
+import { TranslocoModule } from '@ngneat/transloco';
+import { NgApexchartsModule } from 'ng-apexcharts';
+import { SharedModule } from 'app/shared/shared.module';
+
+import { MatRadioModule} from '@angular/material/radio';
+import { MatCheckboxModule } from '@angular/material/checkbox';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
+import {MatDialogModule} from '@angular/material/dialog';
+import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component'; 
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -39,7 +55,10 @@ const routerConfig: ExtraOptions = {
 @NgModule({
     declarations: [
         AppComponent,
-        SpinnerComponent
+        SpinnerComponent,
+        InventarioComponent,
+        BuzonPendienteComponent,
+        AsignarSolicitudComponent
     ],
     imports     : [
         BrowserModule,
@@ -73,7 +92,19 @@ const routerConfig: ExtraOptions = {
           MatTabsModule,
           ToastrModule.forRoot(),
           NgxSpinnerModule,
-          
+          MatDividerModule,
+          MatProgressBarModule,
+          MatRippleModule,
+          TranslocoModule,
+          NgApexchartsModule,
+          SharedModule,
+          MatRadioModule,
+          MatCheckboxModule,
+          MatPaginatorModule,
+          MatSlideToggleModule,
+          MatTooltipModule,
+          MatDialogModule
+
     ],
     exports: [NgxSpinnerModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

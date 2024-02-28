@@ -1,7 +1,7 @@
 <div class="flex flex-col flex-auto min-w-0">
 
     <!-- Header -->
-    <div class="bg-card" style="height: 13%;">
+    <div class="bg-card" >
         <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
             <div class="flex flex-col sm:flex-row flex-auto sm:items-center ">
                 <!-- Avatar and name -->
@@ -13,6 +13,7 @@
                                 <span style="font-size: 15px;">{{ user.name }}</span>
                             </div>
                         </ng-container>
+                        
                         <div class="flex items-center">
                             <div class="ml-1.5 leading-6 truncate text-secondary">{{ user.email }}</div>
                         </div>
@@ -40,7 +41,7 @@
                 >
                 <div class="flex items-center">
                     <div class="overflow-hidden">
-                        <div class="font-medium leading-6 truncate">Gestion de Solicitudes</div>
+                        <div class="font-medium leading-6 truncate">Gestión de Solicitudes</div>
                     </div>
                     <div class="flex items-center justify-center pl-2">
                         <mat-icon
@@ -54,7 +55,7 @@
 
     <!-- Main -->
     <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
-        <div class="w-full max-w-screen-xl mx-auto">
+        <div class="w-full ">
             <!-- Tabs -->
             <mat-tab-group (selectedTabChange)="tabClick($event)"
                 class="sm:px-2"
@@ -123,7 +124,7 @@
                             <!-- Github issues summary -->
                             <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                 <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Solicitudes</div>
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Solicitudes Creadas</div>
                                   
                                     <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
                                         <div class="">
@@ -139,6 +140,21 @@
                                               <ng-container matColumnDef="Idsolicitud">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header> Id solicitud</th>
                                                 <td mat-cell *matCellDef="let row"> {{row.idSolicitud}} </td>
+                                              </ng-container>
+
+                                              <ng-container matColumnDef="categoria">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.categoria}} </td>
+                                              </ng-container>
+
+                                              <ng-container matColumnDef="tipoServicio">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Servicio</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.tipoServicio}} </td>
+                                              </ng-container>
+
+                                              <ng-container matColumnDef="servicio">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Servicio</th>
+                                                <td mat-cell *matCellDef="let row"> {{row.servicio}} </td>
                                               </ng-container>
                                           
                                               <!-- Progress Column -->
@@ -175,10 +191,6 @@
                                                 <td mat-cell *matCellDef="let row"> {{row.ubicacionFisica}} </td>
                                               </ng-container>
                             
-                                              <ng-container matColumnDef="tarea">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarea </th>
-                                                <td mat-cell *matCellDef="let row"> {{row.tarea}} </td>
-                                              </ng-container>
                                               <ng-container matColumnDef="fechaCreacion">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha creacion </th>
                                                 <td mat-cell *matCellDef="let row"> {{row.fechaCreacion}} </td>
@@ -195,8 +207,8 @@
                                               <ng-container matColumnDef="acciones">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones </th>
                                              
-                                                <td mat-cell *matCellDef="let row"> 
-                                                    <span></span>
+                                                <td mat-cell *matCellDef="let row" style="text-align: center;"> 
+                                                    
                                                     <mat-icon class="mr-1 icon-size-7 text-green-500"                                             
                                                      [svgIcon]="'heroicons_solid:search'"></mat-icon>
                                                 </td>
@@ -230,10 +242,10 @@
                 </mat-tab>
 
                 <!-- Budget -->
-                <mat-tab label="Pendientes Gestion" >
+                <mat-tab label="Solicitudes Pendientes Aprobación" >
                     <ng-template matTabContent >
                         <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Solicitudes Pendientes</div>
+                            <div class="text-lg font-medium tracking-tight leading-6 truncate">Solicitudes Pendientes Aprobación</div>
                           
                             <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
                                 <div class="">
@@ -250,7 +262,21 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Id solicitud</th>
                                         <td mat-cell *matCellDef="let row"> {{row.idSolicitud}} </td>
                                       </ng-container>
-                                  
+
+                                      <ng-container matColumnDef="categoria">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Categoría</th>
+                                        <td mat-cell *matCellDef="let row"> {{row.categoria}} </td>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="tipoServicio">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Servicio</th>
+                                        <td mat-cell *matCellDef="let row"> {{row.tipoServicio}} </td>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="servicio">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Servicio</th>
+                                        <td mat-cell *matCellDef="let row"> {{row.servicio}} </td>
+                                      </ng-container>
                                       <!-- Progress Column -->
                                       <ng-container matColumnDef="codigoUsuario">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Código usuario </th>
@@ -285,10 +311,7 @@
                                         <td mat-cell *matCellDef="let row"> {{row.ubicacionFisica}} </td>
                                       </ng-container>
                     
-                                      <ng-container matColumnDef="tarea">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarea </th>
-                                        <td mat-cell *matCellDef="let row"> {{row.tarea}} </td>
-                                      </ng-container>
+                                      
                                       <ng-container matColumnDef="fechaCreacion">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Fecha creacion </th>
                                         <td mat-cell *matCellDef="let row"> {{row.fechaCreacion}} </td>
@@ -304,13 +327,13 @@
                     
                                       <ng-container matColumnDef="acciones">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones </th>
-                                        <td mat-cell *matCellDef="let row"> 
+                                        <td mat-cell *matCellDef="let row" style="text-align: center;"> 
                                             <mat-icon class="mr-1 icon-size-7 text-green-500"   
-                                            (click)="openDialog(row.idSolicitud, row.codigoUsuario, row.nombres, row.tarea, 'A' )"                                           
+                                            (click)="openDialog(row.idSolicitud, row.codigoUsuario, row.nombres, row.categoria, row.tipoServicio, row.servicio, 'A' )"                                           
                                              [svgIcon]="'heroicons_solid:check'"></mat-icon>
 
                                              <mat-icon class="mr-1 icon-size-7 text-red-500"  
-                                             (click)="openDialog(row.idSolicitud, row.codigoUsuario, row.nombres, row.tarea, 'R')"                                            
+                                             (click)="openDialog(row.idSolicitud, row.codigoUsuario, row.nombres, row.categoria, row.tipoServicio, row.servicio, 'R')"                                            
                                              [svgIcon]="'heroicons_solid:x-circle'"></mat-icon>
 
                                         </td>
@@ -341,7 +364,7 @@
                 </mat-tab>
 
                 <!-- Team -->
-                <mat-tab label="Historial de Solicitudes Creadas">
+                <mat-tab label="Historial de Solicitudes">
                     <ng-template matTabContent>
                         <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                             <div class="text-lg font-medium tracking-tight leading-6 truncate">Solicitudes</div>

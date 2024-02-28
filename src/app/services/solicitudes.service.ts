@@ -88,4 +88,47 @@ gestionFlujoTarea (solicitudesDto : any):Observable<any>{
   return this.http.post(url, solicitudesDto);
 }
 
+
+consultarMotivo(): Observable<any>{
+  const url = this.urlEndPoint + 'consultarMotivos';
+  return this.http.post(url, ''); 
+}
+
+consultarSolicitudesBuzonPendiente(area: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'consultarSolicitudesBuzonPendiente';
+  const dataBusqueda = {
+    area : area
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+consultarMetodosAutenticacion(): Observable<any>{
+  const url = this.urlEndPoint + 'consultarMetodosAutenticacion';
+  return this.http.post(url, ''); 
+}
+
+consultaSolicitudDetalle(idSolicitud: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'consultaSolicitudDetalle  ';
+  const dataBusqueda = {
+    idSolicitud : idSolicitud
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+asignarSolicitudes(idSolicitud: any, codigoUsuario: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'asignarSolicitudes';
+  const dataBusqueda = {
+    idSolicitud : idSolicitud,
+    codigoUsuario: codigoUsuario,
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+
 }

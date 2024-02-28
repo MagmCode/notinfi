@@ -31,7 +31,7 @@ export class SolicitudesComponent implements OnInit, OnDestroy
     plantillaUsuario = {} as solicitudesDto;
     
     //#region  tablas
-    displayedColumns: string[] = ['Idsolicitud', 'codigoUsuario', 'cedula', 'nombres', 'codUnidad','unidad','ubicacionFisica', 'tarea','fechaCreacion', 'estatus','nombresResp', 'acciones'];
+    displayedColumns: string[] = ['Idsolicitud','categoria', 'tipoServicio', 'servicio', 'codigoUsuario', 'cedula', 'nombres', 'codUnidad','unidad','ubicacionFisica', 'fechaCreacion', 'estatus','nombresResp', 'acciones'];
     positionOptions: TooltipPosition[] = ['below'];
     position = new FormControl(this.positionOptions[0]);
     dataSource: MatTableDataSource<solicitudesDto>;    
@@ -84,6 +84,7 @@ override2 = {
 
         this.obtenerPlantilla();
         this.usuario = this._loginService.obterTokenInfo();
+    
         this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
         this.user.email =this.usuario.descCargo;   
      
@@ -102,6 +103,8 @@ override2 = {
     ngAfterViewInit() {
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
+        this.dataSourceP.paginator = this.paginator;
+        this.dataSourceP.sort = this.sort;
       }
 
       applyFilter(event: Event) {
@@ -165,9 +168,10 @@ async obtenerPlantilla(){
 
       }
 
-      openDialog(id: number, codUsuarioI : string,nombres : string , tarea : string, decision: String) {
+      openDialog(id: number, codUsuarioI : string, nombres : string ,categoria:string,tipoServicio: string,servicio:string,  decision: String ) {
+        console.log(categoria + tipoServicio+ servicio);
         const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-          data: { idSolicitud :id, codigoUsuario: codUsuarioI ,  nombres:nombres ,tarea: tarea, decision: decision },
+          data: { idSolicitud :id, codigoUsuario: codUsuarioI ,  nombres:nombres ,decision: decision, categoria: categoria, tipoServicio:tipoServicio, servicio:servicio },
         });
         
         dialogRef.afterClosed().subscribe(result => {

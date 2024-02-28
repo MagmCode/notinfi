@@ -19,8 +19,8 @@ export class NavigationService
     usuario = {} as any;
      menuPublico : any =[{
         id : 'Solicitudes',
-        title: 'SOCLICITUDES',
-        subtitle: 'Gestion de Solicitudes',
+        title: 'SOLICITUDES',
+        subtitle: 'Gestión de Solicitudes',
         type: 'group',
         icon: 'heroicons_outline:home',
         children:[{
@@ -35,7 +35,7 @@ export class NavigationService
     menuAdministrado : any ={
         id : 'servicios',
         title: 'Areas Solucionadora',
-        subtitle: 'Gestion de Areas Solucionadoras',
+        subtitle: 'Gestión de Areas Solucionadoras',
         type: 'group',
         icon: 'heroicons_outline:cog',
         children:[]
@@ -51,7 +51,7 @@ export class NavigationService
         return  this.menuAdministrado  ={
             id : 'servicios',
             title: 'Areas Solucionadora',
-            subtitle: 'Gestion de Areas Solucionadoras',
+            subtitle: 'Gestión de Areas Solucionadoras',
             type: 'group',
             icon: 'heroicons_outline:cog',
             children:[]
@@ -59,15 +59,31 @@ export class NavigationService
     }
 
     inciarMenuPublico(){
-        return this.menuPublico  =[{
+        return this.menuPublico  =[
+           
+            {
             id : 'Solicitudes',
-            title: 'SOCLICITUDES',
-            subtitle: 'Gestion de Solicitudes',
+            title: 'SOLICITUDES',
+            subtitle: 'Gestión de Solicitudes',
             type: 'group',
             icon: 'heroicons_outline:home',
             children:[{
                 id: 'solici',
                 title:'GESTIONAR SOLICITUDES',
+                type: 'basic',
+                icon: 'heroicons_outline:clipboard-check',
+                link: '/solicitudes/gestionarSolicitudes'
+            }]
+        },
+        {
+            id : 'basignadas',
+            title: 'Gestion Buzón',
+            subtitle: 'Gestión de Solicitudes Asignadas',
+            type: 'group',
+            icon: 'heroicons_outline:home',
+            children:[{
+                id: 'solici',
+                title:'Solicitudes Asignadas',
                 type: 'basic',
                 icon: 'heroicons_outline:clipboard-check',
                 link: '/solicitudes/gestionarSolicitudes'

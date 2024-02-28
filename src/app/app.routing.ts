@@ -5,6 +5,8 @@ import { LayoutComponent } from 'app/layout/layout.component';
 import { InitialDataResolver } from 'app/app.resolvers';
 import { CrearComponent } from './modules/admin/dashboards/solicitudes/crear/crear.component';
 import { RequerimientoEquipoAsignacionComponent } from './modules/admin/dashboards/solicitudes/crear/requerimiento-equipo-asignacion/requerimiento-equipo-asignacion.component';
+import { BuzonPendienteComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/buzon-pendiente.component';
+import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -84,6 +86,12 @@ export const appRoutes: Route[] = [
                 {path: 'asignacion', component: RequerimientoEquipoAsignacionComponent}
             ]},
 
+            
+            {path: 'inventario', children: [
+                {path: 'buzonPediente',  component: BuzonPendienteComponent},
+                {path: 'asignarSolicitud',  component: AsignarSolicitudComponent}
+            ]},
+            
             // Apps
             {path: 'apps', children: [
                 {path: 'academy', loadChildren: () => import('app/modules/admin/apps/academy/academy.module').then(m => m.AcademyModule)},

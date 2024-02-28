@@ -7,7 +7,7 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-6 sm:py-12 md:px-8 border-b bg-card dark:bg-transparent">
             <!-- Title -->
             <div>
-                <div class="text-4xl font-extrabold tracking-tight leading-none">Creacion de Solicitud</div>
+                <div class="text-4xl font-extrabold tracking-tight leading-none">Creación de Solicitud</div>
                 <div class="flex items-center mt-0.5 font-medium text-secondary">
                     
                     <!-- Breadcrumbs -->
@@ -41,7 +41,7 @@
                      <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
                         <div  class="grid grid-cols-3 gap-4">
                             <mat-form-field>
-                                <mat-label>Categoria</mat-label>                                
+                                <mat-label>Categoría</mat-label>                                
                                 <mat-select class="inputMat"      formControlName="categoria"  #buySellSelect="matSelect" (ngModelChange)="buscarTipoServicio()">
                                     <mat-option  *ngFor="let categoria of filtrocategoria | async" [value]="categoria">
                                         {{categoria.name}}

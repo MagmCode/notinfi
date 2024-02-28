@@ -1,0 +1,244 @@
+<div class="flex flex-col flex-auto min-w-0">
+    <!-- Header -->
+    <div class="bg-card" >
+        <div class="flex flex-col w-full max-w-screen-xl mx-auto px-6 sm:px-8">
+            <div class="flex flex-col sm:flex-row flex-auto sm:items-center ">
+                <!-- Avatar and name -->
+                <div class="flex flex-auto items-center min-w-0">
+                   
+                    <div class="flex flex-col min-w-0 ml-4" style="margin-top: 2%;">
+                    
+                        <ng-container *transloco="let t">
+                            <div class="text-2xl md:text-5xl font-semibold tracking-tight leading-7 md:leading-snug truncate">Bienvenido 
+                                <span style="font-size: 15px;">{{ user.name }}</span>
+                            </div>
+                        </ng-container>
+                        <div class="flex items-center">
+                            <div class="ml-1.5 leading-6 truncate text-secondary">{{ user.email }}</div>
+                        </div>
+                    </div>
+                </div>
+         
+            </div>
+            <!-- Project selector -->
+            <div
+                class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
+                matRipple
+                >
+                <div class="flex items-center">
+                    <div class="overflow-hidden">
+                        <div class="font-medium leading-6 truncate">Asignar Solicitudes</div>
+                    </div>
+                   
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+    <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+        <div class="w-full max-w-screen-xl mx-auto">
+            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                   
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Datos de la Solicitudes</div>
+                      
+                        <div class="grid grid-cols-12 gap-4 "  >
+      
+                            <div class="col-start-1 col-end-3 text-center">
+                                <b>Id Solicitud</b>
+                                <p >{{datosFormulario.value.idSolicitud}}</p>
+                                                
+                            </div>
+
+                            <div class="col-start-3 col-end-5 text-center">
+                                <b>Categoría</b>
+                                <p >{{datosFormulario.value.categoria}}</p>
+                                                
+                            </div>
+
+                            <div class="col-start-5 col-end-8 text-center">
+                                <b>Tipo de Servicio</b>
+                                <p >{{datosFormulario.value.tipoServicio}}</p>
+                                                
+                            </div>
+
+                            <div class="col-start-8 col-end-11 text-center">
+                                <b>Servicio</b>
+                                <p >{{datosFormulario.value.servicio}}</p>
+                                                
+                            </div>
+
+
+                            <div class="col-start-11 col-end-13 text-center">
+                                <b>Estatus</b>
+                                <p >{{datosFormulario.value.estatus}}</p>
+                                                
+                            </div>
+
+                            <div class="col-start-1 col-end-3 text-center">
+                                <b>Código Usuario</b>
+                                <p >{{datosFormulario.value.codigoUsuario}}</p>
+                                                
+                            </div>
+
+                            <div class="col-start-3 col-end-4 text-center">
+                                <b>Cédula</b>
+                                <p >{{datosFormulario.value.cedula}}</p>
+                                                
+                            </div>
+
+                            <div class="col-start-4 col-end-8 text-center">
+                                <b>Nombres y Apellidos</b>
+                                <p >{{datosFormulario.value.nombres}}</p>
+                                                
+                            </div>
+
+                            <div class="col-start-8 col-end-10 text-center">
+                                <b>Código de Unidad</b>
+                                <p >{{datosFormulario.value.codUnidad}}</p>
+                                                
+                            </div>
+
+
+                            <div class="col-start-10 col-end-13 text-center">
+                                <b>Unidad</b>
+                                <p >{{datosFormulario.value.unidad}}</p>
+                                                
+                            </div>
+
+                            <div class="col-start-1 col-end-3 text-center">
+                                <b>Ubicación Física</b>
+                                <p >{{datosFormulario.value.ubicacionFisica}}</p>
+                                                
+                            </div>
+                        
+
+                            <div class="col-start-3 col-end-6 text-center">
+                                <b>Nombres y Apellidos Responsable</b>
+                                <p >{{datosFormulario.value.nombresResp}}</p>
+                                                
+                            </div>
+
+                            <div class="col-start-6 col-end-9 text-center">
+                                <b>Código de Unidad Responsable</b>
+                                <p >{{datosFormulario.value.codUnidadResp}}</p>
+                            </div>
+
+
+                            <div class="col-start-9 col-end-13 text-center">
+                                <b>Unidad Responsable</b>
+                                <p >{{datosFormulario.value.unidadResp}}</p>
+                                                
+                         </div>
+                            <div class="col-start-6 col-end-6 text-center">
+                            <button mat-raised-button color="primary" type="button" (click)="asignarSolictud()" >Asignar</button>
+                        </div>
+                            
+                        </div>
+
+                    <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+
+                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Detalle Tracking</div>
+                      
+                        <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                            <div class="">
+                            <mat-form-field appearance="outline" >
+                                <mat-label>Filtro</mat-label>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+                              </mat-form-field>
+                            </div>
+                            <div class="mat-elevation-z8">
+                                <table mat-table [dataSource]="dataSource" matSort>
+                              
+                            
+
+                                  <ng-container matColumnDef="nombreTarea">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarea</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.nombreTarea}} </td>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="codUsuarioInicio">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Usuario Inicio</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.codUsuarioInicio}} </td>
+                                  </ng-container>
+
+                                  <ng-container matColumnDef="nombreUsuarioInicio">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Usuario Inicio</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.nombreUsuarioInicio}} </td>
+                                  </ng-container>
+                                  <!-- Progress Column -->
+                                  <ng-container matColumnDef="fechaInicio">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Inicio </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.fechaInicio}} </td>
+                                  </ng-container>
+                              
+                                  <!-- Progress Column -->
+                                  <ng-container matColumnDef="codUsuarioFin">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Código Usuario Fin </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.codUsuarioFin}} </td>
+                                  </ng-container>
+
+                                  <!-- Name Column -->
+                                  <ng-container matColumnDef="nombreUsuarioFin">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Usuario Fin</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.nombreUsuarioFin}} </td>
+                                  </ng-container>
+                              
+                                  <!-- Fruit Column -->
+                                  <ng-container matColumnDef="fechaFin">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha fin</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.fechaFin}} </td>
+                                  </ng-container>
+                
+                                  <ng-container matColumnDef="decision">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Decisión </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.decision}} </td>
+                                  </ng-container>
+                
+                                  <ng-container matColumnDef="observacion">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Observación</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.observacion}} </td>
+                                  </ng-container>
+                
+                                  
+                                  <ng-container matColumnDef="motivo">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Motivo </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.motivo}} </td>
+                                  </ng-container>
+                                
+                                 
+                                  
+                              
+                                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                              
+                                  <!-- Row shown when there is no matching data. -->
+                                  <tr class="mat-row" *matNoDataRow>
+                                    <td class="mat-cell" colspan="4">No Existe Resultado</td>
+                                  </tr>
+                                </table>
+                       
+                                  <mat-paginator
+                                    [pageSize]="5"
+                                    [pageSizeOptions]="[5, 10, 25, 100]"
+                                    [showFirstLastButtons]="true">
+                                </mat-paginator>
+                                </div>
+                              
+                        </div>
+
+                    </div>
+               
+                </div>
+
+            </div>
+        </div>
+
+    </div>    
+
+
+
+
+
+</div>
