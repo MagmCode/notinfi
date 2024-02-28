@@ -86,8 +86,6 @@ private overlayRef!: OverlayRef;
                   decision: new FormControl({value: null, readonly: true}),
                   motivo:  new FormControl('', [Validators.required]),
                   observacion : new FormControl(''),
-                  metodo : new FormControl('', [Validators.required]),
-                  codigo : new FormControl('', [Validators.required])
                 })
 
 

@@ -65,14 +65,14 @@
     <div class="col-start-2 col-end-4 ">
         <mat-form-field>  
             <mat-label>Método de autenticación</mat-label>                            
-            <mat-select    class="inputMat"  formControlName="metodo"  >
+            <mat-select    class="inputMat"   >
                 <mat-option  *ngFor="let metodo of filtrometodo | async" [value]="metodo">
                 {{metodo.name}}
                 </mat-option>
             </mat-select>
-            <mat-error *ngIf="datosFormulario.get('metodo')?.hasError">
+           <!--  <mat-error *ngIf="datosFormulario.get('metodo')?.hasError">
                 Campo <strong>Obligatorio</strong>
-            </mat-error>
+            </mat-error> -->
         </mat-form-field>
     </div>
 
@@ -80,10 +80,10 @@
 
         <mat-form-field appearance="fill"class="width100">
             <mat-label>Código</mat-label>
-            <input matInput  formControlName="codigo"> 
-            <mat-error *ngIf="datosFormulario.get('codigo')?.hasError">
+            <input matInput  > 
+           <!--  <mat-error *ngIf="datosFormulario.get('codigo')?.hasError">
                 Campo <strong>Obligatorio</strong>
-            </mat-error>            
+            </mat-error>   -->          
         </mat-form-field>
     </div>
   
