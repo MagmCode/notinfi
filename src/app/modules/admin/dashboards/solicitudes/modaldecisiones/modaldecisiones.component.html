@@ -1,94 +1,76 @@
-
-
 <h2 mat-dialog-title class="title-center">Datos de la solicitud</h2>
-<form [formGroup]="datosFormulario" >
-<mat-dialog-content class="mat-typography">
 
-    <h2 class="title-center mt-4 mb-4 "> {{mensaje}}</h2>
+    <mat-dialog-content class="mat-typography">
 
-
-    <div class="grid grid-cols-12 gap-4 mt-4 mb-4"  >
-          
-         <div class="col-start-1 col-end-3">
+        <h2 class="title-center mt-4 mb-4 "> {{mensaje}}</h2>
 
 
-            
-                 <b>Id Solicitud</b>
-                 <p >{{idSolicitud}}</p>
-                                  
-         </div>
-       
-         <div class="col-end-3  col-start-7">
-                 <b>Nombre y Apellido</b>
-                 <p >{{nombres}}</p>
-                            
-           
-         </div>
 
-         <div class="col-end-7  col-start-13">
-           
-                <b>Tipo de Servicio</b>
-                <p >{{tipoServicio}}</p>
-                              
-        </div>
-    
-     
- </div>
- <div class="grid grid-cols-12 gap-4 mt-4 mb-4"  *ngIf="isShownM"  >
-    <div class="col-start-1 col-end-5">
-        <mat-form-field>
-            <mat-label>Motivo de Rechazo</mat-label>                                
-            <mat-select    class="inputMat"  formControlName="motivo"  >
-                <mat-option  *ngFor="let motivo of filtromotivo | async" [value]="motivo">
-                {{motivo.name}}
-                </mat-option>
-            </mat-select>
-            <mat-error *ngIf="datosFormulario.get('motivo')?.hasError">
-                Campo <strong>Obligatorio</strong>
-            </mat-error>
-        </mat-form-field>
-    </div>
-    <div class="col-end-5  col-start-13">
-
-        <mat-form-field appearance="fill"class="width100">
-            <mat-label>Observación</mat-label>
-            <input matInput formControlName="observacion" > 
+                <div class="grid grid-cols-12 gap-4 mt-4 mb-4"  *ngIf="isShownM"  >
+                    <div class="col-start-1 col-end-5">
+                        <mat-form-field>
+                            <mat-label>Motivo de Rechazo</mat-label>                                
+                            <mat-select    class="inputMat"  [(ngModel)]="motivos" >
+                                <mat-option  *ngFor="let motivo of filtromotivo | async" [value]="motivo">
+                                {{motivo.name}}
+                                </mat-option>
+                            </mat-select>
                            
-        </mat-form-field>
-    </div>
+                        </mat-form-field>
+                        <mat-hint class="mat-error" *ngIf="hasError" >
+                            Campo <strong>Obligatorio</strong>
+                        </mat-hint>
+                    </div>
+                    
+                    <div class="col-end-5  col-start-13">
 
- </div>
+                        <mat-form-field appearance="fill"class="width100">
+                            <mat-label>Observación</mat-label>
+                            <input matInput [(ngModel)]="observacion" > 
+                                        
+                        </mat-form-field>
+                    </div>
 
- <div class="grid grid-cols-6 gap-4"   >
+                  
 
-        
-    <div class="col-start-2 col-end-4 ">
-        <mat-form-field>  
-            <mat-label>Método de autenticación</mat-label>                            
-            <mat-select    class="inputMat"   >
-                <mat-option  *ngFor="let metodo of filtrometodo | async" [value]="metodo">
-                {{metodo.name}}
-                </mat-option>
-            </mat-select>
-           <!--  <mat-error *ngIf="datosFormulario.get('metodo')?.hasError">
-                Campo <strong>Obligatorio</strong>
-            </mat-error> -->
-        </mat-form-field>
-    </div>
+                </div>
 
-    <div class="col-start-4 col-end-6 ">
+              
 
-        <mat-form-field appearance="fill"class="width100">
-            <mat-label>Código</mat-label>
-            <input matInput  > 
-           <!--  <mat-error *ngIf="datosFormulario.get('codigo')?.hasError">
-                Campo <strong>Obligatorio</strong>
-            </mat-error>   -->          
-        </mat-form-field>
-    </div>
-  
+                <div class="grid grid-cols-6  gap-2  text-center "   >
 
- </div>
+                    <div class="col-start-2 col-span-4 text-center" [hidden]="!isShownSU"   id="divshowSU">
+                              
+                        <mat-form-field appearance="fill"class="width100" [class.mat-form-field-invalid]="hasError">
+                            <mat-label>Seleccione Supervisor a aprobar</mat-label>
+                            <mat-select class="inputMat"      #buySellSelect="matSelect"  [(ngModel)]="codusuarioAprobador">  <!--   -->
+                              <mat-option *ngFor="let supervisor of filtrosupervisor | async" [value]="supervisor" >  <!-- -->
+                                {{supervisor.name}} 
+                                </mat-option>
+                             </mat-select>
+                           
+                        </mat-form-field>
+                        <mat-hint class="mat-error" *ngIf="hasError" >
+                            Campo <strong>Obligatorio</strong>
+                        </mat-hint>
+                 
+                </div>
+
+
+                    <div class="col-start-3 col-span-2">
+
+                        <mat-form-field appearance="fill"class="width100">
+                            <mat-label>Ingresar Código</mat-label>
+                            <input matInput   [(ngModel)]="codigo"  > 
+                           
+                        </mat-form-field>
+                        <mat-hint class="mat-error" *ngIf="esValido" >
+                            Campo <strong>Obligatorio</strong>
+                        </mat-hint>
+                    </div>
+                
+
+                </div>
 
 
 
@@ -99,11 +81,10 @@
 <mat-dialog-actions align="end">
   <button mat-raised-button mat-dialog-close color="accent" >Cancelar</button>
   <div   *ngIf="isShownA" >
-  <button type="button"  mat-raised-button color="primary" cdkFocusInitial (click)="Aprobar();"  >Aprobar</button>
+  <button type="button"  mat-raised-button color="primary" cdkFocusInitial (click)="Aprobar();"  >Enviar</button>
   </div>
   <div   *ngIf="isShownR" >
-  <button type="button" mat-raised-button color="warn" cdkFocusInitial  (click)="Rechazar();" >Rechazar</button>
+  <button type="button" mat-raised-button color="warn" cdkFocusInitial  (click)="Rechazar();" >Enviar</button>
 </div>
 </mat-dialog-actions>
 
-</form>

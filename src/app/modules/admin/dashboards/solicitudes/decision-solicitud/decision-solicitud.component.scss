@@ -2,8 +2,15 @@
     font-size: 9pt;
   }
   
-  
-  
+  .margin-center-card{
+    padding: 24px !important;
+}
+
+mat-form-field{
+    width: 100% !important;
+}
+
+
   .tamannioFiltro{
     width: 30% !important;
   }
@@ -26,10 +33,11 @@
   .max-w-screen-xl {
     max-width: 95% !important;
   }
-
   hr{
     margin-left: 30% !important; 
     margin-right: 30% !important;
     margin: 10px 0;
     border: solid 0.1em #0067B1;
   }
+
+ 

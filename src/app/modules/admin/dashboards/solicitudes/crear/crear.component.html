@@ -56,7 +56,7 @@
                                     
                              <mat-form-field>
                                  <mat-label>Tipo Servicio</mat-label>                                
-                                 <mat-select    class="inputMat"      formControlName="tiposerv"     #buySellSelect="matSelect"  (ngModelChange)="buscarServicio()">
+                                 <mat-select    class="inputMat"  #matRef    formControlName="tiposerv"     #buySellSelect="matSelect"  (ngModelChange)="buscarServicio()">
                                      <mat-option  *ngFor="let tiposervicio of filtrotipoServicio | async" [value]="tiposervicio">
                                         {{tiposervicio.name}}
                                       </mat-option>
@@ -67,7 +67,7 @@
                                
                            <mat-form-field>
                                <mat-label>Servicio</mat-label>                                
-                               <mat-select class="inputMat"      formControlName="servi"     #buySellSelect="matSelect"  (ngModelChange)="mostrarVista()" >
+                               <mat-select class="inputMat"   #matRef   formControlName="servi"     #buySellSelect="matSelect"  (ngModelChange)="mostrarVista()" >
                                 <mat-option  *ngFor="let servicio of filtroservicio | async" [value]="servicio">
                                     {{servicio.name}}
                                   </mat-option>

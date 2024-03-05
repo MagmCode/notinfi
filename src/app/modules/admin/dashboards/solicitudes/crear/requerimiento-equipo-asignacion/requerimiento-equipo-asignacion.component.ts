@@ -18,6 +18,10 @@ import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SpinnerComponent } from 'app/modules/admin/spinner/spinner.component';
+import { ISelect } from 'app/models/login';
+import { ReplaySubject, Subject } from 'rxjs';
+import { takeUntil } from 'rxjs/operators';
+
 //1 iniciamos el objecto a llenar la tabla vacio
  
 
@@ -45,6 +49,28 @@ export class RequerimientoEquipoAsignacionComponent implements OnInit, AfterView
   @ViewChild(MatSort) sort: MatSort = new MatSort;  
    //#endregion
 
+
+    //#region Select de ubicacion
+  protected ubicacion : ISelect[] = [];
+  public ubicacionCtrl : FormControl = new FormControl();
+  public ubicacionFiltrosCtrl : FormControl = new FormControl();
+  public filtroubicacion : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
+  //#endregion
+
+
+    //#region Select de tipo supervisor
+    protected detalleUbicacion : ISelect[] = [];
+    public detalleUbicacionCtrl : FormControl = new FormControl();
+    public detalleUbicacionFiltrosCtrl : FormControl = new FormControl();
+    public filtrodetalleUbicacion : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
+    //#endregion
+
+     //#region Select de tipo supervisor
+     protected supervisor : ISelect[] = [];
+     public supervisorCtrl : FormControl = new FormControl();
+     public supervisorFiltrosCtrl : FormControl = new FormControl();
+     public filtrosupervisor : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
+     //#endregion
   //#region usuarios Interfaz
 
   public usuarioTable : any = {
@@ -65,7 +91,7 @@ override2 = {
   
 };
 //#endregion
-
+protected _onDestroy = new Subject<void>();
 //#region  spinner
 private overlayRef!: OverlayRef;
 //#endregion
@@ -103,16 +129,52 @@ private overlayRef!: OverlayRef;
         cedulaResp: new FormControl(''),
         nombresResp: new FormControl(''),
         codUnidadResp: new FormControl(''),
-        unidadResp: new FormControl('')
+        unidadResp: new FormControl(''),
+        piso : new FormControl('',  [Validators.required]),
+        codusuarioGestion:  new FormControl(''),
 
       })
     }
 
   ngOnInit(): void {
-    console.log("iniciado")
+/*    
     this.spinner.show('sp1');
-    console.log(this.spinner.show())
+     */
+
+    
+    this.ubicacionCtrl.setValue(this.ubicacion);
+    this.filtroubicacion.next(this.ubicacion);
+    this.ubicacionFiltrosCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filtroCategoriaT();
+    });
+//#endregion
+
+
+//#region select de detalleUbicacion
+    this.detalleUbicacionCtrl.setValue(this.detalleUbicacion);
+    this.filtrodetalleUbicacion.next(this.detalleUbicacion);
+    this.detalleUbicacionFiltrosCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filtrodetalleUbicacionT();
+    });
+//#endregion
+
+//#region select de supervisor
+    this.supervisorCtrl.setValue(this.supervisor);
+    this.filtrosupervisor.next(this.supervisor);
+    this.supervisorFiltrosCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filtrosupervisorT();
+    });
+     //#endregion
+
+
   }
+
 
  
 
@@ -130,22 +192,62 @@ private overlayRef!: OverlayRef;
     }
   }
 
-isShown: boolean = false; // Inicialmente oculto
-isShownT : boolean = false;
+isShownP: boolean = true; 
+isShown: boolean = false; 
+isShownT: boolean = false;
+isShownSU: boolean = false;
+isShownPT: boolean = false;
+
+
+mostrarInput(){
+  
+      
+ this._solicitudesService.ubicacionFisicaDetalle(this.usuFormulario.value?.ubicacionFisica.id).subscribe(
+    (response) => {
+     
+     this.detalleUbicacion.length = 0;
+
+      this.detalleUbicacion.push({name: 'Selecciones', id:''});
+      if(response.estatus == 'SUCCESS'){
+
+        for(const iterator of response.data){
+
+          if (iterator.codUbicacion == "OFICINA" || iterator.codUbicacion == "SUC") {
+            this.detalleUbicacion.push({name:iterator.codDetalle +'-'+ iterator.detalle, id:iterator.codDetalle})
+          } else {
+            this.detalleUbicacion.push({name:iterator.detalle, id:iterator.codDetalle})
+          }
+        }
+       
+  
+          this.isShownP = true;
+          this.isShownPT = false;
+      
+
+      }else {
+        this.isShownP = false;
+        this.isShownPT = true;
+      }
+      
+    }
+  );
+ }
+
+
 handleRadioChange(event: MatRadioChange): void {
   this.selectedOption = event.value; // Actualiza la propiedad con el valor seleccionado
-  console.log( this.selectedOption);
+ 
 
   if (this.selectedOption == 'Y') {
     
     this.isShown = true;
     this.isShownT = false;
     this.usuario = this._loginservices.obterTokenInfo();
-    console.log(this.usuario.codigo);
+    
     
     this._solicitudesService.consultarDetalleUsuario(this.usuario.codigo).subscribe(
       (data) =>{ 
-        console.log(data.data)    
+      
         if(typeof data.data !=  'undefined'  ){
           this.usuFormulario.patchValue({
             codigoUsuario: data.data.codigo,
@@ -155,7 +257,7 @@ handleRadioChange(event: MatRadioChange): void {
             unidad: data.data.descUnidad
           }); 
 
-          console.log(this.usuFormulario)
+       
         }else{
           
         }
@@ -163,6 +265,45 @@ handleRadioChange(event: MatRadioChange): void {
       }, 
 
     );
+
+
+    
+       this._solicitudesService.ubicacionFisica().subscribe(
+        (response) => {
+     
+          this.ubicacion.push({name: 'Selecciones', id:''});
+          if(response.estatus == 'SUCCESS'){
+            for(const iterator of response.data){
+              this.ubicacion.push({name: iterator.descripcion, id:iterator.codUbicacion})
+            }
+          }
+          
+        }
+      );
+
+
+    
+    if (this.usuario.nivelCargo < 11 ) {
+      this.isShownSU = true;
+
+      this._solicitudesService.obtenerSupervisoresJRQ(this.usuario.codUnidadJrq ,this.usuario.nivelCargo,this.usuario.codigo ).subscribe(
+        (response) => {
+    
+          this.supervisor.push({name: 'Selecciones', id:''});
+          if(response.estatus == 'SUCCESS'){
+            for(const iterator of response.data){
+              this.supervisor.push({name: iterator.nombres + ' ' +iterator.apellidos , id:iterator.codUsuario})
+            }
+          }
+          
+        }
+      );
+    }
+    
+    
+     
+    
+  
 
   } else {
     this.isShownT = true;
@@ -178,25 +319,52 @@ handleRadioChange(event: MatRadioChange): void {
 async submit(){
   if(this.usuFormulario.valid){
 /*    this.spinner.show('sp1'); */
-this.spinner.show();
+
 this.usuario = this._loginservices.obterTokenInfo();
-console.log(this.usuario);
-console.log(this.usuFormulario.value.codigoUsuario)
+
+
 this._solicitudesService.consultarDetalleUsuario(this.usuFormulario.value.codigoUsuario).subscribe(
   (data) =>{ 
-    console.log(data.data)    
+
     if(typeof data.data !=  'undefined'  ){
       this.usuFormulario.patchValue({
         
-        codUnidadOrg: data.data.codUnidadOrg,
-        unidadOrg: data.data.unidadOrg,
-        codUnidadJrq: data.data.codUnidadJrq,
+        codUnidadOrg: data.codUnidadOrg,
+        unidadOrg: data.unidadOrg,
+        codUnidadJrq: data.codUnidadJrq,
         unidadJrq: data.data.unidadJrq
         
 
       }); 
-      console.log( this.selectedOption);
+ 
+var piso;
+      if (this.usuFormulario.value.piso.length > 0) {
+       piso =  this.usuFormulario.value.piso
+      } else {
+        piso =  this.usuFormulario.value.piso.name
+      }
 
+
+      
+if (this.usuario.nivelCargo < 11) {
+
+  if ( this.usuFormulario.value.codusuarioGestion.id == undefined) {
+   
+    this.usuFormulario = this.formBuilder.group({
+
+      codusuarioGestion:  new FormControl('',  [Validators.required]),
+
+    })
+  
+    return false;
+  }
+}
+      
+
+     
+
+
+      this.usuFormulario.value.ubicacionFisica = this.usuFormulario.value.ubicacionFisica.name + "-" + piso;
       this.usuFormulario.value.responsable = this.selectedOption;
       this.usuFormulario.value.idServicio = '1';
       this.usuFormulario.value.codigoUsuarioResp = this.usuario.codigo;
@@ -204,14 +372,14 @@ this._solicitudesService.consultarDetalleUsuario(this.usuFormulario.value.codigo
       this.usuFormulario.value.nombresResp = this.usuario.nombres + ' ' + this.usuario.apellidos;
       this.usuFormulario.value.codUnidadResp = this.usuario.codUnidad;
       this.usuFormulario.value.unidadResp =this.usuario.descUnidad;
+      this.usuFormulario.value.codusuarioGestion =  this.usuFormulario.value.codusuarioGestion.id;
+
+     
 
 
-      console.log( this.usuFormulario.value)
-      
-
-      this._solicitudesService.crear(this.usuFormulario.value).subscribe(
+        this._solicitudesService.crear(this.usuFormulario.value).subscribe(
         (data) =>{    
-         console.log(data);
+       
           if(data.estatus == "SUCCESS"){
             this.toast.success(data.mensaje + " Número de solicitud " + data.data, '', this.override2);            
             setTimeout(()=>{
@@ -221,13 +389,13 @@ this._solicitudesService.consultarDetalleUsuario(this.usuFormulario.value.codigo
             this.toast.error(data.mensaje, '', this.override2);
           }
           this.spinner.hide();
-      /*     this.spinner.hide('sp1'); */
+   /*     this.spinner.hide('sp1');  */
               }, 
         (error) =>{
           this.toast.error(data.mensaje, '', this.override2);
         }
       ); 
-
+ 
     }else{
       this.toast.error(data.mensaje, '', this.override2);
     }
@@ -251,7 +419,7 @@ obtenerPlantilla(){
   this.usuario = this._loginservices.obterTokenInfo();
   this._solicitudesService.consultarobtenerPlantilla(this.usuario.codigo, this.usuario.codUnidad).subscribe(
   (response) =>{
-      console.log(response)
+    
       this.ELEMENT_DATA = [];
       for(const iterator of response.usuariosLts){
         this.plantillaUsuario =  {} as usuario;
@@ -298,5 +466,68 @@ public show(message = '') {
   const spinnerOverlayPortal = new ComponentPortal(SpinnerComponent);
   const component = this.overlayRef.attach(spinnerOverlayPortal); // Attach ComponentPortal to PortalHost
 }
+
+ validarVariable(variable: any): boolean {
+  return variable !== null && variable !== undefined && variable !== '';
+}
+
+
+ //#region  inicializador de select
+ protected filtroCategoriaT() {
+  if (!this.ubicacion) {
+    return;
+  }
+  // get the search keyword
+  let search = this.ubicacionFiltrosCtrl.value;
+  if (!search) {
+    this.filtroubicacion.next(this.ubicacion.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  // filter the banks
+  this.filtroubicacion.next(
+    this.ubicacion.filter(cargo => cargo.name.toLowerCase().indexOf(search) > -1)
+  );
+}
+
+
+protected filtrodetalleUbicacionT() {
+  if (!this.detalleUbicacion) {
+    return;
+  }
+  // get the search keyword
+  let search = this.detalleUbicacionFiltrosCtrl.value;
+  if (!search) {
+    this.filtrodetalleUbicacion.next(this.detalleUbicacion.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  // filter the banks
+  this.filtrodetalleUbicacion.next(
+    this.detalleUbicacion.filter(tipo => tipo.name.toLowerCase().indexOf(search) > -1)
+  );
+}
+
+
+protected filtrosupervisorT() {
+  if (!this.supervisor) { 
+    return;
+  }
+  // get the search keyword
+  let search = this.supervisorFiltrosCtrl.value;
+  if (!search) {
+    this.filtrosupervisor.next(this.supervisor.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  // filter the banks
+  this.filtrosupervisor.next(
+    this.supervisor.filter(tipo => tipo.name.toLowerCase().indexOf(search) > -1)
+  );
+}
+//#endregion
 
 }

@@ -44,7 +44,9 @@ import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
-import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component'; 
+import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component';
+import { BuzonComponent } from './modules/admin/dashboards/buzon/buzon.component';
+import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component'; 
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -58,7 +60,9 @@ const routerConfig: ExtraOptions = {
         SpinnerComponent,
         InventarioComponent,
         BuzonPendienteComponent,
-        AsignarSolicitudComponent
+        AsignarSolicitudComponent,
+        BuzonComponent,
+        BuzonAsignadaComponent
     ],
     imports     : [
         BrowserModule,

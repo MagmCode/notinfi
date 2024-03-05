@@ -7,6 +7,10 @@ import { CrearComponent } from './modules/admin/dashboards/solicitudes/crear/cre
 import { RequerimientoEquipoAsignacionComponent } from './modules/admin/dashboards/solicitudes/crear/requerimiento-equipo-asignacion/requerimiento-equipo-asignacion.component';
 import { BuzonPendienteComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/buzon-pendiente.component';
 import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component';
+import { DetalleSolicitudComponent } from './modules/admin/dashboards/solicitudes/detalle-solicitud/detalle-solicitud.component';
+import { DecisionSolicitudComponent } from './modules/admin/dashboards/solicitudes/decision-solicitud/decision-solicitud.component';
+import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component';
+
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -83,7 +87,10 @@ export const appRoutes: Route[] = [
             {path: 'solicitudes', children: [
                 {path: 'gestionarSolicitudes', loadChildren: () => import('app/modules/admin/dashboards/solicitudes/solicitudes.module').then(m => m.ProjectModule)},
                 {path: 'crear',  component: CrearComponent},
-                {path: 'asignacion', component: RequerimientoEquipoAsignacionComponent}
+                {path: 'asignacion', component: RequerimientoEquipoAsignacionComponent},
+                {path: 'detalleSolicitud', component: DetalleSolicitudComponent}, 
+                {path: 'decisionSolicitud', component: DecisionSolicitudComponent},
+                
             ]},
 
             
@@ -91,6 +98,12 @@ export const appRoutes: Route[] = [
                 {path: 'buzonPediente',  component: BuzonPendienteComponent},
                 {path: 'asignarSolicitud',  component: AsignarSolicitudComponent}
             ]},
+            
+            {path: 'buzon', children: [
+                {path: 'buzonAsignadas',  component: BuzonAsignadaComponent},
+            ]},
+            
+
             
             // Apps
             {path: 'apps', children: [

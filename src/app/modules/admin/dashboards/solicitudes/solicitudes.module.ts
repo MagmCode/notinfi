@@ -29,6 +29,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { DatosAsignadoComponent } from './crear/datos-asignado/datos-asignado.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ModaldecisionesComponent } from './modaldecisiones/modaldecisiones.component';
+import { DetalleSolicitudComponent } from './detalle-solicitud/detalle-solicitud.component';
+import { DecisionSolicitudComponent } from './decision-solicitud/decision-solicitud.component';
 
 
 @NgModule({
@@ -37,7 +39,9 @@ import { ModaldecisionesComponent } from './modaldecisiones/modaldecisiones.comp
         CrearComponent,
         RequerimientoEquipoAsignacionComponent,
         DatosAsignadoComponent,
-        ModaldecisionesComponent
+        ModaldecisionesComponent,
+        DetalleSolicitudComponent,
+        DecisionSolicitudComponent
     ],
     imports     : [
         RouterModule.forChild(solicitudesRoutes),

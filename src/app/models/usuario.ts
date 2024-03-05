@@ -36,12 +36,13 @@ export interface usuario {
     unidadResp: String,
     idTarea: number,
     tarea: String,
-    codusuarioGestion: String,
+    codusuarioGestion: any,
     decision:String,   
     idCategoria:   number,
     categoria: String,
     idTipoServicio: number,
-    tipoServicio: String 
+    tipoServicio: String ,
+    metodo : any;
 
   }
 

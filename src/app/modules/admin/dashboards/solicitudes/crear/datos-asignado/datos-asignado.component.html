@@ -54,16 +54,64 @@
            </mat-error>   -->                    
      </mat-form-field>
          </div>
-     <div class="col-end-6  col-start-13">
+         <div class="col-end-6  col-start-9">
 
-         <mat-form-field appearance="fill"class="width100">
-             <mat-label>Ubicación física</mat-label>
-             <input matInput formControlName="ubicacionFisica" > 
-            <mat-error *ngIf="datosFormulario.get('ubicacionFisica')?.hasError">
-                 Campo <strong>Obligatorio</strong>
-             </mat-error>                      
-         </mat-form-field>
-     </div>
+            <mat-form-field appearance="fill"class="width100">
+                <mat-label>Ubicación física</mat-label>
+                <mat-select class="inputMat"  formControlName="ubicacionFisica"     #buySellSelect="matSelect"  (ngModelChange)="mostrarInput()"   >  <!--  -->
+                  <mat-option *ngFor="let ubicacion of filtroubicacion | async" [value]="ubicacion" >  <!--  -->
+                     {{ubicacion.name}}
+                    </mat-option>
+                 </mat-select>
+              <mat-error *ngIf="datosFormulario.get('ubicacionFisica')?.hasError">
+                    Campo <strong>Obligatorio</strong>
+                </mat-error>              
+            </mat-form-field>
+        </div>
+
+        <div class="col-end-9  col-start-13" [hidden]="!isShownP" id="divshowP">
+
+          <mat-form-field appearance="fill"class="width100">
+              <mat-label>Piso</mat-label>
+              <mat-select class="inputMat" formControlName="piso"     #buySellSelect="matSelect"  > 
+                <mat-option *ngFor="let detalleUbicacion of filtrodetalleUbicacion | async" [value]="detalleUbicacion" >  <!-- -->
+                 {{detalleUbicacion.name}} 
+                  </mat-option>
+               </mat-select>
+              <!-- <input matInput formControlName="ubicacionFisica" >  -->
+          <!--    <mat-error *ngIf="datosFormulario.get('ubicacionFisica')?.hasError">
+                  Campo <strong>Obligatorio</strong>
+              </mat-error>    -->  
+            </mat-form-field>
+      </div>
+    
+      <div class="col-end-9  col-start-13" [hidden]="!isShownPT" id="divshowPT">
+
+        <mat-form-field appearance="fill"class="width100">
+            <mat-label>Piso/NroOficina/Otro:</mat-label>                 
+            <input matInput formControlName="piso" > 
+        <!--    <mat-error *ngIf="datosFormulario.get('ubicacionFisica')?.hasError">
+                Campo <strong>Obligatorio</strong>
+            </mat-error>    -->                   
+        </mat-form-field>
+    </div>
+
+    <div class="col-span-5 text-center" [hidden]="!isShownSU"   id="divshowSU">
+
+      <mat-form-field appearance="fill"class="width100">
+          <mat-label>Seleccione Supervisor a aprobar</mat-label>
+          <mat-select class="inputMat"   formControlName="codusuarioGestion"     #buySellSelect="matSelect" >  <!--   -->
+            <mat-option *ngFor="let supervisor of filtrosupervisor | async" [value]="supervisor" >  <!-- -->
+              {{supervisor.name}} 
+              </mat-option>
+           </mat-select>         
+     <mat-error *ngIf="datosFormulario.get('codusuarioGestion')?.hasError">
+              Campo <strong>Obligatorio</strong>
+          </mat-error>                    
+      </mat-form-field>
+                       
+   
+  </div>
        
      
  </div>

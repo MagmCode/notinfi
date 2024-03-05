@@ -130,5 +130,52 @@ asignarSolicitudes(idSolicitud: any, codigoUsuario: any): Observable <any>{
 
 }
 
+obtenerSupervisoresJRQ(codUnidadJrq: any, nivel: any, codUsuario: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'peopleSoftWS/obtenerSupervisoresJRQ';
+  const dataBusqueda = {
+    codUnidadJrq : codUnidadJrq,
+    nivel: nivel,
+    codUsuario : codUsuario
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+
+
+ubicacionFisica(): Observable <any>{
+
+  const url = this.urlEndPoint + 'int-servicios/ubicacionFisica';
+
+  return this.http.post(url, '');
+
+}
+
+
+
+ubicacionFisicaDetalle(codUbicacion: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'int-servicios/ubicacionFisicaDetalle';
+  const dataBusqueda = {
+    codUbicacion : codUbicacion,
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+
+solicitudesAsignadasFlujo(codUsuario: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'solicitudesAsignadasFlujo';
+  const dataBusqueda = {
+    codUsuario : codUsuario
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+
+
 
 }

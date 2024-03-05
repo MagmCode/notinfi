@@ -1,6 +1,8 @@
 import { identifierModuleUrl } from '@angular/compiler';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
+import { MatSelect } from '@angular/material/select';
 import { ISelect } from 'app/models/login';
 import { SolicitudesService } from 'app/services/solicitudes.service';
 import { ReplaySubject, Subject } from 'rxjs';
@@ -44,6 +46,9 @@ export class CrearComponent implements OnInit {
     
   protected _onDestroy = new Subject<void>();
 
+
+
+  
   constructor(private _solicitudesService : SolicitudesService,    
               private formBuilder : FormBuilder) {
 
@@ -96,10 +101,20 @@ export class CrearComponent implements OnInit {
   }
 
   isShownAsignacion: boolean = false; // Inicialmente oculto
+
+  @ViewChild('matRef') matRef: MatSelect;
+
+
+
+clear(){
+  this.matRef.options.forEach((data: MatOption) => data.deselect());
+}
   async obtenerCategorias(){
+
+ 
     await this._solicitudesService.consultarCategorias().subscribe(
       (response) => {
-        console.log(response.data)
+     
         this.categoria.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
           for(const iterator of response.data){
@@ -109,6 +124,7 @@ export class CrearComponent implements OnInit {
         
       }
     );
+   
   }  
 
 
@@ -119,11 +135,13 @@ export class CrearComponent implements OnInit {
   }
 
   buscarTipoServicio(){    
+    this.servicio.length = 0;
 
-    console.log(this.solFormulario.value.categoria?.id);
+    this.isShownAsignacion = false;
     this._solicitudesService.consultarTipoServicio(this.solFormulario.value.categoria?.id).subscribe(
       (response) => {
-        console.log(response.data)
+    
+        this.tipoServicio.length = 0;
         this.tipoServicio.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
           for(const iterator of response.data){
@@ -134,16 +152,18 @@ export class CrearComponent implements OnInit {
       }
     );
   
-  
+   
   }
 
 
   buscarServicio(){    
-console.log('tiposervicio')
-    console.log(this.solFormulario.value.tiposerv);
+
+  
+    this.isShownAsignacion = false;
     this._solicitudesService.consultarServicio(this.solFormulario.value.tiposerv?.id).subscribe(
       (response) => {
-        console.log(response.data)
+        this.servicio.length = 0;
+
         this.servicio.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
           for(const iterator of response.data){
@@ -158,7 +178,7 @@ console.log('tiposervicio')
   }
 
   mostrarVista(){
-console.log(this.solFormulario.value.servi)
+
     
 if (this.solFormulario.value.servi?.id == 1) {
 
@@ -191,7 +211,7 @@ if (this.solFormulario.value.servi?.id == 1) {
 
 
   protected filtrotipoServicioT() {
-    if (!this.categoria) {
+    if (!this.tipoServicio) {
       return;
     }
     // get the search keyword
@@ -210,7 +230,7 @@ if (this.solFormulario.value.servi?.id == 1) {
 
   
   protected filtroservicioT() {
-    if (!this.categoria) {
+    if (!this.servicio) {
       return;
     }
     // get the search keyword

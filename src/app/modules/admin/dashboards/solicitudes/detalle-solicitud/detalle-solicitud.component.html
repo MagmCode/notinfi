@@ -27,7 +27,7 @@
                 >
                 <div class="flex items-center">
                     <div class="overflow-hidden">
-                        <div class="font-medium leading-6 truncate">Asignar Solicitudes</div>
+                        <div class="font-medium leading-6 truncate">Solicitudes</div>
                     </div>
                    
                 </div>
@@ -41,9 +41,10 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
                 <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                    
-                        <div class="text-2xl font-medium tracking-tight leading-6 truncate   text-center">Datos de la Solicitudes</div>
-                      <hr>
+                        <div class="text-2xl font-medium tracking-tight leading-6 truncate   text-center">Detalle de la Solicitud</div>
+                      <hr >
                         <div class="grid grid-cols-12 gap-4 text-center"  >
+      
                             <div class="col-span-2">
                                 <b>Id Solicitud</b>
                                 <p >{{datosFormulario.value.idSolicitud}}</p>
@@ -111,9 +112,13 @@
                                 <p >{{datosFormulario.value.ubicacionFisica}}</p>
                                                 
                             </div>
-                        </div>
+                        
 
-                        <div class="text-2xl font-medium tracking-tight leading-6   truncate  text-center">Usuario Responsable</div>
+                         
+                    
+                            
+                        </div>
+                        <div class="text-2xl font-medium tracking-tight leading-6 truncate  text-center">Usuario Responsable</div>
                         <hr >
                         <div class="grid grid-cols-12 gap-3  text-center"  >
       
@@ -134,24 +139,16 @@
                                 <p >{{datosFormulario.value.unidadResp}}</p>
                                                 
                          </div>
-                         <div class="col-span-12">
-                            <button mat-raised-button color="primary" type="button" (click)="asignarSolictud()" >Asignar</button>
-                        </div>
-                            
-                        </div>
-
-
-
-
-
-                        
-                            
                     
 
-                    <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card mt-6  shadow rounded-2xl overflow-hidden">
+                            
+                        </div>
 
-                        <div class="text-2xl font-medium tracking-tight leading-6  mb-6 truncate  text-center">Detalle Tracking</div>
-                      
+    
+                        <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card mt-8 shadow rounded-2xl overflow-hidden">
+
+                        <div class="text-2xl font-medium tracking-tight leading-6 truncate    text-center">Detalle Tracking</div>
+                     
                         <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
                             <div class="">
                             <mat-form-field appearance="outline" >
@@ -239,8 +236,8 @@
                               
                         </div>
 
-                    </div>
-               
+             
+                        </div>
                 </div>
 
             </div>

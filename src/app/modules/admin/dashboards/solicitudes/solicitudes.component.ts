@@ -126,10 +126,10 @@ override2 = {
       }
 async obtenerPlantilla(){
         this.usuario = this._loginservices.obterTokenInfo();
-        console.log(this.usuario.codigo)
+   
         this._solicitudesService.consultarSolicitudesCreadas(this.usuario.codigo).subscribe(
         (response) =>{
-            console.log(response)
+       
             this.ELEMENT_DATA = [];
             this.ELEMENT_DATA = response.data;
             this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -142,15 +142,13 @@ async obtenerPlantilla(){
 
       tabClick(tab) {
 
-        console.log(tab);
-        console.log(tab.index);
         if (tab.index == 1 ) {
     
             this.usuario = this._loginservices.obterTokenInfo();
-            console.log(this.usuario.codigo)
+   
             this._solicitudesService.consultarSolicitudesAsignadas(this.usuario.codigo).subscribe(
             (response) =>{
-                console.log(response)
+          
                 this.ELEMENT_PENDIENTE = [];
                 this.ELEMENT_PENDIENTE = response.data;
                 this.dataSourceP = new MatTableDataSource(this.ELEMENT_PENDIENTE);
@@ -168,8 +166,8 @@ async obtenerPlantilla(){
 
       }
 
-      openDialog(id: number, codUsuarioI : string, nombres : string ,categoria:string,tipoServicio: string,servicio:string,  decision: String ) {
-        console.log(categoria + tipoServicio+ servicio);
+   /*    openDialog(id: number, codUsuarioI : string, nombres : string ,categoria:string,tipoServicio: string,servicio:string,  decision: String ) {
+       
         const dialogRef = this.dialog.open(ModaldecisionesComponent,{
           data: { idSolicitud :id, codigoUsuario: codUsuarioI ,  nombres:nombres ,decision: decision, categoria: categoria, tipoServicio:tipoServicio, servicio:servicio },
         });
@@ -178,11 +176,25 @@ async obtenerPlantilla(){
           
         });
       }
-      
+       */
       redirigirSuccess(){
         
         this._router.navigate(['/solicitudes/gestionarSolicitudes']);
       }
 
+      obtenerDatos(idSolicitud: any){
+        
+        sessionStorage.setItem('idSolicitud', idSolicitud);
+        this._router.navigate(['/solicitudes/detalleSolicitud']); 
+      
+      
+      }
 
+      obtenerDatosApobar(idSolicitud: any){
+     
+        sessionStorage.setItem('idSolicitud', idSolicitud);
+        this._router.navigate(['/solicitudes/decisionSolicitud']); 
+      
+      
+      }
 }

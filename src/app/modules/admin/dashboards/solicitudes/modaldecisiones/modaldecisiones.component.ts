@@ -25,6 +25,8 @@ export class ModaldecisionesComponent implements OnInit {
   datosFormulario: FormGroup;
   public solicitud!: solicitudesDto;
   selectedOption: string;
+  motivos: any;
+  codigo: any;
   isShownA: boolean = false; // Inicialmente oculto
   isShownR: boolean = false;
   isShownM: boolean = false;
@@ -32,6 +34,11 @@ export class ModaldecisionesComponent implements OnInit {
   idSolicitud : any;
   nombres : any;
   tipoServicio: any;
+  observacion : any;
+  isShownSU : boolean = false;
+  esValido:  boolean = false;
+  hasError :boolean = false;
+  codusuarioAprobador: any = null;
 
     //#region toast
 override2 = {
@@ -46,13 +53,13 @@ override2 = {
   public motivoFiltrosCtrl : FormControl = new FormControl();
   public filtromotivo : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
   //#endregion
+   //#region Select de tipo supervisor
+   protected supervisor : ISelect[] = [];
+   public supervisorCtrl : FormControl = new FormControl();
+   public supervisorFiltrosCtrl : FormControl = new FormControl();
+   public filtrosupervisor : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
+   //#endregion
 
-    //#region Select de MetodosAutenticacion
-    protected metodo : ISelect[] = [];
-    public metodoCtrl : FormControl = new FormControl();
-    public metodoFiltrosCtrl : FormControl = new FormControl();
-    public filtrometodo : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
-    //#endregion
   protected _onDestroy = new Subject<void>();
 
   //#region  spinner
@@ -84,8 +91,9 @@ private overlayRef!: OverlayRef;
                   codUnidadJrq: new FormControl({value: null, readonly: true}),
                   unidadJrq: new FormControl({value: null, readonly: true}),
                   decision: new FormControl({value: null, readonly: true}),
-                  motivo:  new FormControl('', [Validators.required]),
+                  motivo:  new FormControl(''),
                   observacion : new FormControl(''),
+                  codusuarioGestion:  new FormControl(''),
                 })
 
 
@@ -96,7 +104,6 @@ private overlayRef!: OverlayRef;
   ngOnInit(): void {
     this.obtenerDatos();
     //#region select 
-    this.obtenerMotivo();
     this.motivoCtrl.setValue(this.motivo);
     this.filtromotivo.next(this.motivo);
     this.motivoFiltrosCtrl.valueChanges
@@ -105,64 +112,75 @@ private overlayRef!: OverlayRef;
       this.filtroMotivoT();
     });
     //#endregion
-
-       //#region select 
-       this.metodoCtrl.setValue(this.metodo);
-       this.filtrometodo.next(this.metodo);
-       this.metodoFiltrosCtrl.valueChanges
-       .pipe(takeUntil(this._onDestroy))
-       .subscribe(() => {
-         this.filtroMetodoT();
-       });
-       //#endregion
+//#region select de supervisor
+this.supervisorCtrl.setValue(this.supervisor);
+this.filtrosupervisor.next(this.supervisor);
+this.supervisorFiltrosCtrl.valueChanges
+.pipe(takeUntil(this._onDestroy))
+.subscribe(() => {
+  this.filtrosupervisorT();
+});
+ //#endregion
+     
   }
 
 
-   obtenerMotivo(){
-     this._solicitudesService.consultarMotivo().subscribe(
-      (response) => {
-        console.log(response.data)
-        this.motivo.push({name: 'Selecciones', id:''});
-        if(response.estatus == 'SUCCESS'){
-          for(const iterator of response.data){
-            this.motivo.push({name: iterator.nombre, id:iterator.id})
-          }
-        }
-        
-      }
-    );
 
-   
-
-    this._solicitudesService.consultarMetodosAutenticacion().subscribe(
-     (response) => {
-       console.log(response.data)
-       this.metodo.push({name: 'Selecciones', id:''});
-       if(response.estatus == 'SUCCESS'){
-         for(const iterator of response.data){
-           this.metodo.push({name: iterator.nombre, id:iterator.idAutenticacion})
-           console.log(  this.metodo);
-         }
-       }
-       
-     }
-   );
-
- } 
   
   async obtenerDatos(){
-    console.log( this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  );
-     
-         
+
             this.idSolicitud = this.solicitud.idSolicitud,
             this.nombres =   this.solicitud.nombres,
             this.tipoServicio= this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  
         
+
+           
+
+        
+
+
       if (this.solicitud.decision  == 'A') {
         this.isShownA = true,
         this.isShownR = false,
         this.mensaje = "¿Usted esta seguro de aprobar la siguiente solicitud?";
+
+   
+        if (this.solicitud.idTarea == 2 ) {
+ 
+          this.usuario = this._loginservices.obterTokenInfo();
+          this.isShownSU = true;
+      
+          this._solicitudesService.obtenerSupervisoresJRQ(this.usuario.codUnidadJrq ,this.usuario.nivelCargo,this.usuario.codigo ).subscribe(
+            (response) => {
+          
+           //   this.supervisor.push({name: 'Selecciones', id:''});
+              if(response.estatus == 'SUCCESS'){
+                for(const iterator of response.data){
+                  this.supervisor.push({name: iterator.nombres + ' ' +iterator.apellidos , id:iterator.codUsuario})
+                }
+              }
+              
+            }
+          );
+
+       
+        }
+
       } else {
+
+        this._solicitudesService.consultarMotivo().subscribe(
+          (response) => {
+         
+            this.motivo.push({name: 'Selecciones', id:''});
+            if(response.estatus == 'SUCCESS'){
+              for(const iterator of response.data){
+                this.motivo.push({name: iterator.nombre, id:iterator.id})
+              }
+            }
+            
+          }
+        );
+
         this.isShownR = true,
         this.isShownM = true,
         this.isShownA = false,
@@ -174,16 +192,15 @@ private overlayRef!: OverlayRef;
   } 
 
   Aprobar(){
-    console.log(this.datosFormulario.value.idSolicitud)
+   
 
     this.spinner.show();
     this.usuario = this._loginservices.obterTokenInfo();
-    console.log(this.usuario);
-    console.log(this.datosFormulario.value.idSolicitud)
+
 
     this._solicitudesService.consultarDetalleUsuario(this.usuario.codigo).subscribe(
       (data) =>{ 
-        console.log(data.data)    
+       
         if(typeof data.data !=  'undefined'  ){
           this.datosFormulario.patchValue({
          
@@ -199,23 +216,41 @@ private overlayRef!: OverlayRef;
             
     
           }); 
-      
-    
+          
+
+          if (this.solicitud.idTarea == 2) {
+            if(!this.codusuarioAprobador) {
+              this.hasError = true;
+              return;
+            }else{
+
+              this.datosFormulario.value.codusuarioGestion =this.codusuarioAprobador?.id;
+            }
+
+         
+         }
+        
+
+      if(!this.codigo) {
+        this.esValido = true;
+        return;
+      }
+   
           
           this.datosFormulario.value.decision = 'A';
           this.datosFormulario.value.idSolicitud =  this.idSolicitud;
           this.datosFormulario.value.motivo = 0;
-    
+        
          
-          console.log(   this.datosFormulario.value);
-    
-          this._solicitudesService.gestionFlujoTarea(this.datosFormulario.value).subscribe(
+
+
+this._solicitudesService.gestionFlujoTarea(this.datosFormulario.value).subscribe(
             (data) =>{    
-             console.log(data);
+          
               if(data.estatus == "SUCCESS"){
                 this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
                 setTimeout(()=>{
-                  this.refrescarPagina();
+                  this.redirigirSuccess();
               },1500);  
               this.dialogRef.close();
               }else{
@@ -241,15 +276,13 @@ private overlayRef!: OverlayRef;
   }
 
   Rechazar(){
-    console.log(this.datosFormulario.value.idSolicitud)
     this.spinner.show();
     this.usuario = this._loginservices.obterTokenInfo();
-    console.log(this.usuario);
-    console.log(this.datosFormulario.value.idSolicitud)
+
 
     this._solicitudesService.consultarDetalleUsuario(this.usuario.codigo).subscribe(
       (data) =>{ 
-        console.log(data.data)    
+    
         if(typeof data.data !=  'undefined'  ){
           this.datosFormulario.patchValue({
             codigoUsuario:data.data.codigo,
@@ -265,21 +298,30 @@ private overlayRef!: OverlayRef;
     
           }); 
     
-    
+          if(!this.motivos) {
+            this.hasError = true;
+            return;
+          }
+          if(!this.codigo) {
+            this.esValido = true;
+            return;
+          }
           
           this.datosFormulario.value.decision = 'R';
           this.datosFormulario.value.idSolicitud = this.idSolicitud;
-          this.datosFormulario.value.motivo =  this.datosFormulario.value.motivo?.id;
-          console.log(   this.datosFormulario.value);
+          this.datosFormulario.value.motivo =  this.motivos?.id;
+          this.datosFormulario.value.observacion = this.observacion;
+
           
+         
     
           this._solicitudesService.gestionFlujoTarea(this.datosFormulario.value).subscribe(
             (data) =>{    
-             console.log(data);
+           
               if(data.estatus == "SUCCESS"){
                 this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
                 setTimeout(()=>{
-                  this.refrescarPagina();
+                  this.redirigirSuccess();
               },1500);  
               this.dialogRef.close();
               }else{
@@ -348,23 +390,23 @@ private overlayRef!: OverlayRef;
     );
   }
 
-  protected filtroMetodoT() {
-    if (!this.metodo) {
+  protected filtrosupervisorT() {
+    if (!this.supervisor) { 
       return;
     }
     // get the search keyword
-    let search = this.metodoFiltrosCtrl.value;
+    let search = this.supervisorFiltrosCtrl.value;
     if (!search) {
-      this.filtrometodo.next(this.metodo.slice());
+      this.filtrosupervisor.next(this.supervisor.slice());
       return;
     } else {
       search = search.toLowerCase();
     }
     // filter the banks
-    this.filtrometodo.next(
-      this.metodo.filter(cargo => cargo.name.toLowerCase().indexOf(search) > -1)
+    this.filtrosupervisor.next(
+      this.supervisor.filter(tipo => tipo.name.toLowerCase().indexOf(search) > -1)
     );
-  }
+  } 
    //#endregion
 
 }
