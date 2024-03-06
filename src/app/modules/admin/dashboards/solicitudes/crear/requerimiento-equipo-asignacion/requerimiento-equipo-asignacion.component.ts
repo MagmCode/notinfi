@@ -22,6 +22,7 @@ import { ISelect } from 'app/models/login';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
+
 //1 iniciamos el objecto a llenar la tabla vacio
  
 
@@ -211,8 +212,9 @@ mostrarInput(){
       if(response.estatus == 'SUCCESS'){
 
         for(const iterator of response.data){
-
-          if (iterator.codUbicacion == "OFICINA" || iterator.codUbicacion == "SUC") {
+        
+          if (this.usuFormulario.value?.ubicacionFisica.id == "OFICINA" || this.usuFormulario.value?.ubicacionFisica.id== "SUC") {
+       
             this.detalleUbicacion.push({name:iterator.codDetalle +'-'+ iterator.detalle, id:iterator.codDetalle})
           } else {
             this.detalleUbicacion.push({name:iterator.detalle, id:iterator.codDetalle})
@@ -295,6 +297,10 @@ handleRadioChange(event: MatRadioChange): void {
               this.supervisor.push({name: iterator.nombres + ' ' +iterator.apellidos , id:iterator.codUsuario})
             }
           }
+          console.log(this.usuario.codigoSupervisor )
+          this.usuFormulario.patchValue({
+            codusuarioGestion :  this.usuario.codigoSupervisor 
+          })
           
         }
       );
@@ -347,8 +353,7 @@ var piso;
 
       
 if (this.usuario.nivelCargo < 11) {
-
-  if ( this.usuFormulario.value.codusuarioGestion.id == undefined) {
+  if ( this.usuFormulario.value.codusuarioGestion == '') {
    
     this.usuFormulario = this.formBuilder.group({
 
@@ -372,11 +377,9 @@ if (this.usuario.nivelCargo < 11) {
       this.usuFormulario.value.nombresResp = this.usuario.nombres + ' ' + this.usuario.apellidos;
       this.usuFormulario.value.codUnidadResp = this.usuario.codUnidad;
       this.usuFormulario.value.unidadResp =this.usuario.descUnidad;
-      this.usuFormulario.value.codusuarioGestion =  this.usuFormulario.value.codusuarioGestion.id;
+      this.usuFormulario.value.codusuarioGestion =  this.usuFormulario.value.codusuarioGestion;
 
      
-
-
         this._solicitudesService.crear(this.usuFormulario.value).subscribe(
         (data) =>{    
        

@@ -99,9 +99,9 @@
     <div class="col-span-5 text-center" [hidden]="!isShownSU"   id="divshowSU">
 
       <mat-form-field appearance="fill"class="width100">
-          <mat-label>Seleccione Supervisor a aprobar</mat-label>
+        <mat-label>Seleccione el próximo a aprobar</mat-label>
           <mat-select class="inputMat"   formControlName="codusuarioGestion"     #buySellSelect="matSelect" >  <!--   -->
-            <mat-option *ngFor="let supervisor of filtrosupervisor | async" [value]="supervisor" >  <!-- -->
+            <mat-option *ngFor="let supervisor of filtrosupervisor | async" [value]="supervisor.id" >  <!-- -->
               {{supervisor.name}} 
               </mat-option>
            </mat-select>         

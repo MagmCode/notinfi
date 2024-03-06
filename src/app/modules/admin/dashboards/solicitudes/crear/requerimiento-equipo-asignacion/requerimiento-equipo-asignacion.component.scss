@@ -12,10 +12,19 @@ mat-form-field{
     /* text-align: center; */
   }
  
-  table {
-    width: 100% !important;
+  
+  .title-center2 {
+    margin: 0 auto;
+    font-size: 12pt;
+    /* Opcional: También puedes agregar text-align: center si es necesario */
+    /* text-align: center; */
   }
+ 
+  table { width: 100%; table-layout: fixed;  text-align: center; } 
 
+  th, td { overflow: hidden; width: auto; text-overflow: ellipsis; white-space: inherit; }
+
+  
   .tamannioFiltro{
     width: 30% !important;
   }
@@ -36,12 +45,5 @@ mat-form-field{
 }
 
 
-.mat-sort-header-container {
-  justify-content: center !important;
-}
-
-.mat-header-cell {
-  text-align: center !important;
-}
 
 

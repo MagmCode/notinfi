@@ -10,6 +10,7 @@ import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario
 import { DetalleSolicitudComponent } from './modules/admin/dashboards/solicitudes/detalle-solicitud/detalle-solicitud.component';
 import { DecisionSolicitudComponent } from './modules/admin/dashboards/solicitudes/decision-solicitud/decision-solicitud.component';
 import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component';
+import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitud/detalle-solicitd.component';
 
 
 // @formatter:off
@@ -101,6 +102,8 @@ export const appRoutes: Route[] = [
             
             {path: 'buzon', children: [
                 {path: 'buzonAsignadas',  component: BuzonAsignadaComponent},
+                {path: 'detalleSolicitud',  component: DetalleSolicitdComponent},
+                
             ]},
             
 

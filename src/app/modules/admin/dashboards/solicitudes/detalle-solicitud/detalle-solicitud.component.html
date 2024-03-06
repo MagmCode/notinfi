@@ -40,8 +40,34 @@
         <div class="w-full max-w-screen-xl mx-auto">
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
                 <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                   
-                        <div class="text-2xl font-medium tracking-tight leading-6 truncate   text-center">Detalle de la Solicitud</div>
+
+                    <div class="text-2xl font-medium tracking-tight leading-6 truncate  text-center">Usuario Creador de la Solicitud</div>
+                    <hr >
+                    <div class="grid grid-cols-12 gap-3  text-center"  >
+  
+                        <div class="col-span-5">
+                            <b>Nombres y Apellidos </b>
+                            <p >{{datosFormulario.value.nombresResp}}</p>
+                                            
+                        </div>
+
+                        <div class="col-span-2">
+                            <b>Código de Unidad </b>
+                            <p >{{datosFormulario.value.codUnidadResp}}</p>
+                        </div>
+
+
+                        <div class="col-span-5">
+                            <b>Unidad </b>
+                            <p >{{datosFormulario.value.unidadResp}}</p>
+                                            
+                     </div>
+                
+
+                        
+                    </div>
+
+                        <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center">Detalle de la Solicitud</div>
                       <hr >
                         <div class="grid grid-cols-12 gap-4 text-center"  >
       
@@ -113,36 +139,8 @@
                                                 
                             </div>
                         
-
-                         
-                    
-                            
                         </div>
-                        <div class="text-2xl font-medium tracking-tight leading-6 truncate  text-center">Usuario Responsable</div>
-                        <hr >
-                        <div class="grid grid-cols-12 gap-3  text-center"  >
-      
-                            <div class="col-span-5">
-                                <b>Nombres y Apellidos </b>
-                                <p >{{datosFormulario.value.nombresResp}}</p>
-                                                
-                            </div>
-
-                            <div class="col-span-2">
-                                <b>Código de Unidad </b>
-                                <p >{{datosFormulario.value.codUnidadResp}}</p>
-                            </div>
-
-
-                            <div class="col-span-5">
-                                <b>Unidad </b>
-                                <p >{{datosFormulario.value.unidadResp}}</p>
-                                                
-                         </div>
-                    
-
-                            
-                        </div>
+                   
 
     
                         <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card mt-8 shadow rounded-2xl overflow-hidden">

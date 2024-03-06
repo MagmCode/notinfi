@@ -10,12 +10,12 @@
          
 
      
-                    <h2 class="title-center">¿Usted será el responsable de uso del equipo?</h2>
+                    <h5 class="title-center2">¿Usted será el responsable de uso del equipo?</h5>
              
                
         
 
-            <div class="title-center mt-4 mb-4">
+            <div class="title-center2 mt-4 mb-4">
                 <mat-radio-group [(ngModel)]="selectedOption" name="radioGroup">
                     <mat-radio-button value="Y" (change)="handleRadioChange($event)">SÍ</mat-radio-button>
                     <mat-radio-button value="N" (change)="handleRadioChange($event)">No</mat-radio-button>
@@ -119,9 +119,9 @@
             <div class="col-span-5 text-center" [hidden]="!isShownSU"   id="divshowSU">
 
               <mat-form-field appearance="fill"class="width100">
-                  <mat-label>Seleccione Supervisor a aprobar</mat-label>
+                <mat-label>Seleccione el próximo a aprobar</mat-label>
                   <mat-select class="inputMat"   formControlName="codusuarioGestion"     #buySellSelect="matSelect" >  <!--   -->
-                    <mat-option *ngFor="let supervisor of filtrosupervisor | async" [value]="supervisor" >  <!-- -->
+                    <mat-option *ngFor="let supervisor of filtrosupervisor | async" [value]="supervisor.id" >  <!-- -->
                       {{supervisor.name}} 
                       </mat-option>
                    </mat-select>

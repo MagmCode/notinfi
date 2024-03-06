@@ -22,7 +22,7 @@ export class BuzonAsignadaComponent implements OnInit {
   plantillaUsuario = {} as solicitudesDto;
 
       //#region  tablas
-      displayedColumns: string[] = ['Idsolicitud','categoria', 'tipoServicio', 'servicio', 'codigoUsuario', 'cedula', 'nombres', 'codUnidad','unidad','ubicacionFisica', 'fechaCreacion', 'estatus','nombresResp', 'acciones'];
+      displayedColumns: string[] = ['Idsolicitud','area', 'categoria', 'tipoServicio', 'servicio', 'codigoUsuario', 'cedula', 'nombres', 'codUnidad','unidad','ubicacionFisica', 'fechaCreacion', 'estatus','nombresResp', 'acciones'];
      positionOptions: TooltipPosition[] = ['below'];
       position = new FormControl(this.positionOptions[0]);
       dataSource: MatTableDataSource<solicitudesDto>;    
@@ -47,7 +47,7 @@ override2 = {
               private _loginservices: LoginService,
               private _solicitudesService : SolicitudesService,
               private overlay: Overlay,
-              private router: Router, ) { 
+              private _router: Router, ) { 
 
 
                 this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
@@ -99,5 +99,12 @@ override2 = {
     )
   }
 
+  obtenerDatosApobar(idSolicitud: any){
+     
+    sessionStorage.setItem('idSolicitud', idSolicitud);
+    this._router.navigate(['/buzon/detalleSolicitud']); 
+  
+  
+  }
 
 }

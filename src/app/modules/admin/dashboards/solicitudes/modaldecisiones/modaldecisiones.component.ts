@@ -142,7 +142,7 @@ this.supervisorFiltrosCtrl.valueChanges
       if (this.solicitud.decision  == 'A') {
         this.isShownA = true,
         this.isShownR = false,
-        this.mensaje = "¿Usted esta seguro de aprobar la siguiente solicitud?";
+        this.mensaje = "Aprobar Solicitud";
 
    
         if (this.solicitud.idTarea == 2 ) {
@@ -184,7 +184,7 @@ this.supervisorFiltrosCtrl.valueChanges
         this.isShownR = true,
         this.isShownM = true,
         this.isShownA = false,
-        this.mensaje = "¿Usted esta seguro de rechazar la siguiente solicitud?";
+        this.mensaje = "Rechazar Solicitud";
       }
 
 

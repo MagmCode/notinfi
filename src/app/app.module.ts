@@ -46,7 +46,9 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component';
 import { BuzonComponent } from './modules/admin/dashboards/buzon/buzon.component';
-import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component'; 
+import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component';
+import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitud/detalle-solicitd.component';
+import { ModalIngresarEquipoComponent } from './modules/admin/dashboards/buzon/modal-ingresar-equipo/modal-ingresar-equipo.component'; 
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -62,7 +64,9 @@ const routerConfig: ExtraOptions = {
         BuzonPendienteComponent,
         AsignarSolicitudComponent,
         BuzonComponent,
-        BuzonAsignadaComponent
+        BuzonAsignadaComponent,
+        DetalleSolicitdComponent,
+        ModalIngresarEquipoComponent
     ],
     imports     : [
         BrowserModule,

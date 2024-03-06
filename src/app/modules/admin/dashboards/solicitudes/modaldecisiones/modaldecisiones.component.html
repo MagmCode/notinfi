@@ -1,12 +1,7 @@
-<h2 mat-dialog-title class="title-center">Datos de la solicitud</h2>
+<h2 mat-dialog-title class="title-center">{{mensaje}}</h2>
 
     <mat-dialog-content class="mat-typography">
-
-        <h2 class="title-center mt-4 mb-4 "> {{mensaje}}</h2>
-
-
-
-                <div class="grid grid-cols-12 gap-4 mt-4 mb-4"  *ngIf="isShownM"  >
+            <div class="grid grid-cols-12 gap-4 mt-4 mb-4"  *ngIf="isShownM"  >
                     <div class="col-start-1 col-end-5">
                         <mat-form-field>
                             <mat-label>Motivo de Rechazo</mat-label>                                
@@ -42,7 +37,7 @@
                     <div class="col-start-2 col-span-4 text-center" [hidden]="!isShownSU"   id="divshowSU">
                               
                         <mat-form-field appearance="fill"class="width100" [class.mat-form-field-invalid]="hasError">
-                            <mat-label>Seleccione Supervisor a aprobar</mat-label>
+                            <mat-label>Seleccione el próximo a aprobar</mat-label>
                             <mat-select class="inputMat"      #buySellSelect="matSelect"  [(ngModel)]="codusuarioAprobador">  <!--   -->
                               <mat-option *ngFor="let supervisor of filtrosupervisor | async" [value]="supervisor" >  <!-- -->
                                 {{supervisor.name}} 

@@ -38,9 +38,15 @@ export class NavigationService
         subtitle: 'Gestión de Areas Solucionadoras',
         type: 'group',
         icon: 'heroicons_outline:cog',
-        children:[]
+        children:[{
+            id: 'buzon',
+            title:'Solicitudes Asignadas',
+            type: 'basic',
+            icon: 'heroicons_outline:clipboard-check',
+            link: '/buzon/buzonAsignadas'
+        }]
     };
-
+/* 
     menuBandeja : any = {
             id : 'basignadas',
             title: 'Gestion Buzón',
@@ -54,7 +60,7 @@ export class NavigationService
                 icon: 'heroicons_outline:clipboard-check',
                 link: '/buzon/buzonAsignadas'
             }]
-         }
+         } */
     constructor(private _httpClient: HttpClient,
                 private _loginService: LoginService
                )
@@ -69,7 +75,13 @@ export class NavigationService
             subtitle: 'Gestión de Areas Solucionadoras',
             type: 'group',
             icon: 'heroicons_outline:cog',
-            children:[]
+            children:[{
+                id: 'buzon',
+                title:'Solicitudes Asignadas',
+                type: 'basic',
+                icon: 'heroicons_outline:clipboard-check',
+                link: '/buzon/buzonAsignadas'
+            }]
         };
     }
 
@@ -92,7 +104,7 @@ export class NavigationService
         }];
     }
 
-    iniciarBuzon(){
+/*     iniciarBuzon(){
         return this.menuBandeja  = {
             id : 'basignadas',
             title: 'Gestion Buzón',
@@ -107,7 +119,7 @@ export class NavigationService
                 link: '/buzon/buzonAsignadas'
             }]
          }
-    }
+    } */
 
     // -----------------------------------------------------------------------------------------------------
     // @ Accessors
@@ -137,8 +149,7 @@ export class NavigationService
         this.menuAdministrado = this.iniciarMenuAdmin();
         this.menuPublico = [];
         this.menuPublico = this.inciarMenuPublico();
-        this.menuBandeja = [];
-        this.menuBandeja = this.iniciarBuzon();        
+     
        return this._loginService.obtenerMenu(this.usuario.cedula).pipe(
           tap( (response) =>{
            
@@ -147,7 +158,7 @@ export class NavigationService
                     response.data.forEach(element => {
                         this.menuAdministrado.children.push(element);
                     });
-                    this.menuPublico.push(this.menuBandeja);
+        
                     this.menuPublico.push(this.menuAdministrado);                   
                     this.menuReplicar.default = [];
                     this.menuReplicar.default = this.menuPublico;

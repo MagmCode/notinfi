@@ -11,18 +11,12 @@
   
     font-size: 1.25rem !important;
   }
-  table {
-    width: 100%;
-    text-align: center !important;
-  }
+  table { width: 100%; table-layout: fixed;  text-align: center; } 
+
+  th, td { overflow: hidden; width: auto; text-overflow: ellipsis; white-space: inherit; }
   
-  .mat-sort-header-container {
-    justify-content: center;
-  }
-  
-  .mat-header-cell {
-    text-align: center !important;
-  }
   .max-w-screen-xl {
     max-width: 95% !important;
   }
+
+

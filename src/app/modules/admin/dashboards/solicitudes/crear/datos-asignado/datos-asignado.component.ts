@@ -153,6 +153,7 @@ isShownSU: boolean = false;
             nombres:   data.data.nombres + ' ' + data.data.apellidos,
             codUnidad: data.data.codUnidad,
             unidad: data.data.descUnidad,
+            codusuarioGestion : this.usuario.codigoSupervisor
 
           }); 
 
@@ -164,6 +165,7 @@ isShownSU: boolean = false;
       },
 
     );
+    
 
      
     this._solicitudesService.ubicacionFisica().subscribe(
@@ -215,7 +217,7 @@ isShownSU: boolean = false;
   
           for(const iterator of response.data){
   
-            if (iterator.codUbicacion == "OFICINA" || iterator.codUbicacion == "SUC") {
+            if (this.datosFormulario.value?.ubicacionFisica.id == "OFICINA" || this.datosFormulario.value?.ubicacionFisica.id == "SUC") {
               this.detalleUbicacion.push({name:iterator.codDetalle +'-'+ iterator.detalle, id:iterator.codDetalle})
             } else {
               this.detalleUbicacion.push({name:iterator.detalle, id:iterator.codDetalle})
@@ -266,7 +268,7 @@ isShownSU: boolean = false;
 
       if (this.usuario.nivelCargo < 11) {
     
-        if ( this.datosFormulario.value.codusuarioGestion.id == undefined) {
+        if ( this.datosFormulario.value.codusuarioGestion == undefined) {
          
           this.datosFormulario = this.formBuilder.group({
       
@@ -286,7 +288,7 @@ isShownSU: boolean = false;
         this.datosFormulario.value.nombresResp = this.usuario.nombres + ' ' + this.usuario.apellidos;
         this.datosFormulario.value.codUnidadResp = this.usuario.codUnidad;
         this.datosFormulario.value.unidadResp =this.usuario.descUnidad;
-        this.datosFormulario.value.codusuarioGestion =  this.datosFormulario.value.codusuarioGestion.id;
+        this.datosFormulario.value.codusuarioGestion =  this.datosFormulario.value.codusuarioGestion;
 
   
     

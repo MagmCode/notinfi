@@ -41,108 +41,109 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
                 <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                    
-                        <div class="text-2xl font-medium tracking-tight leading-6 truncate   text-center">Detalle de la Solicitud</div>
-                      <hr >
-                        <div class="grid grid-cols-12 gap-4 text-center"  >
-      
-                            <div class="col-span-2">
-                                <b>Id Solicitud</b>
-                                <p >{{datosFormulario.value.idSolicitud}}</p>
-                                                
-                            </div>
+                  <div class="text-2xl font-medium tracking-tight leading-6 truncate  text-center">Usuario Creador de la Solicitud</div>
+                  <hr >
+                  <div class="grid grid-cols-12 gap-3  text-center"  >
 
-                            <div class="col-span-2">
-                                <b>Categoría</b>
-                                <p >{{datosFormulario.value.categoria}}</p>
-                                                
-                            </div>
+                      <div class="col-span-5">
+                          <b>Nombres y Apellidos </b>
+                          <p >{{datosFormulario.value.nombresResp}}</p>
+                                          
+                      </div>
 
-                            <div class="col-span-4">
-                                <b>Tipo de Servicio</b>
-                                <p >{{datosFormulario.value.tipoServicio}}</p>
-                                                
-                            </div>
-
-                            <div class="col-span-2">
-                                <b>Servicio</b>
-                                <p >{{datosFormulario.value.servicio}}</p>
-                                                
-                            </div>
+                      <div class="col-span-2">
+                          <b>Código de Unidad </b>
+                          <p >{{datosFormulario.value.codUnidadResp}}</p>
+                      </div>
 
 
-                            <div class="col-span-2">
-                                <b>Estatus</b>
-                                <p >{{datosFormulario.value.estatus}}</p>
-                                                
-                            </div>
+                      <div class="col-span-5">
+                          <b>Unidad </b>
+                          <p >{{datosFormulario.value.unidadResp}}</p>
+                                          
+                   </div>
+              
 
-                            <div class="col-span-2">
-                                <b>Código Usuario</b>
-                                <p >{{datosFormulario.value.codigoUsuario}}</p>
-                                                
-                            </div>
+                      
+                  </div>
 
-                            <div class="col-span-2 ">
-                                <b>Cédula</b>
-                                <p >{{datosFormulario.value.cedula}}</p>
-                                                
-                            </div>
+                      <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center">Detalle de la Solicitud</div>
+                    <hr >
+                      <div class="grid grid-cols-12 gap-4 text-center"  >
+    
+                          <div class="col-span-2">
+                              <b>Id Solicitud</b>
+                              <p >{{datosFormulario.value.idSolicitud}}</p>
+                                              
+                          </div>
 
-                            <div class="col-span-4">
-                                <b>Nombres y Apellidos</b>
-                                <p >{{datosFormulario.value.nombres}}</p>
-                                                
-                            </div>
+                          <div class="col-span-2">
+                              <b>Categoría</b>
+                              <p >{{datosFormulario.value.categoria}}</p>
+                                              
+                          </div>
 
-                            <div class="col-span-2">
-                                <b>Código de Unidad</b>
-                                <p >{{datosFormulario.value.codUnidad}}</p>
-                                                
-                            </div>
+                          <div class="col-span-4">
+                              <b>Tipo de Servicio</b>
+                              <p >{{datosFormulario.value.tipoServicio}}</p>
+                                              
+                          </div>
 
-
-                            <div class="col-span-2">
-                                <b>Unidad</b>
-                                <p >{{datosFormulario.value.unidad}}</p>
-                                                
-                            </div>
-
-                            <div class="col-span-4">
-                                <b>Ubicación Física</b>
-                                <p >{{datosFormulario.value.ubicacionFisica}}</p>
-                                                
-                            </div>
-                        </div>
-
-                        <div class="text-2xl font-medium tracking-tight leading-6 truncate  text-center">Usuario Responsable</div>
-                        <hr >
-                
-                        <div class="grid grid-cols-12 gap-3  text-center"  >
-      
-                            <div class="col-span-5">
-                                <b>Nombres y Apellidos </b>
-                                <p >{{datosFormulario.value.nombresResp}}</p>
-                                                
-                            </div>
-
-                            <div class="col-span-2">
-                                <b>Código de Unidad </b>
-                                <p >{{datosFormulario.value.codUnidadResp}}</p>
-                            </div>
+                          <div class="col-span-2">
+                              <b>Servicio</b>
+                              <p >{{datosFormulario.value.servicio}}</p>
+                                              
+                          </div>
 
 
-                            <div class="col-span-5">
-                                <b>Unidad </b>
-                                <p >{{datosFormulario.value.unidadResp}}</p>
-                                                
-                            </div>
-                 
-                        
-                    
-                              </div>
-                            
+                          <div class="col-span-2">
+                              <b>Estatus</b>
+                              <p >{{datosFormulario.value.estatus}}</p>
+                                              
+                          </div>
+
+                          <div class="col-span-2">
+                              <b>Código Usuario</b>
+                              <p >{{datosFormulario.value.codigoUsuario}}</p>
+                                              
+                          </div>
+
+                          <div class="col-span-2 ">
+                              <b>Cédula</b>
+                              <p >{{datosFormulario.value.cedula}}</p>
+                                              
+                          </div>
+
+                          <div class="col-span-4">
+                              <b>Nombres y Apellidos</b>
+                              <p >{{datosFormulario.value.nombres}}</p>
+                                              
+                          </div>
+
+                          <div class="col-span-2">
+                              <b>Código de Unidad</b>
+                              <p >{{datosFormulario.value.codUnidad}}</p>
+                                              
+                          </div>
+
+
+                          <div class="col-span-2">
+                              <b>Unidad</b>
+                              <p >{{datosFormulario.value.unidad}}</p>
+                                              
+                          </div>
+
+                          <div class="col-span-4">
+                              <b>Ubicación Física</b>
+                              <p >{{datosFormulario.value.ubicacionFisica}}</p>
+                                              
+                          </div>
+                      
+                      </div>
+                                          
+                      <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center"> Seleccione Método de autenticación</div>
+                      <hr>
                                  <div class="grid grid-cols-12  gap-2  text-center mt-4 mb-6 ">
-                                    <h3 class="col-span-12 font-medium tracking-tight leading-6 truncate">Método de autenticación</h3>
                                         <div class="col-span-4" ></div>
                                         <div class="col-span-2 text-center" *ngFor="let meto of metodo"> 
                                             <label for="meto{{meto.name}}"> 
