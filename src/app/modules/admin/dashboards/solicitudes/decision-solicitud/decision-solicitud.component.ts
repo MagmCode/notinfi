@@ -224,6 +224,7 @@ protected _onDestroy = new Subject<void>();
             this.ngAfterViewInit();
             this.dataSourceE.paginator = this.paginator;
             this.dataSourceE.sort = this.sort;
+      
           }
 
      
