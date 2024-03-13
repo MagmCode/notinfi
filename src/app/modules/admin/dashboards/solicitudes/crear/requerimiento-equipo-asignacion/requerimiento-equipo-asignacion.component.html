@@ -78,7 +78,7 @@
 
                     <mat-form-field appearance="fill"class="width100">
                         <mat-label>Ubicación física</mat-label>
-                        <mat-select class="inputMat"  formControlName="ubicacionFisica"     #buySellSelect="matSelect"  (ngModelChange)="mostrarInput()"   >  <!--  -->
+                        <mat-select class="inputMat"  formControlName="ubicacionFisica"    required  #buySellSelect="matSelect"  (ngModelChange)="mostrarInput()"   >  <!--  -->
                           <mat-option *ngFor="let ubicacion of filtroubicacion | async" [value]="ubicacion" >  <!--  -->
                              {{ubicacion.name}}
                             </mat-option>
@@ -93,15 +93,16 @@
 
                   <mat-form-field appearance="fill"class="width100">
                       <mat-label>Piso</mat-label>
-                      <mat-select class="inputMat" formControlName="piso"     #buySellSelect="matSelect"  > 
+                      <mat-select class="inputMat" [formControl]="piso"    #buySellSelect="matSelect" required > 
                         <mat-option *ngFor="let detalleUbicacion of filtrodetalleUbicacion | async" [value]="detalleUbicacion" >  <!-- -->
                          {{detalleUbicacion.name}} 
                           </mat-option>
                        </mat-select>
                       <!-- <input matInput formControlName="ubicacionFisica" >  -->
-                  <mat-error *ngIf="usuFormulario.get('piso')?.hasError">
+                  <mat-error *ngIf="piso.hasError('required')">
                           Campo <strong>Obligatorio</strong>
-                      </mat-error>    
+                      </mat-error> 
+                      <mat-hint>{{piso.value?.sound}}</mat-hint>     
                     </mat-form-field>
               </div>
             
@@ -109,18 +110,19 @@
 
                 <mat-form-field appearance="fill"class="width100">
                     <mat-label>Piso/NroOficina/Otro:</mat-label>                 
-                    <input matInput formControlName="piso" > 
-               <mat-error *ngIf="usuFormulario.get('piso')?.hasError">
+                    <input matInput [formControl]="piso" required> 
+               <mat-error *ngIf="piso.hasError('required')">
                         Campo <strong>Obligatorio</strong>
-                    </mat-error>                      
+                    </mat-error>      
+                    <mat-hint>{{equipos.value?.sound}}</mat-hint>                  
                 </mat-form-field>
             </div>
 
             <div class="col-span-5 text-center" [hidden]="!isShownSU"   id="divshowSU">
 
               <mat-form-field appearance="fill"class="width100">
-                <mat-label>Seleccione el próximo a aprobar</mat-label>
-                  <mat-select class="inputMat"   formControlName="codusuarioGestion"     #buySellSelect="matSelect" >  <!--   -->
+                <mat-label>Seleccione el próximo aprobador</mat-label>
+                  <mat-select class="inputMat" required  formControlName="codusuarioGestion"     #buySellSelect="matSelect" >  <!--   -->
                     <mat-option *ngFor="let supervisor of filtrosupervisor | async" [value]="supervisor.id" >  <!-- -->
                       {{supervisor.name}} 
                       </mat-option>
@@ -132,6 +134,21 @@
               </mat-form-field>
                                
            
+          </div>
+
+          <div class="col-span-7 text-center" >
+
+            <mat-form-field appearance="fill">
+              <mat-label>Seleccione Equipo</mat-label>
+              <mat-select [formControl]="equipos" multiple required>
+                <mat-option *ngFor="let equipos of equiposList" [value]="equipos" >{{equipos.tipoEquipo}}</mat-option>
+              </mat-select>
+              <mat-error *ngIf="equipos.hasError('required')">
+                Campo <strong>Obligatorio</strong>
+            </mat-error> 
+            <mat-hint>{{piso.value?.sound}}</mat-hint>  
+            </mat-form-field>
+
           </div>
 
             <div class="col-span-12 text-center">
@@ -212,7 +229,7 @@
                 </table>
        
                   <mat-paginator
-                    [pageSize]="5"
+                    [pageSize]="25"
                     [pageSizeOptions]="[5, 10, 25, 100]"
                     [showFirstLastButtons]="true">
                 </mat-paginator>

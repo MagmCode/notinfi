@@ -19,19 +19,23 @@ import { solicitudesRoutes } from './solicitudes.routing';
 import { CrearComponent } from './crear/crear.component';
 import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
+import { MAT_SELECT_SCROLL_STRATEGY_PROVIDER, MatSelectModule } from '@angular/material/select';
 import { RequerimientoEquipoAsignacionComponent } from './crear/requerimiento-equipo-asignacion/requerimiento-equipo-asignacion.component';
 import {MatRadioModule} from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import { MAT_TOOLTIP_SCROLL_STRATEGY_FACTORY_PROVIDER, MatTooltipModule } from '@angular/material/tooltip';
 import { DatosAsignadoComponent } from './crear/datos-asignado/datos-asignado.component';
 import {MatDialogModule} from '@angular/material/dialog';
 import { ModaldecisionesComponent } from './modaldecisiones/modaldecisiones.component';
 import { DetalleSolicitudComponent } from './detalle-solicitud/detalle-solicitud.component';
 import { DecisionSolicitudComponent } from './decision-solicitud/decision-solicitud.component';
-
+import {MAT_CHIPS_DEFAULT_OPTIONS, MatChipsModule} from '@angular/material/chips';
+import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY } from '@angular/material/autocomplete';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 @NgModule({
     declarations: [
@@ -41,7 +45,7 @@ import { DecisionSolicitudComponent } from './decision-solicitud/decision-solici
         DatosAsignadoComponent,
         ModaldecisionesComponent,
         DetalleSolicitudComponent,
-        DecisionSolicitudComponent
+        DecisionSolicitudComponent,
     ],
     imports     : [
         RouterModule.forChild(solicitudesRoutes),
@@ -68,8 +72,25 @@ import { DecisionSolicitudComponent } from './decision-solicitud/decision-solici
         MatSlideToggleModule,
         MatTooltipModule,
         MatDialogModule,
+        MatChipsModule,
+        ScrollingModule,
+        MatAutocompleteModule
     
     ],
+    providers: [
+        {
+         provide: MAT_AUTOCOMPLETE_SCROLL_STRATEGY,
+         useValue: MAT_SELECT_SCROLL_STRATEGY_PROVIDER,
+         
+        },
+        {
+            provide: MAT_CHIPS_DEFAULT_OPTIONS,
+            useValue: {
+              separatorKeyCodes: [ENTER, COMMA]
+            }
+          }
+
+       ],
 })
 export class ProjectModule
 {

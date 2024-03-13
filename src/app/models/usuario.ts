@@ -42,7 +42,8 @@ export interface usuario {
     categoria: String,
     idTipoServicio: number,
     tipoServicio: String ,
-    metodo : any;
+    metodo : any,
+    formulario : any
 
   }
 
@@ -63,6 +64,23 @@ export interface usuario {
     decision: String,
     observacion: String,
     idMotivo : number,
-    motivo: String,
+    motivo: String
    
+  }
+  export interface equipoDto{
+    serial:String,
+    bienNacional: String,
+    idTipoEquipo: number,
+    tipoEquipo: String,
+    idMarca:number ,
+    marca:String,
+    idModelo: number,
+    modelo: String,
+    relacion : number
+  }
+
+  export interface tipoEquipo{
+  
+    idTipoEquipo: number,
+    tipoEquipo: String,
   }

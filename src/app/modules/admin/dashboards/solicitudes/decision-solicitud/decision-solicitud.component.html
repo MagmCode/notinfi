@@ -41,31 +41,7 @@
             <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
                 <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                    
-                  <div class="text-2xl font-medium tracking-tight leading-6 truncate  text-center">Usuario Creador de la Solicitud</div>
-                  <hr >
-                  <div class="grid grid-cols-12 gap-3  text-center"  >
-
-                      <div class="col-span-5">
-                          <b>Nombres y Apellidos </b>
-                          <p >{{datosFormulario.value.nombresResp}}</p>
-                                          
-                      </div>
-
-                      <div class="col-span-2">
-                          <b>Código de Unidad </b>
-                          <p >{{datosFormulario.value.codUnidadResp}}</p>
-                      </div>
-
-
-                      <div class="col-span-5">
-                          <b>Unidad </b>
-                          <p >{{datosFormulario.value.unidadResp}}</p>
-                                          
-                   </div>
-              
-
-                      
-                  </div>
+             
 
                       <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center">Detalle de la Solicitud</div>
                     <hr >
@@ -138,8 +114,97 @@
                               <p >{{datosFormulario.value.ubicacionFisica}}</p>
                                               
                           </div>
+
+                          <div class="col-span-8" *ngIf="estareaA">
+                            <b>Equipo Solicitado</b>
+                            <p >{{equipo}}</p>
+                                            
+                        </div>
+
                       
                       </div>
+
+                      <div *ngIf="estareaC"> 
+                      <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center">Detalle de los equipos</div>
+                      <hr>
+                      <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                          <div class="">
+                          <mat-form-field appearance="outline" >
+                              <mat-label>Filtro</mat-label>
+                              <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+                            </mat-form-field>
+                          </div>
+                          
+                          <div class="mat-elevation-z8">
+                            <table mat-table [dataSource]="dataSourceE" matSort>
+                              
+                            
+                              <ng-container matColumnDef="relacion">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>relacion</th>
+                                <td mat-cell *matCellDef="let row"> {{row.relacion}} </td>
+                              </ng-container>
+                              <ng-container matColumnDef="idTipoEquipo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>idTipoEquipo</th>
+                                <td mat-cell *matCellDef="let row"> {{row.idTipoEquipo}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="tipoEquipo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Equipo</th>
+                                <td mat-cell *matCellDef="let row"> {{row.tipoEquipo}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="serial">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header> Serial </th>
+                                <td mat-cell *matCellDef="let row"> {{row.serial}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="idMarca">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>idMarca</th>
+                                <td mat-cell *matCellDef="let row"> {{row.idMarca}} </td>
+                              </ng-container>
+
+                              
+                              <ng-container matColumnDef="marca">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Marca</th>
+                                <td mat-cell *matCellDef="let row"> {{row.marca}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="idModelo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>idModelo</th>
+                                <td mat-cell *matCellDef="let row"> {{row.idModelo}} </td>
+                              </ng-container>
+
+                              <ng-container matColumnDef="modelo">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
+                                <td mat-cell *matCellDef="let row"> {{row.nombreUsuarioInicio}} </td>
+                              </ng-container>
+                        
+                              <ng-container matColumnDef="bienNacional">
+                                <th mat-header-cell *matHeaderCellDef mat-sort-header>Bien Nacional </th>
+                                <td mat-cell *matCellDef="let row"> {{row.bienNacional}} </td>
+                              </ng-container>
+
+                              
+                          
+                              <tr mat-header-row *matHeaderRowDef="displayedColumnsE"></tr>
+                              <tr mat-row *matRowDef="let row; columns: displayedColumnsE;"></tr>
+                          
+                              <!-- Row shown when there is no matching data. -->
+                              <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No Existe Resultado</td>
+                              </tr>
+                            </table>
+                     
+                                <mat-paginator
+                                  [pageSize]="25"
+                                  [pageSizeOptions]="[5, 10, 25, 100]"
+                                  [showFirstLastButtons]="true">
+                              </mat-paginator>
+                              </div>
+                            
+                      </div>
+                    </div>
+
                                           
                       <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center"> Seleccione Método de autenticación</div>
                       <hr>
@@ -157,9 +222,15 @@
                                   </div>
 
                         <section>
-                          <div class="text-center">
+                          <div class="text-center"*ngIf="estareaA" >
                             <button mat-raised-button color="warn" type="button" (click)="openDialog('R')" >Rechazar</button>
                             <button mat-raised-button style="  background-color: green;   color: white;" type="button" (click)="openDialog('A')"   >Aprobar</button>
+                            
+                          </div>
+
+                          <div class="text-center" *ngIf="estareaC">
+                            <button mat-raised-button color="accent" type="button" >Devolver</button>
+                            <button mat-raised-button style="  background-color: green;   color: white;" type="button"   >Conforme</button>
                             
                           </div>
                         </section>
@@ -178,6 +249,7 @@
                                 <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
                               </mat-form-field>
                             </div>
+
                             <div class="mat-elevation-z8">
                                 <table mat-table [dataSource]="dataSource" matSort>
                               
@@ -250,7 +322,7 @@
                                 </table>
                        
                                   <mat-paginator
-                                    [pageSize]="5"
+                                    [pageSize]="25"
                                     [pageSizeOptions]="[5, 10, 25, 100]"
                                     [showFirstLastButtons]="true">
                                 </mat-paginator>

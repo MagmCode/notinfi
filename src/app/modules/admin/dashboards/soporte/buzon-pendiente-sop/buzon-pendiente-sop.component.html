@@ -23,10 +23,11 @@
             <!-- Project selector -->
             <div
                 class="relative flex self-start pt-2 pb-1 pl-5 pr-4 cursor-pointer overflow-hidden rounded-t-xl border border-b-0 bg-default"
-                matRipple >
+                matRipple
+                >
                 <div class="flex items-center">
                     <div class="overflow-hidden">
-                        <div class="font-medium leading-6 truncate">Gestión de Solicitudes Asignadas</div>
+                        <div class="font-medium leading-6 truncate">Gestión de Solicitudes Soporte</div>
                     </div>
                    
                 </div>
@@ -50,17 +51,12 @@
                               </mat-form-field>
                             </div>
                             <div class="mat-elevation-z8">
-                                <table mat-table [dataSource]="dataSource" matSort >
+                                <table mat-table [dataSource]="dataSource" matSort>
                               
                                   <!-- ID Column -->
                                   <ng-container matColumnDef="Idsolicitud">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header> Id solicitud</th>
                                     <td mat-cell *matCellDef="let row"> {{row.idSolicitud}} </td>
-                                  </ng-container>
-
-                                  <ng-container matColumnDef="area">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Area</th>
-                                    <td mat-cell *matCellDef="let row"> {{row.tarea}} </td>
                                   </ng-container>
 
                                   <ng-container matColumnDef="categoria">
@@ -131,7 +127,7 @@
                                     <td mat-cell *matCellDef="let row"> 
                                         <span></span>
                                         <mat-icon class="mr-1 icon-size-7 text-green-500"  
-                                        (click) = "obtenerDatosApobar(row.idSolicitud)"                                                             
+                                        (click) = "obtenerId(row.idSolicitud)"                                                             
                                         [svgIcon]="'heroicons_outline:clipboard-document-check'"></mat-icon>
                                     
                                     </td>

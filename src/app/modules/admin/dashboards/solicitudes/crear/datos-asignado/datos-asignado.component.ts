@@ -10,7 +10,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SpinnerComponent } from 'app/modules/admin/spinner/spinner.component';
 import { ComponentPortal } from '@angular/cdk/portal';
-import { ISelect } from 'app/models/login';
+import { ISelect, ISelectEquipo } from 'app/models/login';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 @Component({
@@ -26,7 +26,9 @@ export class DatosAsignadoComponent implements OnInit {
   datosFormulario: FormGroup;
   public codUsuario!: usuario;
   selectedOption: string;
-
+  piso = new FormControl('', Validators.required);
+  equipos  = new FormControl('', Validators.required);
+  equiposList: ISelectEquipo[] = [];
 
   //#region toast
 override2 = {
@@ -93,8 +95,7 @@ private overlayRef!: OverlayRef;
                   cedulaResp: new FormControl(''),
                   nombresResp: new FormControl(''),
                   codUnidadResp: new FormControl(''),
-                  unidadResp: new FormControl(''),                  
-                  piso : new FormControl('', [Validators.required]),
+                  unidadResp: new FormControl(''),           
                   codusuarioGestion:  new FormControl(''), 
                 })
           }
@@ -179,6 +180,18 @@ isShownSU: boolean = false;
         }
         
       } );
+
+      this._solicitudesService.consultarTipoEquipo().subscribe(
+        (response) => {
+          this.equiposList.push({tipoEquipo: 'EQUIPO COMPLETO', idTipoEquipo: '0'});
+          if(response.estatus == 'SUCCESS'){
+            for(const iterator of response.data){
+              this.equiposList.push({tipoEquipo: iterator.nombre, idTipoEquipo:iterator.idTipoEquipo})
+            }
+          }
+          
+        }
+      );
   
   
   if (this.usuario.nivelCargo < 11 ) {
@@ -260,11 +273,11 @@ isShownSU: boolean = false;
         }); 
       
         var piso;
-      if (this.datosFormulario.value.piso.length > 0) {
-       piso =  this.datosFormulario.value.piso
-      } else {
-        piso =  this.datosFormulario.value.piso.name
-      }
+        if (this.piso.value.length > 0) {
+          piso =  this.piso.value
+         } else {
+           piso =  this.piso.value.name
+         }
 
       if (this.usuario.nivelCargo < 11) {
     
@@ -280,6 +293,8 @@ isShownSU: boolean = false;
         }
       }
 
+
+
         this.datosFormulario.value.ubicacionFisica = this.datosFormulario.value.ubicacionFisica.name + "-" + piso;
         this.datosFormulario.value.responsable = 'N';
         this.datosFormulario.value.idServicio = '1';
@@ -291,10 +306,14 @@ isShownSU: boolean = false;
         this.datosFormulario.value.codusuarioGestion =  this.datosFormulario.value.codusuarioGestion;
 
   
-    
+        var enviarData = {};
+        enviarData= {
+         "creacion":this.datosFormulario.value,
+         "formulario":this.equipos.value
+        }
         
         
-    this._solicitudesService.crear(this.datosFormulario.value).subscribe(
+    this._solicitudesService.crear(enviarData).subscribe(
     (data) =>{    
      
       if(data.estatus == "SUCCESS"){

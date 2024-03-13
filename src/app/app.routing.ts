@@ -11,7 +11,8 @@ import { DetalleSolicitudComponent } from './modules/admin/dashboards/solicitude
 import { DecisionSolicitudComponent } from './modules/admin/dashboards/solicitudes/decision-solicitud/decision-solicitud.component';
 import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component';
 import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitud/detalle-solicitd.component';
-
+import { BuzonPendienteSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/buzon-pendiente-sop.component';
+import { AsignarSolicitudSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/asignar-solicitud-sop/asignar-solicitud-sop.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -96,10 +97,16 @@ export const appRoutes: Route[] = [
 
             
             {path: 'inventario', children: [
-                {path: 'buzonPediente',  component: BuzonPendienteComponent},
+                {path: 'buzonPendiente',  component: BuzonPendienteComponent},
                 {path: 'asignarSolicitud',  component: AsignarSolicitudComponent}
             ]},
             
+            {path: 'soporte', children: [
+                {path: 'buzonPendiente',  component: BuzonPendienteSopComponent},
+                {path: 'asignarSolicitud',  component: AsignarSolicitudSopComponent}
+            ]},
+            
+
             {path: 'buzon', children: [
                 {path: 'buzonAsignadas',  component: BuzonAsignadaComponent},
                 {path: 'detalleSolicitud',  component: DetalleSolicitdComponent},

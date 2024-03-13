@@ -19,7 +19,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatMenuModule } from '@angular/material/menu';
-import { MatSelectModule } from '@angular/material/select';
+import { MAT_SELECT_SCROLL_STRATEGY_PROVIDER, MatSelectModule } from '@angular/material/select';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSortModule } from '@angular/material/sort';
 import { MatTableModule } from '@angular/material/table';
@@ -42,13 +42,22 @@ import { MatRadioModule} from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
-import { MatTooltipModule } from '@angular/material/tooltip';
+import {  MatTooltipModule } from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component';
 import { BuzonComponent } from './modules/admin/dashboards/buzon/buzon.component';
 import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component';
 import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitud/detalle-solicitd.component';
 import { ModalIngresarEquipoComponent } from './modules/admin/dashboards/buzon/modal-ingresar-equipo/modal-ingresar-equipo.component'; 
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY } from '@angular/material/autocomplete';
+import {MAT_CHIPS_DEFAULT_OPTIONS, MatChipsModule} from '@angular/material/chips';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { SoporteComponent } from './modules/admin/dashboards/soporte/soporte.component';
+import { BuzonPendienteSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/buzon-pendiente-sop.component';
+import { AsignarSolicitudSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/asignar-solicitud-sop/asignar-solicitud-sop.component';
+
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -66,7 +75,10 @@ const routerConfig: ExtraOptions = {
         BuzonComponent,
         BuzonAsignadaComponent,
         DetalleSolicitdComponent,
-        ModalIngresarEquipoComponent
+        ModalIngresarEquipoComponent,
+        SoporteComponent,
+        BuzonPendienteSopComponent,
+        AsignarSolicitudSopComponent
     ],
     imports     : [
         BrowserModule,
@@ -111,7 +123,10 @@ const routerConfig: ExtraOptions = {
           MatPaginatorModule,
           MatSlideToggleModule,
           MatTooltipModule,
-          MatDialogModule
+          MatDialogModule,
+          ScrollingModule,
+          MatChipsModule,
+          MatAutocompleteModule,
 
     ],
     exports: [NgxSpinnerModule],
@@ -122,7 +137,18 @@ const routerConfig: ExtraOptions = {
       ],
     bootstrap   : [
         AppComponent
-    ]
+    ],
+    providers: [
+        {
+         provide: MAT_AUTOCOMPLETE_SCROLL_STRATEGY,
+         useValue: MAT_SELECT_SCROLL_STRATEGY_PROVIDER,
+        }, {
+            provide: MAT_CHIPS_DEFAULT_OPTIONS,
+            useValue: {
+              separatorKeyCodes: [ENTER, COMMA]
+            }
+          }
+       ],
 })
 export class AppModule
 {

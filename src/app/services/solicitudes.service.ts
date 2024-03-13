@@ -177,5 +177,63 @@ solicitudesAsignadasFlujo(codUsuario: any): Observable <any>{
 
 
 
+consultarTipoEquipo(): Observable <any>{
+
+  const url = this.urlEndPoint + 'saitWS/consultarTipoEquipo';
+
+  return this.http.post(url, '');
+
+}
+
+
+
+consultarSerialesDisponibles(): Observable <any>{
+
+  const url = this.urlEndPoint + 'saitWS/consultarSerialesDisponibles';
+
+  return this.http.post(url, '');
+
+}
+
+consultarMarcaEquipo(idTipoEquipo: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'saitWS/consultarMarcaEquipo';
+  const dataBusqueda = {
+    idTipoEquipo : idTipoEquipo,
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+conusltarMarcaXmodelo(idTipoEquipo: any, idMarca : any): Observable <any>{
+
+  const url = this.urlEndPoint + 'saitWS/conusltarMarcaXmodelo';
+  const dataBusqueda = {
+    idTipoEquipo : idTipoEquipo,
+    idMarca : idMarca
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+consultarEquiposXserial(serial: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'saitWS/consultarEquiposXserial';
+  const dataBusqueda = {
+    serial : serial,
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+
+conusltarSerialXTipoEquipo(idTipoEquipo: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'saitWS/conusltarSerialXTipoEquipo';
+  const dataBusqueda = {
+    idTipoEquipo : idTipoEquipo,
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
 
 }

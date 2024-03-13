@@ -13,6 +13,7 @@ import { ComponentPortal } from '@angular/cdk/portal';
 import { ISelect } from 'app/models/login';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { forEach } from 'lodash';
 
 @Component({
   selector: 'app-modaldecisiones',
@@ -38,6 +39,7 @@ export class ModaldecisionesComponent implements OnInit {
   isShownSU : boolean = false;
   esValido:  boolean = false;
   hasError :boolean = false;
+  isShownCO :boolean = true;
   codusuarioAprobador: any = null;
 
     //#region toast
@@ -134,16 +136,21 @@ this.supervisorFiltrosCtrl.valueChanges
             this.tipoServicio= this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  
         
 
-           
 
-        
+        if (this.solicitud.metodo == 'buzon') {
+          this.isShownCO = false;
+        }
 
 
       if (this.solicitud.decision  == 'A') {
-        this.isShownA = true,
-        this.isShownR = false,
-        this.mensaje = "Aprobar Solicitud";
-
+        this.isShownA = true;
+        this.isShownR = false;
+       
+        if (this.solicitud.metodo == 'buzon') {
+          this.mensaje = "¿Está seguro de asigna los siguiente equipos?";
+        }else{
+          this.mensaje = "Aprobar Solicitud";
+        }
    
         if (this.solicitud.idTarea == 2 ) {
  
@@ -192,12 +199,10 @@ this.supervisorFiltrosCtrl.valueChanges
   } 
 
   Aprobar(){
-   
-
+  
     this.spinner.show();
     this.usuario = this._loginservices.obterTokenInfo();
-
-
+  
     this._solicitudesService.consultarDetalleUsuario(this.usuario.codigo).subscribe(
       (data) =>{ 
        
@@ -217,7 +222,6 @@ this.supervisorFiltrosCtrl.valueChanges
     
           }); 
           
-
           if (this.solicitud.idTarea == 2) {
             if(!this.codusuarioAprobador) {
               this.hasError = true;
@@ -230,39 +234,57 @@ this.supervisorFiltrosCtrl.valueChanges
          
          }
         
-
-      if(!this.codigo) {
-        this.esValido = true;
-        return;
-      }
-   
-          
+       
+if (this.isShownCO != false) {
+  if(!this.codigo) {
+    this.esValido = true;
+    return;
+  }
+}
+      
           this.datosFormulario.value.decision = 'A';
           this.datosFormulario.value.idSolicitud =  this.idSolicitud;
           this.datosFormulario.value.motivo = 0;
         
-         
+ 
+var formulario = [];        
+if (this.solicitud.metodo == 'buzon') {
+ 
+  this.solicitud.formulario.forEach(elemt => {
+    formulario.push(elemt)
+   
+});
+console.log(formulario)
+
+} 
+
+var enviarData = {};
+enviarData= {
+ "solicitud":this.datosFormulario.value,
+ "formulario":formulario
+}
+  console.log(enviarData)
+this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
+  (data) =>{    
+
+    if(data.estatus == "SUCCESS"){
+      this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+      setTimeout(()=>{
+        this.redirigirSuccess();
+    },1500);  
+    this.dialogRef.close();
+    }else{
+      this.toast.error(data.mensaje, '', this.override2);
+    }
+    this.spinner.hide();
+/*     this.spinner.hide('sp1'); */
+        }, 
+  (error) =>{
+    this.toast.error(data.mensaje, '', this.override2);
+  }
+); 
 
 
-this._solicitudesService.gestionFlujoTarea(this.datosFormulario.value).subscribe(
-            (data) =>{    
-          
-              if(data.estatus == "SUCCESS"){
-                this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
-                setTimeout(()=>{
-                  this.redirigirSuccess();
-              },1500);  
-              this.dialogRef.close();
-              }else{
-                this.toast.error(data.mensaje, '', this.override2);
-              }
-              this.spinner.hide();
-          /*     this.spinner.hide('sp1'); */
-                  }, 
-            (error) =>{
-              this.toast.error(data.mensaje, '', this.override2);
-            }
-          ); 
     
         }else{
           this.toast.error(data.mensaje, '', this.override2);

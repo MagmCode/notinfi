@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, NgModule, OnInit, ViewChild, ViewContainerRef,  } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ComponentFactoryResolver, ElementRef, OnInit, ViewChild,   } from '@angular/core';
 import { MatRadioChange } from '@angular/material/radio';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
@@ -8,19 +8,18 @@ import {TooltipPosition} from '@angular/material/tooltip';
 
 import {MatTableDataSource} from '@angular/material/table';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { usuario } from 'app/models/usuario';
+import {  usuario } from 'app/models/usuario';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
-import { forEach } from 'lodash';
 import { DatosAsignadoComponent } from '../datos-asignado/datos-asignado.component';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SpinnerComponent } from 'app/modules/admin/spinner/spinner.component';
-import { ISelect } from 'app/models/login';
-import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { ISelect, ISelectEquipo } from 'app/models/login';
+import {  ReplaySubject, Subject } from 'rxjs';
+import {  takeUntil } from 'rxjs/operators';
 
 
 //1 iniciamos el objecto a llenar la tabla vacio
@@ -39,12 +38,19 @@ export class RequerimientoEquipoAsignacionComponent implements OnInit, AfterView
   usuario = {} as any;
   usuFormulario: FormGroup;
   plantillaUsuario = {} as usuario;
+  equipos  = new FormControl('', Validators.required);
+  equiposList: ISelectEquipo[] = [];
+  piso = new FormControl('', Validators.required);
+
+
    //#region  tablas
    displayedColumns: string[] = ['codUsuario', 'cedula', 'nombres', 'codUnidad', 'unidad', 'codCargo', 'cargo', 'acciones'];
    positionOptions: TooltipPosition[] = ['below'];
    position = new FormControl(this.positionOptions[0]);
    dataSource: MatTableDataSource<usuario>;
    ELEMENT_DATA: usuario[] = [];
+
+   
 
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort = new MatSort;  
@@ -59,7 +65,7 @@ export class RequerimientoEquipoAsignacionComponent implements OnInit, AfterView
   //#endregion
 
 
-    //#region Select de tipo supervisor
+    //#region Select de detalle ubicacion
     protected detalleUbicacion : ISelect[] = [];
     public detalleUbicacionCtrl : FormControl = new FormControl();
     public detalleUbicacionFiltrosCtrl : FormControl = new FormControl();
@@ -72,19 +78,9 @@ export class RequerimientoEquipoAsignacionComponent implements OnInit, AfterView
      public supervisorFiltrosCtrl : FormControl = new FormControl();
      public filtrosupervisor : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
      //#endregion
-  //#region usuarios Interfaz
 
-  public usuarioTable : any = {
-    codUsuario: '',
-    cedula : '',
-    nombres : '',
-    codUnidad : '',
-    unidad : '',
-    codCargo : '',
-    cargo : ''
-  }; 
-  //#endregion
-  
+
+
 //#region toast
 override2 = {
   positionClass: 'toast-bottom-full-width',
@@ -109,6 +105,7 @@ private overlayRef!: OverlayRef;
               private overlay: Overlay,
               /* private spinner: NgxSpinnerService */) {
 
+
       // Asi la data a elemento dataSource asi se vacia para su inicializacion
        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
 
@@ -131,24 +128,31 @@ private overlayRef!: OverlayRef;
         nombresResp: new FormControl(''),
         codUnidadResp: new FormControl(''),
         unidadResp: new FormControl(''),
-        piso : new FormControl('',  [Validators.required]),
+      /*   piso : new FormControl('',  [Validators.required]), */
         codusuarioGestion:  new FormControl(''),
 
       })
     }
+
+
+   
+
+
 
   ngOnInit(): void {
 /*    
     this.spinner.show('sp1');
      */
 
-    
+
+
     this.ubicacionCtrl.setValue(this.ubicacion);
     this.filtroubicacion.next(this.ubicacion);
     this.ubicacionFiltrosCtrl.valueChanges
     .pipe(takeUntil(this._onDestroy))
     .subscribe(() => {
       this.filtroCategoriaT();
+      
     });
 //#endregion
 
@@ -172,6 +176,8 @@ private overlayRef!: OverlayRef;
       this.filtrosupervisorT();
     });
      //#endregion
+
+    
 
 
   }
@@ -283,7 +289,18 @@ handleRadioChange(event: MatRadioChange): void {
         }
       );
 
-
+    
+      this._solicitudesService.consultarTipoEquipo().subscribe(
+        (response) => {
+          this.equiposList.push({tipoEquipo: 'EQUIPO COMPLETO', idTipoEquipo: '0'});
+          if(response.estatus == 'SUCCESS'){
+            for(const iterator of response.data){
+              this.equiposList.push({tipoEquipo: iterator.nombre, idTipoEquipo:iterator.idTipoEquipo})
+            }
+          }
+          
+        }
+      );
     
     if (this.usuario.nivelCargo < 11 ) {
       this.isShownSU = true;
@@ -297,7 +314,7 @@ handleRadioChange(event: MatRadioChange): void {
               this.supervisor.push({name: iterator.nombres + ' ' +iterator.apellidos , id:iterator.codUsuario})
             }
           }
-          console.log(this.usuario.codigoSupervisor )
+      
           this.usuFormulario.patchValue({
             codusuarioGestion :  this.usuario.codigoSupervisor 
           })
@@ -306,8 +323,7 @@ handleRadioChange(event: MatRadioChange): void {
       );
     }
     
-    
-     
+
     
   
 
@@ -322,6 +338,10 @@ handleRadioChange(event: MatRadioChange): void {
 
 }
 
+
+
+
+
 async submit(){
   if(this.usuFormulario.valid){
 /*    this.spinner.show('sp1'); */
@@ -332,22 +352,24 @@ this.usuario = this._loginservices.obterTokenInfo();
 this._solicitudesService.consultarDetalleUsuario(this.usuFormulario.value.codigoUsuario).subscribe(
   (data) =>{ 
 
-    if(typeof data.data !=  'undefined'  ){
+    if( data.estatus ==  'SUCCESS'  ){
       this.usuFormulario.patchValue({
         
-        codUnidadOrg: data.codUnidadOrg,
-        unidadOrg: data.unidadOrg,
-        codUnidadJrq: data.codUnidadJrq,
+        codUnidadOrg: data.data.codUnidadOrg,
+        unidadOrg: data.data.unidadOrg,
+        codUnidadJrq: data.data.codUnidadJrq,
         unidadJrq: data.data.unidadJrq
         
 
       }); 
  
 var piso;
-      if (this.usuFormulario.value.piso.length > 0) {
-       piso =  this.usuFormulario.value.piso
+
+
+      if (this.piso.value.length > 0) {
+       piso =  this.piso.value
       } else {
-        piso =  this.usuFormulario.value.piso.name
+        piso =  this.piso.value.name
       }
 
 
@@ -364,9 +386,9 @@ if (this.usuario.nivelCargo < 11) {
     return false;
   }
 }
-      
 
-     
+
+
 
 
       this.usuFormulario.value.ubicacionFisica = this.usuFormulario.value.ubicacionFisica.name + "-" + piso;
@@ -379,8 +401,13 @@ if (this.usuario.nivelCargo < 11) {
       this.usuFormulario.value.unidadResp =this.usuario.descUnidad;
       this.usuFormulario.value.codusuarioGestion =  this.usuFormulario.value.codusuarioGestion;
 
-     
-        this._solicitudesService.crear(this.usuFormulario.value).subscribe(
+     var enviarData = {};
+     enviarData= {
+      "creacion":this.usuFormulario.value,
+      "formulario":this.equipos.value
+     }
+    
+        this._solicitudesService.crear(enviarData).subscribe(
         (data) =>{    
        
           if(data.estatus == "SUCCESS"){
@@ -392,7 +419,7 @@ if (this.usuario.nivelCargo < 11) {
             this.toast.error(data.mensaje, '', this.override2);
           }
           this.spinner.hide();
-   /*     this.spinner.hide('sp1');  */
+       this.spinner.hide('sp1'); 
               }, 
         (error) =>{
           this.toast.error(data.mensaje, '', this.override2);
@@ -446,12 +473,20 @@ obtenerPlantilla(){
 openDialog(codUsuarioI : string) {
   const dialogRef = this.dialog.open(DatosAsignadoComponent,{
     data: { codUsuario :  codUsuarioI},
+    disableClose: true,
   });
   
   dialogRef.afterClosed().subscribe(result => {
     
   });
 }
+
+
+
+
+
+
+
 
 redirigirSuccess(){
   
@@ -531,6 +566,8 @@ protected filtrosupervisorT() {
     this.supervisor.filter(tipo => tipo.name.toLowerCase().indexOf(search) > -1)
   );
 }
+
+
 //#endregion
 
 }

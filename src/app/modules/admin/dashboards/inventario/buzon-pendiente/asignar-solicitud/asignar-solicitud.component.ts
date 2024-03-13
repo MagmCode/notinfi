@@ -25,6 +25,7 @@ export class AsignarSolicitudComponent implements OnInit {
   usuario = {} as any;
   datosFormulario: FormGroup;  
   idSolicitud : any;
+  equipo: any;
   //#region  tablas
   displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'observacion', 'motivo'];
   positionOptions: TooltipPosition[] = ['below'];
@@ -167,6 +168,15 @@ override2 = {
     
           });  
         
+          this.equipo = '';
+          response.data.formulario.forEach(element => {
+            if (this.equipo == '') {
+              this.equipo =  element.tipoEquipo ;
+            } else {
+              this.equipo +=  ', '+element.tipoEquipo ;
+            }
+          
+            });
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data.detalle;
           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -211,7 +221,7 @@ override2 = {
 
   refrescarPagina() {
   
-    this._router.navigate(['/inventario/buzonPediente']);
+    this._router.navigate(['/inventario/buzonPendiente']);
   }
 
 }

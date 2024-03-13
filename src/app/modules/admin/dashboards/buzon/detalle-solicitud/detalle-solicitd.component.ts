@@ -3,17 +3,18 @@ import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms'
 import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'app/core/user/user.types';
-import { solicitudesDto } from 'app/models/usuario';
+import { equipoDto, solicitudesDto } from 'app/models/usuario';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { ModaldecisionesComponent } from '../../solicitudes/modaldecisiones/modaldecisiones.component';
+import { ModalIngresarEquipoComponent } from '../modal-ingresar-equipo/modal-ingresar-equipo.component';
 
 @Component({
   selector: 'app-detalle-solicitd',
@@ -28,16 +29,26 @@ export class DetalleSolicitdComponent implements OnInit {
   idSolicitud : any;
   radioSelected: any;
   esValido:  boolean = false;
-  metodo = [];
+  public equipo!: equipoDto; 
     //#region  tablas
     displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'observacion', 'motivo'];
     positionOptions: TooltipPosition[] = ['below'];
      position = new FormControl(this.positionOptions[0]);
-     dataSource: MatTableDataSource<solicitudesDto>;    
-     dataSourceP: MatTableDataSource<solicitudesDto>;
+     dataSource: MatTableDataSource<solicitudesDto>; 
      ELEMENT_DATA: solicitudesDto[] = [];
+
+     displayedColumnsE: string[] = ['tipoEquipo','serial', 'marca', 'modelo', 'bienNacional', 'asignar'];
+     positionOptionsE: TooltipPosition[] = ['below'];
+      positionE = new FormControl(this.positionOptions[0]);
+      dataSourceE: MatTableDataSource<equipoDto>;     
+      ELEMENT_DATAE: equipoDto[] = [];
+    
+      
+    
+
      @ViewChild(MatPaginator) paginator: MatPaginator | any;
-     @ViewChild(MatSort) sort: MatSort = new MatSort;  
+     @ViewChild(MatSort) sort: MatSort = new MatSort; 
+     @ViewChild(MatTable) tabla!: MatTable<equipoDto>;
     //#endregion
   
       
@@ -54,7 +65,6 @@ export class DetalleSolicitdComponent implements OnInit {
   
   
   constructor(private _loginService : LoginService,  
-              private _loginservices: LoginService,
               private _solicitudesService : SolicitudesService,              
               private formBuilder : FormBuilder, 
               private route: ActivatedRoute ,
@@ -64,7 +74,9 @@ export class DetalleSolicitdComponent implements OnInit {
               private _router: Router) {
 
                 
-                this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
+                this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+                this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE); 
+                
                 this.datosFormulario = formBuilder.group({
 
                   idSolicitud:  new FormControl(''),
@@ -97,7 +109,7 @@ export class DetalleSolicitdComponent implements OnInit {
                   categoria:  new FormControl(''),
                   idTipoServicio:  new FormControl(''),
                   tipoServicio: new FormControl(''), 
-                  metodos:  new FormControl('',  [Validators.required])
+         /*          metodos:  new FormControl('',  [Validators.required]) */
               
 
                 })
@@ -120,6 +132,9 @@ export class DetalleSolicitdComponent implements OnInit {
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
+    this.dataSourceE.paginator = this.paginator;
+    this.dataSourceE.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -128,6 +143,12 @@ export class DetalleSolicitdComponent implements OnInit {
 
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
+    }
+
+    this.dataSourceE.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceE.paginator) {
+      this.dataSourceE.paginator.firstPage();
     }
   }
 
@@ -139,7 +160,7 @@ export class DetalleSolicitdComponent implements OnInit {
 
     this._solicitudesService.consultaSolicitudDetalle(this.idSolicitud).subscribe(
       (response) =>{
-
+console.log(response)
 
           this.datosFormulario.patchValue({
          
@@ -176,6 +197,13 @@ export class DetalleSolicitdComponent implements OnInit {
     
           });  
         
+          this.ELEMENT_DATAE = [];
+          this.ELEMENT_DATAE = response.data.formulario;
+          this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
+          this.ngAfterViewInit();
+          this.dataSourceE.paginator = this.paginator;
+          this.dataSourceE.sort = this.sort;
+
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data.detalle;
           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -184,18 +212,7 @@ export class DetalleSolicitdComponent implements OnInit {
           this.dataSource.sort = this.sort;
 
 
-          this._solicitudesService.consultarMetodosAutenticacion().subscribe(
-            (response) => {
-             
-              if(response.estatus == 'SUCCESS'){
-                for(const iterator of response.data){
-                  this.metodo.push({name: iterator.nombre, id:iterator.idAutenticacion})
-               
-                }
-              }
-            
-            }
-          );
+      
 
       }
       )
@@ -206,21 +223,41 @@ export class DetalleSolicitdComponent implements OnInit {
 
 
 
-    if (!this.radioSelected) {
-      this.esValido = true;
-      return;
-    }
-
-
 
   const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-    data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : this.radioSelected},
+    data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceE.data},
+    disableClose: true,
   });
   
   dialogRef.afterClosed().subscribe(result => {
-    
+  
   });
 
 }
+
+
+openDialogProcesar(relacion: any, idTipoEquipo:any): void {
+
+ 
+  const dialogRef = this.dialog.open(ModalIngresarEquipoComponent,{
+    data: {  relacion :relacion, idTipoEquipo:idTipoEquipo},
+    disableClose: true
+  });
+  
+  dialogRef.afterClosed().subscribe(result => {
+    console.log('gggg')
+    result[0].relacion = relacion
+   
+    this.dataSourceE.data[relacion] = result[0];
+    this.ngAfterViewInit();
+          this.dataSourceE.paginator = this.paginator;
+          this.dataSourceE.sort = this.sort;
+   
+  });
+
+  
+
+}
+
 
 }

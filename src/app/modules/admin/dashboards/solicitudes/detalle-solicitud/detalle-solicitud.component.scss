@@ -2,8 +2,10 @@
     font-size: 9pt;
   }
   
-  
-  
+  .margin-center-card{
+    padding: 24px !important;
+}
+
   .tamannioFiltro{
     width: 30% !important;
   }
@@ -11,18 +13,9 @@
   
     font-size: 1.25rem !important;
   }
-  table {
-    width: 100%;
-    text-align: center !important;
-  }
-  
-  .mat-sort-header-container {
-    justify-content: center;
-  }
-  
-  .mat-header-cell {
-    text-align: center !important;
-  }
+  table { width: 100%; table-layout: fixed;  text-align: center; } 
+
+  th, td {text-align: center;   overflow: hidden; width: auto; text-overflow: ellipsis; white-space: inherit; }
   .max-w-screen-xl {
     max-width: 95% !important;
   }

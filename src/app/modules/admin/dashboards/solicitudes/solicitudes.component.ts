@@ -92,9 +92,6 @@ override2 = {
  
     }
 
-       /**
-     * On destroy
-     */
        ngOnDestroy(): void
        {
        

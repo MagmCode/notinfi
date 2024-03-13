@@ -6,45 +6,48 @@ import { MatTableDataSource } from '@angular/material/table';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'app/core/user/user.types';
-import { ISelect } from 'app/models/login';
-import {  equipoDto, solicitudesDto } from 'app/models/usuario';
+import { equipoDto, solicitudesDto } from 'app/models/usuario';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
-import { ReplaySubject, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-detalle-solicitud',
-  templateUrl: './detalle-solicitud.component.html',
-  styleUrls: ['./detalle-solicitud.component.scss']
+  selector: 'app-asignar-solicitud-sop',
+  templateUrl: './asignar-solicitud-sop.component.html',
+  styleUrls: ['./asignar-solicitud-sop.component.scss']
 })
-export class DetalleSolicitudComponent implements OnInit {
+export class AsignarSolicitudSopComponent implements OnInit {
+
   user = {} as User;
   solicitudesDto = {} as any;
   usuario = {} as any;
   datosFormulario: FormGroup;  
   idSolicitud : any;
+  equipo: any;
   //#region  tablas
   displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'observacion', 'motivo'];
   positionOptions: TooltipPosition[] = ['below'];
    position = new FormControl(this.positionOptions[0]);
-   dataSource: MatTableDataSource<solicitudesDto>;   
+   dataSource: MatTableDataSource<solicitudesDto>;    
+   dataSourceP: MatTableDataSource<solicitudesDto>;
    ELEMENT_DATA: solicitudesDto[] = [];
 
- 
-    displayedColumnsE: string[] = ['tipoEquipo','serial', 'marca', 'modelo',  'bienNacional'];
-    positionOptionsE: TooltipPosition[] = ['below'];
-     positionE = new FormControl(this.positionOptions[0]);
-     dataSourceE: MatTableDataSource<equipoDto>;    
-     ELEMENT_DATAE: equipoDto[] = [];
-     @ViewChild(MatPaginator) paginator: MatPaginator | any;
-     @ViewChild(MatSort) sort: MatSort = new MatSort;  
-    //#endregion
-
-
+   
+   displayedColumnsE: string[] = ['tipoEquipo','serial', 'marca', 'modelo', 'bienNacional'];
+   positionOptionsE: TooltipPosition[] = ['below'];
+    positionE = new FormControl(this.positionOptions[0]);
+    dataSourceE: MatTableDataSource<equipoDto>;     
+    ELEMENT_DATAE: equipoDto[] = [];
+  
     
+    
+   @ViewChild(MatPaginator) paginator: MatPaginator | any;
+   @ViewChild(MatSort) sort: MatSort = new MatSort;  
+  //#endregion
+
+
  //#region toast
 override2 = {
   positionClass: 'toast-bottom-full-width',
@@ -52,7 +55,7 @@ override2 = {
   
 };
 //#endregion
-protected _onDestroy = new Subject<void>();
+  protected _onDestroy = new Subject<void>();
 
 
 
@@ -64,9 +67,10 @@ protected _onDestroy = new Subject<void>();
               private toast: ToastrService,
               private spinner: NgxSpinnerService,
               private _router: Router) {
-
+               
                 this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
                 this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE); 
+                
                 this.datosFormulario = formBuilder.group({
 
                   idSolicitud:  new FormControl(''),
@@ -102,7 +106,7 @@ protected _onDestroy = new Subject<void>();
               
 
                 })
-
+       
                }
 
   ngOnInit(): void {
@@ -111,16 +115,14 @@ protected _onDestroy = new Subject<void>();
 
     this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
     this.user.email =this.usuario.descCargo; 
-  
-
-    
-
-   
+    console.log(this.user.name);
   }
+
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+    
     this.dataSourceE.paginator = this.paginator;
     this.dataSourceE.sort = this.sort;
   }
@@ -132,7 +134,6 @@ protected _onDestroy = new Subject<void>();
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-
     this.dataSourceE.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSourceE.paginator) {
@@ -144,11 +145,12 @@ protected _onDestroy = new Subject<void>();
    
     this.idSolicitud =  sessionStorage.getItem('idSolicitud');
   
-  
+    console.log(this.idSolicitud);
 
     this._solicitudesService.consultaSolicitudDetalle(this.idSolicitud).subscribe(
       (response) =>{
-
+        console.log(response.data.solicitud)
+          console.log(response.data.detalle)
 
           this.datosFormulario.patchValue({
          
@@ -183,31 +185,61 @@ protected _onDestroy = new Subject<void>();
             idTipoServicio:     response.data.solicitud.idTipoServicio,
             tipoServicio:       response.data.solicitud.tipoServicio            
     
-          }); 
-          
-          
+          });  
+        
           this.ELEMENT_DATAE = [];
           this.ELEMENT_DATAE = response.data.formulario;
           this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
           this.ngAfterViewInit();
           this.dataSourceE.paginator = this.paginator;
           this.dataSourceE.sort = this.sort;
-        
+       
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data.detalle;
           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
           this.ngAfterViewInit();
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
-
-
-   
-
       }
       )
 
   } 
 
+
+  asignarSolictud(){
+      console.log(this.datosFormulario.value?.idSolicitud)
+
+      this.usuario = this._loginservices.obterTokenInfo();
+      console.log(this.usuario.codigo)
+
+      
+      this._solicitudesService.asignarSolicitudes(this.datosFormulario.value?.idSolicitud, this.usuario.codigo).subscribe(
+        (data) =>{    
+         console.log(data);
+          if(data.estatus == "SUCCESS"){
+            this.toast.success(data.mensaje + " Número de solicitud " + this.datosFormulario.value?.idSolicitud, '', this.override2);            
+            setTimeout(()=>{
+              this.refrescarPagina()
+          },1500);  
+          
+          }else{
+            this.toast.error(data.mensaje, '', this.override2);
+          }
+          this.spinner.hide();
+      /*     this.spinner.hide('sp1'); */
+              }, 
+        (error) =>{
+          this.toast.error('',  '', this.override2);
+        }
+      ); 
+
+
+  }
+
+  refrescarPagina() {
   
+    this._router.navigate(['/inventario/buzonPendiente']);
+  }
+
 
 }
