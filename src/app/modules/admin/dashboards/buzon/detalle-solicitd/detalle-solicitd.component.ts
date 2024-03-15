@@ -15,6 +15,7 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 import { ModaldecisionesComponent } from '../../solicitudes/modaldecisiones/modaldecisiones.component';
 import { ModalIngresarEquipoComponent } from '../modal-ingresar-equipo/modal-ingresar-equipo.component';
+import { forEach } from 'lodash';
 
 @Component({
   selector: 'app-detalle-solicitd',
@@ -160,7 +161,7 @@ export class DetalleSolicitdComponent implements OnInit {
 
     this._solicitudesService.consultaSolicitudDetalle(this.idSolicitud).subscribe(
       (response) =>{
-console.log(response)
+
 
           this.datosFormulario.patchValue({
          
@@ -221,8 +222,25 @@ console.log(response)
 
   openDialog(decision: String): void {
 
+    if (decision == 'A') {
 
+var validaTabla, equipo;
+      this.dataSourceE.data.forEach(element => {
+      
+         if (element.serial == 'null') {
+          equipo = element.tipoEquipo;
+          validaTabla = true;
+          return;
+         }
+      });
+    if (validaTabla == true) {
+      this.toast.error('Asignar serial al equipo ' +equipo, '', this.override2);
+      return;
+    }
+      
+    }
 
+    
 
   const dialogRef = this.dialog.open(ModaldecisionesComponent,{
     data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceE.data},
@@ -245,10 +263,11 @@ openDialogProcesar(relacion: any, idTipoEquipo:any): void {
   });
   
   dialogRef.afterClosed().subscribe(result => {
-    console.log('gggg')
+    
     result[0].relacion = relacion
    
     this.dataSourceE.data[relacion] = result[0];
+
     this.ngAfterViewInit();
           this.dataSourceE.paginator = this.paginator;
           this.dataSourceE.sort = this.sort;

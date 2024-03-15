@@ -28,7 +28,7 @@ export class DatosAsignadoComponent implements OnInit {
   selectedOption: string;
   piso = new FormControl('', Validators.required);
   equipos  = new FormControl('', Validators.required);
-  equiposList: ISelectEquipo[] = [];
+
 
   //#region toast
 override2 = {
@@ -44,8 +44,14 @@ override2 = {
     public ubicacionFiltrosCtrl : FormControl = new FormControl();
     public filtroubicacion : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
     //#endregion
-  
-  
+
+  //#region Select de equipo
+  protected equipo : ISelectEquipo[] = [];
+  public equipoCtrl : FormControl = new FormControl();
+  public equipoFiltrosCtrl : FormControl = new FormControl();
+  public filtroequipo : ReplaySubject<ISelectEquipo[]> = new ReplaySubject<ISelectEquipo[]>(1);
+  //#endregion
+
       //#region Select de tipo supervisor
       protected detalleUbicacion : ISelect[] = [];
       public detalleUbicacionCtrl : FormControl = new FormControl();
@@ -111,7 +117,14 @@ private overlayRef!: OverlayRef;
   });
 //#endregion
 
-
+this.equipoCtrl.setValue(this.equipo);
+this.filtroequipo.next(this.equipo);
+this.equipoFiltrosCtrl.valueChanges
+.pipe(takeUntil(this._onDestroy))
+.subscribe(() => {
+  this.filtroEquipoT();
+  
+});
 //#region select de detalleUbicacion
   this.detalleUbicacionCtrl.setValue(this.detalleUbicacion);
   this.filtrodetalleUbicacion.next(this.detalleUbicacion);
@@ -183,10 +196,10 @@ isShownSU: boolean = false;
 
       this._solicitudesService.consultarTipoEquipo().subscribe(
         (response) => {
-          this.equiposList.push({tipoEquipo: 'EQUIPO COMPLETO', idTipoEquipo: '0'});
+          this.equipo.push({tipoEquipo: 'EQUIPO COMPLETO', idTipoEquipo: '0'});
           if(response.estatus == 'SUCCESS'){
             for(const iterator of response.data){
-              this.equiposList.push({tipoEquipo: iterator.nombre, idTipoEquipo:iterator.idTipoEquipo})
+              this.equipo.push({tipoEquipo: iterator.nombre, idTipoEquipo:iterator.idTipoEquipo})
             }
           }
           
@@ -389,7 +402,23 @@ protected filtroCategoriaT() {
     this.ubicacion.filter(cargo => cargo.name.toLowerCase().indexOf(search) > -1)
   );
 }
-
+protected filtroEquipoT() {
+  if (!this.equipo) {
+    return;
+  }
+  // get the search keyword
+  let search = this.equipoFiltrosCtrl.value;
+  if (!search) {
+    this.filtroequipo.next(this.equipo.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  // filter the banks
+  this.filtroequipo.next(
+    this.equipo.filter(cargo => cargo.tipoEquipo.toLowerCase().indexOf(search) > -1)
+  );
+}
 
 protected filtrodetalleUbicacionT() {
   if (!this.detalleUbicacion) {

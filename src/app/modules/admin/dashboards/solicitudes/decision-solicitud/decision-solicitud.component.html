@@ -176,7 +176,7 @@
 
                               <ng-container matColumnDef="modelo">
                                 <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
-                                <td mat-cell *matCellDef="let row"> {{row.nombreUsuarioInicio}} </td>
+                                <td mat-cell *matCellDef="let row"> {{row.modelo}} </td>
                               </ng-container>
                         
                               <ng-container matColumnDef="bienNacional">
@@ -230,7 +230,7 @@
 
                           <div class="text-center" *ngIf="estareaC">
                             <button mat-raised-button color="accent" type="button" >Devolver</button>
-                            <button mat-raised-button style="  background-color: green;   color: white;" type="button"   >Conforme</button>
+                            <button mat-raised-button style="  background-color: green;   color: white;" type="button"  (click)="openDialog('A')"  >Conforme</button>
                             
                           </div>
                         </section>
@@ -298,16 +298,17 @@
                                     <td mat-cell *matCellDef="let row"> {{row.decision}} </td>
                                   </ng-container>
                 
+                                  <ng-container matColumnDef="motivo">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Motivo </th>
+                                    <td mat-cell *matCellDef="let row"> {{row.motivo}} </td>
+                                  </ng-container>
+                                  
                                   <ng-container matColumnDef="observacion">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>Observación</th>
                                     <td mat-cell *matCellDef="let row"> {{row.observacion}} </td>
                                   </ng-container>
                 
                                   
-                                  <ng-container matColumnDef="motivo">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Motivo </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.motivo}} </td>
-                                  </ng-container>
                                 
                                  
                                   

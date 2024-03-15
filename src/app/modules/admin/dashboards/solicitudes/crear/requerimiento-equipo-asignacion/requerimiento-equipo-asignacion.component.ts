@@ -39,9 +39,9 @@ export class RequerimientoEquipoAsignacionComponent implements OnInit, AfterView
   usuFormulario: FormGroup;
   plantillaUsuario = {} as usuario;
   equipos  = new FormControl('', Validators.required);
-  equiposList: ISelectEquipo[] = [];
-  piso = new FormControl('', Validators.required);
 
+  piso = new FormControl('', Validators.required);
+ 
 
    //#region  tablas
    displayedColumns: string[] = ['codUsuario', 'cedula', 'nombres', 'codUnidad', 'unidad', 'codCargo', 'cargo', 'acciones'];
@@ -49,8 +49,6 @@ export class RequerimientoEquipoAsignacionComponent implements OnInit, AfterView
    position = new FormControl(this.positionOptions[0]);
    dataSource: MatTableDataSource<usuario>;
    ELEMENT_DATA: usuario[] = [];
-
-   
 
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort = new MatSort;  
@@ -64,6 +62,12 @@ export class RequerimientoEquipoAsignacionComponent implements OnInit, AfterView
   public filtroubicacion : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
   //#endregion
 
+  //#region Select de equipo
+  protected equipo : ISelectEquipo[] = [];
+  public equipoCtrl : FormControl = new FormControl();
+  public equipoFiltrosCtrl : FormControl = new FormControl();
+  public filtroequipo : ReplaySubject<ISelectEquipo[]> = new ReplaySubject<ISelectEquipo[]>(1);
+  //#endregion
 
     //#region Select de detalle ubicacion
     protected detalleUbicacion : ISelect[] = [];
@@ -146,18 +150,32 @@ private overlayRef!: OverlayRef;
 
 
 
-    this.ubicacionCtrl.setValue(this.ubicacion);
-    this.filtroubicacion.next(this.ubicacion);
-    this.ubicacionFiltrosCtrl.valueChanges
-    .pipe(takeUntil(this._onDestroy))
-    .subscribe(() => {
-      this.filtroCategoriaT();
-      
-    });
-//#endregion
+
 
 
 //#region select de detalleUbicacion
+
+
+
+this.ubicacionCtrl.setValue(this.ubicacion);
+this.filtroubicacion.next(this.ubicacion);
+this.ubicacionFiltrosCtrl.valueChanges
+.pipe(takeUntil(this._onDestroy))
+.subscribe(() => {
+  this.filtroCategoriaT();
+  
+});
+
+
+this.equipoCtrl.setValue(this.equipo);
+this.filtroequipo.next(this.equipo);
+this.equipoFiltrosCtrl.valueChanges
+.pipe(takeUntil(this._onDestroy))
+.subscribe(() => {
+  this.filtroEquipoT();
+  
+});
+
     this.detalleUbicacionCtrl.setValue(this.detalleUbicacion);
     this.filtrodetalleUbicacion.next(this.detalleUbicacion);
     this.detalleUbicacionFiltrosCtrl.valueChanges
@@ -292,10 +310,10 @@ handleRadioChange(event: MatRadioChange): void {
     
       this._solicitudesService.consultarTipoEquipo().subscribe(
         (response) => {
-          this.equiposList.push({tipoEquipo: 'EQUIPO COMPLETO', idTipoEquipo: '0'});
+          this.equipo.push({tipoEquipo: 'EQUIPO COMPLETO', idTipoEquipo: '0'});
           if(response.estatus == 'SUCCESS'){
             for(const iterator of response.data){
-              this.equiposList.push({tipoEquipo: iterator.nombre, idTipoEquipo:iterator.idTipoEquipo})
+              this.equipo.push({tipoEquipo: iterator.nombre,  idTipoEquipo:iterator.idTipoEquipo})
             }
           }
           
@@ -529,6 +547,23 @@ public show(message = '') {
   );
 }
 
+protected filtroEquipoT() {
+  if (!this.equipo) {
+    return;
+  }
+  // get the search keyword
+  let search = this.equipoFiltrosCtrl.value;
+  if (!search) {
+    this.filtroequipo.next(this.equipo.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  // filter the banks
+  this.filtroequipo.next(
+    this.equipo.filter(cargo => cargo.tipoEquipo.toLowerCase().indexOf(search) > -1)
+  );
+}
 
 protected filtrodetalleUbicacionT() {
   if (!this.detalleUbicacion) {

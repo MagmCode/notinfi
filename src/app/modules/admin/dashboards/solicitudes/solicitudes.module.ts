@@ -36,6 +36,8 @@ import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY } from '@angular/material/autocomplete
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+
 
 @NgModule({
     declarations: [
@@ -74,7 +76,8 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
         MatDialogModule,
         MatChipsModule,
         ScrollingModule,
-        MatAutocompleteModule
+        MatAutocompleteModule,
+        NgxMatSelectSearchModule 
     
     ],
     providers: [

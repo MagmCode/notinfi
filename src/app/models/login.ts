@@ -47,6 +47,7 @@ export interface ISelect{
 }
 
 export interface ISelectEquipo{
+   
     idTipoEquipo: string;
     tipoEquipo: string;
 }

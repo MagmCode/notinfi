@@ -41,8 +41,16 @@
                      <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
                         <div  class="grid grid-cols-3 gap-4">
                             <mat-form-field>
-                                <mat-label>Categoría</mat-label>                                
+                                <mat-label>Categoría</mat-label> 
+                                                            
                                 <mat-select class="inputMat"      formControlName="categoria"  #buySellSelect="matSelect" (ngModelChange)="buscarTipoServicio()">
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="categoriaFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
+                                        [noEntriesFoundLabel]="'No Encontrado'" >
+                                        <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
+                                         [svgIcon]="'heroicons_solid:x'"></mat-icon>
+                                        </ngx-mat-select-search>
+                                      </mat-option> 
                                     <mat-option  *ngFor="let categoria of filtrocategoria | async" [value]="categoria">
                                         {{categoria.name}}
                                       </mat-option>
@@ -57,6 +65,11 @@
                              <mat-form-field>
                                  <mat-label>Tipo Servicio</mat-label>                                
                                  <mat-select    class="inputMat"  #matRef    formControlName="tiposerv"     #buySellSelect="matSelect"  (ngModelChange)="buscarServicio()">
+                                    <mat-option>
+                                        <ngx-mat-select-search [formControl]="tipoServicioFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
+                                        [noEntriesFoundLabel]="'No Encontrado'" > <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
+                                        [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
+                                      </mat-option> 
                                      <mat-option  *ngFor="let tiposervicio of filtrotipoServicio | async" [value]="tiposervicio">
                                         {{tiposervicio.name}}
                                       </mat-option>
@@ -68,6 +81,11 @@
                            <mat-form-field>
                                <mat-label>Servicio</mat-label>                                
                                <mat-select class="inputMat"   #matRef   formControlName="servi"     #buySellSelect="matSelect"  (ngModelChange)="mostrarVista()" >
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="servicioFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
+                                    [noEntriesFoundLabel]="'No Encontrado'" > <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
+                                    [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
+                                  </mat-option>
                                 <mat-option  *ngFor="let servicio of filtroservicio | async" [value]="servicio">
                                     {{servicio.name}}
                                   </mat-option>

@@ -135,8 +135,7 @@ this.supervisorFiltrosCtrl.valueChanges
             this.nombres =   this.solicitud.nombres,
             this.tipoServicio= this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  
         
-
-
+console.log(this.solicitud.idTarea )
         if (this.solicitud.metodo == 'buzon') {
           this.isShownCO = false;
         }
@@ -149,7 +148,12 @@ this.supervisorFiltrosCtrl.valueChanges
         if (this.solicitud.metodo == 'buzon') {
           this.mensaje = "¿Está seguro de asigna los siguiente equipos?";
         }else{
-          this.mensaje = "Aprobar Solicitud";
+          if (this.solicitud.idTarea == 6 ) {
+            this.mensaje = "Conforme con la Solicitud";
+          } else {
+            this.mensaje = "Aprobar Solicitud";
+          }
+      
         }
    
         if (this.solicitud.idTarea == 2 ) {
@@ -254,7 +258,7 @@ if (this.solicitud.metodo == 'buzon') {
     formulario.push(elemt)
    
 });
-console.log(formulario)
+
 
 } 
 
@@ -263,7 +267,7 @@ enviarData= {
  "solicitud":this.datosFormulario.value,
  "formulario":formulario
 }
-  console.log(enviarData)
+
 this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
   (data) =>{    
 
@@ -324,9 +328,11 @@ this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             this.hasError = true;
             return;
           }
-          if(!this.codigo) {
-            this.esValido = true;
-            return;
+          if (this.isShownCO != false) {
+            if(!this.codigo) {
+              this.esValido = true;
+              return;
+            }
           }
           
           this.datosFormulario.value.decision = 'R';
@@ -335,9 +341,13 @@ this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
           this.datosFormulario.value.observacion = this.observacion;
 
           
-         
+          var enviarData = {};
+          enviarData= {
+           "solicitud":this.datosFormulario.value,
+           "formulario":[]
+          }
     
-          this._solicitudesService.gestionFlujoTarea(this.datosFormulario.value).subscribe(
+          this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    
            
               if(data.estatus == "SUCCESS"){
@@ -374,8 +384,16 @@ this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
   }
 
   redirigirSuccess(){
+    if (this.solicitud.metodo == 'buzon') {
+ 
   
-    this.router.navigate(['/solicitudes/gestionarSolicitudes']);
+      this.router.navigate(['/buzon/buzonAsignadas']);
+
+        }else{
+          this.router.navigate(['/solicitudes/gestionarSolicitudes']);
+
+        }
+ 
    }
    
    public show(message = '') {

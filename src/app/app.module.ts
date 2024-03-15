@@ -47,7 +47,7 @@ import {MatDialogModule} from '@angular/material/dialog';
 import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component';
 import { BuzonComponent } from './modules/admin/dashboards/buzon/buzon.component';
 import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component';
-import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitud/detalle-solicitd.component';
+
 import { ModalIngresarEquipoComponent } from './modules/admin/dashboards/buzon/modal-ingresar-equipo/modal-ingresar-equipo.component'; 
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY } from '@angular/material/autocomplete';
@@ -58,6 +58,8 @@ import { SoporteComponent } from './modules/admin/dashboards/soporte/soporte.com
 import { BuzonPendienteSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/buzon-pendiente-sop.component';
 import { AsignarSolicitudSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/asignar-solicitud-sop/asignar-solicitud-sop.component';
 
+import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitd/detalle-solicitd.component';
+import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -95,7 +97,6 @@ const routerConfig: ExtraOptions = {
 
         // Layout module of your application
         LayoutModule,
-
         // 3rd party modules that require global configuration via forRoot
         MarkdownModule.forRoot({}),
           RequerimientoEquipoModule,
@@ -106,6 +107,7 @@ const routerConfig: ExtraOptions = {
           MatInputModule,
           MatMenuModule,
           MatSelectModule,
+          NgxMatSelectSearchModule,
           MatSidenavModule,
           MatSortModule,
           MatTableModule,
