@@ -30,6 +30,7 @@ export class ModaldecisionesComponent implements OnInit {
   codigo: any;
   isShownA: boolean = false; // Inicialmente oculto
   isShownR: boolean = false;
+  isShownD: boolean = false;
   isShownM: boolean = false;
   mensaje : any;
   idSolicitud : any;
@@ -131,132 +132,154 @@ this.supervisorFiltrosCtrl.valueChanges
   
   async obtenerDatos(){
 
-            this.idSolicitud = this.solicitud.idSolicitud,
-            this.nombres =   this.solicitud.nombres,
-            this.tipoServicio= this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  
-        
+    this.idSolicitud = this.solicitud.idSolicitud,
+    this.nombres =   this.solicitud.nombres,
+    this.tipoServicio= this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  
+
 console.log(this.solicitud.idTarea )
-        if (this.solicitud.metodo == 'buzon') {
-          this.isShownCO = false;
-        }
-
-
-      if (this.solicitud.decision  == 'A') {
-        this.isShownA = true;
-        this.isShownR = false;
-       
-        if (this.solicitud.metodo == 'buzon') {
-          this.mensaje = "¿Está seguro de asigna los siguiente equipos?";
-        }else{
-          if (this.solicitud.idTarea == 6 ) {
-            this.mensaje = "Conforme con la Solicitud";
-          } else {
-            this.mensaje = "Aprobar Solicitud";
-          }
-      
-        }
-   
-        if (this.solicitud.idTarea == 2 ) {
- 
-          this.usuario = this._loginservices.obterTokenInfo();
-          this.isShownSU = true;
-      
-          this._solicitudesService.obtenerSupervisoresJRQ(this.usuario.codUnidadJrq ,this.usuario.nivelCargo,this.usuario.codigo ).subscribe(
-            (response) => {
-          
-           //   this.supervisor.push({name: 'Selecciones', id:''});
-              if(response.estatus == 'SUCCESS'){
-                for(const iterator of response.data){
-                  this.supervisor.push({name: iterator.nombres + ' ' +iterator.apellidos , id:iterator.codUsuario})
-                }
-              }
-              
-            }
-          );
-
-       
-        }
-
-      } else {
-
-        this._solicitudesService.consultarMotivo().subscribe(
-          (response) => {
-         
-            this.motivo.push({name: 'Selecciones', id:''});
-            if(response.estatus == 'SUCCESS'){
-              for(const iterator of response.data){
-                this.motivo.push({name: iterator.nombre, id:iterator.id})
-              }
-            }
-            
-          }
-        );
-
-        this.isShownR = true,
-        this.isShownM = true,
-        this.isShownA = false,
-        this.mensaje = "Rechazar Solicitud";
-      }
-
-
-   
-  } 
-
-  Aprobar(){
-  
-    this.spinner.show();
-    this.usuario = this._loginservices.obterTokenInfo();
-  
-    this._solicitudesService.consultarDetalleUsuario(this.usuario.codigo).subscribe(
-      (data) =>{ 
-       
-        if(typeof data.data !=  'undefined'  ){
-          this.datosFormulario.patchValue({
-         
-            codigoUsuario:data.data.codigo,
-            cedula:data.data.cedula,
-            nombres:data.data.nombres + ' ' + data.data.apellidos,
-            codUnidad:data.data.codUnidad,
-            unidad:data.data.descUnidad,
-            codUnidadOrg: data.data.codUnidadOrg,
-            unidadOrg: data.data.unidadOrg,
-            codUnidadJrq: data.data.codUnidadJrq,
-            unidadJrq: data.data.unidadJrq
-            
-    
-          }); 
-          
-          if (this.solicitud.idTarea == 2) {
-            if(!this.codusuarioAprobador) {
-              this.hasError = true;
-              return;
-            }else{
-
-              this.datosFormulario.value.codusuarioGestion =this.codusuarioAprobador?.id;
-            }
-
-         
-         }
-        
-       
-if (this.isShownCO != false) {
-  if(!this.codigo) {
-    this.esValido = true;
-    return;
-  }
+if (this.solicitud.metodo == 'buzon') {
+  this.isShownCO = false;
 }
+
+
+if (this.solicitud.decision  == 'A') {
+this.isShownA = true;
+this.isShownR = false;
+this.isShownD = false;
+if (this.solicitud.metodo == 'buzon') {
+  this.mensaje = "¿Está seguro de asigna los siguiente equipos?";
+}else{
+  if (this.solicitud.idTarea == 6 ) {
+    this.mensaje = "Conforme con la Solicitud";
+  } else {
+    this.mensaje = "Aprobar Solicitud";
+  }
+
+}
+
+if (this.solicitud.idTarea == 2 ) {
+
+  this.usuario = this._loginservices.obterTokenInfo();
+  this.isShownSU = true;
+
+  this._solicitudesService.obtenerSupervisoresJRQ(this.usuario.codUnidadJrq ,this.usuario.nivelCargo,this.usuario.codigo ).subscribe(
+    (response) => {
+  
+   //   this.supervisor.push({name: 'Selecciones', id:''});
+      if(response.estatus == 'SUCCESS'){
+        for(const iterator of response.data){
+          this.supervisor.push({name: iterator.nombres + ' ' +iterator.apellidos , id:iterator.codUsuario})
+        }
+      }
       
-          this.datosFormulario.value.decision = 'A';
-          this.datosFormulario.value.idSolicitud =  this.idSolicitud;
-          this.datosFormulario.value.motivo = 0;
-        
+    }
+  );
+
+
+}
+
+}else if (this.solicitud.decision  == 'D') {
+this._solicitudesService.consultarMotivo().subscribe(
+  (response) => {
  
+    this.motivo.push({name: 'Selecciones', id:''});
+    this.motivo.push({name: 'Datos no Corresponde', id:'3'})
+    if(response.estatus == 'SUCCESS'){
+      for(const iterator of response.data){
+        
+      }
+    }
+    
+  }
+);
+
+this.isShownR = false,
+this.isShownM = true,
+this.isShownA = false,
+this.isShownD = true,
+this.mensaje = "Devolver Solicitud";
+
+} else {
+
+this._solicitudesService.consultarMotivo().subscribe(
+  (response) => {
+ 
+    this.motivo.push({name: 'Selecciones', id:''});
+    if(response.estatus == 'SUCCESS'){
+      for(const iterator of response.data){
+        this.motivo.push({name: iterator.nombre, id:iterator.id})
+      }
+    }
+    
+  }
+);
+
+this.isShownR = true,
+this.isShownM = true,
+this.isShownA = false,
+this.isShownD = false,
+this.mensaje = "Rechazar Solicitud";
+}
+
+
+
+} 
+
+Aprobar(){
+
+this.spinner.show();
+this.usuario = this._loginservices.obterTokenInfo();
+
+this._solicitudesService.consultarDetalleUsuario(this.usuario.codigo).subscribe(
+(data) =>{ 
+
+if(typeof data.data !=  'undefined'  ){
+  this.datosFormulario.patchValue({
+ 
+    codigoUsuario:data.data.codigo,
+    cedula:data.data.cedula,
+    nombres:data.data.nombres + ' ' + data.data.apellidos,
+    codUnidad:data.data.codUnidad,
+    unidad:data.data.descUnidad,
+    codUnidadOrg: data.data.codUnidadOrg,
+    unidadOrg: data.data.unidadOrg,
+    codUnidadJrq: data.data.codUnidadJrq,
+    unidadJrq: data.data.unidadJrq
+    
+
+  }); 
+  
+  if (this.solicitud.idTarea == 2) {
+    if(!this.codusuarioAprobador) {
+      this.hasError = true;
+      return;
+    }else{
+
+      this.datosFormulario.value.codusuarioGestion =this.codusuarioAprobador?.id;
+    }
+
+ 
+ }
+
+
+if (this.isShownCO != false) {
+if(!this.codigo) {
+this.esValido = true;
+return;
+}
+}
+
+  this.datosFormulario.value.decision = 'A';
+  this.datosFormulario.value.idSolicitud =  this.idSolicitud;
+  this.datosFormulario.value.motivo = 0;
+
+
 var formulario = [];        
 if (this.solicitud.metodo == 'buzon') {
- 
-  this.solicitud.formulario.forEach(elemt => {
-    formulario.push(elemt)
-   
+
+this.solicitud.formulario.forEach(elemt => {
+formulario.push(elemt)
+
 });
 
 
@@ -264,42 +287,118 @@ if (this.solicitud.metodo == 'buzon') {
 
 var enviarData = {};
 enviarData= {
- "solicitud":this.datosFormulario.value,
- "formulario":formulario
+"solicitud":this.datosFormulario.value,
+"formulario":formulario
 }
 
 this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
-  (data) =>{    
+(data) =>{    
 
-    if(data.estatus == "SUCCESS"){
-      this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
-      setTimeout(()=>{
-        this.redirigirSuccess();
-    },1500);  
-    this.dialogRef.close();
-    }else{
-      this.toast.error(data.mensaje, '', this.override2);
-    }
-    this.spinner.hide();
+if(data.estatus == "SUCCESS"){
+this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+setTimeout(()=>{
+this.redirigirSuccess();
+},1500);  
+this.dialogRef.close();
+}else{
+this.toast.error(data.mensaje, '', this.override2);
+}
+this.spinner.hide();
 /*     this.spinner.hide('sp1'); */
-        }, 
-  (error) =>{
-    this.toast.error(data.mensaje, '', this.override2);
-  }
+}, 
+(error) =>{
+this.toast.error(data.mensaje, '', this.override2);
+}
 ); 
 
 
-    
-        }else{
-          this.toast.error(data.mensaje, '', this.override2);
-        }
-               
-      }, 
-    
-    );
+
+}else{
+  this.toast.error(data.mensaje, '', this.override2);
+}
+       
+}, 
+
+);
 
 
+}
+
+
+Devolver(){
+this.spinner.show();
+this.usuario = this._loginservices.obterTokenInfo();
+
+
+this._solicitudesService.consultarDetalleUsuario(this.usuario.codigo).subscribe(
+(data) =>{ 
+
+if(typeof data.data !=  'undefined'  ){
+  this.datosFormulario.patchValue({
+    codigoUsuario:data.data.codigo,
+    cedula:data.data.cedula,
+    nombres:data.data.nombres + ' ' + data.data.apellidos,
+    codUnidad:data.data.codUnidad,
+    unidad:data.data.descUnidad,
+    codUnidadOrg: data.data.codUnidadOrg,
+    unidadOrg: data.data.unidadOrg,
+    codUnidadJrq: data.data.codUnidadJrq,
+    unidadJrq: data.data.unidadJrq
+    
+
+  }); 
+
+  if(!this.motivos) {
+    this.hasError = true;
+    return;
   }
+  if (this.isShownCO != false) {
+    if(!this.codigo) {
+      this.esValido = true;
+      return;
+    }
+  }
+  
+  this.datosFormulario.value.decision = 'D';
+  this.datosFormulario.value.idSolicitud = this.idSolicitud;
+  this.datosFormulario.value.motivo =  3;
+  this.datosFormulario.value.observacion = this.observacion;
+
+  
+  var enviarData = {};
+  enviarData= {
+   "solicitud":this.datosFormulario.value,
+   "formulario":[]
+  }
+
+  this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
+    (data) =>{    
+   
+      if(data.estatus == "SUCCESS"){
+        this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+        setTimeout(()=>{
+          this.redirigirSuccess();
+      },1500);  
+      this.dialogRef.close();
+      }else{
+        this.toast.error(data.mensaje, '', this.override2);
+      }
+      this.spinner.hide();
+  /*     this.spinner.hide('sp1'); */
+          }, 
+    (error) =>{
+      this.toast.error(data.mensaje, '', this.override2);
+    }
+  ); 
+
+}else{
+  this.toast.error(data.mensaje, '', this.override2);
+}
+       
+}, 
+
+);
+}
 
   Rechazar(){
     this.spinner.show();

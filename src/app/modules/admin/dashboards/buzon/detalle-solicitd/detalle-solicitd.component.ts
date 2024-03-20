@@ -30,6 +30,7 @@ export class DetalleSolicitdComponent implements OnInit {
   idSolicitud : any;
   radioSelected: any;
   esValido:  boolean = false;
+  isShownD: boolean = false;
   public equipo!: equipoDto; 
     //#region  tablas
     displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'observacion', 'motivo'];
@@ -212,6 +213,9 @@ export class DetalleSolicitdComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
 
+          if (this.datosFormulario.value.tarea == 'SOPORTE') {
+            this.isShownD = true;
+          }
 
       
 
