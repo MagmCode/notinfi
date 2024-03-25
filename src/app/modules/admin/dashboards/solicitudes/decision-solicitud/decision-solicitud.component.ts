@@ -95,6 +95,7 @@ protected _onDestroy = new Subject<void>();
 
                 this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
                 this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE); 
+                this.dataSourceR = new MatTableDataSource(this.ELEMENT_DATAR); 
                 this.datosFormulario = formBuilder.group({
 
                   idSolicitud:  new FormControl(''),
@@ -278,7 +279,7 @@ protected _onDestroy = new Subject<void>();
           this.ngAfterViewInit();
           this.dataSourceE.paginator = this.paginator;
           this.dataSourceE.sort = this.sort;
-
+console.log(response.data.detalle);
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data.detalle;
           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
