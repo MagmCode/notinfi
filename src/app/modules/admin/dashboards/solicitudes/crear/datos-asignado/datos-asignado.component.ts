@@ -103,6 +103,7 @@ private overlayRef!: OverlayRef;
                   codUnidadResp: new FormControl(''),
                   unidadResp: new FormControl(''),           
                   codusuarioGestion:  new FormControl(''), 
+                  detalle: new FormControl('',  [Validators.required]), 
                 })
           }
 
@@ -113,7 +114,7 @@ private overlayRef!: OverlayRef;
   this.ubicacionFiltrosCtrl.valueChanges
   .pipe(takeUntil(this._onDestroy))
   .subscribe(() => {
-    this.filtroCategoriaT();
+    this.filtroUbicacionT();
   });
 //#endregion
 
@@ -385,7 +386,7 @@ public show(message = '') {
 
 
 //#region  inicializador de select
-protected filtroCategoriaT() {
+protected filtroUbicacionT() {
   if (!this.ubicacion) {
     return;
   }

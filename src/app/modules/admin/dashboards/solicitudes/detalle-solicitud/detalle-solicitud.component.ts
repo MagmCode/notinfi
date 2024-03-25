@@ -26,6 +26,10 @@ export class DetalleSolicitudComponent implements OnInit {
   usuario = {} as any;
   datosFormulario: FormGroup;  
   idSolicitud : any;
+  servicioA: boolean = false;
+  servicioR: boolean = false;
+  serviA: boolean = false;
+  mensaje: any;
   //#region  tablas
   displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'motivo', 'observacion'];
   positionOptions: TooltipPosition[] = ['below'];
@@ -36,9 +40,16 @@ export class DetalleSolicitudComponent implements OnInit {
  
     displayedColumnsE: string[] = ['tipoEquipo','serial', 'marca', 'modelo',  'bienNacional'];
     positionOptionsE: TooltipPosition[] = ['below'];
-     positionE = new FormControl(this.positionOptions[0]);
+     positionE = new FormControl(this.positionOptionsE[0]);
      dataSourceE: MatTableDataSource<equipoDto>;    
      ELEMENT_DATAE: equipoDto[] = [];
+    
+     displayedColumnsR: string[] = ['tipoEquipo','serial', 'marca', 'modelo', 'bienNacional'];
+     positionOptionsR: TooltipPosition[] = ['below'];
+      positionR = new FormControl(this.positionOptionsR[0]);
+      dataSourceR: MatTableDataSource<equipoDto>;     
+      ELEMENT_DATAR: equipoDto[] = [];
+    
      @ViewChild(MatPaginator) paginator: MatPaginator | any;
      @ViewChild(MatSort) sort: MatSort = new MatSort;  
     //#endregion
@@ -66,7 +77,8 @@ protected _onDestroy = new Subject<void>();
               private _router: Router) {
 
                 this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
-                this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE); 
+                this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
+                this.dataSourceR = new MatTableDataSource(this.ELEMENT_DATAR); 
                 this.datosFormulario = formBuilder.group({
 
                   idSolicitud:  new FormControl(''),
@@ -98,7 +110,8 @@ protected _onDestroy = new Subject<void>();
                   idCategoria:    new FormControl(''),
                   categoria:  new FormControl(''),
                   idTipoServicio:  new FormControl(''),
-                  tipoServicio: new FormControl('')
+                  tipoServicio: new FormControl(''),
+                  detalle: new FormControl(''),
               
 
                 })
@@ -123,6 +136,8 @@ protected _onDestroy = new Subject<void>();
     this.dataSource.sort = this.sort;
     this.dataSourceE.paginator = this.paginator;
     this.dataSourceE.sort = this.sort;
+    this.dataSourceR.paginator = this.paginator;
+    this.dataSourceR.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -133,10 +148,25 @@ protected _onDestroy = new Subject<void>();
       this.dataSource.paginator.firstPage();
     }
 
-    this.dataSourceE.filter = filterValue.trim().toLowerCase();
+   
+  }
+
+  applyFilterE(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSourceE.paginator) {
       this.dataSourceE.paginator.firstPage();
+    }
+  }
+
+  applyFilterR(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+   
+    this.dataSourceR.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceR.paginator) {
+      this.dataSourceR.paginator.firstPage();
     }
   }
 
@@ -148,7 +178,6 @@ protected _onDestroy = new Subject<void>();
 
     this._solicitudesService.consultaSolicitudDetalle(this.idSolicitud).subscribe(
       (response) =>{
-
 
           this.datosFormulario.patchValue({
          
@@ -181,17 +210,12 @@ protected _onDestroy = new Subject<void>();
             idCategoria:        response.data.solicitud.idCategoria,
             categoria:          response.data.solicitud.categoria,
             idTipoServicio:     response.data.solicitud.idTipoServicio,
-            tipoServicio:       response.data.solicitud.tipoServicio            
+            tipoServicio:       response.data.solicitud.tipoServicio,
+            detalle:            response.data.solicitud.detalle           
     
           }); 
           
-          
-          this.ELEMENT_DATAE = [];
-          this.ELEMENT_DATAE = response.data.formulario;
-          this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
-          this.ngAfterViewInit();
-          this.dataSourceE.paginator = this.paginator;
-          this.dataSourceE.sort = this.sort;
+    
         
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data.detalle;
@@ -200,12 +224,50 @@ protected _onDestroy = new Subject<void>();
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
 
+          this.ELEMENT_DATAE = [];
+          if (this.datosFormulario.value.idServicio == 1) {
+           
+            this.serviA = true;
+            this.servicioR = false;
 
-   
+            this.mensaje='Detalle de los equipos'
+            this.ELEMENT_DATAE = response.data.formulario;
+      
+           }else{
+           
+            this.mensaje='Detalle de los equipos nuevos'
+            if (response.data.formulario.nuevoEquipo.length  > 0) {
+
+              this.serviA = true;
+              this.servicioR = true;
+              this.ELEMENT_DATAE = response.data.formulario.nuevoEquipo;
+             
+              this.ELEMENT_DATAR = [];
+              this.ELEMENT_DATAR = response.data.formulario.reposicion;
+              this.dataSourceR = new MatTableDataSource(this.ELEMENT_DATAR);
+              this.ngAfterViewInit();
+              this.dataSourceR.paginator = this.paginator;
+              this.dataSourceR.sort = this.sort;
+            
+            }else{
+
+
+              this.serviA = false;
+              this.servicioR = false;
+            }
+           
+      
+           }
+
+           this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
+           this.ngAfterViewInit();
+           this.dataSourceE.paginator = this.paginator;
+           this.dataSourceE.sort = this.sort;
+    
 
       }
       )
-
+    
   } 
 
   

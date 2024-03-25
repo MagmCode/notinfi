@@ -60,6 +60,10 @@ import { AsignarSolicitudSopComponent } from './modules/admin/dashboards/soporte
 
 import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitd/detalle-solicitd.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { ReasignarSolicitudinvComponent } from './modules/admin/dashboards/inventario/reasignar-solicitudinv/reasignar-solicitudinv.component';
+import { ReasignarSolicitudsopComponent } from './modules/admin/dashboards/soporte/reasignar-solicitudsop/reasignar-solicitudsop.component';
+import { ModalReasignarComponent } from './modules/admin/dashboards/inventario/modal-reasignar/modal-reasignar.component';
+import { ModalDesicionSopComponent } from './modules/admin/dashboards/buzon/modal-desicion-sop/modal-desicion-sop.component';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -80,7 +84,11 @@ const routerConfig: ExtraOptions = {
         ModalIngresarEquipoComponent,
         SoporteComponent,
         BuzonPendienteSopComponent,
-        AsignarSolicitudSopComponent
+        AsignarSolicitudSopComponent,
+        ReasignarSolicitudinvComponent,
+        ReasignarSolicitudsopComponent,
+        ModalReasignarComponent,
+        ModalDesicionSopComponent
     ],
     imports     : [
         BrowserModule,

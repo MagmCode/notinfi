@@ -112,7 +112,7 @@
                          {{detalleUbicacion.name}} 
                           </mat-option>
                        </mat-select>
-                      <!-- <input matInput formControlName="ubicacionFisica" >  -->
+                     
                   <mat-error *ngIf="piso.hasError('required')">
                           Campo <strong>Obligatorio</strong>
                       </mat-error> 
@@ -136,7 +136,7 @@
 
               <mat-form-field appearance="fill"class="width100">
                 <mat-label>Seleccione el próximo aprobador</mat-label>
-                  <mat-select class="inputMat" required  formControlName="codusuarioGestion"     #buySellSelect="matSelect" >  <!--   -->
+                  <mat-select class="inputMat"   formControlName="codusuarioGestion"     #buySellSelect="matSelect" >  <!--   -->
                     <mat-option>
                       <ngx-mat-select-search [formControl]="supervisorFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
                       [noEntriesFoundLabel]="'No Encontrado'" >
@@ -182,6 +182,18 @@
             </mat-form-field>
 
           </div>
+
+          <div class="col-span-12 text-center" >
+
+            <mat-form-field  appearance="fill"class="width100" >
+              <mat-label>Detalle del Uso</mat-label>
+              <textarea matInput placeholder="" formControlName="detalle" required></textarea>
+              <mat-error *ngIf="usuFormulario.get('detalle')?.hasError">
+                Campo <strong>Obligatorio</strong>
+            </mat-error> 
+            </mat-form-field>
+         
+        </div>
 
             <div class="col-span-12 text-center">
                 <button mat-raised-button color="primary" [type]="submit">Enviar</button>

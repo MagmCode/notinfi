@@ -37,6 +37,10 @@ import {ScrollingModule} from '@angular/cdk/scrolling';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
+import { RequerimientoEquipoReposicionComponent } from './crear/requerimiento-equipo-reposicion/requerimiento-equipo-reposicion.component';
+import { RequerimientoEquipoDesincorporacionComponent } from './crear/requerimiento-equipo-desincorporacion/requerimiento-equipo-desincorporacion.component';
+import { DatosReposicionComponent } from './crear/datos-reposicion/datos-reposicion.component';
+import { DatosDesincorporacionComponent } from './crear/datos-desincorporacion/datos-desincorporacion.component';
 
 
 @NgModule({
@@ -48,6 +52,10 @@ import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
         ModaldecisionesComponent,
         DetalleSolicitudComponent,
         DecisionSolicitudComponent,
+        RequerimientoEquipoReposicionComponent,
+        RequerimientoEquipoDesincorporacionComponent,
+        DatosReposicionComponent,
+        DatosDesincorporacionComponent,
     ],
     imports     : [
         RouterModule.forChild(solicitudesRoutes),

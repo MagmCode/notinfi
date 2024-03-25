@@ -236,4 +236,34 @@ conusltarSerialXTipoEquipo(idTipoEquipo: any): Observable <any>{
 }
 
 
+
+consultarSolicitudReasignar(tarea: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'consultarSolicitudReasignar';
+  const dataBusqueda = {
+    tarea : tarea
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+reasignarSolicitud(idSolicitud : any, codigoUsuario: any): Observable<any>{
+  const url = this.urlEndPoint + 'reasignarSolicitud';
+  const dataBusqueda = {
+    idSolicitud : idSolicitud,
+    codigoUsuario: codigoUsuario
+  };
+  return this.http.post(url, dataBusqueda);
+}
+
+consultarEquipoPorUsuario(codUsuario: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'saitWS/consultarEquipoPorUsuario';
+  const dataBusqueda = {
+    codigoUsuario : codUsuario
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
 }

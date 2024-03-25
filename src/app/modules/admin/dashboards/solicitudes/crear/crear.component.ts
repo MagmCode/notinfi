@@ -101,7 +101,8 @@ export class CrearComponent implements OnInit {
   }
 
   isShownAsignacion: boolean = false; // Inicialmente oculto
-
+  isShownReposicion: boolean = false;
+  isShownDesincorporacion: boolean = false;
   @ViewChild('matRef') matRef: MatSelect;
 
 
@@ -138,6 +139,8 @@ clear(){
     this.servicio.length = 0;
 
     this.isShownAsignacion = false;
+    this.isShownReposicion = false;
+    this.isShownDesincorporacion = false;
     this._solicitudesService.consultarTipoServicio(this.solFormulario.value.categoria?.id).subscribe(
       (response) => {
     
@@ -160,6 +163,8 @@ clear(){
 
   
     this.isShownAsignacion = false;
+    this.isShownReposicion = false;
+    this.isShownDesincorporacion = false;
     this._solicitudesService.consultarServicio(this.solFormulario.value.tiposerv?.id).subscribe(
       (response) => {
         this.servicio.length = 0;
@@ -178,15 +183,25 @@ clear(){
   }
 
   mostrarVista(){
-
+    sessionStorage.setItem('idServicio', this.solFormulario.value.servi?.id);
     
 if (this.solFormulario.value.servi?.id == 1) {
 
   this.isShownAsignacion = true;
+  this.isShownReposicion = false;
+  /* this.isShownDesincorporacion = false;/*/
+
   
-} else {
+} else if (this.solFormulario.value.servi?.id == 2) {
   this.isShownAsignacion = false;
+  this.isShownReposicion = true;
+  /* this.isShownDesincorporacion = false; */
 }
+/* else if (this.solFormulario.value.servi?.id == 3) {
+  this.isShownAsignacion = false;
+  this.isShownReposicion = false;
+  this.isShownDesincorporacion = true;
+} */
 
   }
 

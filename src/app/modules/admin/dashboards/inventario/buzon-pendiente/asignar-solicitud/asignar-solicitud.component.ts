@@ -26,6 +26,8 @@ export class AsignarSolicitudComponent implements OnInit {
   datosFormulario: FormGroup;  
   idSolicitud : any;
   equipo: any;
+  servicioA: boolean = false;
+  servicioR: boolean = false;
   //#region  tablas
   displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'motivo', 'observacion'];
   positionOptions: TooltipPosition[] = ['below'];
@@ -91,7 +93,8 @@ override2 = {
                   idCategoria:    new FormControl(''),
                   categoria:  new FormControl(''),
                   idTipoServicio:  new FormControl(''),
-                  tipoServicio: new FormControl('')
+                  tipoServicio: new FormControl(''),
+                  detalle:  new FormControl(''),
               
 
                 })
@@ -104,7 +107,7 @@ override2 = {
 
     this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
     this.user.email =this.usuario.descCargo; 
-    console.log(this.user.name);
+
   }
 
 
@@ -126,12 +129,11 @@ override2 = {
    
     this.idSolicitud =  sessionStorage.getItem('idSolicitud');
   
-    console.log(this.idSolicitud);
+
 
     this._solicitudesService.consultaSolicitudDetalle(this.idSolicitud).subscribe(
       (response) =>{
-        console.log(response.data.solicitud)
-          console.log(response.data.detalle)
+    
 
           this.datosFormulario.patchValue({
          
@@ -164,19 +166,39 @@ override2 = {
             idCategoria:        response.data.solicitud.idCategoria,
             categoria:          response.data.solicitud.categoria,
             idTipoServicio:     response.data.solicitud.idTipoServicio,
-            tipoServicio:       response.data.solicitud.tipoServicio            
+            tipoServicio:       response.data.solicitud.tipoServicio,
+            detalle:            response.data.solicitud.detalle            
     
           });  
         
-          this.equipo = '';
-          response.data.formulario.forEach(element => {
-            if (this.equipo == '') {
-              this.equipo =  element.tipoEquipo ;
+       
+
+            if (this.datosFormulario.value.idServicio == 1) {
+              this.equipo = '';
+              response.data.formulario.forEach(element => {
+                if (this.equipo == '') {
+                  this.equipo =  element.tipoEquipo ;
+                } else {
+                  this.equipo +=  ', '+element.tipoEquipo ;
+                }
+              
+                });
+                this.servicioA = true;
+                this.servicioR = false;
             } else {
-              this.equipo +=  ', '+element.tipoEquipo ;
+
+              this.equipo = '';
+              response.data.formulario.nuevoEquipo.forEach(element => {
+                if (this.equipo == '') {
+                  this.equipo =  element.tipoEquipo ;
+                } else {
+                  this.equipo +=  ', '+element.tipoEquipo ;
+                }
+              
+                });
+                this.servicioA = false;
+              this.servicioR = true;
             }
-          
-            });
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data.detalle;
           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -190,15 +212,14 @@ override2 = {
 
 
   asignarSolictud(){
-      console.log(this.datosFormulario.value?.idSolicitud)
+   
 
       this.usuario = this._loginservices.obterTokenInfo();
-      console.log(this.usuario.codigo)
-
+  
       
       this._solicitudesService.asignarSolicitudes(this.datosFormulario.value?.idSolicitud, this.usuario.codigo).subscribe(
         (data) =>{    
-         console.log(data);
+     
           if(data.estatus == "SUCCESS"){
             this.toast.success(data.mensaje + " Número de solicitud " + this.datosFormulario.value?.idSolicitud, '', this.override2);            
             setTimeout(()=>{

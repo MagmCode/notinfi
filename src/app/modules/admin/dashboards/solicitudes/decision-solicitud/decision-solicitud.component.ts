@@ -34,6 +34,11 @@ export class DecisionSolicitudComponent implements OnInit {
   metodo = [];
   radioSelected: any;
   equipo: any;
+  servicioA: boolean = false;
+  serviA: boolean = false;
+  serviR: boolean = false;
+  servicioR: boolean = false;
+  mensaje: any;
 
   //#region  tablas
   displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'motivo', 'observacion'];
@@ -46,10 +51,16 @@ export class DecisionSolicitudComponent implements OnInit {
 
    displayedColumnsE: string[] = ['tipoEquipo','serial', 'marca', 'modelo', 'bienNacional'];
    positionOptionsE: TooltipPosition[] = ['below'];
-    positionE = new FormControl(this.positionOptions[0]);
+    positionE = new FormControl(this.positionOptionsE[0]);
     dataSourceE: MatTableDataSource<equipoDto>;     
     ELEMENT_DATAE: equipoDto[] = [];
-  
+
+    displayedColumnsR: string[] = ['tipoEquipo','serial', 'marca', 'modelo', 'bienNacional'];
+     positionOptionsR: TooltipPosition[] = ['below'];
+      positionR = new FormControl(this.positionOptionsR[0]);
+      dataSourceR: MatTableDataSource<equipoDto>;     
+      ELEMENT_DATAR: equipoDto[] = [];
+    
     
    @ViewChild(MatPaginator) paginator: MatPaginator | any;
    @ViewChild(MatSort) sort: MatSort = new MatSort;  
@@ -116,7 +127,8 @@ protected _onDestroy = new Subject<void>();
                   categoria:  new FormControl(''),
                   idTipoServicio:  new FormControl(''),
                   tipoServicio: new FormControl(''), 
-                   metodos:  new FormControl('',  [Validators.required])
+                   metodos:  new FormControl('',  [Validators.required]),
+                   detalle: new FormControl(''), 
 
                 })
 
@@ -136,8 +148,12 @@ protected _onDestroy = new Subject<void>();
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
     this.dataSource.sort = this.sort;
+
     this.dataSourceE.paginator = this.paginator;
     this.dataSourceE.sort = this.sort;
+    
+    this.dataSourceR.paginator = this.paginator;
+    this.dataSourceR.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -148,13 +164,27 @@ protected _onDestroy = new Subject<void>();
       this.dataSource.paginator.firstPage();
     }
 
-    this.dataSourceE.filter = filterValue.trim().toLowerCase();
+   
+  }
+
+  applyFilterE(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSourceE.paginator) {
       this.dataSourceE.paginator.firstPage();
     }
   }
 
+  applyFilterR(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+   
+    this.dataSourceR.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceR.paginator) {
+      this.dataSourceR.paginator.firstPage();
+    }
+  }
   async obtenerDatos(){
    
     this.idSolicitud =  sessionStorage.getItem('idSolicitud');
@@ -196,7 +226,8 @@ protected _onDestroy = new Subject<void>();
             idCategoria:        response.data.solicitud.idCategoria,
             categoria:          response.data.solicitud.categoria,
             idTipoServicio:     response.data.solicitud.idTipoServicio,
-            tipoServicio:       response.data.solicitud.tipoServicio            
+            tipoServicio:       response.data.solicitud.tipoServicio ,
+            detalle:            response.data.solicitud.detalle           
     
           });  
         
@@ -219,16 +250,34 @@ protected _onDestroy = new Subject<void>();
             this.estareaC = true;
 
             this.ELEMENT_DATAE = [];
-            this.ELEMENT_DATAE = response.data.formulario;
-            this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
-            this.ngAfterViewInit();
-            this.dataSourceE.paginator = this.paginator;
-            this.dataSourceE.sort = this.sort;
+              if (this.datosFormulario.value.idServicio == 1) {
+                this.ELEMENT_DATAE = response.data.formulario;
+            
+                this.servicioR = false;
+                
+            this.mensaje='Detalle de los equipos'
+
+              } else {
+                this.ELEMENT_DATAE = response.data.formulario.nuevoEquipo;
+                this.servicioR = true;
+                this.mensaje='Detalle de los equipos nuevos'
+           
+              this.ELEMENT_DATAR = [];
+              this.ELEMENT_DATAR = response.data.formulario.reposicion;
+              this.dataSourceR = new MatTableDataSource(this.ELEMENT_DATAR);
+              this.ngAfterViewInit();
+              this.dataSourceR.paginator = this.paginator;
+              this.dataSourceR.sort = this.sort;
+                
+              }
       
           }
 
      
-
+          this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
+          this.ngAfterViewInit();
+          this.dataSourceE.paginator = this.paginator;
+          this.dataSourceE.sort = this.sort;
 
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data.detalle;

@@ -136,7 +136,7 @@ this.supervisorFiltrosCtrl.valueChanges
     this.nombres =   this.solicitud.nombres,
     this.tipoServicio= this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  
 
-console.log(this.solicitud.idTarea )
+
 if (this.solicitud.metodo == 'buzon') {
   this.isShownCO = false;
 }
@@ -290,6 +290,8 @@ enviarData= {
 "solicitud":this.datosFormulario.value,
 "formulario":formulario
 }
+
+
 
 this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
 (data) =>{    

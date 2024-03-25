@@ -64,7 +64,7 @@ override2 = {
 
     this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
     this.user.email =this.usuario.descCargo; 
-    console.log(this.user.name);
+  
   }
 
   ngAfterViewInit() {
@@ -83,10 +83,10 @@ override2 = {
 
   async obtenerPlantilla(){
     this.usuario = this._loginservices.obterTokenInfo();
-    console.log(this.usuario.codigo)
+ 
     this._solicitudesService.consultarSolicitudesBuzonPendiente('SOPORTE').subscribe(
     (response) =>{
-        console.log(response)
+      
         this.ELEMENT_DATA = [];
         this.ELEMENT_DATA = response.data;
         this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
@@ -99,7 +99,7 @@ override2 = {
 
 
    obtenerId(idSolicitud: any){
-  console.log(idSolicitud);
+
   sessionStorage.setItem('idSolicitud', idSolicitud);
   this.router.navigate(['/soporte/asignarSolicitud']); 
 

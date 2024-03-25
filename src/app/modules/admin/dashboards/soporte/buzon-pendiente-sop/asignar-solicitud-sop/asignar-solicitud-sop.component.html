@@ -115,12 +115,21 @@
                                                 
                             </div>
                             
-                         
+                            <div class="col-span-8" *ngIf="servicioA">
+                              <b>Detalle del uso</b>
+                              <p >{{datosFormulario.value.detalle}}</p>
+                                              
+                          </div>
+                            <div class="col-span-8" *ngIf="servicioR">
+                              <b>Detalle</b>
+                              <p >{{datosFormulario.value.detalle}}</p>
+                                              
+                          </div>
                   
                     
                         </div>
 
-
+                        <div *ngIf="serviA">
                         <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center">Detalle de los equipos</div>
                         <hr>
                         <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
@@ -139,6 +148,12 @@
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>relacion</th>
                                     <td mat-cell *matCellDef="let row"> {{row.relacion}} </td>
                                   </ng-container>
+
+                                  <ng-container matColumnDef="evento">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>evento</th>
+                                    <td mat-cell *matCellDef="let row"> {{row.evento}} </td>
+                                  </ng-container>
+                                  
                                   <ng-container matColumnDef="idTipoEquipo">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>idTipoEquipo</th>
                                     <td mat-cell *matCellDef="let row"> {{row.idTipoEquipo}} </td>
@@ -200,7 +215,7 @@
                               
                         </div>
 
-                       
+                        </div>
                      
 
                         <section>
@@ -297,7 +312,7 @@
                                 </table>
                        
                                   <mat-paginator
-                                    [pageSize]="5"
+                                    [pageSize]="25"
                                     [pageSizeOptions]="[5, 10, 25, 100]"
                                     [showFirstLastButtons]="true">
                                 </mat-paginator>

@@ -82,7 +82,6 @@ this.serialFiltrosCtrl.valueChanges
 
 listaSerial(){
 
-console.log(this.serialLIST.relacion, String(this.serialLIST.idTipoEquipo))
 
   this._solicitudesService.conusltarSerialXTipoEquipo( String(this.serialLIST.idTipoEquipo)).subscribe(
     (response) => {
@@ -102,14 +101,14 @@ console.log(this.serialLIST.relacion, String(this.serialLIST.idTipoEquipo))
 formIsValid:boolean =true;
 asignar(){
 
-  console.log(this.Codserial.value, this.serialLIST.relacion)
+
 
 // Inside your component logic
 
   this._solicitudesService.consultarEquiposXserial( this.Codserial.value).subscribe(
     (response) => {
 
-     console.log(response)
+   
     this.serialLIST = response.data;
     this.dialogRef.close(this.serialLIST);
     }

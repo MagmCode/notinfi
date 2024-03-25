@@ -26,8 +26,11 @@ export class AsignarSolicitudSopComponent implements OnInit {
   datosFormulario: FormGroup;  
   idSolicitud : any;
   equipo: any;
+  servicioA: boolean = false;
+  servicioR: boolean = false;
+  serviA: boolean = false;
   //#region  tablas
-  displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'observacion', 'motivo'];
+  displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'motivo', 'observacion'];
   positionOptions: TooltipPosition[] = ['below'];
    position = new FormControl(this.positionOptions[0]);
    dataSource: MatTableDataSource<solicitudesDto>;    
@@ -37,7 +40,7 @@ export class AsignarSolicitudSopComponent implements OnInit {
    
    displayedColumnsE: string[] = ['tipoEquipo','serial', 'marca', 'modelo', 'bienNacional'];
    positionOptionsE: TooltipPosition[] = ['below'];
-    positionE = new FormControl(this.positionOptions[0]);
+    positionE = new FormControl(this.positionOptionsE[0]);
     dataSourceE: MatTableDataSource<equipoDto>;     
     ELEMENT_DATAE: equipoDto[] = [];
   
@@ -102,7 +105,8 @@ override2 = {
                   idCategoria:    new FormControl(''),
                   categoria:  new FormControl(''),
                   idTipoServicio:  new FormControl(''),
-                  tipoServicio: new FormControl('')
+                  tipoServicio: new FormControl(''),
+                  detalle:new FormControl(''),
               
 
                 })
@@ -115,7 +119,7 @@ override2 = {
 
     this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
     this.user.email =this.usuario.descCargo; 
-    console.log(this.user.name);
+  
   }
 
 
@@ -145,12 +149,11 @@ override2 = {
    
     this.idSolicitud =  sessionStorage.getItem('idSolicitud');
   
-    console.log(this.idSolicitud);
+
 
     this._solicitudesService.consultaSolicitudDetalle(this.idSolicitud).subscribe(
       (response) =>{
-        console.log(response.data.solicitud)
-          console.log(response.data.detalle)
+
 
           this.datosFormulario.patchValue({
          
@@ -183,16 +186,28 @@ override2 = {
             idCategoria:        response.data.solicitud.idCategoria,
             categoria:          response.data.solicitud.categoria,
             idTipoServicio:     response.data.solicitud.idTipoServicio,
-            tipoServicio:       response.data.solicitud.tipoServicio            
+            tipoServicio:       response.data.solicitud.tipoServicio,
+            detalle:            response.data.solicitud.detalle             
     
           });  
         
-          this.ELEMENT_DATAE = [];
-          this.ELEMENT_DATAE = response.data.formulario;
-          this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
-          this.ngAfterViewInit();
-          this.dataSourceE.paginator = this.paginator;
-          this.dataSourceE.sort = this.sort;
+          if (this.datosFormulario.value.idServicio == 1) {
+            this.servicioA = true;
+            this.serviA = true;
+            this.servicioR = false;
+
+            this.ELEMENT_DATAE = [];
+            this.ELEMENT_DATAE = response.data.formulario;
+            this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
+            this.ngAfterViewInit();
+            this.dataSourceE.paginator = this.paginator;
+            this.dataSourceE.sort = this.sort;
+           }else{
+            this.servicioA = false;
+            this.serviA = false;
+            this.servicioR = true;
+      
+           }
        
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data.detalle;
@@ -200,6 +215,8 @@ override2 = {
           this.ngAfterViewInit();
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
+
+
       }
       )
 
@@ -207,15 +224,15 @@ override2 = {
 
 
   asignarSolictud(){
-      console.log(this.datosFormulario.value?.idSolicitud)
+   
 
       this.usuario = this._loginservices.obterTokenInfo();
-      console.log(this.usuario.codigo)
+
 
       
       this._solicitudesService.asignarSolicitudes(this.datosFormulario.value?.idSolicitud, this.usuario.codigo).subscribe(
         (data) =>{    
-         console.log(data);
+        
           if(data.estatus == "SUCCESS"){
             this.toast.success(data.mensaje + " Número de solicitud " + this.datosFormulario.value?.idSolicitud, '', this.override2);            
             setTimeout(()=>{
@@ -238,7 +255,7 @@ override2 = {
 
   refrescarPagina() {
   
-    this._router.navigate(['/inventario/buzonPendiente']);
+    this._router.navigate(['/soporte/buzonPendiente']);
   }
 
 

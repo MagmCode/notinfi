@@ -35,9 +35,11 @@ export class SolicitudesComponent implements OnInit, OnDestroy
     positionOptions: TooltipPosition[] = ['below'];
     position = new FormControl(this.positionOptions[0]);
     dataSource: MatTableDataSource<solicitudesDto>;    
-    dataSourceP: MatTableDataSource<solicitudesDto>;
+    dataSourceP: MatTableDataSource<solicitudesDto>;  
+    dataSourceH: MatTableDataSource<solicitudesDto>;
     ELEMENT_DATA: solicitudesDto[] = [];
     ELEMENT_PENDIENTE: solicitudesDto[] = [];
+    ELEMENT_HISTORICO: solicitudesDto[] = [];
     @ViewChild(MatPaginator) paginator: MatPaginator | any;
     @ViewChild(MatSort) sort: MatSort = new MatSort;  
    //#endregion
@@ -73,7 +75,8 @@ override2 = {
            // Asi la data a elemento dataSource asi se vacia para su inicializacion
        this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
        this.dataSourceP = new MatTableDataSource(this.ELEMENT_PENDIENTE); 
-
+       this.dataSourceH = new MatTableDataSource(this.ELEMENT_HISTORICO); 
+       
     
       
     }
@@ -102,6 +105,8 @@ override2 = {
         this.dataSource.sort = this.sort;
         this.dataSourceP.paginator = this.paginator;
         this.dataSourceP.sort = this.sort;
+        this.dataSourceH.paginator = this.paginator;
+        this.dataSourceH.sort = this.sort;
       }
 
       applyFilter(event: Event) {
@@ -121,6 +126,18 @@ override2 = {
           this.dataSourceP.paginator.firstPage();
         }
       }
+
+
+      
+      applyFilterH(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSourceH.filter = filterValue.trim().toLowerCase();
+    
+        if (this.dataSourceH.paginator) {
+          this.dataSourceH.paginator.firstPage();
+        }
+      }
+
 async obtenerPlantilla(){
         this.usuario = this._loginservices.obterTokenInfo();
    
@@ -156,8 +173,24 @@ async obtenerPlantilla(){
             )
 
 
-        } else {
-            
+        } else if (tab.index == 2) {
+          
+
+          this.usuario = this._loginservices.obterTokenInfo();
+   
+          this._solicitudesService.consultarSolicitudesAsignadas(this.usuario.codigo).subscribe(
+          (response) =>{
+        
+              this.ELEMENT_HISTORICO = [];
+              this.ELEMENT_HISTORICO = response.data;
+              this.dataSourceH = new MatTableDataSource(this.ELEMENT_HISTORICO);
+              this.ngAfterViewInit();
+              this.dataSourceH.paginator = this.paginator;
+              this.dataSourceH.sort = this.sort;
+          }
+          )
+
+
         }
 
 

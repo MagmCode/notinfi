@@ -115,12 +115,22 @@
                                                 
                             </div>
                             
-                            <div class="col-span-8">
+                            <div class="col-span-4">
                                 <b>Equipo Solicitados</b>
                                 <p >{{equipo}}</p>
                                                 
                             </div>
-                  
+                            <div class="col-span-4" *ngIf="servicioA">
+                                <b>Detalle del uso</b>
+                                <p >{{datosFormulario.value.detalle}}</p>
+                                                
+                            </div>
+                              <div class="col-span-4" *ngIf="servicioR">
+                                <b>Detalle</b>
+                                <p >{{datosFormulario.value.detalle}}</p>
+                                                
+                            </div>
+
                             <div class="col-span-12">
                                 <button mat-raised-button color="primary" type="button" (click)="asignarSolictud()" >Asignar</button>
                             </div>
@@ -218,7 +228,7 @@
                                 </table>
                        
                                   <mat-paginator
-                                    [pageSize]="5"
+                                    [pageSize]="25"
                                     [pageSizeOptions]="[5, 10, 25, 100]"
                                     [showFirstLastButtons]="true">
                                 </mat-paginator>

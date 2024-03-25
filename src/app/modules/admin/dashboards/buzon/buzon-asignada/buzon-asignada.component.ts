@@ -62,7 +62,7 @@ override2 = {
 
     this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
     this.user.email =this.usuario.descCargo; 
-    console.log(this.user.name);
+
 
 
   }
@@ -85,10 +85,10 @@ override2 = {
 
   async obtenerPlantilla(){
     this.usuario = this._loginservices.obterTokenInfo();
-    console.log(this.usuario.codigo)
+    
     this._solicitudesService.solicitudesAsignadasFlujo(this.usuario.codigo).subscribe(
     (response) =>{
-        console.log(response)
+        
         this.ELEMENT_DATA = [];
         this.ELEMENT_DATA = response.data;
         this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);

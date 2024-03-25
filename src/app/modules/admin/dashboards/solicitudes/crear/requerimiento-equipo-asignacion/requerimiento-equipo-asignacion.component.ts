@@ -40,7 +40,7 @@ export class RequerimientoEquipoAsignacionComponent implements OnInit, AfterView
   plantillaUsuario = {} as usuario;
   equipos  = new FormControl('', Validators.required);
 
-  piso = new FormControl('', Validators.required);
+  piso= new FormControl('', Validators.required);
  
 
    //#region  tablas
@@ -132,8 +132,8 @@ private overlayRef!: OverlayRef;
         nombresResp: new FormControl(''),
         codUnidadResp: new FormControl(''),
         unidadResp: new FormControl(''),
-      /*   piso : new FormControl('',  [Validators.required]), */
         codusuarioGestion:  new FormControl(''),
+        detalle : new FormControl('', [Validators.required])
 
       })
     }
@@ -162,7 +162,7 @@ this.filtroubicacion.next(this.ubicacion);
 this.ubicacionFiltrosCtrl.valueChanges
 .pipe(takeUntil(this._onDestroy))
 .subscribe(() => {
-  this.filtroCategoriaT();
+  this.filtroUbicacionT();
   
 });
 
@@ -391,8 +391,9 @@ var piso;
       }
 
 
-      
+
 if (this.usuario.nivelCargo < 11) {
+
   if ( this.usuFormulario.value.codusuarioGestion == '') {
    
     this.usuFormulario = this.formBuilder.group({
@@ -411,7 +412,7 @@ if (this.usuario.nivelCargo < 11) {
 
       this.usuFormulario.value.ubicacionFisica = this.usuFormulario.value.ubicacionFisica.name + "-" + piso;
       this.usuFormulario.value.responsable = this.selectedOption;
-      this.usuFormulario.value.idServicio = '1';
+      this.usuFormulario.value.idServicio =  sessionStorage.getItem('idServicio');
       this.usuFormulario.value.codigoUsuarioResp = this.usuario.codigo;
       this.usuFormulario.value.cedulaResp =  this.usuario.cedula;
       this.usuFormulario.value.nombresResp = this.usuario.nombres + ' ' + this.usuario.apellidos;
@@ -424,11 +425,12 @@ if (this.usuario.nivelCargo < 11) {
       "creacion":this.usuFormulario.value,
       "formulario":this.equipos.value
      }
+
+
     
         this._solicitudesService.crear(enviarData).subscribe(
         (data) =>{    
-       
-          if(data.estatus == "SUCCESS"){
+         if(data.estatus == "SUCCESS"){
             this.toast.success(data.mensaje + " Número de solicitud " + data.data, '', this.override2);            
             setTimeout(()=>{
               this.redirigirSuccess();
@@ -529,7 +531,7 @@ public show(message = '') {
 
 
  //#region  inicializador de select
- protected filtroCategoriaT() {
+ protected filtroUbicacionT() {
   if (!this.ubicacion) {
     return;
   }

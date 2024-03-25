@@ -115,7 +115,7 @@
 
       <mat-form-field appearance="fill"class="width100">
         <mat-label>Seleccione el próximo aprobador</mat-label>
-          <mat-select class="inputMat"   formControlName="codusuarioGestion"  required   #buySellSelect="matSelect" >  <!--   -->
+          <mat-select class="inputMat"   formControlName="codusuarioGestion"     #buySellSelect="matSelect" >  <!--   -->
             <mat-option>
                 <ngx-mat-select-search [formControl]="supervisorFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
                 [noEntriesFoundLabel]="'No Encontrado'" >
@@ -159,7 +159,17 @@
 
   </div>
        
-     
+  <div class="col-span-12 text-center" >
+
+    <mat-form-field  appearance="fill"class="width100" >
+      <mat-label>Detalle del Uso</mat-label>
+      <textarea matInput placeholder="" formControlName="detalle" required></textarea>
+      <mat-error *ngIf="datosFormulario.get('detalle')?.hasError">
+        Campo <strong>Obligatorio</strong>
+    </mat-error> 
+    </mat-form-field>
+ 
+</div>
  </div>
 
 

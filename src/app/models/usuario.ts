@@ -37,12 +37,14 @@ export interface usuario {
     idTarea: number,
     tarea: String,
     codusuarioGestion: any,
+    nombreUsuarioGestion: any, 
     decision:String,   
     idCategoria:   number,
     categoria: String,
     idTipoServicio: number,
     tipoServicio: String ,
     metodo : any,
+    detalle:any,
     formulario : any
 
   }
@@ -68,6 +70,7 @@ export interface usuario {
    
   }
   export interface equipoDto{
+    idEquipo: number,
     serial:String,
     bienNacional: String,
     idTipoEquipo: number,
@@ -76,7 +79,8 @@ export interface usuario {
     marca:String,
     idModelo: number,
     modelo: String,
-    relacion : number
+    relacion : number,
+    evento:any
   }
 
   export interface tipoEquipo{

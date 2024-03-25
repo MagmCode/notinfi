@@ -16,6 +16,8 @@ import { Subject } from 'rxjs';
 import { ModaldecisionesComponent } from '../../solicitudes/modaldecisiones/modaldecisiones.component';
 import { ModalIngresarEquipoComponent } from '../modal-ingresar-equipo/modal-ingresar-equipo.component';
 import { forEach } from 'lodash';
+import { ModalDesicionSopComponent } from '../modal-desicion-sop/modal-desicion-sop.component';
+import { ifStmt } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-detalle-solicitd',
@@ -29,11 +31,17 @@ export class DetalleSolicitdComponent implements OnInit {
   datosFormulario: FormGroup;  
   idSolicitud : any;
   radioSelected: any;
+  mensaje: any;
   esValido:  boolean = false;
   isShownD: boolean = false;
+  servicioA: boolean = false;
+  serviA: boolean = false;
+  serviR: boolean = false;
+  servicioR: boolean = false;
+
   public equipo!: equipoDto; 
     //#region  tablas
-    displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'observacion', 'motivo'];
+    displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'motivo', 'observacion'];
     positionOptions: TooltipPosition[] = ['below'];
      position = new FormControl(this.positionOptions[0]);
      dataSource: MatTableDataSource<solicitudesDto>; 
@@ -41,11 +49,16 @@ export class DetalleSolicitdComponent implements OnInit {
 
      displayedColumnsE: string[] = ['tipoEquipo','serial', 'marca', 'modelo', 'bienNacional', 'asignar'];
      positionOptionsE: TooltipPosition[] = ['below'];
-      positionE = new FormControl(this.positionOptions[0]);
+      positionE = new FormControl(this.positionOptionsE[0]);
       dataSourceE: MatTableDataSource<equipoDto>;     
       ELEMENT_DATAE: equipoDto[] = [];
     
       
+      displayedColumnsR: string[] = ['tipoEquipo','serial', 'marca', 'modelo', 'bienNacional'];
+     positionOptionsR: TooltipPosition[] = ['below'];
+      positionR = new FormControl(this.positionOptionsR[0]);
+      dataSourceR: MatTableDataSource<equipoDto>;     
+      ELEMENT_DATAR: equipoDto[] = [];
     
 
      @ViewChild(MatPaginator) paginator: MatPaginator | any;
@@ -78,7 +91,8 @@ export class DetalleSolicitdComponent implements OnInit {
                 
                 this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
                 this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE); 
-                
+                this.dataSourceR = new MatTableDataSource(this.ELEMENT_DATAR); 
+
                 this.datosFormulario = formBuilder.group({
 
                   idSolicitud:  new FormControl(''),
@@ -111,6 +125,7 @@ export class DetalleSolicitdComponent implements OnInit {
                   categoria:  new FormControl(''),
                   idTipoServicio:  new FormControl(''),
                   tipoServicio: new FormControl(''), 
+                  detalle: new FormControl('')
          /*          metodos:  new FormControl('',  [Validators.required]) */
               
 
@@ -137,6 +152,9 @@ export class DetalleSolicitdComponent implements OnInit {
 
     this.dataSourceE.paginator = this.paginator;
     this.dataSourceE.sort = this.sort;
+
+    this.dataSourceR.paginator = this.paginator;
+    this.dataSourceR.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -147,13 +165,27 @@ export class DetalleSolicitdComponent implements OnInit {
       this.dataSource.paginator.firstPage();
     }
 
-    this.dataSourceE.filter = filterValue.trim().toLowerCase();
+    
+  }
+
+  applyFilterE(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSourceE.paginator) {
       this.dataSourceE.paginator.firstPage();
     }
   }
 
+  applyFilterR(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+   
+    this.dataSourceR.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceR.paginator) {
+      this.dataSourceR.paginator.firstPage();
+    }
+  }
   async obtenerDatos(){
    
     this.idSolicitud =  sessionStorage.getItem('idSolicitud');
@@ -162,7 +194,6 @@ export class DetalleSolicitdComponent implements OnInit {
 
     this._solicitudesService.consultaSolicitudDetalle(this.idSolicitud).subscribe(
       (response) =>{
-
 
           this.datosFormulario.patchValue({
          
@@ -195,16 +226,57 @@ export class DetalleSolicitdComponent implements OnInit {
             idCategoria:        response.data.solicitud.idCategoria,
             categoria:          response.data.solicitud.categoria,
             idTipoServicio:     response.data.solicitud.idTipoServicio,
-            tipoServicio:       response.data.solicitud.tipoServicio            
+            tipoServicio:       response.data.solicitud.tipoServicio ,
+            detalle:             response.data.solicitud.detalle           
     
           });  
         
           this.ELEMENT_DATAE = [];
-          this.ELEMENT_DATAE = response.data.formulario;
-          this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
-          this.ngAfterViewInit();
-          this.dataSourceE.paginator = this.paginator;
-          this.dataSourceE.sort = this.sort;
+          if (this.datosFormulario.value.idServicio == 1) {
+            this.servicioA = true;
+            this.serviA = true;
+            this.servicioR = false;
+            this.serviR = false;
+            this.mensaje='Detalle de los equipos'
+            this.ELEMENT_DATAE = response.data.formulario;
+            
+           }else{
+            
+            this.servicioR = true;
+            this.servicioA = false;
+
+            if (response.data.formulario.nuevoEquipo.length  > 0) {
+             
+            this.mensaje='Detalle de los equipos nuevos'
+            this.serviA = true; 
+            this.serviR = true;
+              this.ELEMENT_DATAE = response.data.formulario.nuevoEquipo;
+              this.servicioA = false;
+
+            this.ELEMENT_DATAR = [];
+            this.ELEMENT_DATAR = response.data.formulario.reposicion;
+            this.dataSourceR = new MatTableDataSource(this.ELEMENT_DATAR);
+            this.ngAfterViewInit();
+            this.dataSourceR.paginator = this.paginator;
+            this.dataSourceR.sort = this.sort;
+              if (response.data.formulario.nuevoEquipo[0].serial != '') {
+                this.servicioA = true;
+                this.servicioR = false;
+              } 
+
+            }else{
+              
+            this.serviR = false;
+            this.serviA = false;
+            }
+            
+           }
+
+
+           this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
+           this.ngAfterViewInit();
+           this.dataSourceE.paginator = this.paginator;
+           this.dataSourceE.sort = this.sort;
 
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data.detalle;
@@ -258,7 +330,9 @@ var validaTabla, equipo;
 }
 
 
-openDialogProcesar(relacion: any, idTipoEquipo:any): void {
+
+
+openDialogProcesar(relacion: any, evento :any, idTipoEquipo:any): void {
 
  
   const dialogRef = this.dialog.open(ModalIngresarEquipoComponent,{
@@ -267,11 +341,13 @@ openDialogProcesar(relacion: any, idTipoEquipo:any): void {
   });
   
   dialogRef.afterClosed().subscribe(result => {
-    
-    result[0].relacion = relacion
    
-    this.dataSourceE.data[relacion] = result[0];
-
+    result[0].relacion = relacion
+    result[0].evento = evento
+  
+   
+   this.dataSourceE.data[relacion] = result[0];
+ 
     this.ngAfterViewInit();
           this.dataSourceE.paginator = this.paginator;
           this.dataSourceE.sort = this.sort;
@@ -281,6 +357,23 @@ openDialogProcesar(relacion: any, idTipoEquipo:any): void {
   
 
 }
+
+openDialogSop(decision: String): void {
+
+ 
+
+  
+
+  const dialogRef = this.dialog.open(ModalDesicionSopComponent,{
+    data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea, codigoUsuario: this.datosFormulario.value.codigoUsuario },
+    disableClose: true,
+  });
+  
+  dialogRef.afterClosed().subscribe(result => {
+  
+  });
+  
+  }
 
 
 }
