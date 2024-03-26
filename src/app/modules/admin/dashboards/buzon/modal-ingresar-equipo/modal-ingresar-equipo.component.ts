@@ -103,14 +103,14 @@ asignar(){
 
 
 
-// Inside your component logic
-
   this._solicitudesService.consultarEquiposXserial( this.Codserial.value).subscribe(
     (response) => {
 
    
     this.serialLIST = response.data;
+    
     this.dialogRef.close(this.serialLIST);
+
     }
     
   );

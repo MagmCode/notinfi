@@ -29,7 +29,10 @@ export class SolicitudesComponent implements OnInit, OnDestroy
     usuario = {} as any;
     solicitudesDto = {} as any;
     plantillaUsuario = {} as solicitudesDto;
-    
+    creadas: any;
+    rechazadas: any;
+    enProceso: any;
+    exitoso: any;
     //#region  tablas
     displayedColumns: string[] = ['Idsolicitud','categoria', 'tipoServicio', 'servicio', 'codigoUsuario', 'cedula', 'nombres', 'codUnidad','unidad','ubicacionFisica', 'fechaCreacion', 'estatus','nombresResp', 'acciones'];
     positionOptions: TooltipPosition[] = ['below'];
@@ -140,18 +143,29 @@ override2 = {
 
 async obtenerPlantilla(){
         this.usuario = this._loginservices.obterTokenInfo();
-   
+
         this._solicitudesService.consultarSolicitudesCreadas(this.usuario.codigo).subscribe(
         (response) =>{
-       
             this.ELEMENT_DATA = [];
             this.ELEMENT_DATA = response.data;
             this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
             this.ngAfterViewInit();
             this.dataSource.paginator = this.paginator;
             this.dataSource.sort = this.sort;
+
+            this._solicitudesService.consultarEstadisticaSolicitud(this.usuario.codigo).subscribe(
+              (response) =>{
+                this.creadas= response.data[0].creadas;
+                this.rechazadas= response.data[0].rechazadas;
+                this.enProceso= response.data[0].enProceso;
+                this.exitoso= response.data[0].exitoso;
+              }
+              )
         }
-        )
+        );
+  
+
+
       }
 
       tabClick(tab) {
@@ -178,7 +192,7 @@ async obtenerPlantilla(){
 
           this.usuario = this._loginservices.obterTokenInfo();
    
-          this._solicitudesService.consultarSolicitudesAsignadas(this.usuario.codigo).subscribe(
+          this._solicitudesService.consultarSolicitudHistorico(this.usuario.codigo).subscribe(
           (response) =>{
         
               this.ELEMENT_HISTORICO = [];

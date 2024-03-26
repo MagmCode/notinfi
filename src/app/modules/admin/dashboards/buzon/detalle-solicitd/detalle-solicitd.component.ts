@@ -303,7 +303,7 @@ export class DetalleSolicitdComponent implements OnInit {
 var validaTabla, equipo;
       this.dataSourceE.data.forEach(element => {
       
-         if (element.serial == 'null') {
+         if (element.serial == '') {
           equipo = element.tipoEquipo;
           validaTabla = true;
           return;
@@ -334,9 +334,8 @@ var validaTabla, equipo;
 
 openDialogProcesar(relacion: any, evento :any, idTipoEquipo:any): void {
 
- 
   const dialogRef = this.dialog.open(ModalIngresarEquipoComponent,{
-    data: {  relacion :relacion, idTipoEquipo:idTipoEquipo},
+    data: {  idTipoEquipo:idTipoEquipo},
     disableClose: true
   });
   
@@ -346,7 +345,10 @@ openDialogProcesar(relacion: any, evento :any, idTipoEquipo:any): void {
     result[0].evento = evento
   
    
-   this.dataSourceE.data[relacion] = result[0];
+    const  indice = this.dataSourceE.data.findIndex(elemento => elemento.relacion === relacion);
+
+
+   this.dataSourceE.data[indice] = result[0];
  
     this.ngAfterViewInit();
           this.dataSourceE.paginator = this.paginator;

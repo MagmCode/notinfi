@@ -33,6 +33,7 @@ export class ModaldecisionesComponent implements OnInit {
   isShownD: boolean = false;
   isShownM: boolean = false;
   mensaje : any;
+  mensaje2 : any;
   idSolicitud : any;
   nombres : any;
   tipoServicio: any;
@@ -447,7 +448,7 @@ if(typeof data.data !=  'undefined'  ){
            "solicitud":this.datosFormulario.value,
            "formulario":[]
           }
-    
+
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    
            

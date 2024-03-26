@@ -27,10 +27,11 @@ export class SolicitudesService {
     return this.http.post(url, dataBusqueda);
   }
 
-  consultarServicio(tipoServicio : any): Observable<any>{
+  consultarServicio(tipoServicio : any, nivelCargo: any): Observable<any>{
     const url = this.urlEndPoint + 'servicio';
     const dataBusqueda = {
-      idTipoServicio : tipoServicio
+      idTipoServicio : tipoServicio,
+      nivelCargo:nivelCargo
     };
     return this.http.post(url, dataBusqueda);
   }
@@ -261,6 +262,26 @@ consultarEquipoPorUsuario(codUsuario: any): Observable <any>{
   const url = this.urlEndPoint + 'saitWS/consultarEquipoPorUsuario';
   const dataBusqueda = {
     codigoUsuario : codUsuario
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+consultarEstadisticaSolicitud(codUsuario: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'consultarEstadisticaSolicitud';
+  const dataBusqueda = {
+    codUsuario : codUsuario
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+consultarSolicitudHistorico(codUsuario: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'consultarSolicitudHistorico';
+  const dataBusqueda = {
+    codUsuario : codUsuario
   };
   return this.http.post(url, dataBusqueda);
 

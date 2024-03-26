@@ -200,11 +200,16 @@ checkboxLabel(row?: equipoDto): string {
             nombres:   data.data.nombres + ' ' + data.data.apellidos,
             codUnidad: data.data.codUnidad,
             unidad: data.data.descUnidad,
-            codusuarioGestion : this.usuario.codigoSupervisor
+            codusuarioGestion : this.usuario.codigoSupervisor,
+            ubicacionFisica: data.data.codUbicacionFisica
 
           }); 
 
-          
+          this.piso =  new FormControl(data.data.detalleUbicacion)
+      
+          if (this.datosFormulario.value.ubicacionFisica) {
+            this.mostrarInput();
+          }
         }else{
           
         }
@@ -269,7 +274,7 @@ checkboxLabel(row?: equipoDto): string {
          
   
   
-    this._solicitudesService.ubicacionFisicaDetalle(this.datosFormulario.value?.ubicacionFisica.id).subscribe(
+    this._solicitudesService.ubicacionFisicaDetalle(this.datosFormulario.value?.ubicacionFisica).subscribe(
       (response) => {
        
        this.detalleUbicacion.length = 0;
@@ -322,10 +327,12 @@ checkboxLabel(row?: equipoDto): string {
         }); 
       
         var piso;
-        if (this.piso.value.length > 0) {
-          piso =  this.piso.value
+        if (this.isShownP == true) {
+        
+          piso =  document.querySelector('#selectpiso')?.textContent
+   
          } else {
-           piso =  this.piso.value.name
+           piso =  this.piso.value
          }
 
       /* if (this.usuario.nivelCargo < 11) {
@@ -344,7 +351,7 @@ checkboxLabel(row?: equipoDto): string {
 
 
 
-        this.datosFormulario.value.ubicacionFisica = this.datosFormulario.value.ubicacionFisica.name + "-" + piso;
+        this.datosFormulario.value.ubicacionFisica = document.querySelector('#selectUbi')?.textContent + "-" + piso;
         this.datosFormulario.value.responsable = 'N';
         this.datosFormulario.value.idServicio = sessionStorage.getItem('idServicio');
         this.datosFormulario.value.codigoUsuarioResp = this.usuario.codigo;

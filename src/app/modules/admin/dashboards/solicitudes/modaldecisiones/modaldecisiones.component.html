@@ -4,7 +4,7 @@
             <div class="grid grid-cols-12 gap-4 mt-4 mb-4"  *ngIf="isShownM"  >
                     <div class="col-start-1 col-end-5">
                         <mat-form-field>
-                            <mat-label>Motivo de Rechazo</mat-label>                                
+                            <mat-label>Motivo</mat-label>                                
                             <mat-select    class="inputMat"  [(ngModel)]="motivos" >
                                 <mat-option>
                                     <ngx-mat-select-search [formControl]="motivoFiltrosCtrl"   [placeholderLabel]="'Buscar...'"

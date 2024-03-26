@@ -4,6 +4,7 @@ import {FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
 import { ISelect } from 'app/models/login';
+import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -20,6 +21,7 @@ import { takeUntil } from 'rxjs/operators';
 
 export class CrearComponent implements OnInit {
 
+  usuario = {} as any;
   //#region Select de Categoria
   protected categoria : ISelect[] = [];
   public categoriaCtrl : FormControl = new FormControl();
@@ -50,7 +52,8 @@ export class CrearComponent implements OnInit {
 
   
   constructor(private _solicitudesService : SolicitudesService,    
-              private formBuilder : FormBuilder) {
+              private formBuilder : FormBuilder,              
+              private _loginService : LoginService ) {
 
 
 
@@ -161,14 +164,15 @@ clear(){
 
   buscarServicio(){    
 
-  
+    this.usuario = this._loginService.obterTokenInfo();
+
+
     this.isShownAsignacion = false;
     this.isShownReposicion = false;
     this.isShownDesincorporacion = false;
-    this._solicitudesService.consultarServicio(this.solFormulario.value.tiposerv?.id).subscribe(
+    this._solicitudesService.consultarServicio(this.solFormulario.value.tiposerv?.id,  this.usuario.nivelCargo).subscribe(
       (response) => {
         this.servicio.length = 0;
-
         this.servicio.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
           for(const iterator of response.data){

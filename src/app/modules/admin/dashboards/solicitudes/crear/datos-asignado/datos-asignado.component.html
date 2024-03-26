@@ -58,14 +58,14 @@
 
             <mat-form-field appearance="fill"class="width100">
                 <mat-label>Ubicación física</mat-label>
-                <mat-select class="inputMat"  formControlName="ubicacionFisica"    required #buySellSelect="matSelect"  (ngModelChange)="mostrarInput()"   >  <!--  -->
+                <mat-select class="inputMat"  formControlName="ubicacionFisica"  id="selectUbi"   required #buySellSelect="matSelect"  (ngModelChange)="mostrarInput()"   >  <!--  -->
                     <mat-option>
                         <ngx-mat-select-search [formControl]="ubicacionFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
                         [noEntriesFoundLabel]="'No Encontrado'" >
                         <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
                         [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
                       </mat-option> 
-                    <mat-option *ngFor="let ubicacion of filtroubicacion | async" [value]="ubicacion" >  <!--  -->
+                    <mat-option *ngFor="let ubicacion of filtroubicacion | async" [value]="ubicacion.id" >  <!--  -->
                      {{ubicacion.name}}
                     </mat-option>
                  </mat-select>
@@ -79,14 +79,14 @@
 
           <mat-form-field appearance="fill"class="width100">
               <mat-label>Piso</mat-label>
-              <mat-select class="inputMat" [formControl]="piso"   required  #buySellSelect="matSelect"  > 
+              <mat-select class="inputMat" [formControl]="piso"   required  #buySellSelect="matSelect"   id="selectpiso"> 
                 <mat-option>
                     <ngx-mat-select-search [formControl]="detalleUbicacionFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
                     [noEntriesFoundLabel]="'No Encontrado'" >
                     <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
                     [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
                 </mat-option> 
-                <mat-option *ngFor="let detalleUbicacion of filtrodetalleUbicacion | async" [value]="detalleUbicacion" >  <!-- -->
+                <mat-option *ngFor="let detalleUbicacion of filtrodetalleUbicacion | async" [value]="detalleUbicacion.id" >  <!-- -->
                  {{detalleUbicacion.name}} 
                   </mat-option>
                </mat-select>

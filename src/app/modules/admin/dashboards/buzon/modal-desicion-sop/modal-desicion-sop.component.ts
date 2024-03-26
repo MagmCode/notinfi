@@ -207,7 +207,8 @@ private overlayRef!: OverlayRef;
   "formulario":this.selection.selected
   }
   
-  this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
+
+   this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
   (data) =>{    
   
   if(data.estatus == "SUCCESS"){

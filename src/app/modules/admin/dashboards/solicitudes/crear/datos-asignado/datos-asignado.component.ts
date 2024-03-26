@@ -168,10 +168,15 @@ isShownSU: boolean = false;
             nombres:   data.data.nombres + ' ' + data.data.apellidos,
             codUnidad: data.data.codUnidad,
             unidad: data.data.descUnidad,
-            codusuarioGestion : this.usuario.codigoSupervisor
+            codusuarioGestion : this.usuario.codigoSupervisor,
+            ubicacionFisica: data.data.codUbicacionFisica
 
           }); 
-
+          this.piso =  new FormControl(data.data.detalleUbicacion)
+      
+          if (this.datosFormulario.value.ubicacionFisica) {
+            this.mostrarInput();
+          }
           
         }else{
           
@@ -234,7 +239,7 @@ isShownSU: boolean = false;
          
   
   
-    this._solicitudesService.ubicacionFisicaDetalle(this.datosFormulario.value?.ubicacionFisica.id).subscribe(
+    this._solicitudesService.ubicacionFisicaDetalle(this.datosFormulario.value?.ubicacionFisica).subscribe(
       (response) => {
        
        this.detalleUbicacion.length = 0;
@@ -244,7 +249,7 @@ isShownSU: boolean = false;
   
           for(const iterator of response.data){
   
-            if (this.datosFormulario.value?.ubicacionFisica.id == "OFICINA" || this.datosFormulario.value?.ubicacionFisica.id == "SUC") {
+            if (this.datosFormulario.value?.ubicacionFisica == "OFICINA" || this.datosFormulario.value?.ubicacionFisica == "SUC") {
               this.detalleUbicacion.push({name:iterator.codDetalle +'-'+ iterator.detalle, id:iterator.codDetalle})
             } else {
               this.detalleUbicacion.push({name:iterator.detalle, id:iterator.codDetalle})
@@ -287,10 +292,12 @@ isShownSU: boolean = false;
         }); 
       
         var piso;
-        if (this.piso.value.length > 0) {
-          piso =  this.piso.value
+        if (this.isShownP == true) {
+        
+          piso =  document.querySelector('#selectpiso')?.textContent
+   
          } else {
-           piso =  this.piso.value.name
+           piso =  this.piso.value
          }
 
       if (this.usuario.nivelCargo < 11) {
@@ -309,9 +316,9 @@ isShownSU: boolean = false;
 
 
 
-        this.datosFormulario.value.ubicacionFisica = this.datosFormulario.value.ubicacionFisica.name + "-" + piso;
+        this.datosFormulario.value.ubicacionFisica = document.querySelector('#selectUbi')?.textContent + "-" + piso;
         this.datosFormulario.value.responsable = 'N';
-        this.datosFormulario.value.idServicio = '1';
+        this.datosFormulario.value.idServicio =  sessionStorage.getItem('idServicio');
         this.datosFormulario.value.codigoUsuarioResp = this.usuario.codigo;
         this.datosFormulario.value.cedulaResp =  this.usuario.cedula;
         this.datosFormulario.value.nombresResp = this.usuario.nombres + ' ' + this.usuario.apellidos;

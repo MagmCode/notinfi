@@ -148,11 +148,6 @@ private overlayRef!: OverlayRef;
     this.spinner.show('sp1');
      */
 
-
-
-
-
-
 //#region select de detalleUbicacion
 
 
@@ -225,9 +220,8 @@ isShownPT: boolean = false;
 
 
 mostrarInput(){
-  
-      
- this._solicitudesService.ubicacionFisicaDetalle(this.usuFormulario.value?.ubicacionFisica.id).subscribe(
+
+ this._solicitudesService.ubicacionFisicaDetalle(this.usuFormulario.value?.ubicacionFisica).subscribe(
     (response) => {
      
      this.detalleUbicacion.length = 0;
@@ -237,7 +231,7 @@ mostrarInput(){
 
         for(const iterator of response.data){
         
-          if (this.usuFormulario.value?.ubicacionFisica.id == "OFICINA" || this.usuFormulario.value?.ubicacionFisica.id== "SUC") {
+          if (this.usuFormulario.value?.ubicacionFisica == "OFICINA" || this.usuFormulario.value?.ubicacionFisica == "SUC") {
        
             this.detalleUbicacion.push({name:iterator.codDetalle +'-'+ iterator.detalle, id:iterator.codDetalle})
           } else {
@@ -273,17 +267,23 @@ handleRadioChange(event: MatRadioChange): void {
     
     this._solicitudesService.consultarDetalleUsuario(this.usuario.codigo).subscribe(
       (data) =>{ 
-      
-        if(typeof data.data !=  'undefined'  ){
+  
+        if( data.estatus ==  'SUCCESS'  ){
           this.usuFormulario.patchValue({
             codigoUsuario: data.data.codigo,
             cedula: data.data.cedula,
             nombres:   data.data.nombres + ' ' + data.data.apellidos,
             codUnidad: data.data.codUnidad,
-            unidad: data.data.descUnidad
+            unidad: data.data.descUnidad,
+            codusuarioGestion :  data.data.codigoSupervisor ,
+            ubicacionFisica: data.data.codUbicacionFisica
           }); 
+          this.piso =  new FormControl(data.data.detalleUbicacion)
+      
+          if (this.usuFormulario.value.ubicacionFisica) {
+            this.mostrarInput();
+          }
 
-       
         }else{
           
         }
@@ -302,6 +302,7 @@ handleRadioChange(event: MatRadioChange): void {
             for(const iterator of response.data){
               this.ubicacion.push({name: iterator.descripcion, id:iterator.codUbicacion})
             }
+           
           }
           
         }
@@ -333,9 +334,7 @@ handleRadioChange(event: MatRadioChange): void {
             }
           }
       
-          this.usuFormulario.patchValue({
-            codusuarioGestion :  this.usuario.codigoSupervisor 
-          })
+        
           
         }
       );
@@ -383,11 +382,12 @@ this._solicitudesService.consultarDetalleUsuario(this.usuFormulario.value.codigo
  
 var piso;
 
+      if (this.isShownP == true) {
+        
+       piso =  document.querySelector('#selectpiso')?.textContent
 
-      if (this.piso.value.length > 0) {
-       piso =  this.piso.value
       } else {
-        piso =  this.piso.value.name
+        piso =  this.piso.value
       }
 
 
@@ -407,10 +407,7 @@ if (this.usuario.nivelCargo < 11) {
 }
 
 
-
-
-
-      this.usuFormulario.value.ubicacionFisica = this.usuFormulario.value.ubicacionFisica.name + "-" + piso;
+      this.usuFormulario.value.ubicacionFisica = document.querySelector('#selectUbi')?.textContent + "-" + piso;
       this.usuFormulario.value.responsable = this.selectedOption;
       this.usuFormulario.value.idServicio =  sessionStorage.getItem('idServicio');
       this.usuFormulario.value.codigoUsuarioResp = this.usuario.codigo;
@@ -426,8 +423,6 @@ if (this.usuario.nivelCargo < 11) {
       "formulario":this.equipos.value
      }
 
-
-    
         this._solicitudesService.crear(enviarData).subscribe(
         (data) =>{    
          if(data.estatus == "SUCCESS"){
@@ -444,7 +439,7 @@ if (this.usuario.nivelCargo < 11) {
         (error) =>{
           this.toast.error(data.mensaje, '', this.override2);
         }
-      ); 
+      );  
  
     }else{
       this.toast.error(data.mensaje, '', this.override2);
