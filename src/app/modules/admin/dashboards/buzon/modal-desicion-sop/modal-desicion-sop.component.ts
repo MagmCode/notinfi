@@ -193,21 +193,31 @@ private overlayRef!: OverlayRef;
   
     }); 
    
-
+    if (this.selection.selected.length == 0) {
+      this.toast.error('Seleccione Equipo', '', this.override2);
+      return
+    }
+   
+    if (this.observacion.value == '') {
+      this.observacion =  new FormControl('', Validators.required);
+      this.toast.error('Observación no puede estar vacia', '', this.override2);
+      return
+     }
   
     this.datosFormulario.value.decision = 'A';
     this.datosFormulario.value.idSolicitud =  this.solicitud.idSolicitud;
     this.datosFormulario.value.motivo = 0;
-  
-  
- 
+    this.datosFormulario.value.observacion = this.observacion.value
+   
+
+
+
   var enviarData = {};
   enviarData= {
   "solicitud":this.datosFormulario.value,
   "formulario":this.selection.selected
   }
   
-
    this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
   (data) =>{    
   
@@ -264,10 +274,11 @@ private overlayRef!: OverlayRef;
     
           }); 
     
-       if (this.observacion.value == '') {
-        this.observacion =  new FormControl('', Validators.required);
-        return
-       }
+          if (this.observacion.value == '') {
+            this.observacion =  new FormControl('', Validators.required);
+            this.toast.error('Observación no puede estar vacia', '', this.override2);
+            return
+           }
           
           this.datosFormulario.value.decision = 'S';
           this.datosFormulario.value.idSolicitud = this.solicitud.idSolicitud;

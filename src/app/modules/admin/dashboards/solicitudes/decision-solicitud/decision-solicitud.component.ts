@@ -312,22 +312,37 @@ protected _onDestroy = new Subject<void>();
 openDialog(decision: String): void {
 
 
-
+console.log(this.radioSelected)
       if (!this.radioSelected) {
         this.esValido = true;
         return;
       }
-  
-
-
-    const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-      data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : this.radioSelected},
-      disableClose: true,
-    });
-    
-    dialogRef.afterClosed().subscribe(result => {
+      this.spinner.show();
+      this.usuario = this._loginservices.obterTokenInfo();
       
-    });
+    
+      this._solicitudesService.generarToken(this.usuario.codigo,this.radioSelected).subscribe(
+        (response) => {
+         
+          if(response.estatus == 'SUCCESS'){
+            const dialogRef = this.dialog.open(ModaldecisionesComponent,{
+              data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : this.radioSelected},
+              disableClose: true,
+            });
+            
+            dialogRef.afterClosed().subscribe(result => {
+              
+            });
+          }else{
+
+            this.toast.error(response.mensaje, '', this.override2);
+          }
+        
+        }
+      );
+
+
+  
 
   }
 

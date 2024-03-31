@@ -38,6 +38,8 @@ export class DetalleSolicitdComponent implements OnInit {
   serviA: boolean = false;
   serviR: boolean = false;
   servicioR: boolean = false;
+  serviO : boolean = false;
+  observacion = new FormControl('');
 
   public equipo!: equipoDto; 
     //#region  tablas
@@ -250,6 +252,7 @@ export class DetalleSolicitdComponent implements OnInit {
             this.mensaje='Detalle de los equipos nuevos'
             this.serviA = true; 
             this.serviR = true;
+            this.serviO = true;
               this.ELEMENT_DATAE = response.data.formulario.nuevoEquipo;
               this.servicioA = false;
 
@@ -262,6 +265,11 @@ export class DetalleSolicitdComponent implements OnInit {
               if (response.data.formulario.nuevoEquipo[0].serial != '') {
                 this.servicioA = true;
                 this.servicioR = false;
+                if (this.datosFormulario.value.tarea == 'SOPORTE') {
+                  
+                  this.serviO = false;
+                }
+
               } 
 
             }else{
@@ -287,6 +295,7 @@ export class DetalleSolicitdComponent implements OnInit {
 
           if (this.datosFormulario.value.tarea == 'SOPORTE') {
             this.isShownD = true;
+          
           }
 
       
@@ -297,6 +306,12 @@ export class DetalleSolicitdComponent implements OnInit {
   } 
 
   openDialog(decision: String): void {
+    if (this.observacion.value == '') {
+      this.observacion =  new FormControl('', Validators.required);
+      this.toast.error('Observación no puede estar vacia', '', this.override2);
+      return
+     }
+    console.log(this.observacion.value)
 
     if (decision == 'A') {
 
@@ -319,7 +334,7 @@ var validaTabla, equipo;
     
 
   const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-    data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceE.data},
+    data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceE.data, detalle: this.observacion.value},
     disableClose: true,
   });
   
@@ -332,7 +347,7 @@ var validaTabla, equipo;
 
 
 
-openDialogProcesar(relacion: any, evento :any, idTipoEquipo:any): void {
+openDialogSeria(relacion: any, evento :any, idTipoEquipo:any): void {
 
   const dialogRef = this.dialog.open(ModalIngresarEquipoComponent,{
     data: {  idTipoEquipo:idTipoEquipo},

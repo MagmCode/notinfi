@@ -12,7 +12,9 @@ mat-form-field{
     /* text-align: center; */
   }
  
-  
+  mat-label{
+    font-weight: bold !important;
+  }
   .title-center2 {
     margin: 0 auto;
     font-size: 12pt;

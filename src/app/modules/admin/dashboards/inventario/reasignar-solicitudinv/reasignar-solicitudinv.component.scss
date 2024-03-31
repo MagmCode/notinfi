@@ -18,7 +18,9 @@ mat-form-field{
     font-size: 1.25rem !important;
   }
 
-  
+  mat-label{
+    font-weight: bold !important;
+  }
   
   table { width: 100%; table-layout: fixed;  text-align: center; } 
 

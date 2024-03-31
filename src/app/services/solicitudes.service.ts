@@ -287,4 +287,29 @@ consultarSolicitudHistorico(codUsuario: any): Observable <any>{
 
 }
 
+
+generarToken(codUsuario: any, notificacion: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'int-servicios/generarToken';
+  const dataBusqueda = {
+    codigoUsuario : codUsuario,
+    notificacion: notificacion
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
+
+certificarToken(codUsuario: any, token: any): Observable <any>{
+
+  const url = this.urlEndPoint + 'int-servicios/certificarToken';
+  const dataBusqueda = {
+
+    token: token,
+    codigoUsuario : codUsuario
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
+
 }

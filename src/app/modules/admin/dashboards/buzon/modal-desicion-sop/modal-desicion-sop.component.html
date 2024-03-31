@@ -1,6 +1,23 @@
 <h2 mat-dialog-title class="title-center">{{mensaje}}</h2>
 
     <mat-dialog-content class="mat-typography">
+
+      
+      <div class="grid grid-cols-6 gap-4"  >
+        
+        <div class="col-start-2 col-span-4 text-center" >
+      
+          <mat-form-field  appearance="fill"class="width100"  style="width: 100%;">
+            <mat-label>Observación</mat-label>
+            <textarea matInput placeholder="" [formControl]="observacion"  required></textarea>
+            <mat-error *ngIf="observacion.hasError('required')">
+              Campo <strong>Obligatorio</strong>
+          </mat-error>    
+        
+          </mat-form-field>
+       
+      </div>
+      </div>
         <div *ngIf="isShownA" >
        
 
@@ -99,27 +116,11 @@
            
         </div>
 
-        <div *ngIf="isShownR">
-
-          <div class="grid grid-cols-12 gap-4 mt-4 mb-4"  >
-        
-      <div class="col-span-12 text-center" >
-    
-        <mat-form-field  appearance="fill"class="width100"  >
-          <mat-label>Detalle</mat-label>
-          <textarea matInput placeholder="" [formControl]="observacion"  required></textarea>
-          <mat-error *ngIf="observacion.hasError('required')">
-            Campo <strong>Obligatorio</strong>
-        </mat-error>    
-        <mat-hint>{{observacion.value?.sound}}</mat-hint>           
    
-        </mat-form-field>
-     
-    </div>
-    </div>
+
            
 
-        </div>
+       
     </mat-dialog-content>
 
     <mat-dialog-actions align="end">
