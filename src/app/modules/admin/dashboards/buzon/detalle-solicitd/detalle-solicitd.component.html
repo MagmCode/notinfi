@@ -310,7 +310,7 @@
                         
                             <mat-form-field  appearance="fill"class="width100"  style="width: 100%;">
                               <mat-label>Observación</mat-label>
-                              <textarea matInput placeholder="" [formControl]="observacion"  required></textarea>
+                              <textarea matInput placeholder="" [formControl]="observacion"  ></textarea>
                               <mat-error *ngIf="observacion.hasError('required')">
                                 Campo <strong>Obligatorio</strong>
                             </mat-error>    

@@ -306,12 +306,15 @@ export class DetalleSolicitdComponent implements OnInit {
   } 
 
   openDialog(decision: String): void {
-    if (this.observacion.value == '') {
-      this.observacion =  new FormControl('', Validators.required);
-      this.toast.error('Observación no puede estar vacia', '', this.override2);
-      return
-     }
-    console.log(this.observacion.value)
+if (this.serviO == true) {
+  if (this.observacion.value == '') {
+    this.observacion =  new FormControl('', Validators.required);
+    this.toast.error('Observación no puede estar vacia', '', this.override2);
+    return
+   }
+}   
+
+
 
     if (decision == 'A') {
 

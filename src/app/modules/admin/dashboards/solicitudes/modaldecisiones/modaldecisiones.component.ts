@@ -293,39 +293,63 @@ enviarData= {
 "formulario":formulario
 }
 
-this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
-  (response) => {
-   
-    if(response.estatus == 'SUCCESS'){
-     
-      
-        this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
-          (data) =>{    
-          
-          if(data.estatus == "SUCCESS"){
-          this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
-          setTimeout(()=>{
-          this.redirigirSuccess();
-          },1500);  
-          this.dialogRef.close();
-          }else{
-          this.toast.error(data.mensaje, '', this.override2);
-          }
-          this.spinner.hide();
-          /*     this.spinner.hide('sp1'); */
-          }, 
-          (error) =>{
-          this.toast.error(data.mensaje, '', this.override2);
-          }
-          ); 
-
+if (this.solicitud.metodo == 'buzon') {
+  this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
+    (data) =>{    
+    
+    if(data.estatus == "SUCCESS"){
+    this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+    setTimeout(()=>{
+    this.redirigirSuccess();
+    },1500);  
+    this.dialogRef.close();
     }else{
-
-      this.toast.error(response.mensaje, '', this.override2);
+    this.toast.error(data.mensaje, '', this.override2);
     }
+    this.spinner.hide();
+    /*     this.spinner.hide('sp1'); */
+    }, 
+    (error) =>{
+    this.toast.error(data.mensaje, '', this.override2);
+    }
+    ); 
+} else {
+  this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+    (response) => {
+     
+      if(response.estatus == 'SUCCESS'){
+       
+        
+          this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
+            (data) =>{    
+            
+            if(data.estatus == "SUCCESS"){
+            this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+            setTimeout(()=>{
+            this.redirigirSuccess();
+            },1500);  
+            this.dialogRef.close();
+            }else{
+            this.toast.error(data.mensaje, '', this.override2);
+            }
+            this.spinner.hide();
+            /*     this.spinner.hide('sp1'); */
+            }, 
+            (error) =>{
+            this.toast.error(data.mensaje, '', this.override2);
+            }
+            ); 
   
-  }
-);
+      }else{
+  
+        this.toast.error(response.mensaje, '', this.override2);
+      }
+    
+    }
+  );
+}
+
+
 
 
 
@@ -388,25 +412,67 @@ if(typeof data.data !=  'undefined'  ){
    "formulario":[]
   }
 
-  this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
-    (data) =>{    
-   
-      if(data.estatus == "SUCCESS"){
-        this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
-        setTimeout(()=>{
-          this.redirigirSuccess();
-      },1500);  
-      this.dialogRef.close();
-      }else{
+  if (this.solicitud.metodo == 'buzon') {
+
+    this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
+      (data) =>{    
+     
+        if(data.estatus == "SUCCESS"){
+          this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+          setTimeout(()=>{
+            this.redirigirSuccess();
+        },1500);  
+        this.dialogRef.close();
+        }else{
+          this.toast.error(data.mensaje, '', this.override2);
+        }
+        this.spinner.hide();
+    /*     this.spinner.hide('sp1'); */
+            }, 
+      (error) =>{
         this.toast.error(data.mensaje, '', this.override2);
       }
-      this.spinner.hide();
-  /*     this.spinner.hide('sp1'); */
-          }, 
-    (error) =>{
-      this.toast.error(data.mensaje, '', this.override2);
-    }
-  ); 
+    ); 
+
+  }else{
+
+    this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+      (response) => {
+       
+        if(response.estatus == 'SUCCESS'){
+         
+          this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
+            (data) =>{    
+           
+              if(data.estatus == "SUCCESS"){
+                this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+                setTimeout(()=>{
+                  this.redirigirSuccess();
+              },1500);  
+              this.dialogRef.close();
+              }else{
+                this.toast.error(data.mensaje, '', this.override2);
+              }
+              this.spinner.hide();
+          /*     this.spinner.hide('sp1'); */
+                  }, 
+            (error) =>{
+              this.toast.error(data.mensaje, '', this.override2);
+            }
+          ); 
+    
+        }else{
+    
+          this.toast.error(response.mensaje, '', this.override2);
+        }
+      
+      }
+    );
+
+
+  }
+
+
 
 }else{
   this.toast.error(data.mensaje, '', this.override2);
@@ -463,6 +529,35 @@ if(typeof data.data !=  'undefined'  ){
            "formulario":[]
           }
 
+
+          
+  if (this.solicitud.metodo == 'buzon') {
+    this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
+      (data) =>{    
+     
+        if(data.estatus == "SUCCESS"){
+          this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+          setTimeout(()=>{
+            this.redirigirSuccess();
+        },1500);  
+        this.dialogRef.close();
+        }else{
+          this.toast.error(data.mensaje, '', this.override2);
+        }
+        this.spinner.hide();
+    /*     this.spinner.hide('sp1'); */
+            }, 
+      (error) =>{
+        this.toast.error(data.mensaje, '', this.override2);
+      }
+    ); 
+  }else{
+
+    this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+      (response) => {
+       
+        if(response.estatus == 'SUCCESS'){
+         
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    
            
@@ -482,6 +577,17 @@ if(typeof data.data !=  'undefined'  ){
               this.toast.error(data.mensaje, '', this.override2);
             }
           ); 
+    
+        }else{
+    
+          this.toast.error(response.mensaje, '', this.override2);
+        }
+      
+      }
+    );
+
+  }
+     
     
         }else{
           this.toast.error(data.mensaje, '', this.override2);

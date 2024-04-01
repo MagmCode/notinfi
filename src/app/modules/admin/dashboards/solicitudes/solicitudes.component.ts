@@ -89,6 +89,7 @@ override2 = {
     {
 
         this.obtenerPlantilla();
+        
         this.usuario = this._loginService.obterTokenInfo();
     
         this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
