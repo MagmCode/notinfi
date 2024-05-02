@@ -32,9 +32,44 @@ export class LayoutComponent implements OnInit, OnDestroy
         private _renderer2: Renderer2,
         private _router: Router,
         private _fuseConfigService: FuseConfigService,
-        private _fuseMediaWatcherService: FuseMediaWatcherService
+        private _fuseMediaWatcherService: FuseMediaWatcherService,
+        private renderer: Renderer2
     )
     {
+        renderer.setStyle(
+            document.body,
+            'background-image',
+            '' ,                  
+          );
+
+          renderer.setStyle(
+            document.body,
+            'overflow',
+            'auto' ,                  
+          );
+
+          
+          renderer.setStyle(
+            document.body,
+            'background-position',
+            '',                  
+          );
+          renderer.setStyle(
+              document.body,
+              'background-size',
+              '',                  
+            );
+
+          renderer.setStyle(
+            document.body,
+            'background-repeat',
+            '',                  
+          );
+          renderer.setStyle(
+              document.body,
+              'height',
+              '',                  
+            );
     }
 
     // -----------------------------------------------------------------------------------------------------

@@ -16,6 +16,10 @@ import { AsignarSolicitudSopComponent } from './modules/admin/dashboards/soporte
 import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitd/detalle-solicitd.component';
 import { ReasignarSolicitudinvComponent } from './modules/admin/dashboards/inventario/reasignar-solicitudinv/reasignar-solicitudinv.component';
 import { ReasignarSolicitudsopComponent } from './modules/admin/dashboards/soporte/reasignar-solicitudsop/reasignar-solicitudsop.component';
+import { MedicionesComponent } from './modules/admin/dashboards/mediciones/mediciones.component';
+import { ReportesComponent } from './modules/admin/dashboards/mediciones/reportes/reportes.component';
+
+
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -95,6 +99,7 @@ export const appRoutes: Route[] = [
                 {path: 'asignacion', component: RequerimientoEquipoAsignacionComponent},
                 {path: 'detalleSolicitud', component: DetalleSolicitudComponent}, 
                 {path: 'decisionSolicitud', component: DecisionSolicitudComponent},
+               
                 
             ]},
 
@@ -116,6 +121,12 @@ export const appRoutes: Route[] = [
             {path: 'buzon', children: [
                 {path: 'buzonAsignadas',  component: BuzonAsignadaComponent},
                 {path: 'detalleSolicitud',  component: DetalleSolicitdComponent},
+                
+            ]},
+            
+            {path: 'mediciones', children: [
+                {path: 'indicadores',  component: MedicionesComponent},
+                {path: 'reportes',  component: ReportesComponent},
                 
             ]},
             

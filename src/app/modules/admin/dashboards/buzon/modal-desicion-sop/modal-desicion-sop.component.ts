@@ -161,6 +161,8 @@ private overlayRef!: OverlayRef;
       this.isShownA = false,
       this.mensaje = "Detalle de la solución";
 
+      
+
     }
    
 

@@ -46,6 +46,21 @@ export class NavigationService
             link: '/buzon/buzonAsignadas'
         }]
     };
+
+    menuMediciones : any ={
+        id : 'mediciones',
+        title: 'Areas Indicadores',
+        subtitle: 'Gestión de Areas Indicadores',
+        type: 'group',
+        icon: 'heroicons_outline:cog',
+        children:[{
+            id: 'buzon',
+            title:'Solicitudes Asignadas',
+            type: 'basic',
+            icon: 'heroicons_outline:clipboard-check',
+            link: '/mediciones/indicadores'
+        }]
+    };
 /* 
     menuBandeja : any = {
             id : 'basignadas',
@@ -81,6 +96,23 @@ export class NavigationService
                 type: 'basic',
                 icon: 'heroicons_outline:clipboard-check',
                 link: '/buzon/buzonAsignadas'
+            }]
+        };
+    }
+
+    iniciarMenuMedi(){
+        return  this.menuMediciones  ={
+            id : 'mediciones',
+            title: 'Areas Indicadores',
+            subtitle: 'Gestión de Areas Indicadores',
+            type: 'group',
+            icon: 'heroicons_outline:cog',
+            children:[{
+                id: 'buzon',
+                title:'Solicitudes Asignadas',
+                type: 'basic',
+                icon: 'heroicons_outline:clipboard-check',
+                link: '/mediciones/indicadores'
             }]
         };
     }
@@ -149,11 +181,14 @@ export class NavigationService
         this.menuAdministrado = this.iniciarMenuAdmin();
         this.menuPublico = [];
         this.menuPublico = this.inciarMenuPublico();
+        this.menuMediciones = [];
+        this.menuMediciones = this.iniciarMenuMedi();
      
        return this._loginService.obtenerMenu(this.usuario.cedula).pipe(
           tap( (response) =>{
            
                 if(response.status == 'success'){
+                    
                     this.menuReplicar.default = [];
                     response.data.forEach(element => {
                         this.menuAdministrado.children.push(element);

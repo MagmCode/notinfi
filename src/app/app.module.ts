@@ -33,7 +33,7 @@ import { BuzonPendienteComponent } from './modules/admin/dashboards/inventario/b
 
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import { MatRippleModule } from '@angular/material/core';
+import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
@@ -64,6 +64,10 @@ import { ReasignarSolicitudinvComponent } from './modules/admin/dashboards/inven
 import { ReasignarSolicitudsopComponent } from './modules/admin/dashboards/soporte/reasignar-solicitudsop/reasignar-solicitudsop.component';
 import { ModalReasignarComponent } from './modules/admin/dashboards/inventario/modal-reasignar/modal-reasignar.component';
 import { ModalDesicionSopComponent } from './modules/admin/dashboards/buzon/modal-desicion-sop/modal-desicion-sop.component';
+import { MedicionesComponent } from './modules/admin/dashboards/mediciones/mediciones.component';
+import { ReportesComponent } from './modules/admin/dashboards/mediciones/reportes/reportes.component';
+import {MatDatepickerModule} from '@angular/material/datepicker';
+import { MatMomentDateModule } from '@angular/material-moment-adapter';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -88,7 +92,9 @@ const routerConfig: ExtraOptions = {
         ReasignarSolicitudinvComponent,
         ReasignarSolicitudsopComponent,
         ModalReasignarComponent,
-        ModalDesicionSopComponent
+        ModalDesicionSopComponent,
+        MedicionesComponent,
+        ReportesComponent
     ],
     imports     : [
         BrowserModule,
@@ -137,6 +143,9 @@ const routerConfig: ExtraOptions = {
           ScrollingModule,
           MatChipsModule,
           MatAutocompleteModule,
+          MatDatepickerModule,
+          MatNativeDateModule,
+          MatMomentDateModule
 
     ],
     exports: [NgxSpinnerModule],

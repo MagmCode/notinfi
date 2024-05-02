@@ -7,7 +7,7 @@
         <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-6 sm:py-12 md:px-8 border-b bg-card dark:bg-transparent">
             <!-- Title -->
             <div>
-                <div class="text-4xl font-bold tracking-tight leading-none">Creación de Solicitud</div>
+                <div class="text-4xl font-bold tracking-tight leading-none">Indicadores</div>
                 <div class="flex items-center mt-0.5 font-medium text-secondary">
                     
                     <!-- Breadcrumbs -->
@@ -37,9 +37,12 @@
                         
                  <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl  margin-center-card">
                     <form  [formGroup]="solFormulario" >  
-                    <div class="text-lg font-medium tracking-tight leading-6 truncate">Seleccione el tipo de servicio</div>
+                    <!-- <div class="text-lg font-medium tracking-tight leading-6 truncate">Seleccione el tipo de servicio</div> -->
                      <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
-                        <div  class="grid grid-cols-3 gap-4">
+           
+                        <div  class="grid grid-cols-12 gap-4">
+
+                            <div  class="col-start-3 col-end-7"> 
                             <mat-form-field>
                                 <mat-label>Categoría</mat-label> 
                                                             
@@ -60,8 +63,8 @@
                                     Campo <strong>Obligatorio</strong>
                                   </mat-error>
                             </mat-form-field>
-                                    
-                                    
+                            </div>
+                            <div  class="col-start-7 col-end-11"> 
                              <mat-form-field>
                                  <mat-label>Tipo Servicio</mat-label>                                
                                  <mat-select    class="inputMat"  #matRef    formControlName="tiposerv"     #buySellSelect="matSelect"  (ngModelChange)="buscarServicio()">
@@ -75,36 +78,44 @@
                                       </mat-option>
                                  </mat-select>
                              </mat-form-field>
-                               
-
-                               
-                           <mat-form-field>
-                               <mat-label>Servicio</mat-label>                                
-                               <mat-select class="inputMat"   #matRef   formControlName="servi"     #buySellSelect="matSelect"  (ngModelChange)="mostrarVista()" >
-                                <mat-option>
-                                    <ngx-mat-select-search [formControl]="servicioFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
-                                    [noEntriesFoundLabel]="'No Encontrado'" > <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
-                                    [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
-                                  </mat-option>
-                                <mat-option  *ngFor="let servicio of filtroservicio | async" [value]="servicio">
-                                    {{servicio.name}}
-                                  </mat-option>
-                               </mat-select>
-                           </mat-form-field>
-                                
-                           
+                            </div> 
                         </div>
+
+                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
+                        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex items-start justify-between">
+                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Total</div>
+                                <div class="ml-2 -mt-2 -mr-3">
+                                    
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center mt-2">
+                                <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">56</div>
+                                <div class="text-lg font-medium text-green-600 dark:text-green-500"></div>
+                              
+                            </div>
+                        </div>
+
+                        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                            <div class="flex items-start justify-between">
+                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Total</div>
+                                <div class="ml-2 -mt-2 -mr-3">
+                                    
+                                </div>
+                            </div>
+                            <div class="flex flex-col items-center mt-2">
+                                <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">56</div>
+                                <div class="text-lg font-medium text-green-600 dark:text-green-500"></div>
+                              
+                            </div>
+                        </div>
+                        </div>
+                                   
+                   
+
                      </div>
                     </form>
-                     <div *ngIf="isShownAsignacion"  id="divshowAsignacion">
-                       <app-requerimiento-equipo-asignacion></app-requerimiento-equipo-asignacion>
-                    </div>
-                    <div *ngIf="isShownReposicion"  id="divshowReposicion">
-                    <app-requerimiento-equipo-reposicion></app-requerimiento-equipo-reposicion>  
-                    </div>
-                    <div *ngIf="isShownDesincorporacion"  id="divshowDesincorporacion">
-                        <app-requerimiento-equipo-desincorporacion></app-requerimiento-equipo-desincorporacion>  
-                        </div>
+                 
 
 
                  </div>

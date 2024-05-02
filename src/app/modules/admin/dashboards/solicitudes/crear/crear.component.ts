@@ -69,6 +69,9 @@ export class CrearComponent implements OnInit {
    }
 
   ngOnInit(): void {
+
+
+    
      //#region select de categoria
       this.obtenerCategorias();
       this.categoriaCtrl.setValue(this.categoria);

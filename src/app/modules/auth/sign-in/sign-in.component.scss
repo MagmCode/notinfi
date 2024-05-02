@@ -1,0 +1,24 @@
+
+  .login-container-float-center{
+    position: fixed;
+    top: 50%;
+    left: 25%;
+    width: 25%;
+    height: auto;
+    -webkit-transform: translate(-50%,-50%);
+    transform: translate(-50%,-50%);
+    background-color: #fff;
+    box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
+    -moz-box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
+    -webkit-box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
+    -o-box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
+    -ms-box-shadow: 0 5px 10px 0 rgba(0,0,0,.1);
+    border-radius: 5px ;
+    border-color: #2182c147 !important;
+    border-width: 1px !important;
+    border-style: solid !important;
+  }
+
+  .text-azul{
+    color: #0067b1 !important;
+  }

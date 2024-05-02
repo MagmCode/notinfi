@@ -6,7 +6,7 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatTableDataSource } from '@angular/material/table';
 import { solicitudesDto } from 'app/models/usuario';
-import { MatPaginator } from '@angular/material/paginator';
+import { MatPaginator, MatPaginatorIntl } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { SolicitudesService } from 'app/services/solicitudes.service';
 import { MatDialog } from '@angular/material/dialog';
@@ -37,14 +37,23 @@ export class SolicitudesComponent implements OnInit, OnDestroy
     displayedColumns: string[] = ['Idsolicitud','categoria', 'tipoServicio', 'servicio', 'codigoUsuario', 'cedula', 'nombres', 'codUnidad','unidad','ubicacionFisica', 'fechaCreacion', 'estatus','nombresResp', 'acciones'];
     positionOptions: TooltipPosition[] = ['below'];
     position = new FormControl(this.positionOptions[0]);
+
     dataSource: MatTableDataSource<solicitudesDto>;    
     dataSourceP: MatTableDataSource<solicitudesDto>;  
     dataSourceH: MatTableDataSource<solicitudesDto>;
     ELEMENT_DATA: solicitudesDto[] = [];
     ELEMENT_PENDIENTE: solicitudesDto[] = [];
     ELEMENT_HISTORICO: solicitudesDto[] = [];
-    @ViewChild(MatPaginator) paginator: MatPaginator | any;
+   /*  @ViewChild(MatPaginator) paginator: MatPaginator;
+    @ViewChild(MatPaginator) paginatorP: MatPaginator;
+    @ViewChild(MatPaginator) paginatorH: MatPaginator; */
     @ViewChild(MatSort) sort: MatSort = new MatSort;  
+    @ViewChild(MatSort) sortP: MatSort = new MatSort; 
+    @ViewChild(MatSort) sortH: MatSort = new MatSort;
+    
+    @ViewChild('paginator') paginator: MatPaginator;
+    @ViewChild('paginatorP') paginatorP: MatPaginator;
+    @ViewChild('paginatorH') paginatorH: MatPaginator;
    //#endregion
 //#region toast
 override2 = {
@@ -94,9 +103,11 @@ override2 = {
     
         this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
         this.user.email =this.usuario.descCargo;   
-     
+        this.dataSource.paginator = this.paginator;
 
- 
+        this.dataSource.paginator = this.paginatorP;   
+        
+        this.dataSource.paginator = this.paginatorH;
     }
 
        ngOnDestroy(): void
@@ -105,12 +116,23 @@ override2 = {
        }
 
     ngAfterViewInit() {
+ 
+  
+       
         this.dataSource.paginator = this.paginator;
+        
         this.dataSource.sort = this.sort;
-        this.dataSourceP.paginator = this.paginator;
-        this.dataSourceP.sort = this.sort;
-        this.dataSourceH.paginator = this.paginator;
-        this.dataSourceH.sort = this.sort;
+
+       
+        this.dataSourceP.paginator = this.paginatorP;
+        this.dataSourceP.sort = this.sortP;
+ 
+        this.dataSourceH.paginator = this.paginatorH;
+        this.dataSourceH.sort = this.sortH;
+   
+
+      
+       
       }
 
       applyFilter(event: Event) {
@@ -182,12 +204,17 @@ async obtenerPlantilla(){
                 this.ELEMENT_PENDIENTE = response.data;
                 this.dataSourceP = new MatTableDataSource(this.ELEMENT_PENDIENTE);
                 this.ngAfterViewInit();
-                this.dataSourceP.paginator = this.paginator;
-                this.dataSourceP.sort = this.sort;
+               /*  this.dataSourceP.paginator = this.paginatorP;
+                this.dataSourceP.sort = this.sortP; */
+              
             }
             )
 
 
+        }else if (tab.index == 0){
+          this.ngAfterViewInit();
+          /* this.dataSource.paginator = this.paginator;
+          this.dataSource.sort = this.sort; */
         } else if (tab.index == 2) {
           
 
@@ -200,8 +227,8 @@ async obtenerPlantilla(){
               this.ELEMENT_HISTORICO = response.data;
               this.dataSourceH = new MatTableDataSource(this.ELEMENT_HISTORICO);
               this.ngAfterViewInit();
-              this.dataSourceH.paginator = this.paginator;
-              this.dataSourceH.sort = this.sort;
+             /*  this.dataSourceH.paginator = this.paginatorH;
+              this.dataSourceH.sort= this.sortH; */
           }
           )
 

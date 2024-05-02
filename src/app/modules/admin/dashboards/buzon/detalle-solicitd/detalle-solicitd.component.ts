@@ -355,10 +355,10 @@ openDialogSeria(relacion: any, evento :any, idTipoEquipo:any): void {
   const dialogRef = this.dialog.open(ModalIngresarEquipoComponent,{
     data: {  idTipoEquipo:idTipoEquipo},
     disableClose: true
-  });
+  })
   
   dialogRef.afterClosed().subscribe(result => {
-   
+
     result[0].relacion = relacion
     result[0].evento = evento
   
@@ -387,7 +387,10 @@ openDialogSop(decision: String): void {
   const dialogRef = this.dialog.open(ModalDesicionSopComponent,{
     data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea, codigoUsuario: this.datosFormulario.value.codigoUsuario },
     disableClose: true,
-  });
+
+     width: '70%'
+  }
+  );
   
   dialogRef.afterClosed().subscribe(result => {
   

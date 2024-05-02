@@ -22,7 +22,7 @@ const themes = {
     'default': {
         primary  : {
             ...colors.indigo,
-            DEFAULT: colors.indigo[600]
+            DEFAULT:"#0067b1"
         },
         accent   : {
             ...colors.blueGray,

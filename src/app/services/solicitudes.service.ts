@@ -312,4 +312,13 @@ certificarToken(codUsuario: any, token: any): Observable <any>{
 
 }
 
+estatus(): Observable <any>{
+
+  const url = this.urlEndPoint + 'estatus';
+
+  return this.http.post(url, '');
+
+}
+
+
 }

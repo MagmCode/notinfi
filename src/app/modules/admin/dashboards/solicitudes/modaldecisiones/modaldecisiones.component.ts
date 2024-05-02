@@ -148,7 +148,7 @@ this.isShownA = true;
 this.isShownR = false;
 this.isShownD = false;
 if (this.solicitud.metodo == 'buzon') {
-  this.mensaje = "¿Está seguro de asigna los siguiente equipos?";
+  this.mensaje = "¿Está seguro de asignar los siguiente equipos?";
 }else{
   if (this.solicitud.idTarea == 6 ) {
     this.mensaje = "Conforme con la Solicitud";
@@ -333,7 +333,7 @@ if (this.solicitud.metodo == 'buzon') {
             this.toast.error(data.mensaje, '', this.override2);
             }
             this.spinner.hide();
-            /*     this.spinner.hide('sp1'); */
+         
             }, 
             (error) =>{
             this.toast.error(data.mensaje, '', this.override2);
@@ -413,7 +413,7 @@ if(typeof data.data !=  'undefined'  ){
   }
 
   if (this.solicitud.metodo == 'buzon') {
-
+/*  */
     this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
       (data) =>{    
      
@@ -454,7 +454,7 @@ if(typeof data.data !=  'undefined'  ){
                 this.toast.error(data.mensaje, '', this.override2);
               }
               this.spinner.hide();
-          /*     this.spinner.hide('sp1'); */
+    
                   }, 
             (error) =>{
               this.toast.error(data.mensaje, '', this.override2);
@@ -470,7 +470,7 @@ if(typeof data.data !=  'undefined'  ){
     );
 
 
-  }
+  } 
 
 
 
@@ -531,7 +531,9 @@ if(typeof data.data !=  'undefined'  ){
 
 
           
-  if (this.solicitud.metodo == 'buzon') {
+          
+          if (this.solicitud.metodo == 'buzon') {      
+
     this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
       (data) =>{    
      
@@ -551,7 +553,7 @@ if(typeof data.data !=  'undefined'  ){
         this.toast.error(data.mensaje, '', this.override2);
       }
     ); 
-  }else{
+ }else{
 
     this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
       (response) => {
@@ -571,7 +573,7 @@ if(typeof data.data !=  'undefined'  ){
                 this.toast.error(data.mensaje, '', this.override2);
               }
               this.spinner.hide();
-          /*     this.spinner.hide('sp1'); */
+        
                   }, 
             (error) =>{
               this.toast.error(data.mensaje, '', this.override2);
@@ -586,7 +588,7 @@ if(typeof data.data !=  'undefined'  ){
       }
     );
 
-  }
+  } 
      
     
         }else{

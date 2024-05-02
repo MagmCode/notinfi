@@ -1,0 +1,104 @@
+
+
+    <!-- Main -->
+    <div class="flex flex-col flex-auto min-w-0 ">
+        <div class="inset-0 flex flex-col ">
+        <!-- Header -->
+        <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-6 sm:py-12 md:px-8 border-b bg-card dark:bg-transparent">
+            <!-- Title -->
+            <div>
+                <div class="text-4xl font-bold tracking-tight leading-none">Reportes</div>
+                <div class="flex items-center mt-0.5 font-medium text-secondary">
+                    
+                    <!-- Breadcrumbs -->
+                  
+                </div>
+            </div>
+            <!-- Actions -->
+            <div class="mt-4 sm:mt-0">
+                <span></span>
+            </div>
+        </div>
+
+        <!-- <div class="w-full max-w-screen-xl mx-auto">
+            <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="text-lg font-medium tracking-tight leading-6 truncate">Seleccione el tipo de servicio</div>
+                <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                   
+                </div>
+            </div>
+        </div> -->
+    
+        <div >
+
+        
+        <div class="flex-auto border-t -mt-px pt-4 sm:pt-6">
+            <div class="w-full max-w-screen-xl mx-auto">
+                        
+                 <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl  margin-center-card">
+                    <form  [formGroup]="solFormulario" >  
+                    <!-- <div class="text-lg font-medium tracking-tight leading-6 truncate">Seleccione el tipo de servicio</div> -->
+                     <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                        <div  class="grid grid-cols-2 gap-4">
+                          
+                   
+                              <mat-form-field appearance="fill">
+                                <mat-label>Introduzca un intervalo de fechas</mat-label>
+                                <mat-date-range-input [formGroup]="solFormulario" [rangePicker]="picker">
+                                  <input matStartDate formControlName="fechaInicio" placeholder="Fecha inicio">
+                                  <input matEndDate formControlName="fechaFin" placeholder="Fecha fin">
+                                </mat-date-range-input>
+                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                                <mat-date-range-picker #picker></mat-date-range-picker>
+                              
+                                <mat-error *ngIf="solFormulario.controls.fechaInicio.hasError('matStartDateInvalid')">Invalid start date</mat-error>
+                                <mat-error *ngIf="solFormulario.controls.fechaFin.hasError('matEndDateInvalid')">Invalid end date</mat-error>
+                              </mat-form-field>
+                          
+                           <mat-form-field>
+                               <mat-label>Estatus</mat-label>                                
+                               <mat-select class="inputMat"   #matRef   formControlName="estatus"     #buySellSelect="matSelect"  >
+                                <mat-option>
+                                    <ngx-mat-select-search [formControl]="estatusFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
+                                    [noEntriesFoundLabel]="'No Encontrado'" > <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
+                                    [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
+                                  </mat-option>
+                                <mat-option  *ngFor="let estatus of filtroestatus | async" [value]="estatus.id">
+                                    {{estatus.name}}
+                                  </mat-option>
+                               </mat-select>
+                               <mat-error *ngIf="solFormulario.get('estatus')?.hasError">
+                                Campo <strong>Obligatorio</strong>
+                              </mat-error>
+                           </mat-form-field>
+                     
+                           
+                        </div>
+
+                                   
+                        <div class="col-span-12 text-center">
+                            <button mat-raised-button color="primary" [type]="descargarExcel"> Descargar 
+                               <mat-icon class="ml-1 icon-size-5 text-green-700"                                                                              
+                                 [svgIcon]="'heroicons_solid:arrow-down-tray'"></mat-icon>
+                            </button>
+                        </div>
+
+                     </div>
+                    </form>
+                 
+
+
+                 </div>
+               
+            </div>
+
+            
+        </div>
+
+    </div>
+        
+    
+
+    </div>
+
+</div>

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, OnInit, Renderer2, ViewChild, ViewEncapsulation } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
@@ -8,6 +8,7 @@ import { AuthService } from 'app/core/auth/auth.service';
 @Component({
     selector     : 'auth-sign-in',
     templateUrl  : './sign-in.component.html',
+    styleUrls: ['./sign-in.component.scss'],
     encapsulation: ViewEncapsulation.None,
     animations   : fuseAnimations
 })
@@ -29,9 +30,48 @@ export class AuthSignInComponent implements OnInit
         private _activatedRoute: ActivatedRoute,
         private _authService: AuthService,
         private _formBuilder: FormBuilder,
-        private _router: Router
+        private _router: Router,        
+        private renderer: Renderer2,
     )
     {
+        renderer.setStyle(
+            document.body,
+            'overflow',
+            'hidden',                  
+          );
+          renderer.setStyle(
+            document.body,
+            'background',
+            '#ededed',                  
+          );
+            renderer.setStyle(
+              document.body,
+              'background-image',
+              'url(assets/images/login/fondo_inicio.webp)' ,                  
+            );
+
+            renderer.setStyle(
+              document.body,
+              'background-position',
+              'center center',                  
+            );
+            renderer.setStyle(
+                document.body,
+                'background-size',
+                'cover',                  
+              );
+
+            renderer.setStyle(
+              document.body,
+              'background-repeat',
+              'no-repeat',                  
+            );
+            renderer.setStyle(
+                document.body,
+                'height',
+                '100vh',                  
+              );
+            
     }
 
     // -----------------------------------------------------------------------------------------------------
