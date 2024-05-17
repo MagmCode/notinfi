@@ -4,7 +4,7 @@
     <div class="flex flex-col flex-auto min-w-0 ">
         <div class="inset-0 flex flex-col ">
         <!-- Header -->
-        <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-6 sm:py-12 md:px-8 border-b bg-card dark:bg-transparent">
+        <div class="flex flex-col sm:flex-row items-start sm:items-center sm:justify-between p-6  md:px-8 border-b bg-card dark:bg-transparent">
             <!-- Title -->
             <div>
                 <div class="text-4xl font-bold tracking-tight leading-none">Indicadores</div>
@@ -54,7 +54,7 @@
                                          [svgIcon]="'heroicons_solid:x'"></mat-icon>
                                         </ngx-mat-select-search>
                                       </mat-option> 
-                                    <mat-option  *ngFor="let categoria of filtrocategoria | async" [value]="categoria">
+                                    <mat-option  *ngFor="let categoria of filtrocategoria | async" [value]="categoria.id">
                                         {{categoria.name}}
                                       </mat-option>
                                 
@@ -73,7 +73,7 @@
                                         [noEntriesFoundLabel]="'No Encontrado'" > <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
                                         [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
                                       </mat-option> 
-                                     <mat-option  *ngFor="let tiposervicio of filtrotipoServicio | async" [value]="tiposervicio">
+                                     <mat-option  *ngFor="let tiposervicio of filtrotipoServicio | async" [value]="tiposervicio.id">
                                         {{tiposervicio.name}}
                                       </mat-option>
                                  </mat-select>
@@ -81,45 +81,70 @@
                             </div> 
                         </div>
 
-                        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0">
-                        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                            <div class="flex items-start justify-between">
-                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Total</div>
-                                <div class="ml-2 -mt-2 -mr-3">
-                                    
-                                </div>
-                            </div>
-                            <div class="flex flex-col items-center mt-2">
-                                <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">56</div>
-                                <div class="text-lg font-medium text-green-600 dark:text-green-500"></div>
-                              
-                            </div>
-                        </div>
-
-                        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                            <div class="flex items-start justify-between">
-                                <div class="text-lg font-medium tracking-tight leading-6 truncate">Total</div>
-                                <div class="ml-2 -mt-2 -mr-3">
-                                    
-                                </div>
-                            </div>
-                            <div class="flex flex-col items-center mt-2">
-                                <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-green-500">56</div>
-                                <div class="text-lg font-medium text-green-600 dark:text-green-500"></div>
-                              
-                            </div>
-                        </div>
-                        </div>
                                    
                    
 
                      </div>
                     </form>
+
+                    <div *ngIf="reporte">
+                    
+                    <div  class="grid grid-cols-1 sm:grid-cols-4  md:grid-cols-4 gap-6 w-full min-w-0">
+                            
+                     
+                        <div class="flex flex-col flex-auto ">
+                     
+                        </div>
+                           <!--  <div id="chartCategotia">
+                            </div> -->
+                            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate "> Total</div>
+                                    <div class="ml-2 -mt-2 -mr-3">
+                                        <mat-icon class="mr-1 icon-size-6 text-blue-500"                                               
+                                        [svgIcon]="'heroicons_solid:chart-pie'"></mat-icon>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="text-7xl sm:text-8xl  font-bold tracking-tight leading-none text-blue-500">{{cantCategoria}}</div>
+
+                                
+                                </div>
+                            </div>
+
+                            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex items-start justify-between">
+                                    <div class="text-lg font-medium tracking-tight leading-6 truncate "> Total</div>
+                                    <div class="ml-2 -mt-2 -mr-3">
+                                        <mat-icon class="mr-1 icon-size-6 text-yellow-500"                                              
+                                         [svgIcon]="'heroicons_solid:chart-pie'"></mat-icon>
+                                    </div>
+                                </div>
+                                <div class="flex flex-col items-center">
+                                    <div class="text-7xl sm:text-8xl font-bold tracking-tight leading-none text-yellow-500">{{cantTipoSolicitud}}</div>
+                                                              
+                                </div>
+                            </div>
+                       
+                        
+                        </div>
+      <!--                   <div style="text-align:center">
+                            <apx-chart
+                              [series]="chartOptions.series"
+                              [chart]="chartOptions.chart"
+                              [xaxis]="chartOptions.xaxis"
+                              [title]="chartOptions.title"
+                            ></apx-chart>
+    
+                          </div> -->
+
+                          <div id="chart">
+                            <div id="responsive-chart"></div>
+                          </div> 
+                        </div>
                  
-
-
                  </div>
-               
+                 
             </div>
 
             

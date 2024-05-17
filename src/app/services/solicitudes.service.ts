@@ -321,4 +321,30 @@ estatus(): Observable <any>{
 }
 
 
+
+reporteTecServCons(idCategoriaFk : any, idTipoServicioFk: any): Observable<any>{
+  const url = this.urlEndPoint + 'reporteTecServCons';
+  const dataBusqueda = {
+    idCategoriaFk : idCategoriaFk,
+    idTipoServicioFk:idTipoServicioFk
+  };
+  return this.http.post(url, dataBusqueda);
+}
+
+
+reporteTecServ(fechaInicio : any, fechaFin: any, estatus : any): Observable<any>{
+  const url = this.urlEndPoint + 'reporteTecServ';
+  const httpOptions = {
+    responseType: 'blob' as 'json'
+  };
+  const dataBusqueda = {
+    fechaInicio : fechaInicio,
+    fechaFin:fechaFin,
+    estatus : estatus
+  };
+
+  console.log(dataBusqueda);
+  return this.http.post(url, dataBusqueda, httpOptions);
+}
+
 }

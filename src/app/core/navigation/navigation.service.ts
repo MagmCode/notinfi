@@ -53,13 +53,7 @@ export class NavigationService
         subtitle: 'Gestión de Areas Indicadores',
         type: 'group',
         icon: 'heroicons_outline:cog',
-        children:[{
-            id: 'buzon',
-            title:'Solicitudes Asignadas',
-            type: 'basic',
-            icon: 'heroicons_outline:clipboard-check',
-            link: '/mediciones/indicadores'
-        }]
+        children:[]
     };
 /* 
     menuBandeja : any = {
@@ -107,13 +101,7 @@ export class NavigationService
             subtitle: 'Gestión de Areas Indicadores',
             type: 'group',
             icon: 'heroicons_outline:cog',
-            children:[{
-                id: 'buzon',
-                title:'Solicitudes Asignadas',
-                type: 'basic',
-                icon: 'heroicons_outline:clipboard-check',
-                link: '/mediciones/indicadores'
-            }]
+            children:[]
         };
     }
 
@@ -188,13 +176,30 @@ export class NavigationService
           tap( (response) =>{
            
                 if(response.status == 'success'){
-                    
+                    let medi;
                     this.menuReplicar.default = [];
+                    console.log(response)
                     response.data.forEach(element => {
-                        this.menuAdministrado.children.push(element);
+                        console.log(element);
+                        medi = element.title ;
+                        if (element.title == 'Mediciones') {
+                            element.icon = 'heroicons_outline:chart-pie';
+                            this.menuMediciones.children.push(element);
+                            
+                        } else {
+                            this.menuAdministrado.children.push(element); 
+                      
+                        }
+
                     });
+
+                    if (medi == 'Mediciones') {
+                        this.menuPublico.push(this.menuMediciones);  
+                    } else {
+                        this.menuPublico.push(this.menuAdministrado);  
+                    }
         
-                    this.menuPublico.push(this.menuAdministrado);                   
+                             
                     this.menuReplicar.default = [];
                     this.menuReplicar.default = this.menuPublico;
                     this._navigation.next(this.menuReplicar);

@@ -1,9 +1,11 @@
+import { DatePipe } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { ISelect } from 'app/models/login';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
 import { NgxSpinnerService } from 'ngx-spinner';
+import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -22,11 +24,16 @@ export class ReportesComponent implements OnInit {
     public filtroestatus : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
     //#endregion
     protected _onDestroy = new Subject<void>();
- 
+    override2 = {
+      positionClass: 'toast-bottom-full-width',
+      closeButton: true,
+      
+    }; 
   constructor(private _solicitudesService : SolicitudesService,    
               private formBuilder : FormBuilder,              
               private _loginService : LoginService,
-              private spinner: NgxSpinnerService, ) { 
+              private spinner: NgxSpinnerService, 
+              private toast: ToastrService,) { 
 
                 this.solFormulario = formBuilder.group({
      
@@ -71,7 +78,6 @@ export class ReportesComponent implements OnInit {
           }
         }
 
-        console.log(  this.estatus)
         
       }
     );
@@ -84,28 +90,34 @@ export class ReportesComponent implements OnInit {
     if(this.solFormulario.valid){
       this.spinner.show();
 
+      const datepipe: DatePipe = new DatePipe('en-US')
+let fechaInicio = datepipe.transform(this.solFormulario.value.fechaInicio, 'dd/MM/YYYY');
 
-console.log(this.solFormulario)
+let fechaFin = datepipe.transform(this.solFormulario.value.fechaFin, 'dd/MM/YYYY');
+console.log(fechaInicio, fechaFin, this.solFormulario.value.estatus);
+  await  this._solicitudesService.reporteTecServ(fechaInicio, fechaFin, this.solFormulario.value.estatus).subscribe(
+        (data)=>{   
 
-/*       await  this._solicitudesService.descargaVacaciones(this.fechaFormulario.value.fecha).subscribe(
-        (data)=>{        
+          console.log(data);   
+
           const  blob = new Blob([data], {type : 'application/vnd.ms-excel'});
           console.log(blob);
           const descargarURL = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = descargarURL;
           const fecha = new Date().toLocaleDateString();
-          link.download = 'reporte_vacaciones_ '+ fecha +'.xls';
+          link.download = 'reporte_ '+ fecha +'.xls';
           link.click();
          this.spinner.hide();
         },
         (error) =>{
+          console.log("error")
           this.spinner.hide();
         }
-    );  */ 
+    ); 
     }else{
-     // this.toast.error('Verifique los Datos de las Secciones que son obligatorios no pueden estar vacios ', '', this.override2);
-    }
+      this.toast.error('Verifique los Datos de las Secciones que son obligatorios no pueden estar vacios ', '', this.override2);
+    } 
 
     
   }
