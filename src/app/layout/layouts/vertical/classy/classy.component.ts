@@ -9,7 +9,6 @@ import { NavigationService } from 'app/core/navigation/navigation.service';
 import { User } from 'app/core/user/user.types';
 import { UserService } from 'app/core/user/user.service';
 import { LoginService } from 'app/services/login.service';
-import { ComingSoonModule } from 'app/modules/admin/pages/coming-soon/coming-soon.module';
 
 @Component({
     selector     : 'classy-layout',
