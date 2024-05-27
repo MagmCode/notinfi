@@ -176,10 +176,12 @@ export class NavigationService
           tap( (response) =>{
            
                 if(response.status == 'success'){
+                    debugger
                     let medi;
                     this.menuReplicar.default = [];
                     console.log(response)
                     response.data.forEach(element => {
+                        debugger
                         console.log(element);
                         medi = element.title ;
                         if (element.title == 'Mediciones') {
@@ -193,9 +195,11 @@ export class NavigationService
 
                     });
 
-                    if (medi == 'Mediciones') {
+                    if (this.menuMediciones.children.length > 0) {
                         this.menuPublico.push(this.menuMediciones);  
-                    } else {
+                    } 
+                    
+                    if(this.menuAdministrado.children.length > 0) {
                         this.menuPublico.push(this.menuAdministrado);  
                     }
         

@@ -315,7 +315,7 @@ if (this.solicitud.metodo == 'buzon') {
     ); 
 } else {
   this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
-    (response) => {
+    (response) => { 
      
       if(response.estatus == 'SUCCESS'){
        
@@ -522,11 +522,20 @@ if(typeof data.data !=  'undefined'  ){
           this.datosFormulario.value.motivo =  this.motivos?.id;
           this.datosFormulario.value.observacion = this.observacion;
 
-          
+          var formulario = [];        
+if (this.solicitud.metodo == 'buzon') {
+
+this.solicitud.formulario.forEach(elemt => {
+formulario.push(elemt)
+
+});
+
+
+} 
           var enviarData = {};
           enviarData= {
            "solicitud":this.datosFormulario.value,
-           "formulario":[]
+           "formulario":formulario
           }
 
 
