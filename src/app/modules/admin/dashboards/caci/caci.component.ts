@@ -146,7 +146,7 @@ private overlayRef!: OverlayRef;
 async obtenerPlantilla(){
       this.usuario = this._loginservices.obterTokenInfo();
 
-      this._solicitudesService.consultarSolicitudesCreadas(this.usuario.codigo).subscribe(
+      this._solicitudesService.consultarSolicitudesEnProcesoCaci().subscribe(
       (response) =>{
           this.ELEMENT_DATA = [];
           this.ELEMENT_DATA = response.data;
@@ -155,7 +155,7 @@ async obtenerPlantilla(){
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
 
-          this._solicitudesService.consultarEstadisticaSolicitud(this.usuario.codigo).subscribe(
+          this._solicitudesService.consultarEstadisticaCaci().subscribe(
             (response) =>{
               this.creadas= response.data[0].creadas;
               this.rechazadas= response.data[0].rechazadas;
@@ -177,7 +177,7 @@ async obtenerPlantilla(){
           this.usuario = this._loginservices.obterTokenInfo();
           this.usuario = this._loginservices.obterTokenInfo();
  
-          this._solicitudesService.consultarSolicitudHistorico(this.usuario.codigo).subscribe(
+          this._solicitudesService.consultarHistoricoCaci().subscribe(
           (response) =>{
         
               this.ELEMENT_HISTORICO = [];

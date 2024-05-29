@@ -396,4 +396,21 @@ detalleArticulo(idTipoArticuloFk : any): Observable<any>{
   return this.http.post(url, dataBusqueda);
 }
 
+consultarSolicitudesEnProcesoCaci(): Observable <any>{
+  const url = this.urlEndPoint + 'consultarSolicitudEnProceso'; 
+  return this.http.post(url, "");
+}
+
+consultarEstadisticaCaci(): Observable <any>{
+  const url = this.urlEndPoint + 'estadisticaGlobal';
+  return this.http.post(url, "dataBusqueda");
+
+}
+
+consultarHistoricoCaci(): Observable <any>{
+  const url = this.urlEndPoint + 'consultarSolicitudHistoricoGlobal';
+  return this.http.post(url, "");
+
+}
+
 }
