@@ -12,7 +12,6 @@ import { mockApiServices } from 'app/mock-api';
 import { LayoutModule } from 'app/layout/layout.module';
 import { AppComponent } from 'app/app.component';
 import { appRoutes } from 'app/app.routing';
-import { RequerimientoEquipoModule } from './modules/admin/requerimiento-equipo/requerimiento-equipo.module';
 import { MatButtonModule } from '@angular/material/button';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { MatFormFieldModule } from '@angular/material/form-field';
@@ -68,6 +67,7 @@ import { MedicionesComponent } from './modules/admin/dashboards/mediciones/medic
 import { ReportesComponent } from './modules/admin/dashboards/mediciones/reportes/reportes.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+import { CaciComponent } from './modules/admin/dashboards/caci/caci.component';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -94,7 +94,8 @@ const routerConfig: ExtraOptions = {
         ModalReasignarComponent,
         ModalDesicionSopComponent,
         MedicionesComponent,
-        ReportesComponent
+        ReportesComponent,
+        CaciComponent
     ],
     imports     : [
         BrowserModule,
@@ -113,7 +114,6 @@ const routerConfig: ExtraOptions = {
         LayoutModule,
         // 3rd party modules that require global configuration via forRoot
         MarkdownModule.forRoot({}),
-          RequerimientoEquipoModule,
           MatButtonModule,
           MatButtonToggleModule,
           MatFormFieldModule,

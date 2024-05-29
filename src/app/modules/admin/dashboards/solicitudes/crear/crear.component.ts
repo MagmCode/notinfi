@@ -108,7 +108,8 @@ export class CrearComponent implements OnInit {
 
   isShownAsignacion: boolean = false; // Inicialmente oculto
   isShownReposicion: boolean = false;
-  isShownDesincorporacion: boolean = false;
+  isShownDesincorporacion: boolean = false; 
+  isShownSolicitudART: boolean = false;
   @ViewChild('matRef') matRef: MatSelect;
 
 
@@ -118,7 +119,9 @@ clear(){
 }
   async obtenerCategorias(){
 
- 
+    this.isShownAsignacion = false;
+    this.isShownReposicion = false;
+
     await this._solicitudesService.consultarCategorias().subscribe(
       (response) => {
      
@@ -142,22 +145,37 @@ clear(){
   }
 
   buscarTipoServicio(){    
-    this.servicio.length = 0;
+
 
     this.isShownAsignacion = false;
     this.isShownReposicion = false;
-    this.isShownDesincorporacion = false;
+
     this._solicitudesService.consultarTipoServicio(this.solFormulario.value.categoria?.id).subscribe(
       (response) => {
     
         this.tipoServicio.length = 0;
+        this.solFormulario.get('tiposerv').setValue(null);
+        this.servicio.length = 0;
+        this.solFormulario.get('servi').setValue(null);
+
         this.tipoServicio.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
           for(const iterator of response.data){
             this.tipoServicio.push({name: iterator.nombre, id: iterator.idTipoServicio})
           }
+
+          this.tipoServicioCtrl.setValue(this.tipoServicio);
+          this.filtrotipoServicio.next(this.tipoServicio);
+          this.tipoServicioFiltrosCtrl.valueChanges
+          .pipe(takeUntil(this._onDestroy))
+          .subscribe(() => {
+            this.filtrotipoServicioT();
+          });
+
+   
+
         }
-        
+    
       }
     );
   
@@ -172,15 +190,26 @@ clear(){
 
     this.isShownAsignacion = false;
     this.isShownReposicion = false;
-    this.isShownDesincorporacion = false;
+
     this._solicitudesService.consultarServicio(this.solFormulario.value.tiposerv?.id,  this.usuario.nivelCargo).subscribe(
       (response) => {
+
         this.servicio.length = 0;
+        this.solFormulario.get('servi').setValue(null);
         this.servicio.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
           for(const iterator of response.data){
             this.servicio.push({name: iterator.nombre, id:iterator.idServicio})
           }
+
+       
+      this.servicioCtrl.setValue(this.servicio);
+      this.filtroservicio.next(this.servicio);
+      this.servicioFiltrosCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filtroservicioT();
+      });
         }
         
       }
@@ -191,24 +220,25 @@ clear(){
 
   mostrarVista(){
     sessionStorage.setItem('idServicio', this.solFormulario.value.servi?.id);
-    
+   
+    this.isShownAsignacion = false;
+    this.isShownReposicion = false;
+    this.isShownSolicitudART = false;
+
+
 if (this.solFormulario.value.servi?.id == 1) {
 
   this.isShownAsignacion = true;
-  this.isShownReposicion = false;
   /* this.isShownDesincorporacion = false;/*/
 
   
 } else if (this.solFormulario.value.servi?.id == 2) {
-  this.isShownAsignacion = false;
   this.isShownReposicion = true;
   /* this.isShownDesincorporacion = false; */
 }
-/* else if (this.solFormulario.value.servi?.id == 3) {
-  this.isShownAsignacion = false;
-  this.isShownReposicion = false;
-  this.isShownDesincorporacion = true;
-} */
+else if (this.solFormulario.value.servi?.id == 4) {
+  this.isShownSolicitudART = true;
+} 
 
   }
 
@@ -269,6 +299,8 @@ if (this.solFormulario.value.servi?.id == 1) {
     );
   }
 //#endregion
+
+
 
 
 

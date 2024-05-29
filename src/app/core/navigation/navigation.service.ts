@@ -55,6 +55,15 @@ export class NavigationService
         icon: 'heroicons_outline:cog',
         children:[]
     };
+
+    menuCaci : any ={
+        id : 'caci',
+        title: 'Areas Consultas',
+        subtitle: 'Gestión de Areas Consultas',
+        type: 'group',
+        icon: 'heroicons_outline:cog',
+        children:[]
+    };
 /* 
     menuBandeja : any = {
             id : 'basignadas',
@@ -99,6 +108,17 @@ export class NavigationService
             id : 'mediciones',
             title: 'Areas Indicadores',
             subtitle: 'Gestión de Areas Indicadores',
+            type: 'group',
+            icon: 'heroicons_outline:cog',
+            children:[]
+        };
+    }
+
+    iniciarMenuCaci(){
+        return  this.menuMediciones  ={
+            id : 'CACI',
+            title: 'Areas Consultas',
+            subtitle: 'Gestión de Areas Consultas',
             type: 'group',
             icon: 'heroicons_outline:cog',
             children:[]
@@ -178,26 +198,38 @@ export class NavigationService
                 if(response.status == 'success'){
                     let medi;
                     this.menuReplicar.default = [];
-                    console.log(response)
+                
                     response.data.forEach(element => {
-                        console.log(element);
+                  
                         medi = element.title ;
                         if (element.title == 'Mediciones') {
                             element.icon = 'heroicons_outline:chart-pie';
                             this.menuMediciones.children.push(element);
                             
-                        } else {
+                        } else if(element.title == 'Caci'){
+                            this.menuCaci.children.push(element);
+
+                        }
+                        
+                        
+                        else {
                             this.menuAdministrado.children.push(element); 
                       
                         }
 
                     });
 
-                    if (medi == 'Mediciones') {
+                    if (this.menuMediciones.children.length > 0) {
                         this.menuPublico.push(this.menuMediciones);  
-                    } else {
+                    } 
+
+                    if (this.menuCaci.children.length > 0 ) {
+                        this.menuPublico.push(this.menuCaci);  
+                    } 
+
+                    if (this.menuAdministrado.children.length > 1 ) {
                         this.menuPublico.push(this.menuAdministrado);  
-                    }
+                    } 
         
                              
                     this.menuReplicar.default = [];

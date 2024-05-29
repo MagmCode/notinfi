@@ -347,4 +347,53 @@ reporteTecServ(fechaInicio : any, fechaFin: any, estatus : any): Observable<any>
   return this.http.post(url, dataBusqueda, httpOptions);
 }
 
+
+tipoArticulo(): Observable <any>{
+
+  const url = this.urlEndPoint + 'tipoArticulo';
+
+  return this.http.post(url, '');
+
+}
+
+
+tipoImpresora(): Observable <any>{
+
+  const url = this.urlEndPoint + 'tipoImpresora';
+
+  return this.http.post(url, '');
+
+
+
+  
+}
+
+modeloImpresora(idTipoImpresoraFk : any): Observable<any>{
+  const url = this.urlEndPoint + 'modeloImpresora';
+  const dataBusqueda = {
+    idTipoImpresoraFk : idTipoImpresoraFk
+  };
+  return this.http.post(url, dataBusqueda);
+}
+
+
+
+detalleImpresora(idModeloBnFk : any): Observable<any>{
+  const url = this.urlEndPoint + 'detalleImpresora';
+  const dataBusqueda = {
+    idModeloBnFk : idModeloBnFk
+  };
+  return this.http.post(url, dataBusqueda);
+}
+
+
+
+detalleArticulo(idTipoArticuloFk : any): Observable<any>{
+  const url = this.urlEndPoint + 'detalleArticulo';
+  const dataBusqueda = {
+    idTipoArticuloFk : idTipoArticuloFk
+  };
+  return this.http.post(url, dataBusqueda);
+}
+
 }

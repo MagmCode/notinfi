@@ -41,6 +41,8 @@ import { RequerimientoEquipoReposicionComponent } from './crear/requerimiento-eq
 import { RequerimientoEquipoDesincorporacionComponent } from './crear/requerimiento-equipo-desincorporacion/requerimiento-equipo-desincorporacion.component';
 import { DatosReposicionComponent } from './crear/datos-reposicion/datos-reposicion.component';
 import { DatosDesincorporacionComponent } from './crear/datos-desincorporacion/datos-desincorporacion.component';
+import { ProveduriaSolictudAFCComponent } from './crear/proveduria-solictud-afc/proveduria-solictud-afc.component';
+import { DatosArticulosSolicitarComponent } from './crear/proveduria-solictud-afc/datos-articulos-solicitar/datos-articulos-solicitar.component';
 
 
 @NgModule({
@@ -56,6 +58,8 @@ import { DatosDesincorporacionComponent } from './crear/datos-desincorporacion/d
         RequerimientoEquipoDesincorporacionComponent,
         DatosReposicionComponent,
         DatosDesincorporacionComponent,
+        ProveduriaSolictudAFCComponent,
+        DatosArticulosSolicitarComponent
     ],
     imports     : [
         RouterModule.forChild(solicitudesRoutes),

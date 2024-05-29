@@ -18,6 +18,7 @@ import { ReasignarSolicitudinvComponent } from './modules/admin/dashboards/inven
 import { ReasignarSolicitudsopComponent } from './modules/admin/dashboards/soporte/reasignar-solicitudsop/reasignar-solicitudsop.component';
 import { MedicionesComponent } from './modules/admin/dashboards/mediciones/mediciones.component';
 import { ReportesComponent } from './modules/admin/dashboards/mediciones/reportes/reportes.component';
+import { CaciComponent } from './modules/admin/dashboards/caci/caci.component';
 
 
 
@@ -121,6 +122,13 @@ export const appRoutes: Route[] = [
             {path: 'mediciones', children: [
                 {path: 'indicadores',  component: MedicionesComponent},
                 {path: 'reportes',  component: ReportesComponent},
+                
+            ]},
+
+            
+
+            {path: 'caci', children: [
+                {path: 'consultacaci',  component: CaciComponent},
                 
             ]},
 
