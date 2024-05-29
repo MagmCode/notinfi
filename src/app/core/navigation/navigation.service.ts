@@ -196,6 +196,7 @@ export class NavigationService
           tap( (response) =>{
            
                 if(response.status == 'success'){
+                    debugger
                     let medi;
                     this.menuReplicar.default = [];
                 
@@ -219,7 +220,7 @@ export class NavigationService
 
                     });
 
-                    if (this.menuMediciones.children.length > 0) {
+                    if (this.menuMediciones.children.length > 0) {                
                         this.menuPublico.push(this.menuMediciones);  
                     } 
 
