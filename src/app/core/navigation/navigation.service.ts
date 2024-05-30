@@ -196,7 +196,7 @@ export class NavigationService
           tap( (response) =>{
            
                 if(response.status == 'success'){
-                    debugger
+                    
                     let medi;
                     this.menuReplicar.default = [];
                 

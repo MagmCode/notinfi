@@ -2,7 +2,7 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
 import { ISelect } from 'app/models/login';
@@ -16,6 +16,8 @@ import {  takeUntil } from 'rxjs/operators';
 import { DatosArticulosSolicitarComponent } from './datos-articulos-solicitar/datos-articulos-solicitar.component';
 import { MatDialog } from '@angular/material/dialog';
 
+
+
 @Component({
   selector: 'app-proveduria-solictud-afc',
   templateUrl: './proveduria-solictud-afc.component.html',
@@ -28,6 +30,7 @@ export class ProveduriaSolictudAFCComponent implements OnInit {
   isShownP: boolean = true; 
   isShownSU: boolean = false;
   isShownPT: boolean = false;
+  mostrar: boolean = false;
 
   piso= new FormControl('', Validators.required);
   
@@ -72,7 +75,7 @@ private overlayRef!: OverlayRef;
 //#endregion
   
   //#region  tablas
-  displayedColumns: string[] = ['codArticulo', 'dercripciónArt', 'cantidadArt','acciones'];
+  displayedColumns: string[] = ['id','codArticulo', 'dercripciónArt', 'cantidadArt','acciones'];
   positionOptions: TooltipPosition[] = ['below'];
   position = new FormControl(this.positionOptions[0]);
   dataSource: MatTableDataSource<articulo>;
@@ -80,6 +83,7 @@ private overlayRef!: OverlayRef;
   
  @ViewChild(MatPaginator) paginator: MatPaginator | any;
  @ViewChild(MatSort) sort: MatSort = new MatSort;  
+ @ViewChild(MatTable) table: MatTable<articulo>;
   //#endregion
 
 
@@ -115,7 +119,7 @@ private overlayRef!: OverlayRef;
                 codUnidadResp: new FormControl(''),
                 unidadResp: new FormControl(''),
                 codusuarioGestion:  new FormControl(''),
-                detalle : new FormControl('', [Validators.required]),
+                /*  detalle : new FormControl('', [Validators.required]), */
                 nroContacto : new FormControl('', [Validators.required])
         
               })
@@ -198,7 +202,6 @@ async obtenerDatos(){
           cedula: data.data.cedula,
           nombres:   data.data.nombres + ' ' + data.data.apellidos,
           codUnidad: data.data.codUnidad,
-          unidad: data.data.descUnidad,
           codusuarioGestion :  data.data.codigoSupervisor ,
           ubicacionFisica: data.data.codUbicacionFisica
         }); 
@@ -213,6 +216,22 @@ async obtenerDatos(){
     }, 
 
   );
+ debugger
+  this._solicitudesService.unidadesJerarguicaDescendente(this.usuario.codUnidad).subscribe(
+    (response) => {
+ 
+      this.codUnidad.push({name: 'Selecciones', id:''});
+      if(response.estatus == 'SUCCESS'){
+        for(const iterator of response.data){
+          this.codUnidad.push({name:iterator.codUnidad+ ' ' +  iterator.unidad, id:iterator.codUnidad})
+        }
+       
+      }
+
+    }
+  );
+
+
 
   this._solicitudesService.ubicacionFisica().subscribe(
     (response) => {
@@ -248,6 +267,7 @@ async obtenerDatos(){
 
 
   }
+
 
  
 }  
@@ -301,14 +321,25 @@ mostrarInput(){
     })
     
     dialogRef.afterClosed().subscribe(result => {
-  
    
+    debugger
 
-     this.dataSource.data.push = result[0];
-   
-      this.ngAfterViewInit();
-            this.dataSource.paginator = this.paginator;
-            this.dataSource.sort = this.sort;
+   console.log(result)
+
+   const  indice = this.dataSource.data.filter(elemento => elemento.codArticulo === result.codArticulo);
+
+if (indice.length >  0) {
+  this.toast.error(result.dercripcionArt + ' ya asignado' , '', this.override2);
+  
+} else {
+
+  this.dataSource.data.push(result); 
+  this.dataSource.data = this.dataSource.data.slice();
+  this.ngAfterViewInit();
+  
+
+  
+}
      
     });
   
@@ -316,6 +347,16 @@ mostrarInput(){
   
   }
 
+  deleteRow(rowToDelete: any) {
+    // Assuming 'id' is the unique identifier property
+
+    debugger
+    const filteredData = this.dataSource.data.filter(row => row.codArticulo !== rowToDelete.codArticulo);
+    this.dataSource.data = filteredData;
+  
+    // Optional: Send delete request to server or show confirmation message
+    console.log('Row deleted:', rowToDelete);
+  }
 
  //#region  inicializador de select
 
@@ -401,3 +442,4 @@ protected filtrosupervisorT() {
 
 //#endregion
 }
+

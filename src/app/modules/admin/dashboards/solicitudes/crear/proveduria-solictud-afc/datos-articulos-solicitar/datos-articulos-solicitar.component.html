@@ -61,7 +61,7 @@
         </div>
 
             <div [hidden]="!isShownC" id="divshowC">
-                <div  class="grid grid-cols-2 gap-4">
+                <div  class="grid grid-cols-3 gap-4">
                     <mat-form-field appearance="fill" class="width100">
                         <mat-label>Dirección IP</mat-label>
                         <input matInput  formControlName="direccionIp"> 
@@ -91,7 +91,7 @@
              
                     <mat-form-field appearance="fill"class="width100">
                         <mat-label>Modelo de impresora</mat-label>
-                        <mat-select class="inputMat" formControlName="idTipoModelo"    #buySellSelect="matSelect"  >  <!--  -->
+                        <mat-select class="inputMat" formControlName="idTipoModelo"    #buySellSelect="matSelect"  (ngModelChange)="mostrardescConsumible()">  <!--  -->
                             <mat-option>
                                 <ngx-mat-select-search [formControl]="tipoModeloFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
                                 [noEntriesFoundLabel]="'No Encontrado'" >
@@ -106,6 +106,26 @@
                             Campo <strong>Obligatorio</strong>
                         </mat-error>      
                     </mat-form-field>
+
+                    <mat-form-field appearance="fill"class="width100">
+                        <mat-label>DESCRIPCIÓN CONSUMIBLE</mat-label>
+                        <mat-select class="inputMat" formControlName="idDescConsumible"    #buySellSelect="matSelect"  >  <!--  -->
+                            <mat-option>
+                                <ngx-mat-select-search [formControl]="descConsumibleFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
+                                [noEntriesFoundLabel]="'No Encontrado'" >
+                                <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
+                                [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
+                            </mat-option>
+                        <mat-option *ngFor="let descConsumible of filtrodescConsumible | async" [value]="descConsumible" >  <!--  -->
+                            {{descConsumible.name}}
+                            </mat-option>
+                        </mat-select>
+                        <mat-error *ngIf="artFormulario.get('idDescConsumible')?.hasError">
+                            Campo <strong>Obligatorio</strong>
+                        </mat-error>      
+                    </mat-form-field>
+
+
 
                     <mat-form-field appearance="fill" class="width100">
                         <mat-label>Cantidad</mat-label>

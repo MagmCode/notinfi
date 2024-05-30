@@ -1,11 +1,15 @@
 export interface articulo {
+     id:any,
+    codArticulo: any,
     idTipoArt: any,
     descrTipoArt: any,
-    codArticulo: any,
     idDescrArt:  any,
-    dercripciónArt : any,
-    cantidadArt : any,
+    dercripcionArt : any,
     idTipoImpre:any,
     tipoImpresora: any,
-    direccionIp: any
+    direccionIp: any,
+    idDescConsumible: any,
+    descConsumible: any,
+    modeloConsumible: any,    
+    cantidadArt : any,
   }

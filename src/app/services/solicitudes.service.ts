@@ -396,4 +396,13 @@ detalleArticulo(idTipoArticuloFk : any): Observable<any>{
   return this.http.post(url, dataBusqueda);
 }
 
+
+
+unidadesJerarguicaDescendente(codUnidad : any): Observable<any>{
+  const url = this.urlEndPoint + 'int-servicios/unidadesJerarguicaDescendente';
+  const dataBusqueda = {
+    codUnidad : codUnidad
+  };
+  return this.http.post(url, dataBusqueda);
+}
 }
