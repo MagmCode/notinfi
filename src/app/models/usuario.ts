@@ -45,6 +45,8 @@ export interface usuario {
     tipoServicio: String ,
     metodo : any,
     detalle:any,
+    centroCosto:any,
+    numContacto: any,
     formulario : any
 
   }

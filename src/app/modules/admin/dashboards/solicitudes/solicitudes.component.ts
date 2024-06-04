@@ -199,7 +199,7 @@ async obtenerPlantilla(){
    
             this._solicitudesService.consultarSolicitudesAsignadas(this.usuario.codigo).subscribe(
             (response) =>{
-          
+        
                 this.ELEMENT_PENDIENTE = [];
                 this.ELEMENT_PENDIENTE = response.data;
                 this.dataSourceP = new MatTableDataSource(this.ELEMENT_PENDIENTE);
@@ -254,18 +254,38 @@ async obtenerPlantilla(){
         this._router.navigate(['/solicitudes/gestionarSolicitudes']);
       }
 
-      obtenerDatos(idSolicitud: any){
+      obtenerDatos(idSolicitud: any,idTipoServicio: any ){
         
-        sessionStorage.setItem('idSolicitud', idSolicitud);
-        this._router.navigate(['/solicitudes/detalleSolicitud']); 
-      
+  sessionStorage.setItem('idSolicitud', idSolicitud); 
+        if (idTipoServicio == 1) {
+          this._router.navigate(['/solicitudes/detalleSolicitud']); 
+        
+        } 
+
+if (idTipoServicio == 2) {
+  
+  
+  this._router.navigate(['/solicitudes/detalleSolProveeduria']);
+}
+       
       
       }
 
-      obtenerDatosApobar(idSolicitud: any){
+      obtenerDatosApobar(idSolicitud: any,idTipoServicio:any ){
      
+
         sessionStorage.setItem('idSolicitud', idSolicitud);
-        this._router.navigate(['/solicitudes/decisionSolicitud']); 
+              
+        if (idTipoServicio == 1) {
+          this._router.navigate(['/solicitudes/decisionSolicitud']); 
+        
+        } 
+
+if (idTipoServicio == 2) {
+  
+  
+  this._router.navigate(['/solicitudes/detalleSolProveeduria']);
+}
       
       
       }

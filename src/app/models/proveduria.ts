@@ -12,4 +12,5 @@ export interface articulo {
     descConsumible: any,
     modeloConsumible: any,    
     cantidadArt : any,
+    unidadVenta : any,
   }

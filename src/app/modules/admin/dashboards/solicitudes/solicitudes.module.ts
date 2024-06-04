@@ -43,6 +43,8 @@ import { DatosReposicionComponent } from './crear/datos-reposicion/datos-reposic
 import { DatosDesincorporacionComponent } from './crear/datos-desincorporacion/datos-desincorporacion.component';
 import { ProveduriaSolictudAFCComponent } from './crear/proveduria-solictud-afc/proveduria-solictud-afc.component';
 import { DatosArticulosSolicitarComponent } from './crear/proveduria-solictud-afc/datos-articulos-solicitar/datos-articulos-solicitar.component';
+import { DetalleSolProveeduriaComponent } from './detalle-sol-proveeduria/detalle-sol-proveeduria.component';
+import { DecisionSolProveeduriaComponent } from './decision-sol-proveeduria/decision-sol-proveeduria.component';
 
 
 @NgModule({
@@ -59,7 +61,9 @@ import { DatosArticulosSolicitarComponent } from './crear/proveduria-solictud-af
         DatosReposicionComponent,
         DatosDesincorporacionComponent,
         ProveduriaSolictudAFCComponent,
-        DatosArticulosSolicitarComponent
+        DatosArticulosSolicitarComponent,
+        DetalleSolProveeduriaComponent,
+        DecisionSolProveeduriaComponent
     ],
     imports     : [
         RouterModule.forChild(solicitudesRoutes),

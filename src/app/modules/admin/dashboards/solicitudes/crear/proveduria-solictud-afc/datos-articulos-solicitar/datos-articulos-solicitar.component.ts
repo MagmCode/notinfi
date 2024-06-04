@@ -77,26 +77,90 @@ private overlayRef!: OverlayRef;
               private formBuilder : FormBuilder,              
               private toast: ToastrService,) {
 
+              
+
                 this.artFormulario = formBuilder.group({
+                  id: new FormControl(''),
                   IdTipoArticulo:  new FormControl('', [Validators.required]),
-                  descrTipoArt:  new FormControl(''),
                   idDescrArt: new FormControl('') ,
-                  DescrArt:  new FormControl(''),
                   idTipoImpre: new FormControl(''),
-                  descrTipoImpre:  new FormControl(''),
                   idTipoModelo:  new FormControl(''),
-                  descTipoModelo:  new FormControl(''),
                   idDescConsumible:  new FormControl(''),
-                  descConsumible:  new FormControl(''),
                   direccionIp:  new FormControl(''),
                   cantidad:  new FormControl(''),
+                  unidadV:  new FormControl(''),
                 })
 
 
      }
 
   ngOnInit(): void {
-    this.obtenerTipoArticulo(); 
+
+
+ 
+this.obtenerTipoArticulo(); 
+
+    if (this.data) {
+
+      this.datosArticulo = this.data.articulo;
+     
+
+
+      this.artFormulario = this.formBuilder.group({
+        IdTipoArticulo:  new FormControl( this.datosArticulo.idTipoArt),
+       
+      })
+      this.mostrarInput();
+      if (this.datosArticulo.idTipoArt != 3) {
+
+
+       
+
+        
+        this.artFormulario = this.formBuilder.group({
+          id: new FormControl( this.datosArticulo.id),
+          IdTipoArticulo:  new FormControl( {value : this.datosArticulo.idTipoArt, disabled: true}),         
+          idDescrArt: new FormControl( {value : this.datosArticulo.idDescrArt + '-' + this.datosArticulo.codArticulo + '-' + this.datosArticulo.unidadVenta, disabled: true}) ,
+          idTipoImpre: new FormControl(''),
+          idTipoModelo:  new FormControl(''),
+          idDescConsumible:  new FormControl(''),
+          direccionIp:  new FormControl(''),
+          cantidad:  new FormControl(this.datosArticulo.cantidadArt),
+          
+          unidadV:  new FormControl({value : this.datosArticulo.unidadVenta, disabled: true}),
+        })
+       
+      } else {
+        this.artFormulario = this.formBuilder.group({
+          idTipoImpre: new FormControl( this.datosArticulo.idTipoImpre),
+          idTipoModelo:  new FormControl(this.datosArticulo.idDescrArt),
+         
+        })
+        this.mostrarModelo()
+        this.mostrardescConsumible();
+    
+        this.artFormulario = this.formBuilder.group({
+          
+          id: new FormControl( this.datosArticulo.id),
+          IdTipoArticulo:  new FormControl({value : this.datosArticulo.idTipoArt, disabled: true}),         
+          idDescrArt: new FormControl('') ,
+          idTipoImpre: new FormControl({value : this.datosArticulo.idTipoImpre, disabled: true}),
+          idTipoModelo:  new FormControl(this.datosArticulo.idDescrArt),
+          idDescConsumible:  new FormControl(this.datosArticulo.idDescConsumible  +'-'+ this.datosArticulo.codArticulo),
+          direccionIp:  new FormControl(this.datosArticulo.direccionIp),
+          cantidad:  new FormControl(this.datosArticulo.cantidadArt),
+          unidadV:  new FormControl({value : this.datosArticulo.unidadVenta, readonly: true}),
+        })
+      }
+
+this.ngAfterViewInit();
+      
+
+    
+
+
+    } 
+ 
 
  
 
@@ -179,13 +243,13 @@ private overlayRef!: OverlayRef;
   mostrarInput(){
 
 
-    if (this.artFormulario.value.IdTipoArticulo?.id != 3) {
+    if (this.artFormulario.value.IdTipoArticulo != 3) {
       this.isShown = true;
       this.isShownC = false;
 
   
 
-    this._solicitudesService.detalleArticulo(this.artFormulario.value.IdTipoArticulo?.id).subscribe(
+    this._solicitudesService.detalleArticulo(this.artFormulario.value.IdTipoArticulo).subscribe(
       (response) => {
    
         this.descrArticulo.length = 0;
@@ -195,7 +259,7 @@ private overlayRef!: OverlayRef;
         if(response.estatus == 'SUCCESS'){
   
           for(const iterator of response.data){
-              this.descrArticulo.push({name:iterator.descripcion, id:iterator.idArticuloPk + '-' +iterator.codigoBdv})             
+              this.descrArticulo.push({name:iterator.descripcion, id:iterator.idArticuloPk + '-' +iterator.codigoBdv  + '-' + iterator.unidadVenta})             
           }
     
         }
@@ -213,7 +277,7 @@ private overlayRef!: OverlayRef;
     this.artFormulario = this.formBuilder.group({
       IdTipoArticulo:  new FormControl(this.artFormulario.value.IdTipoArticulo,  [Validators.required]),
       idDescrArt: new FormControl('', [Validators.required]) ,
-      cantidad:  new FormControl('', [Validators.required]),
+      cantidad:  new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
     })
 
     } else {
@@ -245,7 +309,7 @@ private overlayRef!: OverlayRef;
         idTipoModelo:  new FormControl('', [Validators.required]),
         idDescConsumible:  new FormControl('', [Validators.required]),
         direccionIp:  new FormControl('', [Validators.required]),
-        cantidad:  new FormControl('', [Validators.required]),
+        cantidad:  new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
       })
   
     }
@@ -253,10 +317,31 @@ private overlayRef!: OverlayRef;
     }
 
 
+    mostrarUnidadV(){
+
+
+      const cod: string[] =  this.artFormulario.value.idDescrArt.split('-');
+      var uni = cod[2];
+
+
+
+    this.artFormulario = this.formBuilder.group({
+      IdTipoArticulo:  new FormControl(this.artFormulario.value.IdTipoArticulo,  [Validators.required]),
+     
+      idDescrArt: new FormControl(this.artFormulario.value.idDescrArt, [Validators.required]) ,
+      cantidad:  new FormControl(this.artFormulario.value.cantidad, [Validators.required, Validators.pattern('^[0-9]+$')]),
+    unidadV:  new FormControl(uni),
+  }) 
+ 
+
+
+
+    }
+
     mostrarModelo(){
 
  
-      this._solicitudesService.modeloImpresora(this.artFormulario.value.idTipoImpre?.id).subscribe(
+      this._solicitudesService.modeloImpresora(this.artFormulario.value.idTipoImpre).subscribe(
         (response) => {
           this.tipoModelo.length = 0;
   
@@ -287,7 +372,7 @@ private overlayRef!: OverlayRef;
     mostrardescConsumible(){
       
         
-            this._solicitudesService.detalleImpresora(this.artFormulario.value.idTipoModelo?.id).subscribe(
+            this._solicitudesService.detalleImpresora(this.artFormulario.value.idTipoModelo).subscribe(
               (response) => {
                 this.descConsumible.length = 0;
         
@@ -322,28 +407,32 @@ private overlayRef!: OverlayRef;
 
   asignar(){
 
-
+    
 this.datosArticulo = {} as articulo;
 if (this.artFormulario.valid) {
-  if (this.artFormulario.value.IdTipoArticulo.id != 3) {
   
 
+  this.datosArticulo.id =this.artFormulario.getRawValue().id;
+    this.datosArticulo.idTipoArt = this.artFormulario.getRawValue().IdTipoArticulo;
+    this.datosArticulo.descrTipoArt = document.querySelector('#selectart')?.textContent;
      
-let cod: string[] =  this.artFormulario.value.idDescrArt.id.split('-');
+  if (this.artFormulario.getRawValue().IdTipoArticulo != 3) {
+  
+
+let cod: string[] =  this.artFormulario.getRawValue().idDescrArt.split('-');
 
 
-    this.datosArticulo.idTipoArt = this.artFormulario.value.IdTipoArticulo.id;
-    this.datosArticulo.descrTipoArt = this.artFormulario.value.IdTipoArticulo.name;
     this.datosArticulo.codArticulo = cod[1];
     this.datosArticulo.idDescrArt = cod[0];
-    this.datosArticulo.dercripcionArt  = this.artFormulario.value.idDescrArt.name;  
-    this.datosArticulo.cantidadArt  = this.artFormulario.value.cantidad;
+    this.datosArticulo.dercripcionArt  = document.querySelector('#selectDescrArt')?.textContent;
+    this.datosArticulo.cantidadArt  = this.artFormulario.getRawValue().cantidad;
     this.datosArticulo.idTipoImpre =  ' ';
     this.datosArticulo.tipoImpresora =  ' ';
     this.datosArticulo.direccionIp =  ' ';
     this.datosArticulo.idDescConsumible =  ' ';
     this.datosArticulo.descConsumible =  ' ';
-    this.datosArticulo.modeloConsumible =  ' ';   
+    this.datosArticulo.modeloConsumible =  ' '; 
+    this.datosArticulo.unidadVenta = this.artFormulario.getRawValue().unidadV;  
 
 
 
@@ -355,21 +444,19 @@ let cod: string[] =  this.artFormulario.value.idDescrArt.id.split('-');
   }else {
 
 
-    let cod: string[] =  this.artFormulario.value.idDescConsumible.id.split('-');
-    let codM: string[] =  this.artFormulario.value.idDescConsumible.name.split('-');
-    this.datosArticulo.idTipoArt = this.artFormulario.value.IdTipoArticulo.id;
-    this.datosArticulo.descrTipoArt = this.artFormulario.value.IdTipoArticulo.name;
+    let cod: string[] =  this.artFormulario.getRawValue().idDescConsumible.split('-');
+    let codM: string[] =  document.querySelector('#selectDescConsumible')?.textContent.split('-');
     this.datosArticulo.codArticulo = cod[1];
-    this.datosArticulo.idDescrArt = this.artFormulario.value.idTipoModelo.id;
-    this.datosArticulo.dercripcionArt  = this.artFormulario.value.idTipoModelo.name;  
-    this.datosArticulo.cantidadArt  = this.artFormulario.value.cantidad;
-    this.datosArticulo.idTipoImpre =  this.artFormulario.value.idTipoImpre.id;
-    this.datosArticulo.tipoImpresora =  this.artFormulario.value.idTipoImpre.name;
-    this.datosArticulo.direccionIp =  this.artFormulario.value.direccionIp;
+    this.datosArticulo.idDescrArt = this.artFormulario.getRawValue().idTipoModelo;
+    this.datosArticulo.dercripcionArt  = document.querySelector('#selectTipoModelo')?.textContent;  
+    this.datosArticulo.cantidadArt  = this.artFormulario.getRawValue().cantidad;
+    this.datosArticulo.idTipoImpre =  this.artFormulario.getRawValue().idTipoImpre;
+    this.datosArticulo.tipoImpresora =   document.querySelector('#selectTipoImpre')?.textContent;
+    this.datosArticulo.direccionIp =  this.artFormulario.getRawValue().direccionIp;
     this.datosArticulo.idDescConsumible =  cod[0];
     this.datosArticulo.descConsumible =  codM[0];
     this.datosArticulo.modeloConsumible =  codM[1];  
-
+    this.datosArticulo.unidadVenta = 'UNIDAD';
  
   
 

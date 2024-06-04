@@ -19,6 +19,8 @@ import { ReasignarSolicitudsopComponent } from './modules/admin/dashboards/sopor
 import { MedicionesComponent } from './modules/admin/dashboards/mediciones/mediciones.component';
 import { ReportesComponent } from './modules/admin/dashboards/mediciones/reportes/reportes.component';
 import { CaciComponent } from './modules/admin/dashboards/caci/caci.component';
+import { DetalleSolProveeduriaComponent } from './modules/admin/dashboards/solicitudes/detalle-sol-proveeduria/detalle-sol-proveeduria.component';
+import { DecisionSolProveeduriaComponent } from './modules/admin/dashboards/solicitudes/decision-sol-proveeduria/decision-sol-proveeduria.component';
 
 
 
@@ -96,6 +98,8 @@ export const appRoutes: Route[] = [
                 {path: 'asignacion', component: RequerimientoEquipoAsignacionComponent},
                 {path: 'detalleSolicitud', component: DetalleSolicitudComponent}, 
                 {path: 'decisionSolicitud', component: DecisionSolicitudComponent},
+                {path: 'detalleSolProveeduria', component:DetalleSolProveeduriaComponent},
+                {path: 'decisionSolProveeduria', component: DecisionSolProveeduriaComponent},
                
                 
             ]},            

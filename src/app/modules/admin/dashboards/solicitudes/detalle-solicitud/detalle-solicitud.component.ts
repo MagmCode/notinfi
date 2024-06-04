@@ -153,7 +153,7 @@ protected _onDestroy = new Subject<void>();
 
   applyFilterE(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+    this.dataSourceE.filter = filterValue.trim().toLowerCase();
 
     if (this.dataSourceE.paginator) {
       this.dataSourceE.paginator.firstPage();
