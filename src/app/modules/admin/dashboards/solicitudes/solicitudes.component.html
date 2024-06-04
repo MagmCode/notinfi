@@ -338,7 +338,7 @@
                                              [svgIcon]="'heroicons_solid:x-circle'"></mat-icon> -->
 
                                              <mat-icon class=" icon-size-5 text-blue-500"
-                                             (click) = "obtenerDatosApobar(row.idSolicitud)"                                                
+                                             (click) = "obtenerDatosApobar(row.idSolicitud, row.idTipoServicio)"                                                
                                               [svgIcon]="'heroicons_solid:pencil'"></mat-icon>
 
                                         </td>
@@ -459,7 +459,7 @@
                                    
 
                                              <mat-icon class=" icon-size-5 text-blue-500"
-                                             (click) = "obtenerDatos(row.idSolicitud)"                                                
+                                             (click) = "obtenerDatos(row.idSolicitud, row.idTipoServicio)"                                                
                                               [svgIcon]="'heroicons_solid:search'"></mat-icon>
 
                                         </td>

@@ -1,6 +1,5 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
@@ -14,14 +13,13 @@ import { SolicitudesService } from 'app/services/solicitudes.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
-import { ModaldecisionesComponent } from '../modaldecisiones/modaldecisiones.component';
-
 @Component({
-  selector: 'app-decision-sol-proveeduria',
-  templateUrl: './decision-sol-proveeduria.component.html',
-  styleUrls: ['./decision-sol-proveeduria.component.scss']
+  selector: 'app-asignar-sol-proveeduria',
+  templateUrl: './asignar-sol-proveeduria.component.html',
+  styleUrls: ['./asignar-sol-proveeduria.component.scss']
 })
-export class DecisionSolProveeduriaComponent implements OnInit {
+export class AsignarSolProveeduriaComponent implements OnInit {
+
   user = {} as User;
   solicitudesDto = {} as any;
   usuario = {} as any;
@@ -32,15 +30,8 @@ export class DecisionSolProveeduriaComponent implements OnInit {
   serviA: boolean = false;
   mensaje: any;
   articulo = {} as any;
- 
-  esValido:  boolean = false;
-  hasError :boolean = false;
-  estareaA :boolean = false;
-  estareaC :boolean = false;
   
-  metodo = [];
 
-  radioSelected: any;
     //#region  tablas
     displayedColumnsP: string[] = ['tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','direccionIp','tipoImpresora', 'descConsumible' ,'modeloConsumible'];
     positionOptionsP: TooltipPosition[] = ['below'];
@@ -69,58 +60,57 @@ override2 = {
 };
 //#endregion
 
-
 protected _onDestroy = new Subject<void>();
-constructor(private _loginService : LoginService,  
-  private _loginservices: LoginService,
-  private _solicitudesService : SolicitudesService,              
-  private formBuilder : FormBuilder, 
-  private route: ActivatedRoute ,
-  private toast: ToastrService,
-  private spinner: NgxSpinnerService,
-  private _router: Router,
-  public dialog: MatDialog,) { 
 
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
-    this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
-    this.datosFormulario = formBuilder.group({
+  constructor(private _loginService : LoginService,  
+    private _loginservices: LoginService,
+    private _solicitudesService : SolicitudesService,              
+    private formBuilder : FormBuilder, 
+    private route: ActivatedRoute ,
+    private toast: ToastrService,
+    private spinner: NgxSpinnerService,
+    private _router: Router) { 
 
-      idSolicitud:  new FormControl(''),
-      codigoUsuario:  new FormControl(''),
-      cedula:  new FormControl(''),
-      nombres:  new FormControl(''),
-      codUnidad: new FormControl(''),
-      unidad:  new FormControl(''),
-      codUnidadOrg:  new FormControl(''),
-      unidadOrg:  new FormControl(''),
-      codUnidadJrq:  new FormControl(''),
-      unidadJrq:  new FormControl(''),
-      ubicacionFisica:  new FormControl(''),
-      fechaCreacion:  new FormControl(''),
-      fechaModificacion:  new FormControl(''),
-      estatus: new FormControl(''),
-      idServicio: new FormControl(''),
-      servicio:  new FormControl(''),
-      responsable:  new FormControl(''),
-      codigoUsuarioResp:  new FormControl(''),
-      cedulaResp:  new FormControl(''),
-      nombresResp:  new FormControl(''),
-      codUnidadResp: new FormControl(''),
-      unidadResp:  new FormControl(''),
-      idTarea:  new FormControl(''),
-      tarea:  new FormControl(''),
-      codusuarioGestion:  new FormControl(''),
-      decision: new FormControl(''),
-      idCategoria:    new FormControl(''),
-      categoria:  new FormControl(''),
-      idTipoServicio:  new FormControl(''),
-      tipoServicio: new FormControl(''),
-      detalle: new FormControl(''),
-      centroCosto: new FormControl(''),
-      numContacto: new FormControl(''),
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
+      this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
+      this.datosFormulario = formBuilder.group({
 
-    })
-  }
+        idSolicitud:  new FormControl(''),
+        codigoUsuario:  new FormControl(''),
+        cedula:  new FormControl(''),
+        nombres:  new FormControl(''),
+        codUnidad: new FormControl(''),
+        unidad:  new FormControl(''),
+        codUnidadOrg:  new FormControl(''),
+        unidadOrg:  new FormControl(''),
+        codUnidadJrq:  new FormControl(''),
+        unidadJrq:  new FormControl(''),
+        ubicacionFisica:  new FormControl(''),
+        fechaCreacion:  new FormControl(''),
+        fechaModificacion:  new FormControl(''),
+        estatus: new FormControl(''),
+        idServicio: new FormControl(''),
+        servicio:  new FormControl(''),
+        responsable:  new FormControl(''),
+        codigoUsuarioResp:  new FormControl(''),
+        cedulaResp:  new FormControl(''),
+        nombresResp:  new FormControl(''),
+        codUnidadResp: new FormControl(''),
+        unidadResp:  new FormControl(''),
+        idTarea:  new FormControl(''),
+        tarea:  new FormControl(''),
+        codusuarioGestion:  new FormControl(''),
+        decision: new FormControl(''),
+        idCategoria:    new FormControl(''),
+        categoria:  new FormControl(''),
+        idTipoServicio:  new FormControl(''),
+        tipoServicio: new FormControl(''),
+        detalle: new FormControl(''),
+        centroCosto: new FormControl(''),
+        numContacto: new FormControl(''),
+
+      })
+    }
 
   ngOnInit(): void {
     this.obtenerDatos();
@@ -221,66 +211,44 @@ this.ELEMENT_DATA =  response.data.detalle
            this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
            this.ngAfterViewInit();
     
-if (this.datosFormulario.value.idTarea == "17" ) {
-  this.estareaA =  true;
-  this.estareaC = false;
-} else {
-  this.estareaA =  false;
-  this.estareaC = true; 
-}
-           this._solicitudesService.consultarMetodosAutenticacion().subscribe(
-            (response) => {
-             
-              if(response.estatus == 'SUCCESS'){
-                for(const iterator of response.data){
-                  this.metodo.push({name: iterator.nombre, id:iterator.idAutenticacion})
-               
-                }
-              }
-            
-            }
-          );
+
       }
       )
     
-  } 
+  }
+  
+  asignarSolictud(){
+   
 
-  openDialog(decision: String): void {
+    this.usuario = this._loginservices.obterTokenInfo();
 
-
-    console.log(this.radioSelected)
-          if (!this.radioSelected) {
-            this.esValido = true;
-            return;
-          }
-          this.spinner.show();
-          this.usuario = this._loginservices.obterTokenInfo();
-          
+    
+    this._solicitudesService.asignarSolicitudes(this.datosFormulario.value?.idSolicitud, this.usuario.codigo).subscribe(
+      (data) =>{    
+   
+        if(data.estatus == "SUCCESS"){
+          this.toast.success(data.mensaje + " Número de solicitud " + this.datosFormulario.value?.idSolicitud, '', this.override2);            
+          setTimeout(()=>{
+            this.refrescarPagina()
+        },1500);  
         
-    /*       this._solicitudesService.generarToken(this.usuario.codigo,this.radioSelected).subscribe(
-            (response) => {
-             
-              if(response.estatus == 'SUCCESS'){ */
-                const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-                  data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : this.radioSelected},
-                  disableClose: true,
-                });
-                
-                dialogRef.afterClosed().subscribe(result => {
-                  
-                });
-        /*       }else{
-    
-                this.toast.error(response.mensaje, '', this.override2);
-              }
-            
-            } *
-          );  */
-    
-    
-      
-    
+        }else{
+          this.toast.error(data.mensaje, '', this.override2);
+        }
+        this.spinner.hide();
+    /*     this.spinner.hide('sp1'); */
+            }, 
+      (error) =>{
+        this.toast.error('',  '', this.override2);
       }
+    ); 
 
+
+}
+
+refrescarPagina() {
+
+  this._router.navigate(['/inventario-proveeduria/buzonPendiente']);
+}
 
 }

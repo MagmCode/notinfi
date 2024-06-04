@@ -1,13 +1,10 @@
 .mat-cell{
     font-size: 9pt;
   }
+  mat-label{
+    font-weight: bold !important;
+  }
   
-  .margin-center-card{
-    padding: 24px !important;
-}
-
-
-
   .tamannioFiltro{
     width: 30% !important;
   }
@@ -15,20 +12,16 @@
   
     font-size: 1.25rem !important;
   }
-
-  table { width: 100%; table-layout: fixed; } 
+  table { width: 100%; table-layout: fixed;  text-align: center; } 
 
   th, td { overflow: hidden; width: auto; text-overflow: ellipsis; white-space: inherit; }
-  .max-w-screen-xl {
-    max-width: 95% !important;
-  }
+  
   hr{
     margin-left: 30% !important; 
     margin-right: 30% !important;
     margin: 10px 0;
     border: solid 0.1em #0067B1;
   }
-
-  mat-label{
-    font-weight: bold !important;
+  .max-w-screen-xl {
+    max-width: 95% !important;
   }
