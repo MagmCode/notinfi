@@ -1,6 +1,8 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatOption } from '@angular/material/core';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
 import { TooltipPosition } from '@angular/material/tooltip';
@@ -23,11 +25,10 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class AdministracionComponent implements OnInit {
   user = {} as User;
-  usuario = {} as any;
-  artFormulario: FormGroup; 
-  datosArticulo = {} as articulo
+  usuario = {} as any;  
+  datosArticulo = {} as articulo  
 
-  displayedColumnsP: string[] = ['tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','direccionIp','tipoImpresora', 'descConsumible' ,'modeloConsumible'];
+  displayedColumnsP: string[] = ['codArticulo', 'iddercripciónArt', 'dercripciónArt','unidadVenta','tipoArt', 'acciones'];
   positionOptionsP: TooltipPosition[] = ['below'];
   positionP = new FormControl(this.positionOptionsP[0]);
   dataSourceP: MatTableDataSource<articulo>;
@@ -44,26 +45,11 @@ export class AdministracionComponent implements OnInit {
     protected _onDestroy = new Subject<void>();
 
     
-  constructor(private _loginService : LoginService,  
-    private _loginservices: LoginService,
-    private _solicitudesService : SolicitudesService,              
-    private formBuilder : FormBuilder, 
-    private route: ActivatedRoute ,
-    private toast: ToastrService,
-    private spinner: NgxSpinnerService,
-    private _router: Router) {
+  constructor(private _loginService : LoginService,
+              private _solicitudesService : SolicitudesService              
+            ) {
 
-      this.artFormulario = formBuilder.group({
-        id: new FormControl(''),
-        IdTipoArticulo:  new FormControl('', [Validators.required]),
-        idDescrArt: new FormControl('') ,
-        idTipoImpre: new FormControl(''),
-        idTipoModelo:  new FormControl(''),
-        idDescConsumible:  new FormControl(''),
-        direccionIp:  new FormControl(''),
-        cantidad:  new FormControl(''),
-        unidadV:  new FormControl(''),
-      })
+    
      }
 
   ngOnInit(): void {
@@ -75,17 +61,9 @@ export class AdministracionComponent implements OnInit {
   }
 
 
-  applyFilterP(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourceP.filter = filterValue.trim().toLowerCase();
-
-    if (this.dataSourceP.paginator) {
-      this.dataSourceP.paginator.firstPage();
-    }
-  }
+  
 
   ngAfterViewInit() {
-
     this.tipoArticuloCtrl.setValue(this.tipoArticulo);
     this.filtrotipoArticulo.next(this.tipoArticulo);
     this.tipoArticuloFiltrosCtrl.valueChanges
@@ -97,6 +75,7 @@ export class AdministracionComponent implements OnInit {
   }
 
   
+ //#region select de tipo articulo
   protected filtrotipoArticuloT() {
     if (!this.tipoArticulo) {
       return;
@@ -114,7 +93,9 @@ export class AdministracionComponent implements OnInit {
       this.tipoArticulo.filter(cargo => cargo.name.toLowerCase().indexOf(search) > -1)
     );
   }
+  //#endregion
 
+  //#region tabla
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -122,26 +103,41 @@ export class AdministracionComponent implements OnInit {
     if (this.dataSource.paginator) {
       this.dataSource.paginator.firstPage();
     }
-
   } 
 
-  async obtenerTipoArticulo(){
-  
+  applyFilterP(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceP.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceP.paginator) {
+      this.dataSourceP.paginator.firstPage();
+    }
+  }
+  //#endregion
+
+  async obtenerTipoArticulo(){  
     this._solicitudesService.tipoArticulo().subscribe(
-      (response) =>{ 
-        console.log(response)
+      (response) =>{        
         this.tipoArticulo.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
           for(const iterator of response.data){
-            this.tipoArticulo.push({name: iterator.nombre, id:iterator.idTipoArticuloPk})
+            this.tipoArticulo.push({name: iterator.nombre, id:iterator.idTipoArticuloPk});            
           }
-       
-        }
-        console.log(this.tipoArticulo)
-               
-      }, 
-  
+        }      
+      }
     );
   }  
+
+  onChange(ev: MatSelectChange){ 
+    this._solicitudesService.detalleArticulo(ev.value).subscribe(
+      (response) =>{                       
+        if(response.estatus == 'SUCCESS'){          
+            this.dataSourceP = new MatTableDataSource( response.data);
+            this.dataSourceP.paginator = this.paginator;
+            this.dataSourceP.sort = this.sort;        
+        }      
+      }
+    );
+  }
 
 }

@@ -72,6 +72,8 @@ import { InventarioProveeduriaComponent } from './modules/admin/dashboards/inven
 import { AsignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/asignar-sol-proveeduria/asignar-sol-proveeduria.component';
 import { ReasignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/reasignar-sol-proveeduria/reasignar-sol-proveeduria.component';
 import { AdministracionComponent } from './modules/admin/dashboards/proveeduria/administracion/administracion.component';
+import { EditarComponent } from './modules/admin/dashboards/proveeduria/administracion/editar/editar.component';
+
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -103,7 +105,9 @@ const routerConfig: ExtraOptions = {
         AsignarSolProveeduriaComponent,
         ReasignarSolProveeduriaComponent,
         CaciComponent,
-        AdministracionComponent
+        AdministracionComponent,
+        EditarComponent,
+        
     ],
     imports     : [
         BrowserModule,
