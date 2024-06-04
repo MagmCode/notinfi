@@ -68,6 +68,9 @@ import { ReportesComponent } from './modules/admin/dashboards/mediciones/reporte
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { CaciComponent } from './modules/admin/dashboards/caci/caci.component';
+import { InventarioProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/inventario-proveeduria.component';
+import { AsignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/asignar-sol-proveeduria/asignar-sol-proveeduria.component';
+import { ReasignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/reasignar-sol-proveeduria/reasignar-sol-proveeduria.component';
 import { AdministracionComponent } from './modules/admin/dashboards/proveeduria/administracion/administracion.component';
 
 const routerConfig: ExtraOptions = {
@@ -96,6 +99,9 @@ const routerConfig: ExtraOptions = {
         ModalDesicionSopComponent,
         MedicionesComponent,
         ReportesComponent,
+        InventarioProveeduriaComponent,
+        AsignarSolProveeduriaComponent,
+        ReasignarSolProveeduriaComponent,
         CaciComponent,
         AdministracionComponent
     ],

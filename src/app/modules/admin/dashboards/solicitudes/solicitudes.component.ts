@@ -271,9 +271,9 @@ if (idTipoServicio == 2) {
       
       }
 
-      obtenerDatosApobar(idSolicitud: any,idTipoServicio:any ){
+     obtenerDatosApobar(idSolicitud: any,idTipoServicio:any ){
      
-
+debugger
         sessionStorage.setItem('idSolicitud', idSolicitud);
               
         if (idTipoServicio == 1) {
@@ -281,11 +281,11 @@ if (idTipoServicio == 2) {
         
         } 
 
-if (idTipoServicio == 2) {
-  
-  
-  this._router.navigate(['/solicitudes/detalleSolProveeduria']);
-}
+        if (idTipoServicio == 2) {
+          
+          
+          this._router.navigate(['/solicitudes/decisionSolProveeduria']);
+        }
       
       
       }

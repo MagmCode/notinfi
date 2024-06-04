@@ -215,36 +215,10 @@
                                 
                           </div>
                        
-                          <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center"> Seleccione  Método de envio autenticación</div>
-                          <hr>
-                                     <div class="grid grid-cols-6 gap-4 text-center mt-4 mb-6 ">
-                                           
-                                            <div class="col-start-2 col-span-4" *ngFor="let meto of metodo"> 
-                                                <label for="meto{{meto.name}}"> 
-                                                <input id="meto_answer_{{meto.name}}" [value]='meto.id' type="radio" name="metodos" [(ngModel)]="radioSelected">
-                                                {{meto.name}}
-                                                </label>
-                                            </div>
-                                            <mat-hint class="mat-error col-span-12" *ngIf="esValido" >
-                                                Campo <strong>Obligatorio</strong>
-                                            </mat-hint>
-                                      </div>
-    
-                            <section>
-                              <div class="text-center"*ngIf="estareaA" >
-                                <button mat-raised-button color="warn" type="button" (click)="openDialog('R')" >Rechazar</button>
-                                <button mat-raised-button color="accent" type="button" (click)="openDialog('D')">Devolver</button>
-                                <button mat-raised-button style="  background-color: green;   color: white;" type="button" (click)="openDialog('A')"   >Aprobar</button>
-                                
-                              </div>
-    
-                              <div class="text-center" *ngIf="estareaC">
-                                <button mat-raised-button color="accent" type="button" (click)="openDialog('D')">Devolver</button>
-                                <button mat-raised-button style="  background-color: green;   color: white;" type="button"  (click)="openDialog('A')"  >Conforme</button>
-                                
-                              </div>
-                            </section>
-
+                          <div class="col-span-12">
+                            <button mat-raised-button color="primary" type="button" (click)="asignarSolictud()" >Asignar</button>
+                        </div>
+                        
                         <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card mt-8 shadow rounded-2xl overflow-hidden">
 
                         <div class="text-2xl font-medium tracking-tight leading-6 truncate    text-center">Detalle Tracking</div>
