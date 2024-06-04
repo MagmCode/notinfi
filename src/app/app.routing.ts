@@ -21,6 +21,7 @@ import { ReportesComponent } from './modules/admin/dashboards/mediciones/reporte
 import { CaciComponent } from './modules/admin/dashboards/caci/caci.component';
 import { DetalleSolProveeduriaComponent } from './modules/admin/dashboards/solicitudes/detalle-sol-proveeduria/detalle-sol-proveeduria.component';
 import { DecisionSolProveeduriaComponent } from './modules/admin/dashboards/solicitudes/decision-sol-proveeduria/decision-sol-proveeduria.component';
+import { AdministracionComponent } from './modules/admin/dashboards/proveeduria/administracion/administracion.component';
 
 
 
@@ -133,6 +134,11 @@ export const appRoutes: Route[] = [
 
             {path: 'caci', children: [
                 {path: 'consultacaci',  component: CaciComponent},
+                
+            ]},
+
+            {path: 'proveeduria', children: [
+                {path: 'administracion',  component: AdministracionComponent},
                 
             ]},
 

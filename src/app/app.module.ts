@@ -68,6 +68,7 @@ import { ReportesComponent } from './modules/admin/dashboards/mediciones/reporte
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
 import { CaciComponent } from './modules/admin/dashboards/caci/caci.component';
+import { AdministracionComponent } from './modules/admin/dashboards/proveeduria/administracion/administracion.component';
 
 const routerConfig: ExtraOptions = {
     preloadingStrategy       : PreloadAllModules,
@@ -95,7 +96,8 @@ const routerConfig: ExtraOptions = {
         ModalDesicionSopComponent,
         MedicionesComponent,
         ReportesComponent,
-        CaciComponent
+        CaciComponent,
+        AdministracionComponent
     ],
     imports     : [
         BrowserModule,
