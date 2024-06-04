@@ -419,4 +419,13 @@ unidadesJerarguicaDescendente(codUnidad : any): Observable<any>{
   };
   return this.http.post(url, dataBusqueda);
 }
+
+tipoArticuloXservicio(acronimo :any ): Observable <any>{
+   const url = this.urlEndPoint + 'tipoArticuloXservicio';
+    const dataBusqueda = {
+      tipoArticulo : acronimo
+  };
+  return this.http.post(url, dataBusqueda);
+
+}
 }

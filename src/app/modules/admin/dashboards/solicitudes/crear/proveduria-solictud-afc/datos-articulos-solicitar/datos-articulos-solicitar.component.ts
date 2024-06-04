@@ -217,13 +217,8 @@ this.ngAfterViewInit();
 }
 
   async obtenerTipoArticulo(){
-
-
-      
-  
-    this._solicitudesService.tipoArticulo().subscribe(
-      (response) =>{ 
-  
+    this._solicitudesService.tipoArticuloXservicio("A").subscribe(
+      (response) =>{   
         this.tipoArticulo.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
           for(const iterator of response.data){
@@ -235,9 +230,6 @@ this.ngAfterViewInit();
       }, 
   
     );
-  
-    
-   
   }  
 
   mostrarInput(){
