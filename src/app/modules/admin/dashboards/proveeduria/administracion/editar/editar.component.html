@@ -1,1 +1,37 @@
-<p>editar works!</p>
+<h2 mat-dialog-title class="title-center">Modificación de {{ tituloModal }} </h2>
+
+
+<mat-dialog-content class="mat-typography">
+    <div class="grid grid-cols-12  gap-3  text-center">
+            <div class="col-span-4">
+                <mat-form-field appearance="fill" class="width100">
+                    <mat-label>Descripción de artículo</mat-label>
+                    <input matInput type="text" value="{{ data.articulo.descripcion}}">
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-4">
+                <mat-form-field appearance="fill" class="width100">
+                    <mat-label>Unidad de venta</mat-label>
+                    <input matInput type="text" value="{{ data.articulo.unidadVenta}}">
+                </mat-form-field>
+            </div>
+
+            <div class="col-span-4">
+                <mat-form-field appearance="fill" class="width100">
+                    <mat-label>Estatus</mat-label>                
+                    <mat-select  name="food">
+                        <mat-option value=""></mat-option>
+                         <mat-option value="A"> ACTIVO</mat-option>
+                         <mat-option value="I"> INACTIVO</mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>       
+    </div>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+    <button type="button" mat-raised-button color="accent">Cancelar</button>
+    <button type="submit" mat-raised-button color="primary" cdkFocusInitial>Modificar</button>
+
+</mat-dialog-actions>

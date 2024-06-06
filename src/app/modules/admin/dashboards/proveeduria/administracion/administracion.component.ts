@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
@@ -17,6 +18,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { EditarComponent } from './editar/editar.component';
 
 @Component({
   selector: 'app-administracion',
@@ -46,8 +48,8 @@ export class AdministracionComponent implements OnInit {
 
     
   constructor(private _loginService : LoginService,
-              private _solicitudesService : SolicitudesService              
-            ) {
+              private _solicitudesService : SolicitudesService,              
+              public dialog: MatDialog) {
 
     
      }
@@ -138,6 +140,21 @@ export class AdministracionComponent implements OnInit {
         }      
       }
     );
+  }
+
+  openDialogEdit(row: any): void {
+
+    const dialogRef = this.dialog.open(EditarComponent,{
+      data: {articulo : row},
+      width: '70%',
+      disableClose: false
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {     
+    });
+  
+    
+  
   }
 
 }
