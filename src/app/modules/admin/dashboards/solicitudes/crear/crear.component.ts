@@ -1,13 +1,15 @@
 import { identifierModuleUrl } from '@angular/compiler';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnDestroy, OnInit, ViewChild } from '@angular/core';
 import {FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatSelect } from '@angular/material/select';
+import { Router } from '@angular/router';
 import { ISelect } from 'app/models/login';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
-import { ReplaySubject, Subject } from 'rxjs';
+import { Observable, ReplaySubject, Subject, Subscription } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ProveduriaSolictudAFCComponent } from './proveduria-solictud-afc/proveduria-solictud-afc.component';
 ;
 
 @Component({
@@ -19,8 +21,12 @@ import { takeUntil } from 'rxjs/operators';
 
 
 
-export class CrearComponent implements OnInit {
+export class CrearComponent implements OnInit, OnDestroy {
 
+  private estadoComponente$: Observable<{ mostrarComponente: boolean; recargarDatos: boolean }>;
+  private subscription: Subscription;
+
+  
   usuario = {} as any;
   //#region Select de Categoria
   protected categoria : ISelect[] = [];
@@ -53,7 +59,8 @@ export class CrearComponent implements OnInit {
   
   constructor(private _solicitudesService : SolicitudesService,    
               private formBuilder : FormBuilder,              
-              private _loginService : LoginService ) {
+              private _loginService : LoginService
+               ) {
 
 
 
@@ -106,10 +113,13 @@ export class CrearComponent implements OnInit {
 
   }
 
+
   isShownAsignacion: boolean = false; // Inicialmente oculto
   isShownReposicion: boolean = false;
   isShownDesincorporacion: boolean = false; 
   isShownSolicitudART: boolean = false;
+  
+  isShownSolicitudARTC: boolean = false;
   @ViewChild('matRef') matRef: MatSelect;
 
 
@@ -122,6 +132,8 @@ clear(){
     this.isShownAsignacion = false;
     this.isShownReposicion = false;
 
+    this.isShownSolicitudART = false;
+    this.isShownSolicitudARTC = false;
     await this._solicitudesService.consultarCategorias().subscribe(
       (response) => {
      
@@ -139,7 +151,7 @@ clear(){
 
 
 
-  ngOnDestroy() {
+  ngOnDestroy(): void {
     this._onDestroy.next();
     this._onDestroy.complete();
   }
@@ -149,7 +161,8 @@ clear(){
 
     this.isShownAsignacion = false;
     this.isShownReposicion = false;
-
+    this.isShownSolicitudART = false;
+    this.isShownSolicitudARTC = false;
     this._solicitudesService.consultarTipoServicio(this.solFormulario.value.categoria?.id).subscribe(
       (response) => {
     
@@ -191,6 +204,8 @@ clear(){
     this.isShownAsignacion = false;
     this.isShownReposicion = false;
 
+    this.isShownSolicitudART = false;
+    this.isShownSolicitudARTC = false;
     this._solicitudesService.consultarServicio(this.solFormulario.value.tiposerv?.id,  this.usuario.nivelCargo).subscribe(
       (response) => {
 
@@ -219,11 +234,13 @@ clear(){
   }
 
   mostrarVista(){
+    
     sessionStorage.setItem('idServicio', this.solFormulario.value.servi?.id);
    
     this.isShownAsignacion = false;
     this.isShownReposicion = false;
     this.isShownSolicitudART = false;
+    this.isShownSolicitudARTC = false;
 
 
 if (this.solFormulario.value.servi?.id == 1) {
@@ -237,7 +254,15 @@ if (this.solFormulario.value.servi?.id == 1) {
   /* this.isShownDesincorporacion = false; */
 }
 else if (this.solFormulario.value.servi?.id == 4) {
+
   this.isShownSolicitudART = true;
+
+  /* this.componenteA.reloadComponent(); */
+} else if ( this.solFormulario.value.servi?.id == 5) {
+
+  this.isShownSolicitudARTC = true;
+
+  /* this.componenteA.reloadComponent(); */
 } 
 
   }

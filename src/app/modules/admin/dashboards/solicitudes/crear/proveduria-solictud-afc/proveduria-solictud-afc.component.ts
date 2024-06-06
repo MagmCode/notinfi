@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -33,11 +33,18 @@ datosArticulo = {} as articulo;
   isShownSU: boolean = false;
   isShownPT: boolean = false;
   mostrar: boolean = false;
-
+  
+  @Input() id: number;
+  
   piso= new FormControl('', Validators.required);
   
 
-  
+  reloadComponent() {
+    const currentUrl = this.router.url;
+    this.router.routeReuseStrategy.shouldReuseRoute = () => false;
+    this.router.onSameUrlNavigation = 'reload';
+    this.router.navigate([currentUrl]);
+  }
 
     //#region Select
 
@@ -77,7 +84,9 @@ private overlayRef!: OverlayRef;
 //#endregion
   
   //#region  tablas
-  displayedColumns: string[] = ['tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','direccionIp','tipoImpresora', 'descConsumible' ,'modeloConsumible', 'acciones'];
+  displayedColumns: string[] = [];
+  displayedColumnsC: string[] = [];
+ 
   positionOptions: TooltipPosition[] = ['below'];
   position = new FormControl(this.positionOptions[0]);
   dataSource: MatTableDataSource<articulo>;
@@ -96,7 +105,8 @@ private overlayRef!: OverlayRef;
              private toast: ToastrService,
              private spinner: NgxSpinnerService,
              private overlay: Overlay,
-             public dialog: MatDialog,) { 
+             public dialog: MatDialog,
+             ) { 
 
       // Asi la data a elemento dataSource asi se vacia para su inicializacion
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
@@ -133,6 +143,19 @@ private overlayRef!: OverlayRef;
    this.obtenerDatos(); 
   //#region select 
 
+
+this.displayedColumns = [];
+if (sessionStorage.getItem('idServicio') == '4') {
+  
+  this.displayedColumns.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','acciones')
+} else {
+  this.displayedColumns.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible','unidadVenta',  'cantidadArt', 'acciones')
+}
+
+ 
+ 
+ 
+  
   this.codUnidadCtrl.setValue(this.codUnidad);
   this.filtrocodUnidad.next(this.codUnidad);
   this.codUnidadFiltrosCtrl.valueChanges
@@ -191,7 +214,7 @@ applyFilter(event: Event) {
 }
 
 async obtenerDatos(){
-
+  
   this.usuario = this._loginservices.obterTokenInfo();
     
 
@@ -249,7 +272,7 @@ async obtenerDatos(){
     }
   );
 
-  if (this.usuario.nivelCargo < 8 ) {
+  if (this.usuario.nivelCargo < 9 ) {
     this.isShownSU = true;
 
     this._solicitudesService.obtenerSupervisoresJRQ(this.usuario.codUnidadJrq ,this.usuario.nivelCargo,this.usuario.codigo ).subscribe(
@@ -270,8 +293,9 @@ async obtenerDatos(){
 
   }
 
+  
 
- 
+
 }  
 
 
@@ -327,20 +351,55 @@ mostrarInput(){
 if (result) {
 
 
+  const  indicec = this.dataSource.data.filter(elemento => elemento.codArticulo === result.codArticulo);
 
-  const  indice = this.dataSource.data.filter(elemento => elemento.codArticulo === result.codArticulo);
 
-  if (indice.length >  0) {
-    this.toast.error(result.dercripcionArt + ' ya asignado' , '', this.override2);
+  if (indicec.length >  0) {
+
+
+
+
+    if (result.direccionIp == '') {
+
+      this.toast.error(result.dercripcionArt + ' ya asignado' , '', this.override2);
+
+    } else {
+      const  indice = this.dataSource.data.filter(elemento => elemento.direccionIp === result.direccionIp && elemento.codArticulo === result.codArticulo);
+     
+      
+      if (indice.length >  0) {
+
+ 
+        this.toast.error('Consumible '+ result.descConsumible + ' ya asignado a ' +result.direccionIp  , '', this.override2);
+      
+
+    } else{
+      result.id = this.nextId;
+   
+      this.dataSource.data.push(result); 
+      this.dataSource.data = this.dataSource.data.slice();
+      this.ngAfterViewInit();
+      this.nextId++;
+    }
+      
+    }
+
+   
     
   } else {
+
   
-    result.id = this.nextId;
+      
+ 
+
+      result.id = this.nextId;
    
-    this.dataSource.data.push(result); 
-    this.dataSource.data = this.dataSource.data.slice();
-    this.ngAfterViewInit();
-    this.nextId++;
+      this.dataSource.data.push(result); 
+      this.dataSource.data = this.dataSource.data.slice();
+      this.ngAfterViewInit();
+      this.nextId++;
+ 
+
   
     
   }
@@ -399,7 +458,7 @@ if (result) {
     if(this.usuFormulario.valid){
   /*    this.spinner.show('sp1'); */
   
-console.log(this.dataSource.data)
+
 
 
   if (this.dataSource.data.length > 0 ) {
@@ -435,7 +494,7 @@ console.log(this.dataSource.data)
         }
   
   
-  if (this.usuario.nivelCargo < 8) {
+  if (this.usuario.nivelCargo < 9) {
   
     if ( this.usuFormulario.value.codusuarioGestion == '') {
      
@@ -450,7 +509,7 @@ console.log(this.dataSource.data)
   }
   let unidad: string[] =  document.querySelector('#selectUni')?.textContent.split('-');
   
-  debugger
+  
         this.usuFormulario.value.ubicacionFisica = document.querySelector('#selectUbi')?.textContent + "-" + piso;
         this.usuFormulario.value.idServicio =  sessionStorage.getItem('idServicio');
         this.usuFormulario.value.codigoUsuarioResp = this.usuario.codigo;
@@ -495,8 +554,9 @@ var formulario = [];
         "creacion":this.usuFormulario.value,
         "formulario":formulario
        } 
-  
-       console.log(enviarData)
+
+
+       
          this._solicitudesService.crear(enviarData).subscribe(
           (data) =>{    
            if(data.estatus == "SUCCESS"){

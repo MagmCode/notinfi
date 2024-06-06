@@ -102,10 +102,12 @@
                     <div *ngIf="isShownReposicion"  id="divshowReposicion">
                     <app-requerimiento-equipo-reposicion></app-requerimiento-equipo-reposicion>  
                     </div>
-                    <div *ngIf="isShownSolicitudART"  id="divshowSolicitudART">
-                        <app-proveduria-solictud-afc></app-proveduria-solictud-afc>  
-                        </div>
-
+                    <ng-container  >
+                        <app-proveduria-solictud-afc *ngIf="isShownSolicitudART"></app-proveduria-solictud-afc>  
+                        </ng-container>
+                        <ng-container  >
+                            <app-proveduria-solictud-afc *ngIf="isShownSolicitudARTC"></app-proveduria-solictud-afc>  
+                            </ng-container>
 
                  </div>
                
