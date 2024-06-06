@@ -1,3 +1,4 @@
+import { ifStmt } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -201,13 +202,17 @@ protected _onDestroy = new Subject<void>();
           
     
         debugger
-          this.ELEMENT_DATAP = [];
-          this.ELEMENT_DATAP = response.data.formulario.original;
-          this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
-          this.ngAfterViewInit();
+
+       if (response.data.formulario != null) {
+        this.ELEMENT_DATAP = [];
+        this.ELEMENT_DATAP = response.data.formulario.original;
+        this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
+        this.ngAfterViewInit();
+       }
+      
 
           this.ELEMENT_DATA = [];
-this.ELEMENT_DATA =  response.data.detalle
+      this.ELEMENT_DATA =  response.data.detalle
            this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
            this.ngAfterViewInit();
     

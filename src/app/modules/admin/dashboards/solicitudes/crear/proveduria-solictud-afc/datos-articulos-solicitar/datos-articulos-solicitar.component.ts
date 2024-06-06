@@ -217,7 +217,44 @@ this.ngAfterViewInit();
 }
 
   async obtenerTipoArticulo(){
-    this._solicitudesService.tipoArticuloXservicio("A").subscribe(
+var art ;
+if (sessionStorage.getItem('idServicio')  == '4') {
+  art = "A";
+} else {
+  art = "C";
+
+  this.isShownC = true;
+  this.isShown = false;
+  this._solicitudesService.tipoImpresora().subscribe(
+    (response) => {
+ 
+
+      this.tipoImpresora.push({name: 'Selecciones', id:''});
+      if(response.estatus == 'SUCCESS'){
+
+        for(const iterator of response.data){
+            this.tipoImpresora.push({name:iterator.descripcion, id:iterator.idTipoImpresoraPk})             
+        }
+       
+      }
+      
+    }
+  );
+
+
+  this.artFormulario = this.formBuilder.group({
+    IdTipoArticulo:  new FormControl( {value : 3, disabled: true}),
+    idTipoImpre: new FormControl('', [Validators.required]),
+    idTipoModelo:  new FormControl('', [Validators.required]),
+    idDescConsumible:  new FormControl('', [Validators.required]),
+    direccionIp:  new FormControl('', [Validators.required]),
+    cantidad:  new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
+  })
+
+}
+
+
+    this._solicitudesService.tipoArticuloXservicio(art).subscribe(
       (response) =>{   
         this.tipoArticulo.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
@@ -230,6 +267,8 @@ this.ngAfterViewInit();
       }, 
   
     );
+
+
   }  
 
   mostrarInput(){
@@ -276,33 +315,7 @@ this.ngAfterViewInit();
 
 
       
-      this.isShownC = true;
-      this.isShown = false;
-      this._solicitudesService.tipoImpresora().subscribe(
-        (response) => {
      
-    
-          this.tipoImpresora.push({name: 'Selecciones', id:''});
-          if(response.estatus == 'SUCCESS'){
-    
-            for(const iterator of response.data){
-                this.tipoImpresora.push({name:iterator.descripcion, id:iterator.idTipoImpresoraPk})             
-            }
-           
-          }
-          
-        }
-      );
-
-
-      this.artFormulario = this.formBuilder.group({
-        IdTipoArticulo:  new FormControl(this.artFormulario.value.IdTipoArticulo,  [Validators.required]),
-        idTipoImpre: new FormControl('', [Validators.required]),
-        idTipoModelo:  new FormControl('', [Validators.required]),
-        idDescConsumible:  new FormControl('', [Validators.required]),
-        direccionIp:  new FormControl('', [Validators.required]),
-        cantidad:  new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
-      })
   
     }
 
@@ -418,12 +431,12 @@ let cod: string[] =  this.artFormulario.getRawValue().idDescrArt.split('-');
     this.datosArticulo.idDescrArt = cod[0];
     this.datosArticulo.dercripcionArt  = document.querySelector('#selectDescrArt')?.textContent;
     this.datosArticulo.cantidadArt  = this.artFormulario.getRawValue().cantidad;
-    this.datosArticulo.idTipoImpre =  ' ';
-    this.datosArticulo.tipoImpresora =  ' ';
-    this.datosArticulo.direccionIp =  ' ';
-    this.datosArticulo.idDescConsumible =  ' ';
-    this.datosArticulo.descConsumible =  ' ';
-    this.datosArticulo.modeloConsumible =  ' '; 
+    this.datosArticulo.idTipoImpre =  '';
+    this.datosArticulo.tipoImpresora =  '';
+    this.datosArticulo.direccionIp =  '';
+    this.datosArticulo.idDescConsumible =  '';
+    this.datosArticulo.descConsumible =  '';
+    this.datosArticulo.modeloConsumible =  ''; 
     this.datosArticulo.unidadVenta = this.artFormulario.getRawValue().unidadV;  
 
 

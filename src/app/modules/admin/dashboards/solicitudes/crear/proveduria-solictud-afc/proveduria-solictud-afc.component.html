@@ -192,8 +192,8 @@
                     <input matInput (keyup)="applyFilter($event)" placeholder="" #input style="width: 30% !important;">
                   </mat-form-field>
                 </div>
-                <div class="mat-elevation-z8">
-                    <table mat-table [dataSource]="dataSource" matSort>
+                <div class="mat-elevation-z8" >
+                    <table mat-table [dataSource]="dataSource" matSort  >
                   
                       <!-- ID Column -->
 
@@ -232,6 +232,11 @@
                         <td mat-cell *matCellDef="let row">{{row.descrTipoArt}} </td>
                       </ng-container>
 
+                     
+                      <ng-container matColumnDef="unidadVenta">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Unidad Venta</th>
+                        <td mat-cell *matCellDef="let row">{{row.unidadVenta}} </td>
+                      </ng-container>
                       <ng-container matColumnDef="direccionIp">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>DireccionIp</th>
                         <td mat-cell *matCellDef="let row">{{row.direccionIp}} </td>
@@ -246,7 +251,17 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo impresora</th>
                         <td mat-cell *matCellDef="let row"> {{row.tipoImpresora}}</td>
                       </ng-container>
+                      <ng-container matColumnDef="idtipomodelo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>idtipomodelo</th>
+                        <td mat-cell *matCellDef="let row"> {{row.idDescrArt}}</td>
+                      </ng-container>
 
+                      <ng-container matColumnDef="tipomodelo">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Tipo Modelo</th>
+                        <td mat-cell *matCellDef="let row">{{row.dercripcionArt}} </td>
+                      </ng-container>
+
+                    
                       <ng-container matColumnDef="idDescConsumible">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>idDescConsumible</th>
                         <td mat-cell *matCellDef="let row"> {{row.idDescConsumible}}</td>
@@ -261,12 +276,6 @@
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo Consumible</th>
                         <td mat-cell *matCellDef="let row">{{row.modeloConsumible}} </td>
                       </ng-container>
-
-                      <ng-container matColumnDef="unidadVenta">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Unidad Venta</th>
-                        <td mat-cell *matCellDef="let row">{{row.unidadVenta}} </td>
-                      </ng-container>
-
                       <ng-container matColumnDef="acciones">
                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
                      
@@ -292,7 +301,9 @@
                         <td class="mat-cell" colspan="4">No Existe Resultado</td>
                       </tr>
                     </table>
-           
+                 
+
+                  
                       <mat-paginator
                         [pageSize]="25"
                         [pageSizeOptions]="[5, 10, 25, 100]"
@@ -302,12 +313,7 @@
                   
             </div>
 
-
-
-
-
         
-  
               <div class="col-span-12 text-center">
                   <button mat-raised-button color="primary" [type]="submit">Enviar</button> <!--  -->
               </div>
