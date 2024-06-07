@@ -162,8 +162,7 @@ buscarTipoServicio(){
         this.cantTipoSolicitud =response.data.porCategoria[0].ttiposervicio;
         this.descTipoSolicitud = response.data.porCategoria[0].nombreTipoServicio;
 
-       
-        console.log(response.data.porServicio)
+
         
         var dataLabel = [];        
         var dataTiempo = [];
@@ -176,7 +175,7 @@ buscarTipoServicio(){
      
         });
        
-        console.log(dataLabel)
+      
           
 
        

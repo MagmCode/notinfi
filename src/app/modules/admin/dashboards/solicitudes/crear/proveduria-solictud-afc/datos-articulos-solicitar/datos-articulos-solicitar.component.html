@@ -1,6 +1,8 @@
 <h2 mat-dialog-title class="title-center">Artículos a solicitar</h2>
 <form [formGroup]="artFormulario"  > 
-    <input matInput formControlName="id" hidden>    
+    <input matInput formControlName="id" hidden>   
+    <input matInput [formControl]="evento" hidden> 
+     
     <mat-dialog-content class="mat-typography">
         <div class="grid grid-cols-8  gap-3  text-center "   >
        
@@ -20,7 +22,7 @@
                             </mat-option>
                          </mat-select>
                          <mat-error *ngIf="artFormulario.get('IdTipoArticulo')?.hasError">
-                            Campo <strong>Obligatorio, solo número</strong>
+                            Campo <strong>Obligatorio</strong>
                         </mat-error>  
                     </mat-form-field>
                 </div>
@@ -53,7 +55,7 @@
                         <mat-label>Cantidad</mat-label>
                         <input matInput formControlName="cantidad" type="text"  ng-pattern="/^[0-9]/"> 
                         <mat-error *ngIf="artFormulario.get('cantidad')?.hasError">
-                            Campo <strong>Obligatorio</strong>
+                            Campo <strong>Obligatorio, solo numero</strong>
                         </mat-error> 
                     </mat-form-field>  
                     </div>
@@ -64,6 +66,17 @@
                         </mat-form-field> 
                 </div>
 
+                <div  class="col-span-4" [hidden]="!isShownO">
+                    <mat-form-field  appearance="fill"class="width100 "  style="width: 100%;">
+                        <mat-label>Observación</mat-label>
+                        <textarea matInput placeholder="" [formControl]="observacion"  required></textarea>
+                        <mat-error *ngIf="observacion.hasError('required')">
+                          Campo <strong>Obligatorio</strong>
+                      </mat-error>    
+                    
+                      </mat-form-field>
+            </div>
+          
 
                     </div>
 
@@ -144,6 +157,16 @@
                             Campo <strong>Obligatorio, solo número</strong>
                         </mat-error>  
                     </mat-form-field>  
+<div [hidden]="!isShownO">
+    <mat-form-field  appearance="fill"class="width100 "  style="width: 100%;">
+        <mat-label>Observación</mat-label>
+        <textarea matInput placeholder="" [formControl]="observacion"  required></textarea>
+        <mat-error *ngIf="observacion.hasError('required')">
+          Campo <strong>Obligatorio</strong>
+      </mat-error>    
+    
+      </mat-form-field>
+                </div>
                 </div>
             </div>
 

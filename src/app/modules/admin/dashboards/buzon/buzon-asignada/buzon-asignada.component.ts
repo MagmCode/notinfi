@@ -99,11 +99,21 @@ override2 = {
     )
   }
 
-  obtenerDatosApobar(idSolicitud: any){
+  obtenerDatosApobar(idSolicitud: any, idTipoServicio:any){
      
     sessionStorage.setItem('idSolicitud', idSolicitud);
-    this._router.navigate(['/buzon/detalleSolicitud']); 
-  
+
+
+    if (idTipoServicio == 1) {
+      this._router.navigate(['/buzon/detalleSolicitud']); 
+    
+    } 
+
+    if (idTipoServicio == 2) {
+      
+      
+      this._router.navigate(['/buzon/detalleSolicitudProvee']); 
+    }
   
   }
 

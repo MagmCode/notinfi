@@ -1,27 +1,30 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
+import { ModaldecisionesComponent } from '../../solicitudes/modaldecisiones/modaldecisiones.component';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { ActivatedRoute, Router } from '@angular/router';
+import { ToastrService } from 'ngx-toastr';
+import { SolicitudesService } from 'app/services/solicitudes.service';
+import { LoginService } from 'app/services/login.service';
+import { Subject } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { TooltipPosition } from '@angular/material/tooltip';
-import { ActivatedRoute, Router } from '@angular/router';
-import { User } from 'app/core/user/user.types';
-import { articulo } from 'app/models/proveduria';
 import { solicitudesDto } from 'app/models/usuario';
-import { LoginService } from 'app/services/login.service';
-import { SolicitudesService } from 'app/services/solicitudes.service';
-import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
-import { Subject } from 'rxjs';
-import { ModaldecisionesComponent } from '../modaldecisiones/modaldecisiones.component';
+import { TooltipPosition } from '@angular/material/tooltip';
+import { articulo } from 'app/models/proveduria';
+import { User } from 'app/core/user/user.types';
+import { DatosArticulosSolicitarComponent } from '../../solicitudes/crear/proveduria-solictud-afc/datos-articulos-solicitar/datos-articulos-solicitar.component';
+
 
 @Component({
-  selector: 'app-decision-sol-proveeduria',
-  templateUrl: './decision-sol-proveeduria.component.html',
-  styleUrls: ['./decision-sol-proveeduria.component.scss']
+  selector: 'app-detalle-solicitud-proveduria',
+  templateUrl: './detalle-solicitud-proveduria.component.html',
+  styleUrls: ['./detalle-solicitud-proveduria.component.scss']
 })
-export class DecisionSolProveeduriaComponent implements OnInit {
+export class DetalleSolicitudProveduriaComponent implements OnInit {
+
   user = {} as User;
   solicitudesDto = {} as any;
   usuario = {} as any;
@@ -33,12 +36,12 @@ export class DecisionSolProveeduriaComponent implements OnInit {
   mensaje: any;
   articulo = {} as any;
  
-  servicioP: boolean = false;
+datosArticulo = {} as articulo;
   esValido:  boolean = false;
   hasError :boolean = false;
   estareaA :boolean = false;
   estareaC :boolean = false;
-  
+  isShownD: boolean = false;
   metodo = [];
 
   radioSelected: any;
@@ -49,11 +52,6 @@ export class DecisionSolProveeduriaComponent implements OnInit {
     dataSourceP: MatTableDataSource<articulo>;
     ELEMENT_DATAP: articulo[] = [];
 
-    displayedColumnsPM: string[] = [];
-    positionOptionsPM: TooltipPosition[] = ['below'];
-    positionPM = new FormControl(this.positionOptionsPM[0]);
-    dataSourcePM: MatTableDataSource<articulo>;
-    ELEMENT_DATAPM: articulo[] = [];
 
     displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'motivo', 'observacion'];
     positionOptions: TooltipPosition[] = ['below'];
@@ -64,8 +62,6 @@ export class DecisionSolProveeduriaComponent implements OnInit {
    @ViewChild(MatPaginator) paginator: MatPaginator | any;
    @ViewChild(MatSort) sort: MatSort = new MatSort;  
    @ViewChild(MatTable) tableP: MatTable<articulo>; 
-    
-   @ViewChild(MatTable) tablePM: MatTable<articulo>; 
    @ViewChild(MatTable) table: MatTable<solicitudesDto>;
     //#endregion
 
@@ -91,7 +87,6 @@ constructor(private _loginService : LoginService,
 
     this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
     this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
-    this.dataSourcePM = new MatTableDataSource(this.ELEMENT_DATAPM);
     this.datosFormulario = formBuilder.group({
 
       idSolicitud:  new FormControl(''),
@@ -133,6 +128,13 @@ constructor(private _loginService : LoginService,
 
   ngOnInit(): void {
     this.obtenerDatos();
+
+/*     if (this.datosFormulario.value.idServicio == 4) {
+    
+      this.displayedColumnsP.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','acciones')
+    } else {
+      this.displayedColumnsP.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible','unidadVenta',  'cantidadArt', 'acciones')
+    } */
     this.usuario = this._loginService.obterTokenInfo();
 
     this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
@@ -147,8 +149,6 @@ constructor(private _loginService : LoginService,
     this.dataSource.sort = this.sort;
     this.dataSourceP.paginator = this.paginator;
     this.dataSourceP.sort = this.sort;
-    this.dataSourcePM.paginator = this.paginator;
-    this.dataSourcePM.sort = this.sort;
   }
 
   applyFilter(event: Event) {
@@ -171,14 +171,7 @@ constructor(private _loginService : LoginService,
     }
   }
 
-  applyFilterPM(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSourcePM.filter = filterValue.trim().toLowerCase();
 
-    if (this.dataSourcePM.paginator) {
-      this.dataSourcePM.paginator.firstPage();
-    }
-  }
 
   async obtenerDatos(){
    
@@ -226,44 +219,30 @@ constructor(private _loginService : LoginService,
             numContacto:        response.data.solicitud.numContacto
 
           }); 
-          if (this.datosFormulario.value.idServicio == 4) {
+          this.ELEMENT_DATAP = []; 
+          this.serviA = true;
+          
+    if (this.datosFormulario.value.idServicio == 4) {
    
-            this.displayedColumnsP.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta')
-            
-            this.displayedColumnsPM.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta', 'observacion')
-          } else {
-            this.displayedColumnsP.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible', 'cantidadArt','unidadVenta')
-            this.displayedColumnsPM.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible', 'cantidadArt','unidadVenta','observacion')
-          }
-    
-          if (response.data.formulario != null) {
-            this.ELEMENT_DATAP = [];
-            this.ELEMENT_DATAP = response.data.formulario.original;
-            this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
-           
+      this.displayedColumnsP.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','observacion','acciones')
+    } else {
+      this.displayedColumnsP.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible', 'cantidadArt','unidadVenta', 'observacion', 'acciones')
+    }
 
-            if (this.datosFormulario.value.idTarea == 20) {
-              this.servicioP = true;
-              this.ELEMENT_DATAPM = [];
-            this.ELEMENT_DATAPM = response.data.formulario.original;
-            this.dataSourcePM = new MatTableDataSource(this.ELEMENT_DATAP);
-           
 
-            }
-           }
+    if (response.data.formulario != null) {
+     
+      this.ELEMENT_DATAP = response.data.formulario.gestion;
+      this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
+      this.ngAfterViewInit();
+     }
 
           this.ELEMENT_DATA = [];
-this.ELEMENT_DATA =  response.data.detalle
+          this.ELEMENT_DATA =  response.data.detalle
            this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
            this.ngAfterViewInit();
     
-if (this.datosFormulario.value.idTarea == "17" ) {
-  this.estareaA =  true;
-  this.estareaC = false;
-} else {
-  this.estareaA =  false;
-  this.estareaC = true; 
-}
+
            this._solicitudesService.consultarMetodosAutenticacion().subscribe(
             (response) => {
              
@@ -281,40 +260,52 @@ if (this.datosFormulario.value.idTarea == "17" ) {
     
   } 
 
-  openDialog(decision: String): void {
+  openDialogEdit(row: any): void {
 
-          if (!this.radioSelected) {
-            this.esValido = true;
-            return;
-          }
-          this.spinner.show();
-          this.usuario = this._loginservices.obterTokenInfo();
-          
-        
-    /*       this._solicitudesService.generarToken(this.usuario.codigo,this.radioSelected).subscribe(
-            (response) => {
-             
-              if(response.estatus == 'SUCCESS'){ */
-                const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-                  data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : this.radioSelected},
-                  disableClose: true,
-                });
-                
-                dialogRef.afterClosed().subscribe(result => {
-                  
-                });
-        /*       }else{
+    sessionStorage.setItem('idServicio', this.datosFormulario.value.idServicio);
+
+    const dialogRef = this.dialog.open(DatosArticulosSolicitarComponent,{
+      data: {articulo : row, },
+      width: '50%',
+      disableClose: true
+    })
     
-                this.toast.error(response.mensaje, '', this.override2);
-              }
-            
-            } *
-          );  */
+    dialogRef.afterClosed().subscribe(result => {
+
+if (result) {
+
+
+
+ 
+  const  indice = this.dataSourceP.data.findIndex(elemento => elemento.relacion === result.relacion);
+
+
+  this.dataSourceP.data[indice] = result;
+
+   this.ngAfterViewInit();
+}
+
+     
+    });
+  
     
-    
+  
+  }
+  openDialog(decision: String): void {
+  
       
     
-      }
+      const dialogRef = this.dialog.open(ModaldecisionesComponent,{
+        data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceP.data},
+        disableClose: true,
+      });
+      
+      dialogRef.afterClosed().subscribe(result => {
+      
+      });
+    
+    }
 
 
 }
+

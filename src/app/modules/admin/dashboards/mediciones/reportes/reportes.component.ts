@@ -94,14 +94,14 @@ export class ReportesComponent implements OnInit {
 let fechaInicio = datepipe.transform(this.solFormulario.value.fechaInicio, 'dd/MM/YYYY');
 
 let fechaFin = datepipe.transform(this.solFormulario.value.fechaFin, 'dd/MM/YYYY');
-console.log(fechaInicio, fechaFin, this.solFormulario.value.estatus);
+
   await  this._solicitudesService.reporteTecServ(fechaInicio, fechaFin, this.solFormulario.value.estatus).subscribe(
         (data)=>{   
 
-          console.log(data);   
+         
 
           const  blob = new Blob([data], {type : 'application/vnd.ms-excel'});
-          console.log(blob);
+         
           const descargarURL = URL.createObjectURL(blob);
           const link = document.createElement('a');
           link.href = descargarURL;
@@ -111,7 +111,7 @@ console.log(fechaInicio, fechaFin, this.solFormulario.value.estatus);
          this.spinner.hide();
         },
         (error) =>{
-          console.log("error")
+      
           this.spinner.hide();
         }
     ); 

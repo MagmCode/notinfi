@@ -312,7 +312,7 @@ protected _onDestroy = new Subject<void>();
 openDialog(decision: String): void {
 
 
-console.log(this.radioSelected)
+
       if (!this.radioSelected) {
         this.esValido = true;
         return;
