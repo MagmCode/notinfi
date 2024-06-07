@@ -293,6 +293,7 @@ enviarData= {
 "formulario":formulario
 }
 
+
 if (this.solicitud.metodo == 'buzon') {
   this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
     (data) =>{    

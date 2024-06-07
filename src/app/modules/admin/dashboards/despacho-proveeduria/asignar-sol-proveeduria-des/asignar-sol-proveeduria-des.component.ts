@@ -1,4 +1,3 @@
-import { ifStmt } from '@angular/compiler/src/output/output_ast';
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
@@ -16,11 +15,12 @@ import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
 
 @Component({
-  selector: 'app-detalle-sol-proveeduria',
-  templateUrl: './detalle-sol-proveeduria.component.html',
-  styleUrls: ['./detalle-sol-proveeduria.component.scss']
+  selector: 'app-asignar-sol-proveeduria-des',
+  templateUrl: './asignar-sol-proveeduria-des.component.html',
+  styleUrls: ['./asignar-sol-proveeduria-des.component.scss']
 })
-export class DetalleSolProveeduriaComponent implements OnInit {
+export class AsignarSolProveeduriaDESComponent implements OnInit {
+
   user = {} as User;
   solicitudesDto = {} as any;
   usuario = {} as any;
@@ -29,8 +29,6 @@ export class DetalleSolProveeduriaComponent implements OnInit {
   servicioA: boolean = false;
   servicioR: boolean = false;
   serviA: boolean = false;
-  servicioP: boolean = false;
-  
   mensaje: any;
   articulo = {} as any;
   
@@ -42,11 +40,6 @@ export class DetalleSolProveeduriaComponent implements OnInit {
     dataSourceP: MatTableDataSource<articulo>;
     ELEMENT_DATAP: articulo[] = [];
 
-    displayedColumnsPM: string[] = [];
-    positionOptionsPM: TooltipPosition[] = ['below'];
-    positionPM = new FormControl(this.positionOptionsPM[0]);
-    dataSourcePM: MatTableDataSource<articulo>;
-    ELEMENT_DATAPM: articulo[] = [];
 
     displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'motivo', 'observacion'];
     positionOptions: TooltipPosition[] = ['below'];
@@ -57,8 +50,6 @@ export class DetalleSolProveeduriaComponent implements OnInit {
    @ViewChild(MatPaginator) paginator: MatPaginator | any;
    @ViewChild(MatSort) sort: MatSort = new MatSort;  
    @ViewChild(MatTable) tableP: MatTable<articulo>; 
-    
-   @ViewChild(MatTable) tablePM: MatTable<articulo>; 
    @ViewChild(MatTable) table: MatTable<solicitudesDto>;
     //#endregion
 
@@ -83,7 +74,6 @@ protected _onDestroy = new Subject<void>();
 
       this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); 
       this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
-      this.dataSourcePM = new MatTableDataSource(this.ELEMENT_DATAPM);
       this.datosFormulario = formBuilder.group({
 
         idSolicitud:  new FormControl(''),
@@ -123,53 +113,45 @@ protected _onDestroy = new Subject<void>();
       })
     }
 
-    ngOnInit(): void {
-      this.obtenerDatos();
-      this.usuario = this._loginService.obterTokenInfo();
+  ngOnInit(): void {
+    this.obtenerDatos();
+    this.usuario = this._loginService.obterTokenInfo();
+
+    this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
+    this.user.email =this.usuario.descCargo; 
   
-      this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
-      this.user.email =this.usuario.descCargo; 
-    
+  }
+
+
+
+  ngAfterViewInit() {
+    this.dataSource.paginator = this.paginator;
+    this.dataSource.sort = this.sort;
+    this.dataSourceP.paginator = this.paginator;
+    this.dataSourceP.sort = this.sort;
+  }
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
 
-    ngAfterViewInit() {
-      this.dataSource.paginator = this.paginator;
-      this.dataSource.sort = this.sort;
-      this.dataSourceP.paginator = this.paginator;
-      this.dataSourceP.sort = this.sort;
-      this.dataSourcePM.paginator = this.paginator;
-      this.dataSourcePM.sort = this.sort;
+   
+  }
+
+  applyFilterP(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSourceP.filter = filterValue.trim().toLowerCase();
+
+    if (this.dataSourceP.paginator) {
+      this.dataSourceP.paginator.firstPage();
     }
-  
-    applyFilter(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSource.filter = filterValue.trim().toLowerCase();
-  
-      if (this.dataSource.paginator) {
-        this.dataSource.paginator.firstPage();
-      }
-  
-     
-    }
-  
-    applyFilterP(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourceP.filter = filterValue.trim().toLowerCase();
-  
-      if (this.dataSourceP.paginator) {
-        this.dataSourceP.paginator.firstPage();
-      }
-    }
-  
-    applyFilterPM(event: Event) {
-      const filterValue = (event.target as HTMLInputElement).value;
-      this.dataSourcePM.filter = filterValue.trim().toLowerCase();
-  
-      if (this.dataSourcePM.paginator) {
-        this.dataSourcePM.paginator.firstPage();
-      }
-    }
-  
+  }
+
+
 
   async obtenerDatos(){
    
@@ -220,36 +202,20 @@ protected _onDestroy = new Subject<void>();
           
     
         
+      
+          this.ELEMENT_DATAP = [];
           if (this.datosFormulario.value.idServicio == 4) {
-   
-            this.displayedColumnsP.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta')
             
-            this.displayedColumnsPM.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta', 'observacion')
+            this.displayedColumnsP.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','observacion')
           } else {
-            this.displayedColumnsP.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible', 'cantidadArt','unidadVenta')
-            this.displayedColumnsPM.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible', 'cantidadArt','unidadVenta','observacion')
+            this.displayedColumnsP.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible',  'cantidadArt','unidadVenta','observacion')
           }
-          
-       if (response.data.formulario != null) {
-        this.ELEMENT_DATAP = [];
-        this.ELEMENT_DATAP = response.data.formulario.original;
-        this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
-       
-
-        if (this.datosFormulario.value.idTarea == 20) {
-          this.servicioP = true;
-          this.ELEMENT_DATAPM = [];
-        this.ELEMENT_DATAPM = response.data.formulario.original;
-        this.dataSourcePM = new MatTableDataSource(this.ELEMENT_DATAP);
-      
-
-        }
-       
-       }
-      
+          this.ELEMENT_DATAP = response.data.formulario.gestion;
+          this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
+          this.ngAfterViewInit();
 
           this.ELEMENT_DATA = [];
-      this.ELEMENT_DATA =  response.data.detalle
+this.ELEMENT_DATA =  response.data.detalle
            this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
            this.ngAfterViewInit();
     
@@ -257,10 +223,40 @@ protected _onDestroy = new Subject<void>();
       }
       )
     
-  } 
+  }
+  
+  asignarSolictud(){
+   
+
+    this.usuario = this._loginservices.obterTokenInfo();
+
+    
+    this._solicitudesService.asignarSolicitudes(this.datosFormulario.value?.idSolicitud, this.usuario.codigo).subscribe(
+      (data) =>{    
+   
+        if(data.estatus == "SUCCESS"){
+          this.toast.success(data.mensaje + " Número de solicitud " + this.datosFormulario.value?.idSolicitud, '', this.override2);            
+          setTimeout(()=>{
+            this.refrescarPagina()
+        },1500);  
+        
+        }else{
+          this.toast.error(data.mensaje, '', this.override2);
+        }
+        this.spinner.hide();
+    /*     this.spinner.hide('sp1'); */
+            }, 
+      (error) =>{
+        this.toast.error('',  '', this.override2);
+      }
+    ); 
 
 
+}
 
+refrescarPagina() {
 
+  this._router.navigate(['/despacho-proveeduria/buzonPendiente']);
+}
 
 }

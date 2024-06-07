@@ -17,11 +17,14 @@ import {  takeUntil } from 'rxjs/operators';
 export class DatosArticulosSolicitarComponent implements OnInit {
  artFormulario: FormGroup; 
 datosArticulo = {} as articulo;
- 
+observacion = new FormControl('');
+
+evento = new FormControl('');
 
   hasError :boolean = false;
   isShown:  boolean = false;
   isShownC: boolean = false; 
+  isShownO: boolean = false; 
     //#region Select
 
     protected tipoArticulo : ISelect[] = [];
@@ -111,22 +114,22 @@ this.obtenerTipoArticulo();
        
       })
       this.mostrarInput();
+  
       if (this.datosArticulo.idTipoArt != 3) {
-
+     
 
        
 
         
         this.artFormulario = this.formBuilder.group({
-          id: new FormControl( this.datosArticulo.id),
-          IdTipoArticulo:  new FormControl( {value : this.datosArticulo.idTipoArt, disabled: true}),         
+          id: new FormControl( this.datosArticulo.relacion),
+          IdTipoArticulo:  new FormControl( {value : Number(this.datosArticulo.idTipoArt) , disabled: true}),         
           idDescrArt: new FormControl( {value : this.datosArticulo.idDescrArt + '-' + this.datosArticulo.codArticulo + '-' + this.datosArticulo.unidadVenta, disabled: true}) ,
           idTipoImpre: new FormControl(''),
           idTipoModelo:  new FormControl(''),
           idDescConsumible:  new FormControl(''),
           direccionIp:  new FormControl(''),
           cantidad:  new FormControl(this.datosArticulo.cantidadArt),
-          
           unidadV:  new FormControl({value : this.datosArticulo.unidadVenta, disabled: true}),
         })
        
@@ -141,16 +144,24 @@ this.obtenerTipoArticulo();
     
         this.artFormulario = this.formBuilder.group({
           
-          id: new FormControl( this.datosArticulo.id),
-          IdTipoArticulo:  new FormControl({value : this.datosArticulo.idTipoArt, disabled: true}),         
+          id: new FormControl( this.datosArticulo.relacion),
+          IdTipoArticulo:  new FormControl({value : Number(this.datosArticulo.idTipoArt) , disabled: true}),         
           idDescrArt: new FormControl('') ,
-          idTipoImpre: new FormControl({value : this.datosArticulo.idTipoImpre, disabled: true}),
-          idTipoModelo:  new FormControl(this.datosArticulo.idDescrArt),
+          idTipoImpre: new FormControl({value : Number(this.datosArticulo.idTipoImpre), disabled: true}),
+          idTipoModelo:  new FormControl(Number(this.datosArticulo.idDescrArt)),
           idDescConsumible:  new FormControl(this.datosArticulo.idDescConsumible  +'-'+ this.datosArticulo.codArticulo),
           direccionIp:  new FormControl(this.datosArticulo.direccionIp),
           cantidad:  new FormControl(this.datosArticulo.cantidadArt),
           unidadV:  new FormControl({value : this.datosArticulo.unidadVenta, readonly: true}),
         })
+
+       
+      }
+
+      if (this.datosArticulo.evento != undefined) {
+        this.isShownO = true;
+        this.observacion = new FormControl(this.datosArticulo.observacion,Validators.required);
+        this.evento = new FormControl(this.datosArticulo.evento);
       }
 
 this.ngAfterViewInit();
@@ -217,6 +228,7 @@ this.ngAfterViewInit();
 }
 
   async obtenerTipoArticulo(){
+    
 var art ;
 if (sessionStorage.getItem('idServicio')  == '4') {
   art = "A";
@@ -235,7 +247,7 @@ if (sessionStorage.getItem('idServicio')  == '4') {
         for(const iterator of response.data){
             this.tipoImpresora.push({name:iterator.descripcion, id:iterator.idTipoImpresoraPk})             
         }
-       
+
       }
       
     }
@@ -261,7 +273,7 @@ if (sessionStorage.getItem('idServicio')  == '4') {
           for(const iterator of response.data){
             this.tipoArticulo.push({name: iterator.nombre, id:iterator.idTipoArticuloPk})
           }
-       
+     
         }
                
       }, 
@@ -311,13 +323,7 @@ if (sessionStorage.getItem('idServicio')  == '4') {
       cantidad:  new FormControl('', [Validators.required, Validators.pattern('^[0-9]+$')]),
     })
 
-    } else {
-
-
-      
-     
-  
-    }
+    } 
 
     }
 
@@ -417,10 +423,16 @@ this.datosArticulo = {} as articulo;
 if (this.artFormulario.valid) {
   
 
-  this.datosArticulo.id =this.artFormulario.getRawValue().id;
+  this.datosArticulo.relacion =this.artFormulario.getRawValue().id;
     this.datosArticulo.idTipoArt = this.artFormulario.getRawValue().IdTipoArticulo;
     this.datosArticulo.descrTipoArt = document.querySelector('#selectart')?.textContent;
-     
+   
+    if ( this.evento.value != '') {
+       
+      this.datosArticulo.observacion = this.observacion.value;
+      this.datosArticulo.evento = this.evento.value;
+    }
+
   if (this.artFormulario.getRawValue().IdTipoArticulo != 3) {
   
 

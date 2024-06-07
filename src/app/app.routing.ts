@@ -25,6 +25,10 @@ import { InventarioProveeduriaComponent } from './modules/admin/dashboards/inven
 import { AsignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/asignar-sol-proveeduria/asignar-sol-proveeduria.component';
 import { ReasignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/reasignar-sol-proveeduria/reasignar-sol-proveeduria.component';
 import { AdministracionComponent } from './modules/admin/dashboards/proveeduria/administracion/administracion.component';
+import { DespachoProveeduriaComponent } from './modules/admin/dashboards/despacho-proveeduria/despacho-proveeduria.component';
+import { AsignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/asignar-sol-proveeduria-des/asignar-sol-proveeduria-des.component';
+import { ReasignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/reasignar-sol-proveeduria-des/reasignar-sol-proveeduria-des.component';
+import { DetalleSolicitudProveduriaComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-proveduria/detalle-solicitud-proveduria.component';
 
 
 
@@ -124,6 +128,8 @@ export const appRoutes: Route[] = [
             {path: 'buzon', children: [
                 {path: 'buzonAsignadas',  component: BuzonAsignadaComponent},
                 {path: 'detalleSolicitud',  component: DetalleSolicitdComponent},
+                {path: 'detalleSolicitudProvee',  component: DetalleSolicitudProveduriaComponent},
+                
                 
             ]},
             
@@ -146,8 +152,15 @@ export const appRoutes: Route[] = [
                 {path: 'asignarSolicitud',  component: AsignarSolProveeduriaComponent},
                 {path: 'reasignarSolicitud',  component: ReasignarSolProveeduriaComponent}
             ]},
-            
 
+
+            {path: 'despacho-proveeduria', children: [
+                {path: 'buzonPendiente',  component: DespachoProveeduriaComponent},
+                {path: 'asignarSolicitud',  component: AsignarSolProveeduriaDESComponent},
+                {path: 'reasignarSolicitud',  component: ReasignarSolProveeduriaDESComponent
+            }
+            ]},
+            
             {path: 'proveeduria', children: [
                 {path: 'administracion',  component: AdministracionComponent},
                 

@@ -1,5 +1,5 @@
 export interface articulo {
-     id:any,
+    
     codArticulo: any,
     idTipoArt: any,
     descrTipoArt: any,
@@ -13,4 +13,7 @@ export interface articulo {
     modeloConsumible: any,    
     cantidadArt : any,
     unidadVenta : any,
+    observacion:any,
+    evento:any,
+    relacion:any
   }

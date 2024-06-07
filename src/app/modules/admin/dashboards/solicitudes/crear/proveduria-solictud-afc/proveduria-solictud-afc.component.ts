@@ -85,7 +85,6 @@ private overlayRef!: OverlayRef;
   
   //#region  tablas
   displayedColumns: string[] = [];
-  displayedColumnsC: string[] = [];
  
   positionOptions: TooltipPosition[] = ['below'];
   position = new FormControl(this.positionOptions[0]);
@@ -374,7 +373,7 @@ if (result) {
       
 
     } else{
-      result.id = this.nextId;
+      result.relacion = this.nextId;
    
       this.dataSource.data.push(result); 
       this.dataSource.data = this.dataSource.data.slice();
@@ -392,7 +391,7 @@ if (result) {
       
  
 
-      result.id = this.nextId;
+      result.relacion = this.nextId;
    
       this.dataSource.data.push(result); 
       this.dataSource.data = this.dataSource.data.slice();
@@ -428,7 +427,7 @@ if (result) {
 
 
  
-  const  indice = this.dataSource.data.findIndex(elemento => elemento.id === result.id);
+  const  indice = this.dataSource.data.findIndex(elemento => elemento.relacion === result.relacion);
 
 
   this.dataSource.data[indice] = result;
@@ -446,7 +445,7 @@ if (result) {
     // Assuming 'id' is the unique identifier property
 
     
-    const filteredData = this.dataSource.data.filter(row => row.id !== rowToDelete.id);
+    const filteredData = this.dataSource.data.filter(row => row.relacion !== rowToDelete.relacion);
     this.dataSource.data = filteredData;
   
     // Optional: Send delete request to server or show confirmation message
@@ -549,12 +548,13 @@ var formulario = [];
 
    })
 
+
        var enviarData = {};
       enviarData= {
         "creacion":this.usuFormulario.value,
         "formulario":formulario
        } 
-
+     
 
        
          this._solicitudesService.crear(enviarData).subscribe(

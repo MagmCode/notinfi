@@ -33,7 +33,7 @@ export class AsignarSolProveeduriaComponent implements OnInit {
   
 
     //#region  tablas
-    displayedColumnsP: string[] = ['tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','direccionIp','tipoImpresora', 'descConsumible' ,'modeloConsumible'];
+    displayedColumnsP: string[] = [];
     positionOptionsP: TooltipPosition[] = ['below'];
     positionP = new FormControl(this.positionOptionsP[0]);
     dataSourceP: MatTableDataSource<articulo>;
@@ -200,8 +200,15 @@ protected _onDestroy = new Subject<void>();
           }); 
           
     
-        debugger
+        
+      
           this.ELEMENT_DATAP = [];
+          if (this.datosFormulario.value.idServicio == 4) {
+            
+            this.displayedColumnsP.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta')
+          } else {
+            this.displayedColumnsP.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible',  'cantidadArt','unidadVenta')
+          }
           this.ELEMENT_DATAP = response.data.formulario.original;
           this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
           this.ngAfterViewInit();

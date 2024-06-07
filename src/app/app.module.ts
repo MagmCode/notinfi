@@ -73,6 +73,10 @@ import { AsignarSolProveeduriaComponent } from './modules/admin/dashboards/inven
 import { ReasignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/reasignar-sol-proveeduria/reasignar-sol-proveeduria.component';
 import { AdministracionComponent } from './modules/admin/dashboards/proveeduria/administracion/administracion.component';
 import { EditarComponent } from './modules/admin/dashboards/proveeduria/administracion/editar/editar.component';
+import { DespachoProveeduriaComponent } from './modules/admin/dashboards/despacho-proveeduria/despacho-proveeduria.component';
+import { AsignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/asignar-sol-proveeduria-des/asignar-sol-proveeduria-des.component';
+import { ReasignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/reasignar-sol-proveeduria-des/reasignar-sol-proveeduria-des.component';
+import { DetalleSolicitudProveduriaComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-proveduria/detalle-solicitud-proveduria.component';
 
 
 const routerConfig: ExtraOptions = {
@@ -107,6 +111,10 @@ const routerConfig: ExtraOptions = {
         CaciComponent,
         AdministracionComponent,
         EditarComponent,
+        DespachoProveeduriaComponent,
+        AsignarSolProveeduriaDESComponent,
+        ReasignarSolProveeduriaDESComponent,
+        DetalleSolicitudProveduriaComponent,
         
     ],
     imports     : [

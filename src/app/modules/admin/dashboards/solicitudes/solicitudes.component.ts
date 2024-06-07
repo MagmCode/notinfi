@@ -273,7 +273,7 @@ if (idTipoServicio == 2) {
 
      obtenerDatosApobar(idSolicitud: any,idTipoServicio:any ){
      
-debugger
+
         sessionStorage.setItem('idSolicitud', idSolicitud);
               
         if (idTipoServicio == 1) {

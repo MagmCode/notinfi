@@ -343,7 +343,7 @@ reporteTecServ(fechaInicio : any, fechaFin: any, estatus : any): Observable<any>
     estatus : estatus
   };
 
-  console.log(dataBusqueda);
+
   return this.http.post(url, dataBusqueda, httpOptions);
 }
 
