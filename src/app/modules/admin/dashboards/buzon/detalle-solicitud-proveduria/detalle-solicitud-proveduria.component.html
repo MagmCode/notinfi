@@ -61,6 +61,7 @@
 
                             <div class="col-span-4">
                                 <b>Tipo de Servicio</b>
+                                <p hidden>{{datosFormulario.value.idTipoServicio}}</p>
                                 <p >{{datosFormulario.value.tipoServicio}}</p>
                                                 
                             </div>
@@ -252,7 +253,19 @@
                                 
                           </div>
                        
+                        <div  *ngIf="(datosFormulario.value.tarea === 'DESPACHO')" class="text-center" >
+
+                          <mat-form-field appearance="fill" class="width100" style="width: 20%;">
+
+                            <mat-label>Ingrese el número de ticket</mat-label>
+                            <input matInput [formControl]="ticket" > 
+                            <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                                Campo <strong>Obligatorio</strong>
+                            </mat-error>   -->                    
+                        </mat-form-field>
                         
+
+                        </div>
     
                                       <section>
                                         <div class="text-center" *ngIf="serviA">

@@ -15,7 +15,6 @@ import {
   ApexTitleSubtitle
 } from "ng-apexcharts";
 import ApexCharts from 'apexcharts';
-import { forEach } from 'lodash';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;

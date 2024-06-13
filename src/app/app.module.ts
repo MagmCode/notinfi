@@ -77,6 +77,7 @@ import { DespachoProveeduriaComponent } from './modules/admin/dashboards/despach
 import { AsignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/asignar-sol-proveeduria-des/asignar-sol-proveeduria-des.component';
 import { ReasignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/reasignar-sol-proveeduria-des/reasignar-sol-proveeduria-des.component';
 import { DetalleSolicitudProveduriaComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-proveduria/detalle-solicitud-proveduria.component';
+import { ReportesGeneralesComponent } from './modules/admin/dashboards/reportes-generales/reportes-generales.component';
 
 
 const routerConfig: ExtraOptions = {
@@ -115,6 +116,7 @@ const routerConfig: ExtraOptions = {
         AsignarSolProveeduriaDESComponent,
         ReasignarSolProveeduriaDESComponent,
         DetalleSolicitudProveduriaComponent,
+        ReportesGeneralesComponent,
         
     ],
     imports     : [

@@ -29,6 +29,7 @@ import { DespachoProveeduriaComponent } from './modules/admin/dashboards/despach
 import { AsignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/asignar-sol-proveeduria-des/asignar-sol-proveeduria-des.component';
 import { ReasignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/reasignar-sol-proveeduria-des/reasignar-sol-proveeduria-des.component';
 import { DetalleSolicitudProveduriaComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-proveduria/detalle-solicitud-proveduria.component';
+import { ReportesGeneralesComponent } from './modules/admin/dashboards/reportes-generales/reportes-generales.component';
 
 
 
@@ -115,13 +116,15 @@ export const appRoutes: Route[] = [
             {path: 'inventario', children: [
                 {path: 'buzonPendiente',  component: BuzonPendienteComponent},
                 {path: 'asignarSolicitud',  component: AsignarSolicitudComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolicitudinvComponent}
+                {path: 'reasignarSolicitud',  component: ReasignarSolicitudinvComponent},
+                {path: 'reportesInv/:id',  component: ReportesGeneralesComponent},
             ]},
             
             {path: 'soporte', children: [
                 {path: 'buzonPendiente',  component: BuzonPendienteSopComponent},
                 {path: 'asignarSolicitud',  component: AsignarSolicitudSopComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolicitudsopComponent}
+                {path: 'reasignarSolicitud',  component: ReasignarSolicitudsopComponent},
+                {path: 'reportesSop/:id',  component: ReportesGeneralesComponent},
             ]},
             
 
@@ -135,7 +138,8 @@ export const appRoutes: Route[] = [
             
             {path: 'mediciones', children: [
                 {path: 'indicadores',  component: MedicionesComponent},
-                {path: 'reportes',  component: ReportesComponent},
+                {path: 'reportes',  component: ReportesGeneralesComponent},
+                
                 
             ]},
 
@@ -150,21 +154,24 @@ export const appRoutes: Route[] = [
             {path: 'inventario-proveeduria', children: [
                 {path: 'buzonPendiente',  component: InventarioProveeduriaComponent},
                 {path: 'asignarSolicitud',  component: AsignarSolProveeduriaComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolProveeduriaComponent}
+                {path: 'reasignarSolicitud',  component: ReasignarSolProveeduriaComponent},
+                {path: 'reportesInvPro/:id',  component: ReportesGeneralesComponent},
             ]},
 
 
             {path: 'despacho-proveeduria', children: [
                 {path: 'buzonPendiente',  component: DespachoProveeduriaComponent},
                 {path: 'asignarSolicitud',  component: AsignarSolProveeduriaDESComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolProveeduriaDESComponent
-            }
+                {path: 'reasignarSolicitud',  component: ReasignarSolProveeduriaDESComponent},
+                {path: 'reportesDespProve/:id',  component: ReportesGeneralesComponent},
             ]},
             
             {path: 'proveeduria', children: [
                 {path: 'administracion',  component: AdministracionComponent},
                 
             ]},
+
+            
 
             // Pages
             {path: 'pages', children: [                
