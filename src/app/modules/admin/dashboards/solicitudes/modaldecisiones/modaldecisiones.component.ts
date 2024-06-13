@@ -132,11 +132,11 @@ this.supervisorFiltrosCtrl.valueChanges
 
   
   async obtenerDatos(){
-
+    
     this.idSolicitud = this.solicitud.idSolicitud,
     this.nombres =   this.solicitud.nombres,
     this.tipoServicio= this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  
-
+console.log(this.solicitud)
 
 if (this.solicitud.metodo == 'buzon') {
   this.isShownCO = false;
@@ -148,7 +148,15 @@ this.isShownA = true;
 this.isShownR = false;
 this.isShownD = false;
 if (this.solicitud.metodo == 'buzon') {
-  this.mensaje = "¿Está seguro de asignar los siguiente equipos?";
+
+  if (this.solicitud.idTipoServicio == 1 ) {
+    this.mensaje = "¿Está seguro de asignar los siguiente equipos?";
+  } else {
+    this.mensaje = "¿Está seguro de asignar los siguiente artículos?";
+  }
+
+
+
 }else{
   if (this.solicitud.idTarea == 6 ) {
     this.mensaje = "Conforme con la Solicitud";

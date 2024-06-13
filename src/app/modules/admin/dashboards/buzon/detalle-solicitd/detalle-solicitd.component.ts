@@ -337,7 +337,7 @@ var validaTabla, equipo;
     
 
   const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-    data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceE.data, detalle: this.observacion.value},
+    data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceE.data, detalle: this.observacion.value,  idTipoServicio :this.datosFormulario.getRawValue().idTipoServicio},
     disableClose: true,
   });
   

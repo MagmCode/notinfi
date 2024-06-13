@@ -428,4 +428,13 @@ tipoArticuloXservicio(acronimo :any ): Observable <any>{
   return this.http.post(url, dataBusqueda);
 
 }
+
+reporteXarea(area :any ): Observable <any>{
+  const url = this.urlEndPoint + 'reporteXarea';
+   const dataBusqueda = {
+    area : area
+ };
+ return this.http.post(url, dataBusqueda);
+
+}
 }

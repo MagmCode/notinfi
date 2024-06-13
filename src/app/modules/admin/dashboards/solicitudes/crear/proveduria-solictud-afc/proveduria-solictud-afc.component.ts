@@ -15,6 +15,8 @@ import { ReplaySubject, Subject } from 'rxjs';
 import {  takeUntil } from 'rxjs/operators';
 import { DatosArticulosSolicitarComponent } from './datos-articulos-solicitar/datos-articulos-solicitar.component';
 import { MatDialog } from '@angular/material/dialog';
+import { ModalConfirmacionComponent } from './modal-confirmacion/modal-confirmacion.component';
+
 
 
 
@@ -453,152 +455,161 @@ if (result) {
   }
 
 
-  async submit(){
-    if(this.usuFormulario.valid){
-  /*    this.spinner.show('sp1'); */
-  
 
 
 
-  if (this.dataSource.data.length > 0 ) {
+  openDialogEnviar(row: any): void {
 
 
-
-    this.usuario = this._loginservices.obterTokenInfo();
-  
-  
-  this._solicitudesService.consultarDetalleUsuario(this.usuFormulario.value.codigoUsuario).subscribe(
-    (data) =>{ 
-  
-      if( data.estatus ==  'SUCCESS'  ){
-        this.usuFormulario.patchValue({
-          
-          codUnidadOrg: data.data.codUnidadOrg,
-          unidadOrg: data.data.unidadOrg,
-          codUnidadJrq: data.data.codUnidadJrq,
-          unidadJrq: data.data.unidadJrq
-          
-  
-        }); 
-   
-   
-  var piso;
-  
-        if (this.isShownP == true) {
-          
-         piso =  document.querySelector('#selectpiso')?.textContent
-  
-        } else {
-          piso =  this.piso.value
-        }
-  
-  
-  if (this.usuario.nivelCargo < 9) {
-  
-    if ( this.usuFormulario.value.codusuarioGestion == '') {
-     
-      this.usuFormulario = this.formBuilder.group({
-  
-        codusuarioGestion:  new FormControl('',  [Validators.required]),
-  
-      })
     
-      return false;
-    }
+
+    
+  
   }
-  let unidad: string[] =  document.querySelector('#selectUni')?.textContent.split('-');
-  
-  
-        this.usuFormulario.value.ubicacionFisica = document.querySelector('#selectUbi')?.textContent + "-" + piso;
-        this.usuFormulario.value.idServicio =  sessionStorage.getItem('idServicio');
-        this.usuFormulario.value.codigoUsuarioResp = this.usuario.codigo;
-        this.usuFormulario.value.cedulaResp =  this.usuario.cedula;
-        this.usuFormulario.value.nombresResp = this.usuario.nombres + ' ' + this.usuario.apellidos;
-        this.usuFormulario.value.codUnidadResp = this.usuario.codUnidad;
-        this.usuFormulario.value.unidadResp =this.usuario.descUnidad;
-        this.usuFormulario.value.codusuarioGestion =  this.usuFormulario.value.codusuarioGestion;
-        this.usuFormulario.value.unidad = unidad[1];
-        this.usuFormulario.value.centroCosto = this.usuFormulario.value.codUnidad;
-
-        
-var formulario = []; 
-
-   this.dataSource.data.forEach(element => {
 
 
-    this.datosArticulo = {} as articulo;
-    this.datosArticulo.idTipoArt =        element.idTipoArt       ;
-    this.datosArticulo.descrTipoArt =     element.descrTipoArt    ;
-    this.datosArticulo.codArticulo =      element.codArticulo     ;
-    this.datosArticulo.idDescrArt =       element.idDescrArt      ;
-    this.datosArticulo.dercripcionArt  =  element.dercripcionArt  ;
-    this.datosArticulo.cantidadArt  =     element.cantidadArt     ;
-    this.datosArticulo.idTipoImpre =      element.idTipoImpre     ;
-    this.datosArticulo.tipoImpresora =    element.tipoImpresora   ;
-    this.datosArticulo.direccionIp =      element.direccionIp     ;
-    this.datosArticulo.idDescConsumible = element.idDescConsumible;
-    this.datosArticulo.descConsumible =   element.descConsumible  ;
-    this.datosArticulo.modeloConsumible = element.modeloConsumible; 
-    this.datosArticulo.unidadVenta =      element.unidadVenta     ;  
-
-
-
-
-    formulario.push(this.datosArticulo)
-
-   })
-
-
-       var enviarData = {};
-      enviarData= {
-        "creacion":this.usuFormulario.value,
-        "formulario":formulario
-       } 
-     
-
+  async submit(){
+if(this.usuFormulario.valid){
+      /*    this.spinner.show('sp1'); */
+      
+    
+    
+    
+      if (this.dataSource.data.length > 0 ) {
+    
+    
+    
+        this.usuario = this._loginservices.obterTokenInfo();
+      
+      
+      this._solicitudesService.consultarDetalleUsuario(this.usuFormulario.value.codigoUsuario).subscribe(
+        (data) =>{ 
+      
+          if( data.estatus ==  'SUCCESS'  ){
+            this.usuFormulario.patchValue({
+              
+              codUnidadOrg: data.data.codUnidadOrg,
+              unidadOrg: data.data.unidadOrg,
+              codUnidadJrq: data.data.codUnidadJrq,
+              unidadJrq: data.data.unidadJrq
+              
+      
+            }); 
        
-         this._solicitudesService.crear(enviarData).subscribe(
-          (data) =>{    
-           if(data.estatus == "SUCCESS"){
-              this.toast.success(data.mensaje + " Número de solicitud " + data.data, '', this.override2);            
-              setTimeout(()=>{
-                this.redirigirSuccess();
-            },1500);  
-            }else{
-              this.toast.error(data.mensaje, '', this.override2);
+       
+      var piso;
+      
+            if (this.isShownP == true) {
+              
+             piso =  document.querySelector('#selectpiso')?.textContent
+      
+            } else {
+              piso =  this.piso.value
             }
-            this.spinner.hide();
-         this.spinner.hide('sp1'); 
-                }, 
-          (error) =>{
+      
+      
+      if (this.usuario.nivelCargo < 9) {
+      
+        if ( this.usuFormulario.value.codusuarioGestion == '') {
+         
+          this.usuFormulario = this.formBuilder.group({
+      
+            codusuarioGestion:  new FormControl('',  [Validators.required]),
+      
+          })
+        
+          return false;
+        }
+      }
+      let unidad: string[] =  document.querySelector('#selectUni')?.textContent.split('-');
+      
+      
+            this.usuFormulario.value.ubicacionFisica = document.querySelector('#selectUbi')?.textContent + "-" + piso;
+            this.usuFormulario.value.idServicio =  sessionStorage.getItem('idServicio');
+            this.usuFormulario.value.codigoUsuarioResp = this.usuario.codigo;
+            this.usuFormulario.value.cedulaResp =  this.usuario.cedula;
+            this.usuFormulario.value.nombresResp = this.usuario.nombres + ' ' + this.usuario.apellidos;
+            this.usuFormulario.value.codUnidadResp = this.usuario.codUnidad;
+            this.usuFormulario.value.unidadResp =this.usuario.descUnidad;
+            this.usuFormulario.value.codusuarioGestion =  this.usuFormulario.value.codusuarioGestion;
+            this.usuFormulario.value.unidad = unidad[1];
+            this.usuFormulario.value.centroCosto = this.usuFormulario.value.codUnidad;
+    
+            
+    var formulario = []; 
+    
+       this.dataSource.data.forEach(element => {
+    
+    
+        this.datosArticulo = {} as articulo;
+        this.datosArticulo.idTipoArt =        element.idTipoArt       ;
+        this.datosArticulo.descrTipoArt =     element.descrTipoArt    ;
+        this.datosArticulo.codArticulo =      element.codArticulo     ;
+        this.datosArticulo.idDescrArt =       element.idDescrArt      ;
+        this.datosArticulo.dercripcionArt  =  element.dercripcionArt  ;
+        this.datosArticulo.cantidadArt  =     element.cantidadArt     ;
+        this.datosArticulo.idTipoImpre =      element.idTipoImpre     ;
+        this.datosArticulo.tipoImpresora =    element.tipoImpresora   ;
+        this.datosArticulo.direccionIp =      element.direccionIp     ;
+        this.datosArticulo.idDescConsumible = element.idDescConsumible;
+        this.datosArticulo.descConsumible =   element.descConsumible  ;
+        this.datosArticulo.modeloConsumible = element.modeloConsumible; 
+        this.datosArticulo.unidadVenta =      element.unidadVenta     ;  
+    
+    
+    
+    
+        formulario.push(this.datosArticulo)
+    
+       })
+    
+    
+           var enviarData = {};
+          enviarData= {
+            "creacion":this.usuFormulario.value,
+            "formulario":formulario
+           } 
+         
+           const dialogRef = this.dialog.open(ModalConfirmacionComponent,{
+            data: {enviarData},
+            width: '40%',
+            disableClose: true
+          })
+           
+              
+
+            
+            dialogRef.afterClosed().subscribe(result => {
+
+
+            
+            });
+  
+       
+          }else{
             this.toast.error(data.mensaje, '', this.override2);
           }
-        );  
-   
-      }else{
-        this.toast.error(data.mensaje, '', this.override2);
-      }
-             
-    }, 
-  
-  );
-  
-  
-  }else{
-
-    this.toast.error('Disculpe, debe agregar Artículos a solicitar', '' , this.override2);
-   
-  }
-
-  
+                 
+        }, 
       
-   }else{
-     
+      );
+      
+      
+      }else{
     
-      this.toast.error('Disculpe, debe llenar todos los campos obligatorios de cada sección', '' , this.override2);
-   }
-  
-  }
+        this.toast.error('Disculpe, debe agregar Artículos a solicitar', '' , this.override2);
+       
+      }
+    
+      
+          
+       }else{
+         
+        
+          this.toast.error('Disculpe, debe llenar todos los campos obligatorios de cada sección', '' , this.override2);
+       }
+
+  } 
   
   redirigirSuccess(){
   

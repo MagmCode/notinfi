@@ -96,7 +96,7 @@ private overlayRef!: OverlayRef;
       this.user.email =this.usuario.descCargo;   
       this.dataSource.paginator = this.paginator;   
       
-      this.dataSource.paginator = this.paginatorH;
+      this.dataSourceH.paginator = this.paginatorH;
   }
 
      ngOnDestroy(): void
@@ -180,10 +180,7 @@ async obtenerPlantilla(){
           this._solicitudesService.consultarHistoricoCaci().subscribe(
           (response) =>{
         
-              this.ELEMENT_HISTORICO = [];
-              this.ELEMENT_HISTORICO = response.data;
-              this.dataSourceH = new MatTableDataSource(this.ELEMENT_HISTORICO);
-              this.ngAfterViewInit();
+          
              /*  this.dataSourceH.paginator = this.paginatorH;
               this.dataSourceH.sort= this.sortH; */
           }

@@ -43,7 +43,7 @@ datosArticulo = {} as articulo;
   estareaC :boolean = false;
   isShownD: boolean = false;
   metodo = [];
-
+  ticket = new FormControl('');
   radioSelected: any;
     //#region  tablas
     displayedColumnsP: string[] = [];
@@ -265,7 +265,7 @@ constructor(private _loginService : LoginService,
     sessionStorage.setItem('idServicio', this.datosFormulario.value.idServicio);
 
     const dialogRef = this.dialog.open(DatosArticulosSolicitarComponent,{
-      data: {articulo : row, },
+      data: {articulo : row},
       width: '50%',
       disableClose: true
     })
@@ -296,7 +296,7 @@ if (result) {
       
     
       const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-        data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceP.data},
+        data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceP.data,   idTipoServicio :this.datosFormulario.getRawValue().idTipoServicio , nroticket: this.ticket.value},
         disableClose: true,
       });
       

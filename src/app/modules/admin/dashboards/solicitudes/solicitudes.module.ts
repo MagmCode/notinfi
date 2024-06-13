@@ -45,6 +45,8 @@ import { ProveduriaSolictudAFCComponent } from './crear/proveduria-solictud-afc/
 import { DatosArticulosSolicitarComponent } from './crear/proveduria-solictud-afc/datos-articulos-solicitar/datos-articulos-solicitar.component';
 import { DetalleSolProveeduriaComponent } from './detalle-sol-proveeduria/detalle-sol-proveeduria.component';
 import { DecisionSolProveeduriaComponent } from './decision-sol-proveeduria/decision-sol-proveeduria.component';
+import { ModalConfirmacionComponent } from './crear/proveduria-solictud-afc/modal-confirmacion/modal-confirmacion.component';
+
 
 
 @NgModule({
@@ -63,7 +65,8 @@ import { DecisionSolProveeduriaComponent } from './decision-sol-proveeduria/deci
         ProveduriaSolictudAFCComponent,
         DatosArticulosSolicitarComponent,
         DetalleSolProveeduriaComponent,
-        DecisionSolProveeduriaComponent
+        DecisionSolProveeduriaComponent,
+        ModalConfirmacionComponent
     ],
     imports     : [
         RouterModule.forChild(solicitudesRoutes),

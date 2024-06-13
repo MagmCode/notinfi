@@ -326,7 +326,7 @@ openDialog(decision: String): void {
          
           if(response.estatus == 'SUCCESS'){ */
             const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-              data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : this.radioSelected},
+              data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : this.radioSelected,  idTipoServicio :this.datosFormulario.getRawValue().idTipoServicio},
               disableClose: true,
             });
             

@@ -47,7 +47,8 @@ export interface usuario {
     detalle:any,
     centroCosto:any,
     numContacto: any,
-    formulario : any
+    formulario : any,
+    nroticket: any
 
   }
 

@@ -1,0 +1,80 @@
+import { Component, Inject, OnInit } from '@angular/core';
+import { FormBuilder } from '@angular/forms';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { LoginService } from 'app/services/login.service';
+import { SolicitudesService } from 'app/services/solicitudes.service';
+import { NgxSpinnerService } from 'ngx-spinner';
+import { OverlayRef, ToastrService } from 'ngx-toastr';
+import { Subject } from 'rxjs';
+
+@Component({
+  selector: 'app-modal-confirmacion',
+  templateUrl: './modal-confirmacion.component.html',
+  styleUrls: ['./modal-confirmacion.component.scss']
+})
+export class ModalConfirmacionComponent implements OnInit {
+  mensaje: any;
+//#region toast
+override2 = {
+  positionClass: 'toast-bottom-full-width',
+  closeButton: true,
+  
+};
+//#endregion
+protected _onDestroy = new Subject<void>();
+//#region  spinner
+private overlayRef!: OverlayRef;
+//#endregion
+
+  constructor(public dialogRef: MatDialogRef<ModalConfirmacionComponent>,
+              @Inject(MAT_DIALOG_DATA) public data: any,
+              private _loginService : LoginService, 
+              private _solicitudesService : SolicitudesService,
+              public dialog: MatDialog,          
+              private formBuilder : FormBuilder,              
+              private toast: ToastrService,
+              private router: Router,
+              private spinner: NgxSpinnerService,) { }
+
+  ngOnInit(): void {
+
+this.mensaje ="Recuerde de tener el metodo de autenticación Ami ven, a la hora de dar conforme a la solicitud";
+  }
+
+ async submit(){
+  this.dialogRef.close();
+    this._solicitudesService.crear(this.data.enviarData).subscribe(
+      (data) =>{    
+       if(data.estatus == "SUCCESS"){
+          this.toast.success(data.mensaje + " Número de solicitud " + data.data, '', this.override2);            
+          setTimeout(()=>{
+            
+            this.redirigirSuccess();
+        },1500);  
+        }else{
+
+
+          this.toast.error(data.mensaje, '', this.override2);
+        }
+        this.spinner.hide();
+     this.spinner.hide('sp1'); 
+            }, 
+      (error) =>{
+        this.toast.error('', '', this.override2);
+      }
+    ); 
+  
+  }
+  
+  onNoClick(): void {
+    this.dialogRef.close();
+  } 
+  
+  redirigirSuccess(){
+  
+    this.router.navigate(['/solicitudes/gestionarSolicitudes']);
+  }
+
+
+}
