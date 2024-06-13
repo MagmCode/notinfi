@@ -2,13 +2,15 @@
     "name": "@fuse/demo",
     "version": "13.6.2",
     "description": "Fuse - Angular Admin Template and Starter Project",
-    "author": "https://themeforest.net/user/srcn",
+    "author": "",
     "license": "https://themeforest.net/licenses/standard",
     "private": true,
     "scripts": {
         "ng": "ng",
         "start": "ng serve",
         "build": "ng build",
+        "build:prod": "ng build --configuration=production --base-href=/asi/",
+        "build:dev": "ng build --configuration=dev --base-href=/asi/",
         "watch": "ng build --watch --configuration development",
         "test": "ng test",
         "lint": "ng lint"
