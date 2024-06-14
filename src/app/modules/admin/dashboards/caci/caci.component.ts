@@ -152,8 +152,7 @@ async obtenerPlantilla(){
           this.ELEMENT_DATA = response.data;
           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
           this.ngAfterViewInit();
-          this.dataSource.paginator = this.paginator;
-          this.dataSource.sort = this.sort;
+       
 
           this._solicitudesService.consultarEstadisticaCaci().subscribe(
             (response) =>{
@@ -181,8 +180,9 @@ async obtenerPlantilla(){
           (response) =>{
         
           
-             /*  this.dataSourceH.paginator = this.paginatorH;
-              this.dataSourceH.sort= this.sortH; */
+            this.ELEMENT_HISTORICO = response.data;
+            this.dataSourceH = new MatTableDataSource(this.ELEMENT_HISTORICO);
+            this.ngAfterViewInit();
           }
           )
   

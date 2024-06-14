@@ -143,117 +143,78 @@ private overlayRef!: OverlayRef;
             var dataCantidad = [];
             var dataDecision = [];
             var dataServicio = [];
+        
             response.data.gestionesSolictud.forEach( element => {
               
 
-              dataEmple.push(element.nombreUsuario);
+               dataEmple.push(element.nombreUsuario);
               dataCantidad.push(element.cantidad);
               dataDecision.push(element.decision);
               dataServicio.push(element.servcio);
              
          
             });
-
-            var optionsServi = {
-              chart: {
-                stacked: true,
-  stackType: "100%",
-                width: "100%",
-                height: 380,
-                type: "bar",
-                animations: {
-                  enabled: true,
-                  easing: 'easeinout',
-                  speed: 800,
-                  animateGradually: {
-                      enabled: true,
-                      delay: 150
-                  },
-                  dynamicAnimation: {
-                      enabled: true,
-                      speed: 350
-                  }
-              }
-              },
-              plotOptions: {
-                bar: {
-                  horizontal: true,
-                  borderRadius: 20
-                }
-              },
-              dataLabels: {
-                enabled: false
-              },
-              stroke: {
-                width: 1,
-                colors: ["#fff"]
-              },
+            console.log(dataEmple);
+            console.log(dataCantidad);
+            console.log(dataDecision);
+            console.log(dataServicio);
+            var options = {
               series: [{
-                data: [{
-                  x: 'category A',
-                  y: 10,
-                  goals: [
-                    {
-                      name: 'Expected',
-                      value: 52,
-                      strokeColor: '#775DD0'
-                    }
-                  ]
-                }, {
-                  x: 'category B',
-                  y: 18,
-                  goals: [
-                    {
-                      name: 'Expected',
-                      value: 52,
-                      strokeColor: '#775DD0'
-                    }
-                  ]
-                }, {
-                  x: 'category C',
-                  y: 13,
-                  goals: [
-                    {
-                      name: 'Expected',
-                      value: 52,
-                      strokeColor: '#775DD0'
-                    }
-                  ]
-                }]
-              }],
-             
-              legend: {
-                position: "right",
-                verticalAlign: "top",
-                containerMargin: {
-                  left: 35,
-                  right: 60
-                }
-              },
-              responsive: [
-                {
-                  breakpoint: 1000,
-                  options: {
-                    plotOptions: {
-                      bar: {
-                        horizontal: false
-                      }
-                    },
-                    legend: {
-                      position: "bottom"
+              name: 'Aprobado',
+              data: [44, 55, 41, 37, 22, 43, 21,44, 55, 41, 37, 22, 43, 21]
+            }, {
+              name: 'Rechazado',
+              data: [53, 32, 33, 52, 13, 43, 32,44, 55, 41, 37, 22, 43, 21]
+            }],
+              chart: {
+              type: 'bar',
+              stacked: true,
+            },
+            plotOptions: {
+              bar: {
+                horizontal: true,
+                dataLabels: {
+                  total: {
+                    enabled: true,
+                    offsetX: 0,
+                    style: {
+                      fontSize: '13px',
+                      fontWeight: 900
                     }
                   }
                 }
-              ],
-            
+              },
+            },
+            stroke: {
+              width: 1,
+              colors: ['#fff']
+            },
+            title: {
+              text: 'Usuario'
+            },
+            xaxis: {
+              categories: dataEmple,
+             
+            },
+            yaxis: {
+              title: {
+                text: undefined
+              },
+            },
+          
+            fill: {
+              opacity: 1
+            },
+            legend: {
+              position: 'top',
+              horizontalAlign: 'left',
+              offsetX: 40
+            }
             };
-            
-            var chartServi = new ApexCharts(
-              document.querySelector("#responsive-chart"),
-              optionsServi
-            );
-            
-            chartServi.render();
+    
+            var chart = new ApexCharts(document.querySelector("#responsive-chart"), options);
+            chart.render();
+          
 
           
     }
