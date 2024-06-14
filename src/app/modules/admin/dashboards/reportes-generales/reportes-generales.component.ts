@@ -10,18 +10,36 @@ import { User } from 'app/core/user/user.types';
 import { solicitudesDto } from 'app/models/usuario';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
-import { ChartComponent } from 'ng-apexcharts';
+
 import { NgxSpinnerService } from 'ngx-spinner';
 import { Overlay, OverlayRef, ToastrService } from 'ngx-toastr';
-
-
+import {
+  ChartComponent,
+  ApexAxisChartSeries,
+  ApexChart,
+  ApexXAxis,
+  ApexDataLabels,
+  ApexStroke,
+  ApexYAxis,
+  ApexFill,
+  ApexLegend,
+  ApexPlotOptions
+} from "ng-apexcharts";
+import { forIn, groupBy } from 'lodash';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  stroke: ApexStroke;
   xaxis: ApexXAxis;
-  title: ApexTitleSubtitle;
+  yaxis: ApexYAxis;
+  colors: string[];
+  fill: ApexFill;
+  legend: ApexLegend;
 };
+
 
 @Component({
   selector: 'app-reportes-generales',
@@ -39,6 +57,7 @@ export class ReportesGeneralesComponent implements OnInit {
   usuario = {} as any;
   solicitudesDto = {} as any;
   plantillaUsuario = {} as solicitudesDto;
+  
   @ViewChild("chart") chart: ChartComponent;
   public chartOptions: Partial<ChartOptions>;
   
@@ -78,6 +97,7 @@ private overlayRef!: OverlayRef;
 
                 this.dataSourceH = new MatTableDataSource(this.ELEMENT_HISTORICO); 
 
+                
                }
 
   ngOnInit(): void {
@@ -144,78 +164,106 @@ private overlayRef!: OverlayRef;
             var dataDecision = [];
             var dataServicio = [];
         
-            response.data.gestionesSolictud.forEach( element => {
+            var dataserie    = [];  
+          
+            const results= groupBy(response.data.gestionesSolictud, (a) => a.nombreUsuario);
+            
+   
+        for (const key in results) {
+          if (Object.prototype.hasOwnProperty.call(results, key)) {
+            const element = results[key];
+            dataEmple.push(element[0].nombreUsuario);
+
+            const resul= groupBy(element, (a) => a.servcio);
+
+            console.log(resul);
+
+                  for (const key in resul) {
+                    if (Object.prototype.hasOwnProperty.call(resul, key)) {
+                      const element = resul[key];
+debugger
+                      dataServicio.push(element)
+                      console.log(element);
+                      
+                    }
+                  }
+           
+
+               
+          }
+        }
+
+         /*    response.data.gestionesSolictud.forEach( element => {
               
 
-               dataEmple.push(element.nombreUsuario);
-              dataCantidad.push(element.cantidad);
-              dataDecision.push(element.decision);
-              dataServicio.push(element.servcio);
-             
+              
+             dataCantidad.push(element.cantidad);
+             dataDecision.push(element.decision);
+             dataServicio.push(element.servcio);
+            
+        
+           });  */
+            
          
-            });
             console.log(dataEmple);
             console.log(dataCantidad);
-            console.log(dataDecision);
             console.log(dataServicio);
+        
             var options = {
-              series: [{
-              name: 'Aprobado',
-              data: [44, 55, 41, 37, 22, 43, 21,44, 55, 41, 37, 22, 43, 21]
-            }, {
-              name: 'Rechazado',
-              data: [53, 32, 33, 52, 13, 43, 32,44, 55, 41, 37, 22, 43, 21]
-            }],
+              series: [
+                {
+                  name: 'Aprobado Budget',
+                  group: 'budget',
+                  data: [44, 55, 41, 67, 22,40, 65, 25]
+                },
+                {
+                  name: 'Aprobado Actual',
+                  group: 'actual',
+                  data: [48, 50, 40, 65, 25,40, 65, 25]
+                },
+                {
+                  name: 'Rechazado Budget',
+                  group: 'budget',
+                  data: [13, 36, 20, 8, 13,40, 65, 25]
+                },
+                {
+                  name: 'Rechazado Actual',
+                  group: 'actual',
+                  data: [20, 40, 25, 10, 12,40, 65, 25]
+                }
+            
+            ],
               chart: {
               type: 'bar',
               stacked: true,
-            },
-            plotOptions: {
-              bar: {
-                horizontal: true,
-                dataLabels: {
-                  total: {
-                    enabled: true,
-                    offsetX: 0,
-                    style: {
-                      fontSize: '13px',
-                      fontWeight: 900
-                    }
-                  }
-                }
-              },
             },
             stroke: {
               width: 1,
               colors: ['#fff']
             },
-            title: {
-              text: 'Usuario'
+           
+            plotOptions: {
+              bar: {
+                horizontal: true
+              }
             },
             xaxis: {
-              categories: dataEmple,
-             
+              categories:  dataEmple   ,
+            
             },
-            yaxis: {
-              title: {
-                text: undefined
-              },
-            },
-          
             fill: {
-              opacity: 1
+              opacity: 1,
             },
+            colors: ['#80c7fd', '#008FFB', '#80f1cb', '#00E396'],
             legend: {
               position: 'top',
-              horizontalAlign: 'left',
-              offsetX: 40
+              horizontalAlign: 'left'
             }
             };
     
-            var chart = new ApexCharts(document.querySelector("#responsive-chart"), options);
+            var chart = new ApexCharts(document.querySelector("#chart"), options);
             chart.render();
-          
-
+           
           
     }
     );

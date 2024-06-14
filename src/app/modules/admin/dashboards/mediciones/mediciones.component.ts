@@ -12,15 +12,26 @@ import {
   ApexAxisChartSeries,
   ApexChart,
   ApexXAxis,
-  ApexTitleSubtitle
+  ApexDataLabels,
+  ApexStroke,
+  ApexYAxis,
+  ApexFill,
+  ApexLegend,
+  ApexPlotOptions
 } from "ng-apexcharts";
 import ApexCharts from 'apexcharts';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
   chart: ApexChart;
+  dataLabels: ApexDataLabels;
+  plotOptions: ApexPlotOptions;
+  stroke: ApexStroke;
   xaxis: ApexXAxis;
-  title: ApexTitleSubtitle;
+  yaxis: ApexYAxis;
+  colors: string[];
+  fill: ApexFill;
+  legend: ApexLegend;
 };
 
 @Component({

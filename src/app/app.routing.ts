@@ -138,7 +138,7 @@ export const appRoutes: Route[] = [
             
             {path: 'mediciones', children: [
                 {path: 'indicadores',  component: MedicionesComponent},
-                {path: 'reportes',  component: ReportesGeneralesComponent},
+                {path: 'reportes',  component: ReportesComponent},
                 
                 
             ]},
