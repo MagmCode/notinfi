@@ -25,7 +25,7 @@ import {
   ApexLegend,
   ApexPlotOptions
 } from "ng-apexcharts";
-import { forIn, groupBy } from 'lodash';
+import { forEach, forIn, groupBy } from 'lodash';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -124,7 +124,7 @@ private overlayRef!: OverlayRef;
   }
 
   ngAfterViewInit() {
-   
+debugger
     this.dataSourceH.paginator = this.paginatorH;
     this.dataSourceH.sort = this.sortH; 
    
@@ -139,14 +139,27 @@ private overlayRef!: OverlayRef;
     }
   }
 
+  tabClick(tab) {
 
+    if (tab.index == 1 ) {
+
+      this.ngAfterViewInit();
+
+    }else{
+
+      this.ngOnInit();
+    }
+
+
+
+  }
   async obtenerPlantilla(id: any){
     this.usuario = this._loginservices.obterTokenInfo();
 
     this._solicitudesService.reporteXarea(id).subscribe(
     (response) =>{
 
-      console.log(response)
+
       this.ELEMENT_HISTORICO = [];
       this.ELEMENT_HISTORICO = response.data.detalleSolicitudes;
       this.dataSourceH = new MatTableDataSource(this.ELEMENT_HISTORICO);
@@ -159,80 +172,18 @@ private overlayRef!: OverlayRef;
             this.solicitudes= response.data.estadistica.solicitudes;
           
 
-            var dataEmple    = [];        
-            var dataCantidad = [];
-            var dataDecision = [];
-            var dataServicio = [];
-        
-            var dataserie    = [];  
-          
-            const results= groupBy(response.data.gestionesSolictud, (a) => a.nombreUsuario);
-            
-   
-        for (const key in results) {
-          if (Object.prototype.hasOwnProperty.call(results, key)) {
-            const element = results[key];
-            dataEmple.push(element[0].nombreUsuario);
+    
 
-            const resul= groupBy(element, (a) => a.servcio);
 
-            console.log(resul);
+            console.log( response.data.graficaReporte.usuariosLabel)
 
-                  for (const key in resul) {
-                    if (Object.prototype.hasOwnProperty.call(resul, key)) {
-                      const element = resul[key];
-debugger
-                      dataServicio.push(element)
-                      console.log(element);
-                      
-                    }
-                  }
-           
 
-               
-          }
-        }
+console.log(response.data.graficaReporte.grafica)
 
-         /*    response.data.gestionesSolictud.forEach( element => {
-              
 
-              
-             dataCantidad.push(element.cantidad);
-             dataDecision.push(element.decision);
-             dataServicio.push(element.servcio);
-            
-        
-           });  */
-            
-         
-            console.log(dataEmple);
-            console.log(dataCantidad);
-            console.log(dataServicio);
-        
+  
             var options = {
-              series: [
-                {
-                  name: 'Aprobado Budget',
-                  group: 'budget',
-                  data: [44, 55, 41, 67, 22,40, 65, 25]
-                },
-                {
-                  name: 'Aprobado Actual',
-                  group: 'actual',
-                  data: [48, 50, 40, 65, 25,40, 65, 25]
-                },
-                {
-                  name: 'Rechazado Budget',
-                  group: 'budget',
-                  data: [13, 36, 20, 8, 13,40, 65, 25]
-                },
-                {
-                  name: 'Rechazado Actual',
-                  group: 'actual',
-                  data: [20, 40, 25, 10, 12,40, 65, 25]
-                }
-            
-            ],
+              series:response.data.graficaReporte.grafica,
               chart: {
               type: 'bar',
               stacked: true,
@@ -248,13 +199,16 @@ debugger
               }
             },
             xaxis: {
-              categories:  dataEmple   ,
+              categories:  response.data.graficaReporte.usuariosLabel   ,
             
+            },
+            title: {
+              text: 'Solicitudes por usuario'
             },
             fill: {
               opacity: 1,
             },
-            colors: ['#80c7fd', '#008FFB', '#80f1cb', '#00E396'],
+            colors: ['#009681', '#E21050', '#82CACB', '#ED6D8F'],
             legend: {
               position: 'top',
               horizontalAlign: 'left'
@@ -262,6 +216,52 @@ debugger
             };
     
             var chart = new ApexCharts(document.querySelector("#chart"), options);
+            chart.render();
+
+
+            var optionst = {
+              series: [response.data.solicituedesTyF.fueraTiempo , response.data.solicituedesTyF.enTiempo],
+              chart: {
+              width: 400,
+              type: 'donut',
+            },
+            plotOptions: {
+              pie: {
+                startAngle: -90,
+                endAngle: 270
+              }
+            },
+            labels: ['Fuera de tiempo' , 'En Tiempo'] ,
+            dataLabels: {
+              enabled: false
+            },
+            fill: {
+              type: 'gradient',
+            },
+            legend: {
+               formatter: function(val, opts) {
+                return val + " - " + opts.w.globals.series[opts.seriesIndex]
+              }
+            },
+        
+            title: {
+              text: 'Solicitudes en Tiempo y Fuera de Tiempo'
+            },
+            colors: ['#DB0032', '#78BA49'],
+            responsive: [{
+              breakpoint: 480,
+              options: {
+                chart: {
+                  width: 200
+                },
+                legend: {
+                  position: 'bottom'
+                }
+              }
+            }]
+            };
+    
+            var chart = new ApexCharts(document.querySelector("#chartT"), optionst);
             chart.render();
            
           

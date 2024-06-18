@@ -109,11 +109,16 @@
                                 <p >{{datosFormulario.value.ubicacionFisica}}</p>
                                                 
                             </div>
-                            <div class="col-span-8" >
+                            <div class="col-span-4" >
                               <b>Número de contacto  </b>
                               <p >{{datosFormulario.value.numContacto}}</p>
                                               
                           </div>
+                          <div class="col-span-4" >
+                            <b>Número de ticket  </b>
+                            <p >{{datosFormulario.value.nroticket}}</p>
+                                            
+                        </div>
 
                         
                         </div>
@@ -318,102 +323,102 @@
                                     </div>
                                   
                             </div>
-                        
-                        <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card mt-8 shadow rounded-2xl overflow-hidden">
+                          </div>
+                              <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card mt-8 shadow rounded-2xl overflow-hidden">
 
-                        <div class="text-2xl font-medium tracking-tight leading-6 truncate    text-center">Detalle Tracking</div>
-                     
-                        <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
-                            <div class="">
-                            <mat-form-field appearance="outline" >
-                                <mat-label>Filtro</mat-label>
-                                <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
-                              </mat-form-field>
-                            </div>
-                            <div class="mat-elevation-z8">
-                                <table mat-table [dataSource]="dataSource" matSort>
-                              
-                            
-
-                                  <ng-container matColumnDef="nombreTarea">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarea</th>
-                                    <td mat-cell *matCellDef="let row"> {{row.nombreTarea}} </td>
-                                  </ng-container>
-
-                                  <ng-container matColumnDef="codUsuarioInicio">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Usuario Inicio</th>
-                                    <td mat-cell *matCellDef="let row"> {{row.codUsuarioInicio}} </td>
-                                  </ng-container>
-
-                                  <ng-container matColumnDef="nombreUsuarioInicio">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Usuario Inicio</th>
-                                    <td mat-cell *matCellDef="let row"> {{row.nombreUsuarioInicio}} </td>
-                                  </ng-container>
-                                  <!-- Progress Column -->
-                                  <ng-container matColumnDef="fechaInicio">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Inicio </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.fechaInicio}} </td>
-                                  </ng-container>
-                              
-                                  <!-- Progress Column -->
-                                  <ng-container matColumnDef="codUsuarioFin">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Código Usuario Fin </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.codUsuarioFin}} </td>
-                                  </ng-container>
-
-                                  <!-- Name Column -->
-                                  <ng-container matColumnDef="nombreUsuarioFin">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Usuario Fin</th>
-                                    <td mat-cell *matCellDef="let row"> {{row.nombreUsuarioFin}} </td>
-                                  </ng-container>
-                              
-                                  <!-- Fruit Column -->
-                                  <ng-container matColumnDef="fechaFin">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha fin</th>
-                                    <td mat-cell *matCellDef="let row"> {{row.fechaFin}} </td>
-                                  </ng-container>
-                
-                                  <ng-container matColumnDef="decision">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Decisión </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.decision}} </td>
-                                  </ng-container>
+                              <div class="text-2xl font-medium tracking-tight leading-6 truncate    text-center">Detalle Tracking</div>
+                          
+                              <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
+                                  <div class="">
+                                  <mat-form-field appearance="outline" >
+                                      <mat-label>Filtro</mat-label>
+                                      <input matInput (keyup)="applyFilter($event)" placeholder="" #input>
+                                    </mat-form-field>
+                                  </div>
+                                  <div class="mat-elevation-z8">
+                                      <table mat-table [dataSource]="dataSource" matSort>
                                     
-                                  <ng-container matColumnDef="motivo">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Motivo </th>
-                                    <td mat-cell *matCellDef="let row"> {{row.motivo}} </td>
-                                  </ng-container>
-                
-                                  <ng-container matColumnDef="observacion">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Observación</th>
-                                    <td mat-cell *matCellDef="let row"> {{row.observacion}} </td>
-                                  </ng-container>
-                
-                                
-                                
-                                 
                                   
-                              
-                                  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                              
-                                  <!-- Row shown when there is no matching data. -->
-                                  <tr class="mat-row" *matNoDataRow>
-                                    <td class="mat-cell" colspan="4">No Existe Resultado</td>
-                                  </tr>
-                                </table>
-                       
-                                  <mat-paginator
-                                    [pageSize]="25"
-                                    [pageSizeOptions]="[5, 10, 25, 100]"
-                                    [showFirstLastButtons]="true">
-                                </mat-paginator>
-                                </div>
-                              
-                        </div>
 
-             
-                        </div>
-                </div>
+                                        <ng-container matColumnDef="nombreTarea">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Tarea</th>
+                                          <td mat-cell *matCellDef="let row"> {{row.nombreTarea}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="codUsuarioInicio">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Código Usuario Inicio</th>
+                                          <td mat-cell *matCellDef="let row"> {{row.codUsuarioInicio}} </td>
+                                        </ng-container>
+
+                                        <ng-container matColumnDef="nombreUsuarioInicio">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Nombre Usuario Inicio</th>
+                                          <td mat-cell *matCellDef="let row"> {{row.nombreUsuarioInicio}} </td>
+                                        </ng-container>
+                                        <!-- Progress Column -->
+                                        <ng-container matColumnDef="fechaInicio">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha Inicio </th>
+                                          <td mat-cell *matCellDef="let row"> {{row.fechaInicio}} </td>
+                                        </ng-container>
+                                    
+                                        <!-- Progress Column -->
+                                        <ng-container matColumnDef="codUsuarioFin">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Código Usuario Fin </th>
+                                          <td mat-cell *matCellDef="let row"> {{row.codUsuarioFin}} </td>
+                                        </ng-container>
+
+                                        <!-- Name Column -->
+                                        <ng-container matColumnDef="nombreUsuarioFin">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Nombre Usuario Fin</th>
+                                          <td mat-cell *matCellDef="let row"> {{row.nombreUsuarioFin}} </td>
+                                        </ng-container>
+                                    
+                                        <!-- Fruit Column -->
+                                        <ng-container matColumnDef="fechaFin">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header> Fecha fin</th>
+                                          <td mat-cell *matCellDef="let row"> {{row.fechaFin}} </td>
+                                        </ng-container>
+                      
+                                        <ng-container matColumnDef="decision">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Decisión </th>
+                                          <td mat-cell *matCellDef="let row"> {{row.decision}} </td>
+                                        </ng-container>
+                                          
+                                        <ng-container matColumnDef="motivo">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Motivo </th>
+                                          <td mat-cell *matCellDef="let row"> {{row.motivo}} </td>
+                                        </ng-container>
+                      
+                                        <ng-container matColumnDef="observacion">
+                                          <th mat-header-cell *matHeaderCellDef mat-sort-header>Observación</th>
+                                          <td mat-cell *matCellDef="let row"> {{row.observacion}} </td>
+                                        </ng-container>
+                      
+                                      
+                                      
+                                      
+                                        
+                                    
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                    
+                                        <!-- Row shown when there is no matching data. -->
+                                        <tr class="mat-row" *matNoDataRow>
+                                          <td class="mat-cell" colspan="4">No Existe Resultado</td>
+                                        </tr>
+                                      </table>
+                            
+                                        <mat-paginator
+                                          [pageSize]="25"
+                                          [pageSizeOptions]="[5, 10, 25, 100]"
+                                          [showFirstLastButtons]="true">
+                                      </mat-paginator>
+                                      </div>
+                                    
+                              </div>
+
+                  
+                              </div>
+           
 
             </div>
         </div>

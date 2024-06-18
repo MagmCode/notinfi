@@ -106,18 +106,29 @@
 
 </div>
             <!-- Tabs -->
-            <mat-tab-group 
+            <mat-tab-group  (selectedTabChange)="tabClick($event)"
                 class="sm:px-2"
                 [animationDuration]="'0'">
 
                 <!-- Home -->
                 <mat-tab label="Mis Indicadores">
                     <ng-template matTabContent>
+
+                  
                         <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                        
+                          <div class="grid grid-cols-3 gap-4">
+                            <div class="..."></div>
+                            <div class="...">  
+                               <div id="chartT" class="mr-4">
+                            </div></div>
+                            <div class="..."></div>
+                          </div>
+                       
+<hr>
                           <div id="chart">
                           </div>
-                              
+
+                          
                         </div>
                     </ng-template>
                 </mat-tab>

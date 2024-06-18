@@ -217,7 +217,12 @@ protected _onDestroy = new Subject<void>();
             numContacto:        response.data.solicitud.numContacto
 
           }); 
-          
+
+
+          this.ELEMENT_DATA = [];
+          this.ELEMENT_DATA =  response.data.detalle
+               this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+               this.ngAfterViewInit();
     
         
           if (this.datosFormulario.value.idServicio == 4) {
@@ -248,10 +253,7 @@ protected _onDestroy = new Subject<void>();
        }
       
 
-          this.ELEMENT_DATA = [];
-      this.ELEMENT_DATA =  response.data.detalle
-           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-           this.ngAfterViewInit();
+
     
 
       }
