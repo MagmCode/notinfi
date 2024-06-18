@@ -26,6 +26,8 @@ import {
   ApexPlotOptions
 } from "ng-apexcharts";
 import { forIn, groupBy } from 'lodash';
+import { distinct } from 'rxjs/operators';
+import { from, of } from 'rxjs';
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -165,10 +167,35 @@ private overlayRef!: OverlayRef;
             var dataServicio = [];
         
             var dataserie    = [];  
-          
+            var servicios = [];
             const results= groupBy(response.data.gestionesSolictud, (a) => a.nombreUsuario);
-            
-   
+
+            for (const key in response.data.gestionesSolictud) {
+              const element = response.data.gestionesSolictud[key];
+              console.log(element.servicio)
+              if (Object.prototype.hasOwnProperty.call(response.data.gestionesSolictud, key)) {
+                if(element.servcio != "undefined"){
+                  dataServicio.push(element.servcio)
+                }
+                
+                
+              }
+            }
+
+            const resultsS= groupBy(dataServicio, (a) => a);
+            /* console.log(resultsS) */
+
+           /*  of(dataServicio)
+            .pipe(distinct())
+            .subscribe(console.log) */
+
+          /*   console.log(dataServicio)
+            // OUTPUT: 1,2,3,4,5
+          console.log("distinct ") */
+       /*    from(dataServicio)
+          .pipe(distinct(e => e.id))
+          .subscribe(console.log); */
+            /*  */console.log("distinct fin")
         for (const key in results) {
           if (Object.prototype.hasOwnProperty.call(results, key)) {
             const element = results[key];
@@ -176,14 +203,14 @@ private overlayRef!: OverlayRef;
 
             const resul= groupBy(element, (a) => a.servcio);
 
-            console.log(resul);
+           /*  console.log(resul); */
 
                   for (const key in resul) {
                     if (Object.prototype.hasOwnProperty.call(resul, key)) {
                       const element = resul[key];
-debugger
+
                       dataServicio.push(element)
-                      console.log(element);
+                    //  console.log(element);
                       
                     }
                   }
@@ -205,9 +232,9 @@ debugger
            });  */
             
          
-            console.log(dataEmple);
+        /*     console.log(dataEmple);
             console.log(dataCantidad);
-            console.log(dataServicio);
+            console.log(dataServicio); */
         
             var options = {
               series: [
