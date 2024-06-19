@@ -227,6 +227,11 @@ constructor(private _loginService : LoginService,
       this.displayedColumnsP.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','observacion','acciones')
     } else {
       this.displayedColumnsP.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible', 'cantidadArt','unidadVenta', 'observacion', 'acciones')
+   
+    }
+
+    if (this.datosFormulario.value.idTarea === 19) {
+      this.isShownD = true
     }
 
 

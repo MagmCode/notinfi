@@ -105,9 +105,9 @@ override2 = {
         this.user.email =this.usuario.descCargo;   
         this.dataSource.paginator = this.paginator;
 
-        this.dataSource.paginator = this.paginatorP;   
+        this.dataSourceP.paginator = this.paginatorP;   
         
-        this.dataSource.paginator = this.paginatorH;
+        this.dataSourceH.paginator = this.paginatorH;
     }
 
        ngOnDestroy(): void
