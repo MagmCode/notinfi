@@ -1,6 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
+import { MatDialog } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSelectChange } from '@angular/material/select';
 import { MatSort } from '@angular/material/sort';
@@ -12,11 +13,13 @@ import { ISelect } from 'app/models/login';
 import { articulo } from 'app/models/proveduria';
 import { solicitudesDto } from 'app/models/usuario';
 import { LoginService } from 'app/services/login.service';
+import { ProveeduriaService } from 'app/services/proveeduria.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { EditarComponent } from './editar/editar.component';
 
 @Component({
   selector: 'app-administracion',
@@ -31,7 +34,7 @@ export class AdministracionComponent implements OnInit {
   displayedColumnsP: string[] = ['codArticulo', 'iddercripciónArt', 'dercripciónArt','unidadVenta','tipoArt', 'acciones'];
   positionOptionsP: TooltipPosition[] = ['below'];
   positionP = new FormControl(this.positionOptionsP[0]);
-  dataSourceP: MatTableDataSource<articulo>;
+  dataSourceP: MatTableDataSource<any>;
   dataSource: MatTableDataSource<solicitudesDto>;   
   ELEMENT_DATAP: articulo[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
@@ -46,8 +49,9 @@ export class AdministracionComponent implements OnInit {
 
     
   constructor(private _loginService : LoginService,
-              private _solicitudesService : SolicitudesService              
-            ) {
+              private _solicitudesService : SolicitudesService,              
+              public dialog: MatDialog,
+              private _proveduriaService : ProveeduriaService) {
 
     
      }
@@ -129,15 +133,36 @@ export class AdministracionComponent implements OnInit {
   }  
 
   onChange(ev: MatSelectChange){ 
-    this._solicitudesService.detalleArticulo(ev.value).subscribe(
+    this._proveduriaService.detalleArticuloAdministrador(ev.value).subscribe(
       (response) =>{                       
         if(response.estatus == 'SUCCESS'){          
-            this.dataSourceP = new MatTableDataSource( response.data);
+            this.dataSourceP = new MatTableDataSource(response.data);
             this.dataSourceP.paginator = this.paginator;
             this.dataSourceP.sort = this.sort;        
         }      
       }
     );
+  }
+
+  openDialogEdit(row: any): void {
+    const dialogRef = this.dialog.open(EditarComponent,{
+      data: {articulo : row},
+      width: '70%',
+      disableClose: true
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {     
+        if(result){
+          const  indice = this.dataSourceP.data.findIndex(elemento => elemento.idArticuloPk === result.idArticuloPk);
+          this.dataSourceP.data[indice] = result;
+          this.tablePaginacion();
+        }
+    });
+  }
+
+  tablePaginacion(){
+    this.dataSourceP.paginator = this.paginator;
+    this.dataSourceP.sort = this.sort;      
   }
 
 }

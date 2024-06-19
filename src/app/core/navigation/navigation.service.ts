@@ -115,7 +115,7 @@ export class NavigationService
     }
 
     iniciarMenuCaci(){
-        return  this.menuMediciones  ={
+        return  this.menuCaci  ={
             id : 'CACI',
             title: 'Areas Consultas',
             subtitle: 'Gestión de Areas Consultas',
@@ -191,7 +191,8 @@ export class NavigationService
         this.menuPublico = this.inciarMenuPublico();
         this.menuMediciones = [];
         this.menuMediciones = this.iniciarMenuMedi();
-     
+        this.menuCaci = [];
+        this.menuCaci = this.iniciarMenuCaci();
        return this._loginService.obtenerMenu(this.usuario.cedula).pipe(
           tap( (response) =>{
            
