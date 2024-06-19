@@ -152,6 +152,15 @@ buscarTipoServicio(){
           for(const iterator of response.data){
             this.tipoServicio.push({name: iterator.nombre, id: iterator.idTipoServicio})
           }
+
+          this.tipoServicioCtrl.setValue(this.tipoServicio);
+          this.filtrotipoServicio.next(this.tipoServicio);
+          this.tipoServicioFiltrosCtrl.valueChanges
+          .pipe(takeUntil(this._onDestroy))
+          .subscribe(() => {
+            this.filtrotipoServicioT();
+          });
+          this.reporte = false;
         }
         
       }

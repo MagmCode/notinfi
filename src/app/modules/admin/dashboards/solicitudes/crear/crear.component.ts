@@ -23,8 +23,7 @@ import { ProveduriaSolictudAFCComponent } from './proveduria-solictud-afc/proved
 
 export class CrearComponent implements OnInit, OnDestroy {
 
-  private estadoComponente$: Observable<{ mostrarComponente: boolean; recargarDatos: boolean }>;
-  private subscription: Subscription;
+
 
   
   usuario = {} as any;
@@ -118,12 +117,10 @@ export class CrearComponent implements OnInit, OnDestroy {
   isShownReposicion: boolean = false;
   isShownDesincorporacion: boolean = false; 
   isShownSolicitudART: boolean = false;
-  
   isShownSolicitudARTC: boolean = false;
+
   @ViewChild('matRef') matRef: MatSelect;
-
-
-
+  
 clear(){
   this.matRef.options.forEach((data: MatOption) => data.deselect());
 }
