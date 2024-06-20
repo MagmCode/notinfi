@@ -46,6 +46,7 @@ import { DatosArticulosSolicitarComponent } from './crear/proveduria-solictud-af
 import { DetalleSolProveeduriaComponent } from './detalle-sol-proveeduria/detalle-sol-proveeduria.component';
 import { DecisionSolProveeduriaComponent } from './decision-sol-proveeduria/decision-sol-proveeduria.component';
 import { ModalConfirmacionComponent } from './crear/proveduria-solictud-afc/modal-confirmacion/modal-confirmacion.component';
+import { InfraestructuraServicioGComponent } from './crear/infraestructura-servicio-g/infraestructura-servicio-g.component';
 
 
 
@@ -66,7 +67,8 @@ import { ModalConfirmacionComponent } from './crear/proveduria-solictud-afc/moda
         DatosArticulosSolicitarComponent,
         DetalleSolProveeduriaComponent,
         DecisionSolProveeduriaComponent,
-        ModalConfirmacionComponent
+        ModalConfirmacionComponent,
+        InfraestructuraServicioGComponent
     ],
     imports     : [
         RouterModule.forChild(solicitudesRoutes),

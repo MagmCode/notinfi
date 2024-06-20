@@ -117,7 +117,8 @@ export class CrearComponent implements OnInit, OnDestroy {
   isShownReposicion: boolean = false;
   isShownDesincorporacion: boolean = false; 
   isShownSolicitudART: boolean = false;
-  isShownSolicitudARTC: boolean = false;
+  isShownSolicitudARTC: boolean = false;  
+  isShownSolicitudSG: boolean = false;
 
   @ViewChild('matRef') matRef: MatSelect;
   
@@ -130,7 +131,9 @@ clear(){
     this.isShownReposicion = false;
 
     this.isShownSolicitudART = false;
-    this.isShownSolicitudARTC = false;
+    this.isShownSolicitudARTC = false;    
+    this.isShownSolicitudSG = false;
+
     await this._solicitudesService.consultarCategorias().subscribe(
       (response) => {
      
@@ -160,6 +163,8 @@ clear(){
     this.isShownReposicion = false;
     this.isShownSolicitudART = false;
     this.isShownSolicitudARTC = false;
+    this.isShownSolicitudSG = false;
+
     this._solicitudesService.consultarTipoServicio(this.solFormulario.value.categoria?.id).subscribe(
       (response) => {
     
@@ -200,9 +205,10 @@ clear(){
 
     this.isShownAsignacion = false;
     this.isShownReposicion = false;
-
     this.isShownSolicitudART = false;
     this.isShownSolicitudARTC = false;
+    this.isShownSolicitudSG = false;
+
     this._solicitudesService.consultarServicio(this.solFormulario.value.tiposerv?.id,  this.usuario.nivelCargo).subscribe(
       (response) => {
 
@@ -239,6 +245,7 @@ clear(){
     this.isShownSolicitudART = false;
     this.isShownSolicitudARTC = false;
 
+    this.isShownSolicitudSG = false;
 
 if (this.solFormulario.value.servi?.id == 1) {
 
@@ -260,6 +267,10 @@ else if (this.solFormulario.value.servi?.id == 4) {
   this.isShownSolicitudARTC = true;
 
   /* this.componenteA.reloadComponent(); */
+} else if ( this.solFormulario.value.servi?.id == 6) {
+
+  this.isShownSolicitudSG = true;
+
 } 
 
   }

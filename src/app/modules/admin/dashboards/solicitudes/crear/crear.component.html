@@ -96,18 +96,22 @@
                         </div>
                      </div>
                     </form>
-                     <div *ngIf="isShownAsignacion"  id="divshowAsignacion">
-                       <app-requerimiento-equipo-asignacion></app-requerimiento-equipo-asignacion>
-                    </div>
-                    <div *ngIf="isShownReposicion"  id="divshowReposicion">
-                    <app-requerimiento-equipo-reposicion></app-requerimiento-equipo-reposicion>  
-                    </div>
+                     <ng-container   >
+                       <app-requerimiento-equipo-asignacion *ngIf="isShownAsignacion"></app-requerimiento-equipo-asignacion>
+                    </ng-container >
+                    <ng-container   >
+                    <app-requerimiento-equipo-reposicion *ngIf="isShownReposicion"></app-requerimiento-equipo-reposicion>  
+                    </ng-container >
                     <ng-container  >
-                        <app-proveduria-solictud-afc *ngIf="isShownSolicitudART"></app-proveduria-solictud-afc>  
-                        </ng-container>
-                        <ng-container  >
-                            <app-proveduria-solictud-afc *ngIf="isShownSolicitudARTC"></app-proveduria-solictud-afc>  
-                            </ng-container>
+                      <app-proveduria-solictud-afc *ngIf="isShownSolicitudART"></app-proveduria-solictud-afc>  
+                    </ng-container>
+                     <ng-container  >
+                         <app-proveduria-solictud-afc *ngIf="isShownSolicitudARTC"></app-proveduria-solictud-afc>  
+                    </ng-container>
+
+                    <ng-container  >
+                        <app-infraestructura-servicio-g *ngIf="isShownSolicitudSG"></app-infraestructura-servicio-g>  
+                   </ng-container>
 
                  </div>
                
