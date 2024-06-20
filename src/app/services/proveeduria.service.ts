@@ -30,4 +30,9 @@ import { Observable } from "rxjs";
       };
       return this.http.post(url, dataBusqueda);
     }
+
+    crearArticulo(articulo : any): Observable<any>{
+      const url = this.urlEndPoint + 'crearArticulo';
+      return this.http.post(url, articulo); 
+    }  
   }

@@ -21,17 +21,17 @@
             
                 </div>
 
-                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3" *ngIf="crearButton">
                   <span></span>
-                  <button
-                     
+                  <button                     
                       class="fuse-mat-button-rounded"
                       mat-flat-button
-                      [color]="'primary'">
+                      [color]="'primary'"
+                      (click)="openDialogCrear()">
                       <mat-icon
                           class="icon-size-5"
                           [svgIcon]="'heroicons_solid:view-grid-add'"></mat-icon>
-                      <span class="ml-2">Crear artículo</span>
+                      <span class="ml-2">Crear {{tipoCreacion}}</span>
                   </button>
               </div>
          
@@ -55,7 +55,7 @@
                 <div class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                            <mat-form-field appearance="fill"class="width100">
                                <mat-label>Seleccione tipo de artículo</mat-label>
-                               <mat-select class="inputMat" id="selectart"  (selectionChange)="onChange($event)">  <!--  -->
+                               <mat-select class="inputMat" id="selectart" [(ngModel)]="idTipoArticulo" (selectionChange)="onChange($event)">  <!--  -->
                                    <mat-option>
                                        <ngx-mat-select-search   [placeholderLabel]="'Buscar...'"
                                        [noEntriesFoundLabel]="'No Encontrado'" >
@@ -67,7 +67,8 @@
                                    </mat-option>
                                 </mat-select>                               
                            </mat-form-field>
-                          
+
+                        
                           
                           <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
                               <div class="">

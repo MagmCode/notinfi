@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import {  Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatOption } from '@angular/material/core';
 import { MatDialog } from '@angular/material/dialog';
@@ -19,6 +19,7 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CrearComponent } from './crear/crear.component';
 import { EditarComponent } from './editar/editar.component';
 
 @Component({
@@ -29,7 +30,10 @@ import { EditarComponent } from './editar/editar.component';
 export class AdministracionComponent implements OnInit {
   user = {} as User;
   usuario = {} as any;  
-  datosArticulo = {} as articulo  
+  datosArticulo = {} as articulo
+  crearButton : boolean;  
+  idTipoArticulo : any;
+  tipoCreacion : string;
 
   displayedColumnsP: string[] = ['codArticulo', 'iddercripciónArt', 'dercripciónArt','unidadVenta','tipoArt', 'acciones'];
   positionOptionsP: TooltipPosition[] = ['below'];
@@ -62,6 +66,7 @@ export class AdministracionComponent implements OnInit {
     this.user.email =this.usuario.descCargo; 
     this.obtenerTipoArticulo();
     this.ngAfterViewInit();
+    this.crearButton = false;
   }
 
 
@@ -133,7 +138,19 @@ export class AdministracionComponent implements OnInit {
   }  
 
   onChange(ev: MatSelectChange){ 
-    this._proveduriaService.detalleArticuloAdministrador(ev.value).subscribe(
+  if(ev.value === ''){
+    this.crearButton = false;
+  }else{
+    this.crearButton = true;
+    this.tipoCreacion = ev.source.triggerValue.toLowerCase();
+  }
+
+    this.busquedaTipoFormulario(ev.value);
+  }
+
+
+  busquedaTipoFormulario(data : any){
+    this._proveduriaService.detalleArticuloAdministrador(data).subscribe(
       (response) =>{                       
         if(response.estatus == 'SUCCESS'){          
             this.dataSourceP = new MatTableDataSource(response.data);
@@ -156,6 +173,27 @@ export class AdministracionComponent implements OnInit {
           const  indice = this.dataSourceP.data.findIndex(elemento => elemento.idArticuloPk === result.idArticuloPk);
           this.dataSourceP.data[indice] = result;
           this.tablePaginacion();
+        }
+    });
+  }
+
+  openDialogCrear(): void {
+    let  desctipoArticulo = document.querySelector('#selectart')?.textContent;
+    let  tipoArticulo =   this.idTipoArticulo;
+    let obj = {
+        tipoArticulo : tipoArticulo,
+        desctipoArticulo : desctipoArticulo
+    }   
+
+    const dialogRef = this.dialog.open(CrearComponent,{
+      data: {articulo : obj},
+      width: '70%',
+      disableClose: false
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {     
+        if(result){
+          this.busquedaTipoFormulario(result.idTipoArticuloFk);
         }
     });
   }
