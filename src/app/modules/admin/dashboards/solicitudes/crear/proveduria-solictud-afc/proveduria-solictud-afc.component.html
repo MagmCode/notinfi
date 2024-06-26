@@ -133,17 +133,17 @@
                 </mat-form-field>
             </div>
 
-            <div class="col-start-1 col-end-4 ">
+            <div class="col-start-1 col-end-5 ">
                 <mat-form-field appearance="fill" class="width100">
-                    <mat-label>Número de contacto</mat-label>
-                    <input matInput formControlName="numContacto"> 
+                    <mat-label>Número teléfono de oficina completo</mat-label>
+                    <input matInput formControlName="numContacto" maxlength="11" title="teléfono de oficina completo"> 
                      <mat-error *ngIf="usuFormulario.get('numContacto')?.hasError">
                         Campo <strong>Obligatorio</strong>
                     </mat-error> 
                 </mat-form-field>  
             </div>
 
-            <div class="col-end-4  col-start-8 text-center" [hidden]="!isShownSU"   id="divshowSU">
+            <div class="col-end-5 col-start-10 text-center" [hidden]="!isShownSU"   id="divshowSU">
 
               <mat-form-field appearance="fill"class="width100">
                 <mat-label>Seleccione el próximo aprobador</mat-label>
@@ -234,7 +234,7 @@
 
                      
                       <ng-container matColumnDef="unidadVenta">
-                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Unidad Venta</th>
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Unidad Medida</th>
                         <td mat-cell *matCellDef="let row">{{row.unidadVenta}} </td>
                       </ng-container>
                       <ng-container matColumnDef="direccionIp">
