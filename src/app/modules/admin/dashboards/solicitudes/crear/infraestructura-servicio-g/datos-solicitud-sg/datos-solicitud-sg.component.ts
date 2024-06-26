@@ -1,5 +1,5 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { servicioGenerales } from 'app/models/infraestructura';
 import { ISelect } from 'app/models/login';
@@ -19,10 +19,10 @@ export class DatosSolicitudSgComponent implements OnInit {
   datosSolicitud = {} as servicioGenerales;
   evento = new FormControl('');
   
-  protected tipoSolicitud : ISelect[] = [];
-  public tipoSolicitudCtrl : FormControl = new FormControl();
-  public tipoSolicitudFiltrosCtrl : FormControl = new FormControl();
-  public filtrotipoSolicitud : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
+  protected ListTipoSolicitud : ISelect[] = [];
+  public ListTipoSolicitudCtrl : FormControl = new FormControl();
+  public ListTipoSolicitudFiltrosCtrl : FormControl = new FormControl();
+  public filtroListTipoSolicitud : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
  
 
   protected detalleSolicitud : ISelect[] = [];
@@ -53,11 +53,11 @@ private overlayRef!: OverlayRef;
 
       this.solFormulario = formBuilder.group({
         id: new FormControl(''),
-        idTipoSolicitud : new FormControl(''),
+        idTipoSolicitud : new FormControl('', [Validators.required]),
         tipoSolicitud: new FormControl(''),
-        idDetalleSol: new FormControl(''),
+        idDetalleSol: new FormControl('', [Validators.required]),
         detalleSol : new FormControl(''),
-        observacion:new FormControl(''),
+        observacion:new FormControl('', [Validators.required]),
         requiereAprobacion: new FormControl(''),
         tiempoRespuestaNum: new FormControl(''),
         tiempoRespuesta: new FormControl(''),
@@ -67,18 +67,38 @@ private overlayRef!: OverlayRef;
     }
 
   ngOnInit(): void {
-    this.obtenerTipoSolicitud(); 
+    this.obtenerListTipoSolicitud(); 
+/* console.log(this.data)
+if (this.data) {
+   this.datosSolicitud = this.data.solicitud
+
+   this.solFormulario = this.formBuilder.group({
+    idTipoSolicitud:  new FormControl( this.datosSolicitud.idTipoSolicitud),
+   
+  })
+
+  this.mostrarInput();
+
+  this.solFormulario = this.formBuilder.group({
+    idTipoSolicitud:  new FormControl(this.solFormulario.value.idTipoSolicitud,  [Validators.required]),
+   
+    idDetalleSol: new FormControl(this.datosSolicitud.idDetalleSol+'-'+this.datosSolicitud.requiereAprobacion+'-'+this.datosSolicitud.tiempoRespuestaNum+'-'+this.datosSolicitud.tiempoRespuesta, [Validators.required]) ,
+    tiempoRespuesta:  new FormControl({value : this.datosSolicitud.tiempoRespuestaNum+' ' +this.datosSolicitud.tiempoRespuesta, disabled: true}),
+    observacion:new FormControl('', [Validators.required]),
+  })
+} */
+
   }
 
   
   ngAfterViewInit() {
 
-    this.tipoSolicitudCtrl.setValue(this.tipoSolicitud);
-    this.filtrotipoSolicitud.next(this.tipoSolicitud);
-    this.tipoSolicitudFiltrosCtrl.valueChanges
+    this.ListTipoSolicitudCtrl.setValue(this.ListTipoSolicitud);
+    this.filtroListTipoSolicitud.next(this.ListTipoSolicitud);
+    this.ListTipoSolicitudFiltrosCtrl.valueChanges
     .pipe(takeUntil(this._onDestroy))
     .subscribe(() => {
-      this.filtrotipoSolicitudT();
+      this.filtroListTipoSolicitudT();
       
     });
   
@@ -98,18 +118,18 @@ private overlayRef!: OverlayRef;
 }
 
 
-async obtenerTipoSolicitud (){
+async obtenerListTipoSolicitud (){
 
 
   this._solicitudesService.tipoSolicitudServGene().subscribe(
     (response) => {
  
 
-      this.tipoSolicitud.push({name: 'Selecciones', id:''});
+      this.ListTipoSolicitud.push({name: 'Selecciones', id:''});
       if(response.estatus == 'SUCCESS'){
 
         for(const iterator of response.data){
-            this.tipoSolicitud.push({name:iterator.nombre, id:iterator.idTipoSolicirufPk})             
+            this.ListTipoSolicitud.push({name:iterator.nombre, id:iterator.idTipoSolicitudPk})             
         }
 
       }
@@ -119,22 +139,124 @@ async obtenerTipoSolicitud (){
 
 }
 
+mostrarInput(){
 
-protected filtrotipoSolicitudT() {
-  if (!this.tipoSolicitud) {
+debugger
+   this._solicitudesService.tipoSolicitudDetalleServGene(this.solFormulario.value.idTipoSolicitud).subscribe(
+    (response) => {
+ 
+      this.detalleSolicitud.length = 0;
+  
+
+      this.detalleSolicitud.push({name: 'Selecciones', id:''});
+      if(response.estatus == 'SUCCESS'){
+
+        for(const iterator of response.data){
+            this.detalleSolicitud.push({name:iterator.nombre, id:iterator.idTipSolDetallePk + '-' +iterator.requiereAprobacion  + '-' + iterator.tiempoRespuestaNum + '-' + iterator.tiempoRespuesta})             
+        }
+  
+      }
+      this.detalleSolicitudCtrl.setValue(this.detalleSolicitud);
+      this.filtrodetalleSolicitud.next(this.detalleSolicitud);
+      this.detalleSolicitudFiltrosCtrl.valueChanges
+      .pipe(takeUntil(this._onDestroy))
+      .subscribe(() => {
+        this.filtrodetalleSolicitudT();
+      });
+
+   
+      
+    }
+  ); 
+
+ 
+
+  }
+
+  mostrar(){
+
+
+    let cod: string[] =  this.solFormulario.getRawValue().idDetalleSol.split('-');
+
+    
+    var uni = cod[2]+ ' ' + cod[3];
+
+
+
+  this.solFormulario = this.formBuilder.group({
+    idTipoSolicitud:  new FormControl(this.solFormulario.value.idTipoSolicitud,  [Validators.required]),
+   
+    idDetalleSol: new FormControl(this.solFormulario.value.idDetalleSol, [Validators.required]) ,
+    tiempoRespuesta:  new FormControl(uni),
+    observacion:new FormControl('', [Validators.required]),
+}) 
+
+
+
+
+  }
+
+  onNoClick(): void {
+    this.dialogRef.close();
+  } 
+  asignar(){
+
+    
+    this.datosSolicitud = {} as servicioGenerales;
+    if (this.solFormulario.valid) {
+      let cod: string[] =  this.solFormulario.getRawValue().idDetalleSol.split('-');
+
+    
+      this.datosSolicitud.relacion =this.solFormulario.getRawValue().id;
+        this.datosSolicitud.idTipoSolicitud = this.solFormulario.getRawValue().idTipoSolicitud;
+        this.datosSolicitud.tipoSolicitud = document.querySelector('#selectTsol')?.textContent;
+        this.datosSolicitud.idDetalleSol  = cod[0]
+        this.datosSolicitud.detalleSol  = document.querySelector('#selectDescrTsol')?.textContent;
+       
+        this.datosSolicitud.requiereAprobacion =   cod[1];
+        this.datosSolicitud.tiempoRespuestaNum =   cod[2];
+        this.datosSolicitud.tiempoRespuesta =   cod[3];
+        this.datosSolicitud.observacion =   this.solFormulario.getRawValue().observacion; 
+    
+        if ( this.evento.value != '') {
+       
+          this.datosSolicitud.evento = this.evento.value;
+        }
+    
+      this.dialogRef.close(this.datosSolicitud);
+    
+       
+    
+   
+    } else {
+    
+     
+        return;
+    }    
+    
+    
+        
+      
+         
+      
+      
+      }
+
+protected filtroListTipoSolicitudT() {
+  if (!this.ListTipoSolicitud) {
     return;
   }
   // get the search keyword
-  let search = this.tipoSolicitudFiltrosCtrl.value;
+  let search = this.ListTipoSolicitudFiltrosCtrl.value;
   if (!search) {
-    this.filtrotipoSolicitud.next(this.tipoSolicitud.slice());
+    this.filtroListTipoSolicitud.next(this.ListTipoSolicitud.slice());
     return;
   } else {
     search = search.toLowerCase();
   }
   // filter the banks
-  this.filtrotipoSolicitud.next(
-    this.tipoSolicitud.filter(cargo => cargo.name.toLowerCase().indexOf(search) > -1)
+  this.filtroListTipoSolicitud.next(
+    this.ListTipoSolicitud.filter(cargo => cargo.name.toLowerCase().indexOf(search) > -1)
   );
 }
 

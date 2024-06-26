@@ -39,7 +39,7 @@ private overlayRef!: OverlayRef;
 
   ngOnInit(): void {
 
-this.mensaje ="Recuerde de tener el metodo de autenticación Ami ven, a la hora de dar conforme a la solicitud";
+this.mensaje ="Recuerde tener el método de autenticación AMI Ven, al momento de dar conformidad a la solicitud";
   }
 
  async submit(){

@@ -446,10 +446,10 @@ tipoSolicitudServGene( ): Observable <any>{
 
 }
 
-tipoSolicitudDetalleServGene(area :any ): Observable <any>{
+tipoSolicitudDetalleServGene(idTipoSolicitudFk :any ): Observable <any>{
   const url = this.urlEndPoint + 'tipoSolicitudDetalleServGene';
    const dataBusqueda = {
-    area : area
+    idTipoSolicitudFk : idTipoSolicitudFk
  };
  return this.http.post(url, dataBusqueda);
 

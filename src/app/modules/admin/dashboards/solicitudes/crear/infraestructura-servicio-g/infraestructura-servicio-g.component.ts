@@ -25,8 +25,8 @@ import { DatosSolicitudSgComponent } from './datos-solicitud-sg/datos-solicitud-
 export class InfraestructuraServicioGComponent implements OnInit {
 
   usuario = {} as any;
-  articulo = {} as any;
-  
+  servicioGenerales = {} as any;
+  datosSolicitud= {} as servicioGenerales;
 
   usuFormulario: FormGroup;
   isShownP: boolean = true; 
@@ -333,11 +333,11 @@ mostrarInput(){
     })
     
     dialogRef.afterClosed().subscribe(result => {
+console.log(result)
+ if (result) {
 
-/* if (result) {
 
-
-  const  indicec = this.dataSource.data.filter(elemento => elemento.codArticulo === result.codArticulo);
+  const  indicec = this.dataSource.data.filter(elemento => elemento.idDetalleSol === result.idDetalleSol);
 
 
   if (indicec.length >  0) {
@@ -345,30 +345,11 @@ mostrarInput(){
 
 
 
-    if (result.direccionIp == '') {
 
-      this.toast.error(result.dercripcionArt + ' ya asignado' , '', this.override2);
 
-    } else {
-      const  indice = this.dataSource.data.filter(elemento => elemento.direccionIp === result.direccionIp && elemento.codArticulo === result.codArticulo);
-     
-      
-      if (indice.length >  0) {
+      this.toast.error(result.detalleSol + ' ya asignado' , '', this.override2);
 
- 
-        this.toast.error('Consumible '+ result.descConsumible + ' ya asignado a ' +result.direccionIp  , '', this.override2);
-      
 
-    } else{
-      result.relacion = this.nextId;
-   
-      this.dataSource.data.push(result); 
-      this.dataSource.data = this.dataSource.data.slice();
-      this.ngAfterViewInit();
-      this.nextId++;
-    }
-      
-    }
 
    
     
@@ -387,9 +368,8 @@ mostrarInput(){
  
 
   
-    
   }
-} */
+} 
 
      
     });
@@ -402,7 +382,7 @@ mostrarInput(){
   openDialogEdit(row: any): void {
 
     const dialogRef = this.dialog.open(DatosSolicitudSgComponent,{
-      data: {articulo : row},
+      data: {solicitud : row},
       width: '50%',
       disableClose: true
     })
@@ -492,8 +472,7 @@ if (result) {
               return false;
             }
           }
-          let unidad: string[] =  document.querySelector('#selectUni')?.textContent.split('-');
-          
+   
           
                 this.usuFormulario.value.ubicacionFisica = document.querySelector('#selectUbi')?.textContent + "-" + piso;
                 this.usuFormulario.value.idServicio =  sessionStorage.getItem('idServicio');
@@ -503,36 +482,30 @@ if (result) {
                 this.usuFormulario.value.codUnidadResp = this.usuario.codUnidad;
                 this.usuFormulario.value.unidadResp =this.usuario.descUnidad;
                 this.usuFormulario.value.codusuarioGestion =  this.usuFormulario.value.codusuarioGestion;
-                this.usuFormulario.value.unidad = unidad[1];
-                this.usuFormulario.value.centroCosto = this.usuFormulario.value.codUnidad;
-        
+                
                 
         var formulario = []; 
-    /*     
+        
            this.dataSource.data.forEach(element => {
         
         
-            this.datosArticulo = {} as articulo;
-            this.datosArticulo.idTipoArt =        element.idTipoArt       ;
-            this.datosArticulo.descrTipoArt =     element.descrTipoArt    ;
-            this.datosArticulo.codArticulo =      element.codArticulo     ;
-            this.datosArticulo.idDescrArt =       element.idDescrArt      ;
-            this.datosArticulo.dercripcionArt  =  element.dercripcionArt  ;
-            this.datosArticulo.cantidadArt  =     element.cantidadArt     ;
-            this.datosArticulo.idTipoImpre =      element.idTipoImpre     ;
-            this.datosArticulo.tipoImpresora =    element.tipoImpresora   ;
-            this.datosArticulo.direccionIp =      element.direccionIp     ;
-            this.datosArticulo.idDescConsumible = element.idDescConsumible;
-            this.datosArticulo.descConsumible =   element.descConsumible  ;
-            this.datosArticulo.modeloConsumible = element.modeloConsumible; 
-            this.datosArticulo.unidadVenta =      element.unidadVenta     ;  
+            this.datosSolicitud = {} as servicioGenerales;
+            this.datosSolicitud.idTipoSolicitud =        element.idTipoSolicitud       ;
+            this.datosSolicitud.tipoSolicitud =          element.tipoSolicitud    ;
+            this.datosSolicitud.idDetalleSol =      element.idDetalleSol     ;
+            this.datosSolicitud.detalleSol =       element.detalleSol      ;
+            this.datosSolicitud.observacion  =  element.observacion  ;
+            this.datosSolicitud.requiereAprobacion  =     element.requiereAprobacion     ;
+            this.datosSolicitud.tiempoRespuestaNum =      element.tiempoRespuestaNum     ;
+            this.datosSolicitud.tiempoRespuesta =    element.tiempoRespuesta   ;
+            this.datosSolicitud.evento =      element.evento     ;
         
         
         
         
-            formulario.push(this.datosArticulo)
+            formulario.push(this.datosSolicitud)
         
-           }) */
+           }) 
         
         
                var enviarData = {};
@@ -541,6 +514,7 @@ if (result) {
                 "formulario":formulario
                } 
              
+               console.log(enviarData)
                const dialogRef = this.dialog.open(ModalConfirmacionComponent,{
                 data: {enviarData},
                 width: '40%',
