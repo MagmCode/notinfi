@@ -403,7 +403,7 @@ consultarSolicitudesEnProcesoCaci(): Observable <any>{
 
 consultarEstadisticaCaci(): Observable <any>{
   const url = this.urlEndPoint + 'estadisticaGlobal';
-  return this.http.post(url, "dataBusqueda");
+  return this.http.post(url, "");
 
 }
 
@@ -436,5 +436,23 @@ reporteXarea(area :any ): Observable <any>{
  };
  return this.http.post(url, dataBusqueda);
 
+ 
+}
+
+tipoSolicitudServGene( ): Observable <any>{
+  const url = this.urlEndPoint + 'tipoSolicitudServGene';
+ 
+ return this.http.post(url, "");
+
+}
+
+tipoSolicitudDetalleServGene(area :any ): Observable <any>{
+  const url = this.urlEndPoint + 'tipoSolicitudDetalleServGene';
+   const dataBusqueda = {
+    area : area
+ };
+ return this.http.post(url, dataBusqueda);
+
+ 
 }
 }

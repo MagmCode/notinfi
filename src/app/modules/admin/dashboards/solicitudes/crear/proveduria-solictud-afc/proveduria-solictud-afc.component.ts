@@ -451,14 +451,7 @@ if (result) {
 
 
 
-  openDialogEnviar(row: any): void {
 
-
-    
-
-    
-  
-  }
 
 
   async submit(){

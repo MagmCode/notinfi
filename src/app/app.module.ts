@@ -79,6 +79,9 @@ import { ReasignarSolProveeduriaDESComponent } from './modules/admin/dashboards/
 import { DetalleSolicitudProveduriaComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-proveduria/detalle-solicitud-proveduria.component';
 import { ReportesGeneralesComponent } from './modules/admin/dashboards/reportes-generales/reportes-generales.component';
 import { CrearComponent } from './modules/admin/dashboards/proveeduria/administracion/crear/crear.component';
+import { NivelAtencionComponent } from './modules/admin/dashboards/caci/nivel-atencion/nivel-atencion.component';
+import { AsignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/asignar-sol-caci/asignar-sol-caci.component';
+import { ReasignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/reasignar-sol-caci/reasignar-sol-caci.component';
 
 
 const routerConfig: ExtraOptions = {
@@ -119,6 +122,9 @@ const routerConfig: ExtraOptions = {
         DetalleSolicitudProveduriaComponent,
         ReportesGeneralesComponent,
         CrearComponent,
+        NivelAtencionComponent,
+        AsignarSolCaciComponent,
+        ReasignarSolCaciComponent,
         
     ],
     imports     : [

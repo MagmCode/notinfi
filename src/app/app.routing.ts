@@ -30,6 +30,9 @@ import { AsignarSolProveeduriaDESComponent } from './modules/admin/dashboards/de
 import { ReasignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/reasignar-sol-proveeduria-des/reasignar-sol-proveeduria-des.component';
 import { DetalleSolicitudProveduriaComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-proveduria/detalle-solicitud-proveduria.component';
 import { ReportesGeneralesComponent } from './modules/admin/dashboards/reportes-generales/reportes-generales.component';
+import { NivelAtencionComponent } from './modules/admin/dashboards/caci/nivel-atencion/nivel-atencion.component';
+import { AsignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/asignar-sol-caci/asignar-sol-caci.component';
+import { ReasignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/reasignar-sol-caci/reasignar-sol-caci.component';
 
 
 
@@ -150,6 +153,16 @@ export const appRoutes: Route[] = [
                 
             ]},
 
+            {path: 'nivelcaci', children: [
+                {path: 'buzonPendiente',  component: NivelAtencionComponent},
+                {path: 'asignarSolicitud',  component: AsignarSolCaciComponent},
+                {path: 'reasignarSolicitud',  component: ReasignarSolCaciComponent},
+                
+            ]},
+            
+            
+
+            
             
             {path: 'inventario-proveeduria', children: [
                 {path: 'buzonPendiente',  component: InventarioProveeduriaComponent},

@@ -43,30 +43,24 @@
                             </mat-error>   -->                    
                         </mat-form-field>
                     </div>
-                    
-                    <div class="col-start-1 col-end-6">
+          
+                    <div class="col-start-1 col-end-2">
                         <mat-form-field appearance="fill" class="width100">
-                            <mat-label>Centro de costo</mat-label>
-                            <mat-select class="inputMat" id="selectUni" formControlName="codUnidad"    required  #buySellSelect="matSelect"  (ngModelChange)="mostrarInput()"   >  <!--  -->
-                       
-                                <mat-option>
-                                  <ngx-mat-select-search [formControl]="codUnidadFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
-                                  [noEntriesFoundLabel]="'No Encontrado'" >
-                                  <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
-                                  [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
-                                </mat-option> 
-                                <mat-option *ngFor="let codUnidad of filtrocodUnidad | async" [value]="codUnidad.id" >  <!--  -->
-                                   {{codUnidad.name}}
-                                  </mat-option>
-                               </mat-select>
-                            <mat-error *ngIf="usuFormulario.get('codUnidad')?.hasError">
-                                  Campo <strong>Obligatorio</strong>
-                              </mat-error> 
-                            <!-- <input matInput formControlName="codUnidad" readonly>  -->
+                            <mat-label>Código  unidad </mat-label>
+                            <input matInput formControlName="codUnidad" readonly> 
                             <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
                                 Campo <strong>Obligatorio</strong>
                               </mat-error>   -->                    
                         </mat-form-field>
+                    </div>
+                    <div class="col-end-2 col-start-6 ">
+                <mat-form-field appearance="fill" class="width100">
+                    <mat-label>Nombre de la unidad </mat-label>
+                    <input matInput formControlName="unidad" readonly> 
+                    <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
+                        Campo <strong>Obligatorio</strong>
+                      </mat-error>   -->                    
+                </mat-form-field>
                     </div>
              <!--        <div class="col-end-2 col-start-6 ">
                 <mat-form-field appearance="fill" class="width100">
@@ -171,12 +165,98 @@
 
             </div>
 
+            <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center">Detalle de la solicitud a realizar</div>
+            <hr >
+              <div class="col-span-12 text-center">
+                  <button mat-raised-button style="  background-color: green;   color: white;" type="button" (click)="openDialog()"  >Agregar   <mat-icon class=" icon-size-5 text-blue-500"                                                                
+                     [svgIcon]="'heroicons_solid:plus'"></mat-icon></button> <!-- [type]="submit" -->
+              </div>
+              <br>
+              <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
 
+                <div class="">
+                    <mat-form-field appearance="outline" >
+                        <mat-label>Filtro</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="" #input style="width: 30% !important;">
+                      </mat-form-field>
+                    </div>
 
+                    
+                <div class="mat-elevation-z8" >
+                    <table mat-table [dataSource]="dataSource" matSort  >
+                  
+                      
+                   
+                      <ng-container matColumnDef="id">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Id</th>
+                        <td mat-cell *matCellDef="let row">{{row.relacion}}  </td>
+                      </ng-container>
 
+                      <ng-container matColumnDef="idTipoSolicitud">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TDetalle</th>
+                        <td mat-cell *matCellDef="let row">{{row.idTipoSolicitud}}</td>
+                      </ng-container>
 
+                      <ng-container matColumnDef="tipoSolicitud">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de solicitud</th>
+                        <td mat-cell *matCellDef="let row">{{row.tipoSolicitud}}</td>
+                      </ng-container>
 
-            
+                      <ng-container matColumnDef="idDetalleSol">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>TDetalle</th>
+                        <td mat-cell *matCellDef="let row"> {{row.idDetalleSol}}</td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="detalleSol">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Detalle de la solicitud</th>
+                        <td mat-cell *matCellDef="let row"> {{row.detalleSol}}</td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="observacion">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Observación</th>
+                        <td mat-cell *matCellDef="let row">{{row.observacion}} </td>
+                      </ng-container>
+
+                      <ng-container matColumnDef="acciones">
+                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
+                     
+                        <td mat-cell *matCellDef="let row"> 
+                
+                            <mat-icon class=" icon-size-6 text-green-500"     (click)="openDialogEdit(row)"                                       
+                             [svgIcon]="'heroicons_solid:pencil'"> </mat-icon>
+
+                             <mat-icon class=" icon-size-6 text-red-500"    (click)="deleteRow(row)"                                         
+                             [svgIcon]="'heroicons_solid:trash'"></mat-icon>
+
+                       
+                        </td>
+                      </ng-container>
+                     
+                      
+                  
+                      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                  
+                      <!-- Row shown when there is no matching data. -->
+                      <tr class="mat-row" *matNoDataRow>
+                        <td class="mat-cell" colspan="4">No Existe Resultado</td>
+                      </tr>
+                    </table>
+                 
+
+                  
+                      <mat-paginator
+                        [pageSize]="25"
+                        [pageSizeOptions]="[5, 10, 25, 100]"
+                        [showFirstLastButtons]="true" #paginator>
+                    </mat-paginator>
+
+                    </div>
+
+              </div>
+     
+
+              
         
               <div class="col-span-12 text-center">
                   <button mat-raised-button color="primary" >Enviar</button> <!--[type]="submit"  -->

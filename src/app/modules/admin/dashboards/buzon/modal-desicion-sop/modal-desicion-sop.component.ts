@@ -31,6 +31,7 @@ export class ModalDesicionSopComponent implements OnInit {
   idSolicitud : any;
   isShownA: boolean = false; // Inicialmente oculto
   isShownR: boolean = false;
+  isShownC: boolean = false;
   observacion = new FormControl('', Validators.required);
   mensaje : any;
   equipos  = new FormControl('', Validators.required);
@@ -155,11 +156,22 @@ private overlayRef!: OverlayRef;
           
         } ); 
 
-    }else{
+    } else if (this.solicitud.decision  == 'E'){
 
-      this.isShownR = true,
-      this.isShownA = false,
-      this.mensaje = "Detalle de la solución";
+      this.mensaje = "Detalle de la acciones aplicadas previamente";
+      this.isShownC = true;
+      this.isShownR = false;
+      this.isShownA = false;
+    }
+    else{
+
+      this.isShownR = true;
+      this.isShownA = false;
+      this.isShownC = false;
+ 
+        this.mensaje = "Detalle de la solución aplicada";
+      
+    
 
       
 
@@ -253,7 +265,7 @@ private overlayRef!: OverlayRef;
   }
 
   
-  solucionado(){
+  solucionado(accion : any){
     this.spinner.show();
     this.usuario = this._loginservices.obterTokenInfo();
 
@@ -282,7 +294,7 @@ private overlayRef!: OverlayRef;
             return
            }
           
-          this.datosFormulario.value.decision = 'S';
+          this.datosFormulario.value.decision = accion;
           this.datosFormulario.value.idSolicitud = this.solicitud.idSolicitud;
           this.datosFormulario.value.motivo = 0;
           this.datosFormulario.value.observacion = this.observacion.value;
@@ -293,7 +305,7 @@ private overlayRef!: OverlayRef;
            "solicitud":this.datosFormulario.value,
            "formulario":[]
           }
-          
+         
     
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    

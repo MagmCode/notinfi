@@ -122,8 +122,11 @@
 
     <mat-dialog-actions align="end">
         <button mat-raised-button mat-dialog-close color="accent"  >Cancelar</button>
+        <div   *ngIf="isShownC" >
+          <button type="button" mat-raised-button color="primary" cdkFocusInitial    (click)="solucionado('A');">Enviar</button>
+      </div>
         <div   *ngIf="isShownR" >
-            <button type="button" mat-raised-button color="primary" cdkFocusInitial    (click)="solucionado();">Solucionado</button>
+            <button type="button" mat-raised-button color="primary" cdkFocusInitial    (click)="solucionado('S');">Solucionado</button>
         </div>
         <div   *ngIf="isShownA" >
             <button type="button" mat-raised-button color="primary" cdkFocusInitial   (click)="reportar()"  >Enviar</button>

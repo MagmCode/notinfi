@@ -1,9 +1,12 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
+import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { Router } from '@angular/router';
+import { servicioGenerales } from 'app/models/infraestructura';
 import { ISelect } from 'app/models/login';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
@@ -11,6 +14,8 @@ import { NgxSpinnerService } from 'ngx-spinner';
 import { Overlay, OverlayRef, ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { ModalConfirmacionComponent } from '../proveduria-solictud-afc/modal-confirmacion/modal-confirmacion.component';
+import { DatosSolicitudSgComponent } from './datos-solicitud-sg/datos-solicitud-sg.component';
 
 @Component({
   selector: 'app-infraestructura-servicio-g',
@@ -73,16 +78,16 @@ private overlayRef!: OverlayRef;
 //#endregion
   
   //#region  tablas
-  displayedColumns: string[] = [];
+  displayedColumns: string[] = ['tipoSolicitud','detalleSol','observacion','acciones'];
  
   positionOptions: TooltipPosition[] = ['below'];
   position = new FormControl(this.positionOptions[0]);
-/*   dataSource: MatTableDataSource<articulo>;
-  ELEMENT_DATA: articulo[] = [];
+   dataSource: MatTableDataSource<servicioGenerales>;
+  ELEMENT_DATA: servicioGenerales[] = [];
   
  @ViewChild(MatPaginator) paginator: MatPaginator | any;
  @ViewChild(MatSort) sort: MatSort = new MatSort;  
- @ViewChild(MatTable) table: MatTable<articulo>; */
+ @ViewChild(MatTable) table: MatTable<servicioGenerales>; 
   //#endregion
 
 
@@ -97,7 +102,7 @@ private overlayRef!: OverlayRef;
              ) { 
 
       // Asi la data a elemento dataSource asi se vacia para su inicializacion
-      /* this.dataSource = new MatTableDataSource(this.ELEMENT_DATA); */ 
+      this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);  
 
               this.usuFormulario = formBuilder.group({
 
@@ -180,12 +185,11 @@ private overlayRef!: OverlayRef;
 }   
 
 
-/* ngAfterViewInit() {
+ngAfterViewInit() {
   this.dataSource.paginator = this.paginator;
   this.dataSource.sort = this.sort;
 }
- */
-/* applyFilter(event: Event) {
+ applyFilter(event: Event) {
   const filterValue = (event.target as HTMLInputElement).value;
   this.dataSource.filter = filterValue.trim().toLowerCase();
 
@@ -193,7 +197,7 @@ private overlayRef!: OverlayRef;
     this.dataSource.paginator.firstPage();
   }
 }
- */
+ 
 async obtenerDatos(){
   
   this.usuario = this._loginservices.obterTokenInfo();
@@ -208,6 +212,7 @@ async obtenerDatos(){
           cedula: data.data.cedula,
           nombres:   data.data.nombres + ' ' + data.data.apellidos,
           codUnidad: data.data.codUnidad,
+          unidad: data.data.descUnidad,
           codusuarioGestion :  data.data.codigoSupervisor ,
           ubicacionFisica: data.data.codUbicacionFisica
         }); 
@@ -253,7 +258,7 @@ async obtenerDatos(){
     }
   );
 
-  if (this.usuario.nivelCargo < 9 ) {
+  if (this.usuario.nivelCargo < 10 ) {
     this.isShownSU = true;
 
     this._solicitudesService.obtenerSupervisoresJRQ(this.usuario.codUnidadJrq ,this.usuario.nivelCargo,this.usuario.codigo ).subscribe(
@@ -318,14 +323,264 @@ mostrarInput(){
 
 
 
+  nextId :any = 1;
+  openDialog(): void {
+
+    const dialogRef = this.dialog.open(DatosSolicitudSgComponent,{
+
+      width: '50%',
+      disableClose: true
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {
+
+/* if (result) {
+
+
+  const  indicec = this.dataSource.data.filter(elemento => elemento.codArticulo === result.codArticulo);
+
+
+  if (indicec.length >  0) {
 
 
 
 
+    if (result.direccionIp == '') {
+
+      this.toast.error(result.dercripcionArt + ' ya asignado' , '', this.override2);
+
+    } else {
+      const  indice = this.dataSource.data.filter(elemento => elemento.direccionIp === result.direccionIp && elemento.codArticulo === result.codArticulo);
+     
+      
+      if (indice.length >  0) {
+
+ 
+        this.toast.error('Consumible '+ result.descConsumible + ' ya asignado a ' +result.direccionIp  , '', this.override2);
+      
+
+    } else{
+      result.relacion = this.nextId;
+   
+      this.dataSource.data.push(result); 
+      this.dataSource.data = this.dataSource.data.slice();
+      this.ngAfterViewInit();
+      this.nextId++;
+    }
+      
+    }
+
+   
+    
+  } else {
+
+  
+      
+ 
+
+      result.relacion = this.nextId;
+   
+      this.dataSource.data.push(result); 
+      this.dataSource.data = this.dataSource.data.slice();
+      this.ngAfterViewInit();
+      this.nextId++;
+ 
+
+  
+    
+  }
+} */
+
+     
+    });
+  
+    
+  
+  }
+
+
+  openDialogEdit(row: any): void {
+
+    const dialogRef = this.dialog.open(DatosSolicitudSgComponent,{
+      data: {articulo : row},
+      width: '50%',
+      disableClose: true
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {
+
+if (result) {
 
 
 
+ 
+  const  indice = this.dataSource.data.findIndex(elemento => elemento.relacion === result.relacion);
 
+
+  this.dataSource.data[indice] = result;
+
+   this.ngAfterViewInit();
+}
+
+     
+    });
+  
+    
+  
+  }
+  deleteRow(rowToDelete: any) {
+    // Assuming 'id' is the unique identifier property
+
+    
+    const filteredData = this.dataSource.data.filter(row => row.relacion !== rowToDelete.relacion);
+    this.dataSource.data = filteredData;
+  
+    // Optional: Send delete request to server or show confirmation message
+   
+  }
+
+  async submit(){
+    if(this.usuFormulario.valid){
+          /*    this.spinner.show('sp1'); */
+          
+        
+        
+        
+          if (this.dataSource.data.length > 0 ) {
+        
+        
+        
+            this.usuario = this._loginservices.obterTokenInfo();
+          
+          
+          this._solicitudesService.consultarDetalleUsuario(this.usuFormulario.value.codigoUsuario).subscribe(
+            (data) =>{ 
+          
+              if( data.estatus ==  'SUCCESS'  ){
+                this.usuFormulario.patchValue({
+                  
+                  codUnidadOrg: data.data.codUnidadOrg,
+                  unidadOrg: data.data.unidadOrg,
+                  codUnidadJrq: data.data.codUnidadJrq,
+                  unidadJrq: data.data.unidadJrq
+                  
+          
+                }); 
+           
+           
+          var piso;
+          
+                if (this.isShownP == true) {
+                  
+                 piso =  document.querySelector('#selectpiso')?.textContent
+          
+                } else {
+                  piso =  this.piso.value
+                }
+          
+          
+          if (this.usuario.nivelCargo < 9) {
+          
+            if ( this.usuFormulario.value.codusuarioGestion == '') {
+             
+              this.usuFormulario = this.formBuilder.group({
+          
+                codusuarioGestion:  new FormControl('',  [Validators.required]),
+          
+              })
+            
+              return false;
+            }
+          }
+          let unidad: string[] =  document.querySelector('#selectUni')?.textContent.split('-');
+          
+          
+                this.usuFormulario.value.ubicacionFisica = document.querySelector('#selectUbi')?.textContent + "-" + piso;
+                this.usuFormulario.value.idServicio =  sessionStorage.getItem('idServicio');
+                this.usuFormulario.value.codigoUsuarioResp = this.usuario.codigo;
+                this.usuFormulario.value.cedulaResp =  this.usuario.cedula;
+                this.usuFormulario.value.nombresResp = this.usuario.nombres + ' ' + this.usuario.apellidos;
+                this.usuFormulario.value.codUnidadResp = this.usuario.codUnidad;
+                this.usuFormulario.value.unidadResp =this.usuario.descUnidad;
+                this.usuFormulario.value.codusuarioGestion =  this.usuFormulario.value.codusuarioGestion;
+                this.usuFormulario.value.unidad = unidad[1];
+                this.usuFormulario.value.centroCosto = this.usuFormulario.value.codUnidad;
+        
+                
+        var formulario = []; 
+    /*     
+           this.dataSource.data.forEach(element => {
+        
+        
+            this.datosArticulo = {} as articulo;
+            this.datosArticulo.idTipoArt =        element.idTipoArt       ;
+            this.datosArticulo.descrTipoArt =     element.descrTipoArt    ;
+            this.datosArticulo.codArticulo =      element.codArticulo     ;
+            this.datosArticulo.idDescrArt =       element.idDescrArt      ;
+            this.datosArticulo.dercripcionArt  =  element.dercripcionArt  ;
+            this.datosArticulo.cantidadArt  =     element.cantidadArt     ;
+            this.datosArticulo.idTipoImpre =      element.idTipoImpre     ;
+            this.datosArticulo.tipoImpresora =    element.tipoImpresora   ;
+            this.datosArticulo.direccionIp =      element.direccionIp     ;
+            this.datosArticulo.idDescConsumible = element.idDescConsumible;
+            this.datosArticulo.descConsumible =   element.descConsumible  ;
+            this.datosArticulo.modeloConsumible = element.modeloConsumible; 
+            this.datosArticulo.unidadVenta =      element.unidadVenta     ;  
+        
+        
+        
+        
+            formulario.push(this.datosArticulo)
+        
+           }) */
+        
+        
+               var enviarData = {};
+              enviarData= {
+                "creacion":this.usuFormulario.value,
+                "formulario":formulario
+               } 
+             
+               const dialogRef = this.dialog.open(ModalConfirmacionComponent,{
+                data: {enviarData},
+                width: '40%',
+                disableClose: true
+              })
+               
+                  
+    
+                
+                dialogRef.afterClosed().subscribe(result => {
+    
+    
+                
+                });
+      
+           
+              }else{
+                this.toast.error(data.mensaje, '', this.override2);
+              }
+                     
+            }, 
+          
+          );
+          
+          
+          }else{
+        
+            this.toast.error('Disculpe, debe agregar Artículos a solicitar', '' , this.override2);
+           
+          }
+        
+          
+              
+           }else{
+             
+            
+              this.toast.error('Disculpe, debe llenar todos los campos obligatorios de cada sección', '' , this.override2);
+           }
+    
+      } 
  
   
   redirigirSuccess(){

@@ -34,6 +34,8 @@ export class DetalleSolicitdComponent implements OnInit {
   mensaje: any;
   esValido:  boolean = false;
   isShownD: boolean = false;
+  isShownS: boolean = false;
+  isShownC: boolean = false;
   servicioA: boolean = false;
   serviA: boolean = false;
   serviR: boolean = false;
@@ -293,7 +295,13 @@ export class DetalleSolicitdComponent implements OnInit {
           this.dataSource.paginator = this.paginator;
           this.dataSource.sort = this.sort;
 
-          if (this.datosFormulario.value.tarea == 'SOPORTE') {
+          if (this.datosFormulario.value.tarea == 'SOPORTE' || this.datosFormulario.value.tarea == 'CACI') {
+             if (this.datosFormulario.value.tarea == 'SOPORTE') {
+              this.isShownS = true;
+             } else {
+              this.isShownC = true;
+             }
+           
             this.isShownD = true;
           
           }
