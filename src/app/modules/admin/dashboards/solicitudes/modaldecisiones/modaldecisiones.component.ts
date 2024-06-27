@@ -307,7 +307,7 @@ if (this.solicitud.metodo == 'buzon') {
     (data) =>{    
     
     if(data.estatus == "SUCCESS"){
-    this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+    this.toast.success(data.mensaje, '', this.override2);            
     setTimeout(()=>{
     this.redirigirSuccess();
     },1500);  
@@ -323,17 +323,17 @@ if (this.solicitud.metodo == 'buzon') {
     }
     ); 
 } else {
-  /* this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+  this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
     (response) => { 
      
-      if(response.estatus == 'SUCCESS'){ */
+      if(response.estatus == 'SUCCESS'){ 
        
         
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    
             
             if(data.estatus == "SUCCESS"){
-            this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+            this.toast.success(data.mensaje, '', this.override2);            
             setTimeout(()=>{
             this.redirigirSuccess();
             },1500);  
@@ -349,13 +349,13 @@ if (this.solicitud.metodo == 'buzon') {
             }
             ); 
   
-   /*    }else{
+     }else{
   
         this.toast.error(response.mensaje, '', this.override2);
       }
     
     }
-  ); */
+  ); 
 }
 
 
@@ -427,7 +427,7 @@ if(typeof data.data !=  'undefined'  ){
       (data) =>{    
      
         if(data.estatus == "SUCCESS"){
-          this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+          this.toast.success(data.mensaje, '', this.override2);            
           setTimeout(()=>{
             this.redirigirSuccess();
         },1500);  
@@ -445,16 +445,16 @@ if(typeof data.data !=  'undefined'  ){
 
   }else{
 
-/*     this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+     this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
       (response) => {
        
         if(response.estatus == 'SUCCESS'){
-          */
+          
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    
            
               if(data.estatus == "SUCCESS"){
-                this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+                this.toast.success(data.mensaje, '', this.override2);            
                 setTimeout(()=>{
                   this.redirigirSuccess();
               },1500);  
@@ -469,7 +469,7 @@ if(typeof data.data !=  'undefined'  ){
               this.toast.error(data.mensaje, '', this.override2);
             }
           ); 
- /*    
+    
         }else{
     
           this.toast.error(response.mensaje, '', this.override2);
@@ -477,7 +477,7 @@ if(typeof data.data !=  'undefined'  ){
       
       }
     );
- */
+ 
 
   } 
 
@@ -556,7 +556,7 @@ formulario.push(elemt)
       (data) =>{    
      
         if(data.estatus == "SUCCESS"){
-          this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+          this.toast.success(data.mensaje, '', this.override2);            
           setTimeout(()=>{
             this.redirigirSuccess();
         },1500);  
@@ -582,7 +582,7 @@ formulario.push(elemt)
             (data) =>{    
            
               if(data.estatus == "SUCCESS"){
-                this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+                this.toast.success(data.mensaje, '', this.override2);            
                 setTimeout(()=>{
                   this.redirigirSuccess();
               },1500);  
