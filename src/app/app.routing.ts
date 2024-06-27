@@ -33,6 +33,10 @@ import { ReportesGeneralesComponent } from './modules/admin/dashboards/reportes-
 import { NivelAtencionComponent } from './modules/admin/dashboards/caci/nivel-atencion/nivel-atencion.component';
 import { AsignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/asignar-sol-caci/asignar-sol-caci.component';
 import { ReasignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/reasignar-sol-caci/reasignar-sol-caci.component';
+import { AtencionSolicitudComponent } from './modules/admin/dashboards/atencion-solicitud/atencion-solicitud.component';
+import { AsignarSolicitudSgComponent } from './modules/admin/dashboards/atencion-solicitud/asignar-solicitud-sg/asignar-solicitud-sg.component';
+import { ReasignarSolicitudSgComponent } from './modules/admin/dashboards/atencion-solicitud/reasignar-solicitud-sg/reasignar-solicitud-sg.component';
+import { AprobacionSolInternaComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/aprobacion-sol-interna.component';
 
 
 
@@ -184,7 +188,23 @@ export const appRoutes: Route[] = [
                 
             ]},
 
+            {path: 'atencionSol', children: [
+                {path: 'buzonPendiente',  component: AtencionSolicitudComponent},
+                {path: 'asignarSolicitud',  component: AsignarSolicitudSgComponent},
+                {path: 'reasignarSolicitud',  component: ReasignarSolicitudSgComponent},
+                
+            ]},
+
+
+            {path: 'aprobacionSolInterna', children: [
+                {path: 'solicitudes',  component: AprobacionSolInternaComponent},
+                
+            ]},
+
             
+
+
+
 
             // Pages
             {path: 'pages', children: [                

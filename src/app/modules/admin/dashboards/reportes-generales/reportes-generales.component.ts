@@ -124,7 +124,7 @@ private overlayRef!: OverlayRef;
   }
 
   ngAfterViewInit() {
-debugger
+
     this.dataSourceH.paginator = this.paginatorH;
     this.dataSourceH.sort = this.sortH; 
    
@@ -175,10 +175,8 @@ debugger
     
 
 
-            console.log( response.data.graficaReporte.usuariosLabel)
 
 
-console.log(response.data.graficaReporte.grafica)
 
 
   

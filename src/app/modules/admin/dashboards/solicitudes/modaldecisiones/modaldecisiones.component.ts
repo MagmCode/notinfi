@@ -136,7 +136,7 @@ this.supervisorFiltrosCtrl.valueChanges
     this.idSolicitud = this.solicitud.idSolicitud,
     this.nombres =   this.solicitud.nombres,
     this.tipoServicio= this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  
-console.log(this.solicitud)
+
 
 if (this.solicitud.metodo == 'buzon') {
   this.isShownCO = false;

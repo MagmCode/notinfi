@@ -57,7 +57,7 @@ this.mensaje = "¿Esta seguro de desasignar la solicitud " + this.solicitud.idSo
       (data) =>{    
        
       if(data.estatus == "SUCCESS"){
-      this.toast.success(data.mensaje + " Número de solicitud " + this.solicitud.idSolicitud, '', this.override2);            
+      this.toast.success(data.mensaje , '', this.override2);            
       setTimeout(()=>{
       this.refrescarPagina();
       },1500);  

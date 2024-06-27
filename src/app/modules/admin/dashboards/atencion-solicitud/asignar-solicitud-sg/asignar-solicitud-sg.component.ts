@@ -6,6 +6,7 @@ import { MatTable, MatTableDataSource } from '@angular/material/table';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { ActivatedRoute, Router } from '@angular/router';
 import { User } from 'app/core/user/user.types';
+import { servicioGenerales } from 'app/models/infraestructura';
 import { articulo } from 'app/models/proveduria';
 import { solicitudesDto } from 'app/models/usuario';
 import { LoginService } from 'app/services/login.service';
@@ -13,12 +14,13 @@ import { SolicitudesService } from 'app/services/solicitudes.service';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
+
 @Component({
-  selector: 'app-asignar-sol-proveeduria',
-  templateUrl: './asignar-sol-proveeduria.component.html',
-  styleUrls: ['./asignar-sol-proveeduria.component.scss']
+  selector: 'app-asignar-solicitud-sg',
+  templateUrl: './asignar-solicitud-sg.component.html',
+  styleUrls: ['./asignar-solicitud-sg.component.scss']
 })
-export class AsignarSolProveeduriaComponent implements OnInit {
+export class AsignarSolicitudSgComponent implements OnInit {
 
   user = {} as User;
   solicitudesDto = {} as any;
@@ -29,15 +31,15 @@ export class AsignarSolProveeduriaComponent implements OnInit {
   servicioR: boolean = false;
   serviA: boolean = false;
   mensaje: any;
-  articulo = {} as any;
+  servicioGenerales = {} as any;
   
 
     //#region  tablas
-    displayedColumnsP: string[] = [];
+    displayedColumnsP: string[] = ['tipoSolicitud','detalleSol','observacion','acciones'];
     positionOptionsP: TooltipPosition[] = ['below'];
     positionP = new FormControl(this.positionOptionsP[0]);
-    dataSourceP: MatTableDataSource<articulo>;
-    ELEMENT_DATAP: articulo[] = [];
+    dataSourceP: MatTableDataSource<servicioGenerales>;
+    ELEMENT_DATAP: servicioGenerales[] = [];
 
 
     displayedColumns: string[] = ['nombreTarea', 'codUsuarioInicio', 'nombreUsuarioInicio', 'fechaInicio', 'codUsuarioFin', 'nombreUsuarioFin', 'fechaFin','decision', 'motivo', 'observacion'];
@@ -48,7 +50,7 @@ export class AsignarSolProveeduriaComponent implements OnInit {
 
    @ViewChild(MatPaginator) paginator: MatPaginator | any;
    @ViewChild(MatSort) sort: MatSort = new MatSort;  
-   @ViewChild(MatTable) tableP: MatTable<articulo>; 
+   @ViewChild(MatTable) tableP: MatTable<servicioGenerales>; 
    @ViewChild(MatTable) table: MatTable<solicitudesDto>;
     //#endregion
 
@@ -203,12 +205,7 @@ protected _onDestroy = new Subject<void>();
         
       
           this.ELEMENT_DATAP = [];
-          if (this.datosFormulario.value.idServicio == 4) {
-            
-            this.displayedColumnsP.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta')
-          } else {
-            this.displayedColumnsP.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible',  'cantidadArt','unidadVenta')
-          }
+        
           this.ELEMENT_DATAP = response.data.formulario.original;
           this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
           this.ngAfterViewInit();
@@ -255,7 +252,7 @@ this.ELEMENT_DATA =  response.data.detalle
 
 refrescarPagina() {
 
-  this._router.navigate(['/inventario-proveeduria/buzonPendiente']);
+  this._router.navigate(['/atencionSol/buzonPendiente']);
 }
 
 }

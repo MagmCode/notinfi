@@ -68,7 +68,7 @@ private overlayRef!: OverlayRef;
 
   ngOnInit(): void {
     this.obtenerListTipoSolicitud(); 
-/* console.log(this.data)
+/* 
 if (this.data) {
    this.datosSolicitud = this.data.solicitud
 
@@ -141,7 +141,7 @@ async obtenerListTipoSolicitud (){
 
 mostrarInput(){
 
-debugger
+
    this._solicitudesService.tipoSolicitudDetalleServGene(this.solFormulario.value.idTipoSolicitud).subscribe(
     (response) => {
  
