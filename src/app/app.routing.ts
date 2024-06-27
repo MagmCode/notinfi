@@ -39,6 +39,7 @@ import { ReasignarSolicitudSgComponent } from './modules/admin/dashboards/atenci
 import { AprobacionSolInternaComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/aprobacion-sol-interna.component';
 import { DecisionSolServGeneralesComponent } from './modules/admin/dashboards/solicitudes/decision-sol-serv-generales/decision-sol-serv-generales.component';
 import { DetalleSolServGeneralesComponent } from './modules/admin/dashboards/solicitudes/detalle-sol-serv-generales/detalle-sol-serv-generales.component';
+import { DetalleSolicitudServgeneralesComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-servgenerales/detalle-solicitud-servgenerales.component';
 
 
 
@@ -143,7 +144,8 @@ export const appRoutes: Route[] = [
             {path: 'buzon', children: [
                 {path: 'buzonAsignadas',  component: BuzonAsignadaComponent},
                 {path: 'detalleSolicitud',  component: DetalleSolicitdComponent},
-                {path: 'detalleSolicitudProvee',  component: DetalleSolicitudProveduriaComponent},
+                {path: 'detalleSolicitudProvee',  component: DetalleSolicitudProveduriaComponent},                
+                {path: 'detalleSolicitudServGenerales',  component: DetalleSolicitudServgeneralesComponent},
                 
                 
             ]},
