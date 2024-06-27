@@ -333,7 +333,7 @@ mostrarInput(){
     })
     
     dialogRef.afterClosed().subscribe(result => {
-console.log(result)
+
  if (result) {
 
 
@@ -514,7 +514,7 @@ if (result) {
                 "formulario":formulario
                } 
              
-               console.log(enviarData)
+       
                const dialogRef = this.dialog.open(ModalConfirmacionComponent,{
                 data: {enviarData},
                 width: '40%',

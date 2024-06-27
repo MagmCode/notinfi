@@ -154,7 +154,7 @@ isShownPT : boolean = false;
 isShownSU: boolean = false;
 
   async obtenerDatos(){
-
+debugger
     this.usuario = this._loginservices.obterTokenInfo();
  
 
@@ -338,7 +338,8 @@ isShownSU: boolean = false;
     (data) =>{    
      
       if(data.estatus == "SUCCESS"){
-        this.toast.success(data.mensaje+ " Número de solicitud " + data.data, '', this.override2);
+        debugger
+        this.toast.success(data.mensaje, '', this.override2);
         setTimeout(()=>{
             this.redirigirSuccess();
         },1500);

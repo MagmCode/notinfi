@@ -429,7 +429,7 @@ mostrarInput(){
           (data) =>{    
       
             if(data.estatus == "SUCCESS"){
-              this.toast.success(data.mensaje + " Número de solicitud " + data.data, '', this.override2);            
+              this.toast.success(data.mensaje , '', this.override2);            
               setTimeout(()=>{
                 this.redirigirSuccess();
             },1500);  

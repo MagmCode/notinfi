@@ -136,7 +136,7 @@ this.supervisorFiltrosCtrl.valueChanges
     this.idSolicitud = this.solicitud.idSolicitud,
     this.nombres =   this.solicitud.nombres,
     this.tipoServicio= this.solicitud.categoria + '-'+ this.solicitud.tipoServicio  + '-'+  this.solicitud.servicio  
-console.log(this.solicitud)
+
 
 if (this.solicitud.metodo == 'buzon') {
   this.isShownCO = false;
@@ -307,7 +307,7 @@ if (this.solicitud.metodo == 'buzon') {
     (data) =>{    
     
     if(data.estatus == "SUCCESS"){
-    this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+    this.toast.success(data.mensaje , '', this.override2);            
     setTimeout(()=>{
     this.redirigirSuccess();
     },1500);  
@@ -333,7 +333,7 @@ if (this.solicitud.metodo == 'buzon') {
             (data) =>{    
             
             if(data.estatus == "SUCCESS"){
-            this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+            this.toast.success(data.mensaje , '', this.override2);            
             setTimeout(()=>{
             this.redirigirSuccess();
             },1500);  
@@ -427,7 +427,7 @@ if(typeof data.data !=  'undefined'  ){
       (data) =>{    
      
         if(data.estatus == "SUCCESS"){
-          this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+          this.toast.success(data.mensaje , '', this.override2);            
           setTimeout(()=>{
             this.redirigirSuccess();
         },1500);  
@@ -454,7 +454,7 @@ if(typeof data.data !=  'undefined'  ){
             (data) =>{    
            
               if(data.estatus == "SUCCESS"){
-                this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+                this.toast.success(data.mensaje , '', this.override2);            
                 setTimeout(()=>{
                   this.redirigirSuccess();
               },1500);  
@@ -556,7 +556,7 @@ formulario.push(elemt)
       (data) =>{    
      
         if(data.estatus == "SUCCESS"){
-          this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+          this.toast.success(data.mensaje , '', this.override2);            
           setTimeout(()=>{
             this.redirigirSuccess();
         },1500);  
@@ -582,7 +582,7 @@ formulario.push(elemt)
             (data) =>{    
            
               if(data.estatus == "SUCCESS"){
-                this.toast.success(data.mensaje + " Número de solicitud " + data.data.idSolicitud, '', this.override2);            
+                this.toast.success(data.mensaje, '', this.override2);            
                 setTimeout(()=>{
                   this.redirigirSuccess();
               },1500);  

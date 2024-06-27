@@ -235,7 +235,7 @@ this.ELEMENT_DATA =  response.data.detalle
       (data) =>{    
    
         if(data.estatus == "SUCCESS"){
-          this.toast.success(data.mensaje + " Número de solicitud " + this.datosFormulario.value?.idSolicitud, '', this.override2);            
+          this.toast.success(data.mensaje , '', this.override2);            
           setTimeout(()=>{
             this.refrescarPagina()
         },1500);  

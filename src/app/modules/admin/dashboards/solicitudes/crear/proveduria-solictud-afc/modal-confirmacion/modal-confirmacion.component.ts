@@ -4,6 +4,7 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Router } from '@angular/router';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
+import { groupBy } from 'lodash';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { OverlayRef, ToastrService } from 'ngx-toastr';
 import { Subject } from 'rxjs';
@@ -44,10 +45,58 @@ this.mensaje ="Recuerde tener el método de autenticación AMI Ven, al momento d
 
  async submit(){
   this.dialogRef.close();
+
+
+  if (this.data.enviarData.creacion.idServicio == '6') {
+
+
+     const resul2= groupBy(this.data.enviarData.formulario, (a) => a.requiereAprobacion);
+
+    
+let mensaje ;
+for (const key in resul2) {
+  if (Object.prototype.hasOwnProperty.call(resul2, key)) {
+    const element = resul2[key];
+
+    this.data.enviarData.formulario = element
+
+
+     
+
+     this._solicitudesService.crear(this.data.enviarData).subscribe(
+      (data) =>{    
+       if(data.estatus == "SUCCESS"){
+       
+        this.toast.success(mensaje, '', this.override2);  
+
+        }else{
+
+
+          this.toast.error(data.mensaje, '', this.override2);
+        }
+        this.spinner.hide();
+     this.spinner.hide('sp1'); 
+            }, 
+      (error) =>{
+        this.toast.error('', '', this.override2);
+      }
+    );  
+
+
+  }
+}
+ 
+          
+setTimeout(()=>{
+  
+  this.redirigirSuccess();
+},1500); 
+    
+  } else {
     this._solicitudesService.crear(this.data.enviarData).subscribe(
       (data) =>{    
        if(data.estatus == "SUCCESS"){
-          this.toast.success(data.mensaje + " Número de solicitud " + data.data, '', this.override2);            
+          this.toast.success(data.mensaje , '', this.override2);            
           setTimeout(()=>{
             
             this.redirigirSuccess();
@@ -64,6 +113,8 @@ this.mensaje ="Recuerde tener el método de autenticación AMI Ven, al momento d
         this.toast.error('', '', this.override2);
       }
     ); 
+  }
+
   
   }
   

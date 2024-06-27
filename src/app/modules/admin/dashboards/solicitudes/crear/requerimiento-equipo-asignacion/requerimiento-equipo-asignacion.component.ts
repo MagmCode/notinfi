@@ -426,7 +426,7 @@ if (this.usuario.nivelCargo < 11) {
         this._solicitudesService.crear(enviarData).subscribe(
         (data) =>{    
          if(data.estatus == "SUCCESS"){
-            this.toast.success(data.mensaje + " Número de solicitud " + data.data, '', this.override2);            
+            this.toast.success(data.mensaje , '', this.override2);            
             setTimeout(()=>{
               this.redirigirSuccess();
           },1500);  
@@ -486,6 +486,7 @@ obtenerPlantilla(){
 }
 
 openDialog(codUsuarioI : string) {
+  debugger
   const dialogRef = this.dialog.open(DatosAsignadoComponent,{
     data: { codUsuario :  codUsuarioI},
     disableClose: true,
