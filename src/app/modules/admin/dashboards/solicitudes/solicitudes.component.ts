@@ -254,9 +254,10 @@ async obtenerPlantilla(){
         this._router.navigate(['/solicitudes/gestionarSolicitudes']);
       }
 
-      obtenerDatos(idSolicitud: any,idTipoServicio: any ){
+ obtenerDatos(idSolicitud: any,idTipoServicio: any ){
         
   sessionStorage.setItem('idSolicitud', idSolicitud); 
+
         if (idTipoServicio == 1) {
           this._router.navigate(['/solicitudes/detalleSolicitud']); 
         
@@ -292,6 +293,12 @@ if (idTipoServicio == 3) {
           
           
           this._router.navigate(['/solicitudes/decisionSolProveeduria']);
+        }
+
+        if (idTipoServicio == 3) {
+  
+  
+          this._router.navigate(['/solicitudes/decisionSolServGenerales']);
         }
       
       

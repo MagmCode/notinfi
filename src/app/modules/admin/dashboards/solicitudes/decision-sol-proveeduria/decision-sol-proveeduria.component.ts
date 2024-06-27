@@ -242,10 +242,10 @@ constructor(private _loginService : LoginService,
             this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
            
 
-            if (this.datosFormulario.value.idTarea == 20) {
+            if (this.datosFormulario.value.idTarea == 20 || this.datosFormulario.value.idTarea == 21 ) {
               this.servicioP = true;
               this.ELEMENT_DATAPM = [];
-            this.ELEMENT_DATAPM = response.data.formulario.original;
+            this.ELEMENT_DATAPM = response.data.formulario.gestion;
             this.dataSourcePM = new MatTableDataSource(this.ELEMENT_DATAP);
            
 
