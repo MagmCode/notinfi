@@ -267,6 +267,13 @@ if (idTipoServicio == 2) {
   
   this._router.navigate(['/solicitudes/detalleSolProveeduria']);
 }
+
+
+if (idTipoServicio == 3) {
+  
+  
+  this._router.navigate(['/solicitudes/detalleSolServGenerales']);
+}
        
       
       }

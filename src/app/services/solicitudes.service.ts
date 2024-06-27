@@ -112,7 +112,7 @@ consultarMetodosAutenticacion(): Observable<any>{
 
 consultaSolicitudDetalle(idSolicitud: any): Observable <any>{
 
-  const url = this.urlEndPoint + 'consultaSolicitudDetalle  ';
+  const url = this.urlEndPoint + 'consultaSolicitudDetalle';
   const dataBusqueda = {
     idSolicitud : idSolicitud
   };

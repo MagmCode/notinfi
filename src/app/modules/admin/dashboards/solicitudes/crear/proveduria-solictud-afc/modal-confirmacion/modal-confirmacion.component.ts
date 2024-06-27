@@ -67,7 +67,7 @@ for (const key in resul2) {
       (data) =>{    
        if(data.estatus == "SUCCESS"){
        
-        this.toast.success(mensaje, '', this.override2);  
+        this.toast.success(data.mensaje, '', this.override2);  
 
         }else{
 

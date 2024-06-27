@@ -37,6 +37,8 @@ import { AtencionSolicitudComponent } from './modules/admin/dashboards/atencion-
 import { AsignarSolicitudSgComponent } from './modules/admin/dashboards/atencion-solicitud/asignar-solicitud-sg/asignar-solicitud-sg.component';
 import { ReasignarSolicitudSgComponent } from './modules/admin/dashboards/atencion-solicitud/reasignar-solicitud-sg/reasignar-solicitud-sg.component';
 import { AprobacionSolInternaComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/aprobacion-sol-interna.component';
+import { DecisionSolServGeneralesComponent } from './modules/admin/dashboards/solicitudes/decision-sol-serv-generales/decision-sol-serv-generales.component';
+import { DetalleSolServGeneralesComponent } from './modules/admin/dashboards/solicitudes/detalle-sol-serv-generales/detalle-sol-serv-generales.component';
 
 
 
@@ -116,7 +118,10 @@ export const appRoutes: Route[] = [
                 {path: 'decisionSolicitud', component: DecisionSolicitudComponent},
                 {path: 'detalleSolProveeduria', component:DetalleSolProveeduriaComponent},
                 {path: 'decisionSolProveeduria', component: DecisionSolProveeduriaComponent},
-               
+                {path: 'detalleSolServGenerales', component:DetalleSolServGeneralesComponent},
+                {path: 'decisionSolServGenerales', component: DecisionSolServGeneralesComponent},
+                
+                
                 
             ]},            
 
