@@ -35,7 +35,7 @@ export class AsignarSolicitudSgComponent implements OnInit {
   
 
     //#region  tablas
-    displayedColumnsP: string[] = ['tipoSolicitud','detalleSol','observacion','acciones'];
+    displayedColumnsP: string[] = ['tipoSolicitud','detalleSol','observacion'];
     positionOptionsP: TooltipPosition[] = ['below'];
     positionP = new FormControl(this.positionOptionsP[0]);
     dataSourceP: MatTableDataSource<servicioGenerales>;

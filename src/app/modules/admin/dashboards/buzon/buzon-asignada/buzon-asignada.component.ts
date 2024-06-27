@@ -114,6 +114,12 @@ override2 = {
       
       this._router.navigate(['/buzon/detalleSolicitudProvee']); 
     }
+
+    if (idTipoServicio == 3) {
+      
+      
+      this._router.navigate(['/buzon/detalleSolicitudServGenerales']); 
+    }
   
   }
 
