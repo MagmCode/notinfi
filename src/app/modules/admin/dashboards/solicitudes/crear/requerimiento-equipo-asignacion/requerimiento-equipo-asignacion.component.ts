@@ -426,7 +426,7 @@ if (this.usuario.nivelCargo < 11) {
         this._solicitudesService.crear(enviarData).subscribe(
         (data) =>{    
          if(data.estatus == "SUCCESS"){
-            this.toast.success(data.mensaje , '', this.override2);            
+            this.toast.success(data.mensaje, '', this.override2);            
             setTimeout(()=>{
               this.redirigirSuccess();
           },1500);  

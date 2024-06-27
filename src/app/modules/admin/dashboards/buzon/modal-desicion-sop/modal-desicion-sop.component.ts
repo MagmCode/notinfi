@@ -236,7 +236,7 @@ private overlayRef!: OverlayRef;
   (data) =>{    
   
   if(data.estatus == "SUCCESS"){
-  this.toast.success(data.mensaje , '', this.override2);            
+  this.toast.success(data.mensaje, '', this.override2);            
   setTimeout(()=>{
   this.redirigirSuccess();
   },1500);  
@@ -311,7 +311,7 @@ private overlayRef!: OverlayRef;
             (data) =>{    
            
               if(data.estatus == "SUCCESS"){
-                this.toast.success(data.mensaje , '', this.override2);            
+                this.toast.success(data.mensaje, '', this.override2);            
                 setTimeout(()=>{
                   this.redirigirSuccess();
               },1500);  
