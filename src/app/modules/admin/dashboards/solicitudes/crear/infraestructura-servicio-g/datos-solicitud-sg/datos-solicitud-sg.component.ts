@@ -1,3 +1,4 @@
+import { SelectionModel } from '@angular/cdk/collections';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
@@ -5,6 +6,7 @@ import { servicioGenerales } from 'app/models/infraestructura';
 import { ISelect } from 'app/models/login';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
+import { forEach } from 'lodash';
 import { OverlayRef, ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -17,8 +19,17 @@ import { takeUntil } from 'rxjs/operators';
 export class DatosSolicitudSgComponent implements OnInit {
   solFormulario: FormGroup; 
   datosSolicitud = {} as servicioGenerales;
-  evento = new FormControl('');
+  personalCargo  = new FormControl('', Validators.required);
   
+
+
+  isShowPersonal : boolean = false;
+  //#region Select de tipo personal
+      protected personal : ISelect[] = [];
+      public personalCtrl : FormControl = new FormControl();
+      public personalFiltrosCtrl : FormControl = new FormControl();
+      public filtropersonal : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
+      //#endregion
   protected ListTipoSolicitud : ISelect[] = [];
   public ListTipoSolicitudCtrl : FormControl = new FormControl();
   public ListTipoSolicitudFiltrosCtrl : FormControl = new FormControl();
@@ -61,32 +72,72 @@ private overlayRef!: OverlayRef;
         requiereAprobacion: new FormControl(''),
         tiempoRespuestaNum: new FormControl(''),
         tiempoRespuesta: new FormControl(''),
-          
+          evento:new FormControl(''),
       })
 
     }
 
   ngOnInit(): void {
     this.obtenerListTipoSolicitud(); 
-/* 
+
 if (this.data) {
+  
    this.datosSolicitud = this.data.solicitud
 
    this.solFormulario = this.formBuilder.group({
     idTipoSolicitud:  new FormControl( this.datosSolicitud.idTipoSolicitud),
    
   })
-
+  let cod: string[];
   this.mostrarInput();
+  
+if (this.datosSolicitud.personal != undefined) {
+   cod =  this.datosSolicitud.personal.split(',');
+   this.personalCargo.patchValue(sessionStorage.getItem('perso'));
+   
+} 
+ 
 
   this.solFormulario = this.formBuilder.group({
-    idTipoSolicitud:  new FormControl(this.solFormulario.value.idTipoSolicitud,  [Validators.required]),
-   
+    id: new FormControl( this.datosSolicitud.relacion),
+    idTipoSolicitud:  new FormControl({value:  Number(this.datosSolicitud.idTipoSolicitud),  disabled: true}),
+   evento :  new FormControl( this.datosSolicitud.evento),
     idDetalleSol: new FormControl(this.datosSolicitud.idDetalleSol+'-'+this.datosSolicitud.requiereAprobacion+'-'+this.datosSolicitud.tiempoRespuestaNum+'-'+this.datosSolicitud.tiempoRespuesta, [Validators.required]) ,
     tiempoRespuesta:  new FormControl({value : this.datosSolicitud.tiempoRespuestaNum+' ' +this.datosSolicitud.tiempoRespuesta, disabled: true}),
-    observacion:new FormControl('', [Validators.required]),
+    observacion:new FormControl(this.datosSolicitud.observacion, [Validators.required]),
+   
   })
-} */
+
+  
+this.isShowPersonal = true;
+  this._solicitudesService.consultarobtenerPlantilla('', '52115').subscribe(
+    (response) => {
+      
+      this.personal.push({name: 'Selecciones', id:''});
+      if(response.status == 'success'){
+        for(const iterator of response.usuariosLts){
+          
+          this.personal.push({name: iterator.nombres + ' ' + iterator.apellidos , id:iterator.codigo + ' ' + iterator.nombres + ' ' + iterator.apellidos })
+        }
+      }
+  
+    
+      
+    }
+  );
+
+  
+    //#region select de personal
+    this.personalCtrl.setValue(this.personal);
+    this.filtropersonal.next(this.personal);
+    this.personalFiltrosCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filtropersonalT();
+    });
+     //#endregion
+
+} 
 
   }
 
@@ -140,7 +191,7 @@ async obtenerListTipoSolicitud (){
 }
 
 mostrarInput(){
-
+ 
 
    this._solicitudesService.tipoSolicitudDetalleServGene(this.solFormulario.value.idTipoSolicitud).subscribe(
     (response) => {
@@ -183,13 +234,15 @@ mostrarInput(){
 
 
 
+
   this.solFormulario = this.formBuilder.group({
-    idTipoSolicitud:  new FormControl(this.solFormulario.value.idTipoSolicitud,  [Validators.required]),
+    idTipoSolicitud:  new FormControl(this.solFormulario.getRawValue().idTipoSolicitud,  [Validators.required]),
    
     idDetalleSol: new FormControl(this.solFormulario.value.idDetalleSol, [Validators.required]) ,
     tiempoRespuesta:  new FormControl(uni),
-    observacion:new FormControl('', [Validators.required]),
-}) 
+    observacion:new FormControl(this.solFormulario.value.observacion, [Validators.required]), 
+   
+  }) 
 
 
 
@@ -217,10 +270,28 @@ mostrarInput(){
         this.datosSolicitud.tiempoRespuestaNum =   cod[2];
         this.datosSolicitud.tiempoRespuesta =   cod[3];
         this.datosSolicitud.observacion =   this.solFormulario.getRawValue().observacion; 
-    
-        if ( this.evento.value != '') {
+        
+        if ( this.solFormulario.getRawValue().evento != undefined) {
        
-          this.datosSolicitud.evento = this.evento.value;
+          this.datosSolicitud.evento = this.solFormulario.getRawValue().evento;
+         
+          if (this.personalCargo.value.length == 0) {
+            return
+          }else{
+            var perso: any = '';
+            sessionStorage.setItem('perso', this.personalCargo.value);
+            this.personalCargo.value.forEach(element => {
+
+              
+                if (perso =='') {
+                  perso = element.id ;
+                } else {
+                  perso= perso +', ' + element.id ;
+                }
+
+            });
+            this.datosSolicitud.personal = perso;
+          }
         }
     
       this.dialogRef.close(this.datosSolicitud);
@@ -275,6 +346,24 @@ protected filtroListTipoSolicitudT() {
   // filter the banks
   this.filtrodetalleSolicitud.next(
     this.detalleSolicitud.filter(cargo => cargo.name.toLowerCase().indexOf(search) > -1)
+  );
+}
+
+protected filtropersonalT() {
+  if (!this.personal) { 
+    return;
+  }
+  // get the search keyword
+  let search = this.personalFiltrosCtrl.value;
+  if (!search) {
+    this.filtropersonal.next(this.personal.slice());
+    return;
+  } else {
+    search = search.toLowerCase();
+  }
+  // filter the banks
+  this.filtropersonal.next(
+    this.personal.filter(tipo => tipo.name.toLowerCase().indexOf(search) > -1)
   );
 }
 }

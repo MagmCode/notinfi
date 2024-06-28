@@ -151,8 +151,11 @@ if (this.solicitud.metodo == 'buzon') {
 
   if (this.solicitud.idTipoServicio == 1 ) {
     this.mensaje = "¿Está seguro de asignar los siguiente equipos?";
-  } else {
+  } else if (this.solicitud.idTipoServicio == 2) {
     this.mensaje = "¿Está seguro de asignar los siguiente artículos?";
+  } else if (this.solicitud.idTipoServicio == 3) {
+    
+    this.mensaje = "¿Está seguro de asignar el sigiente personal a la solicitud?";
   }
 
 
@@ -283,7 +286,7 @@ return;
   this.datosFormulario.value.motivo = 0;
   this.datosFormulario.value.observacion = this.solicitud.detalle
 
-
+debugger
 var formulario = [];        
 if (this.solicitud.metodo == 'buzon') {
 

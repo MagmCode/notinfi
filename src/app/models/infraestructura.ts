@@ -8,6 +8,7 @@ export interface  servicioGenerales {
     requiereAprobacion: any,
     tiempoRespuestaNum: any,
     tiempoRespuesta: any,
+    personal: any,
     evento:any,
     relacion:any
   }

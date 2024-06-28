@@ -80,7 +80,7 @@ override2 = {
   async obtenerPlantilla(){
     this.usuario = this._loginservices.obterTokenInfo();
 
-    this._solicitudesService.consultarSolicitudReasignar('INVENTARIO-PROVEEDURIA').subscribe(
+    this._solicitudesService.consultarSolicitudReasignar('ATENCION-SOLICITUD').subscribe(
     (response) =>{
   
         this.ELEMENT_DATA = [];

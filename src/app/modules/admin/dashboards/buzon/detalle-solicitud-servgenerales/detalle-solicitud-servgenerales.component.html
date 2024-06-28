@@ -182,6 +182,10 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>evento</th>
                                         <td mat-cell *matCellDef="let row">{{row.evento}} </td>
                                       </ng-container>
+                                      <ng-container matColumnDef="personal" class="text-center">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Personal a cargo</th>
+                                        <td mat-cell *matCellDef="let row">{{row.personal}} </td>
+                                      </ng-container>
                                       <ng-container matColumnDef="acciones">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
                                      
@@ -213,19 +217,7 @@
                                 
                           </div>
                        
-                        <div  *ngIf="(datosFormulario.value.tarea === 'DESPACHO')" class="text-center" >
-
-                          <mat-form-field appearance="fill" class="width100" style="width: 20%;">
-
-                            <mat-label>Ingrese el número de ticket</mat-label>
-                            <input matInput [formControl]="ticket" > 
-                            <!-- <mat-error *ngIf="solFormulario.get('nm')?.hasError">
-                                Campo <strong>Obligatorio</strong>
-                            </mat-error>   -->                    
-                        </mat-form-field>
-                        
-
-                        </div>
+                       
     
                                       <section>
                                         <div class="text-center" *ngIf="serviA">

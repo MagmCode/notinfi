@@ -110,6 +110,7 @@ ELEMENT_DATAE: equipoDto[] = [];
                   unidadResp: new FormControl(''),           
                   codusuarioGestion:  new FormControl(''), 
                   detalle: new FormControl('', [Validators.required]),
+                  numContacto : new FormControl('', [Validators.required]),
                 })
           }
 
