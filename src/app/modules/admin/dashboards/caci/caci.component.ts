@@ -213,20 +213,50 @@ async obtenerPlantilla(){
       this._router.navigate(['/solicitudes/gestionarSolicitudes']);
     }
 
-    obtenerDatos(idSolicitud: any){
+    obtenerDatos(idSolicitud: any, idTipoServicio: any){
       
       sessionStorage.setItem('idSolicitud', idSolicitud);
-      this._router.navigate(['/solicitudes/detalleSolicitud']); 
+                     
+      if (idTipoServicio == 1) {
+        this._router.navigate(['/solicitudes/detalleSolicitud']); 
+      
+      } 
+
+      if (idTipoServicio == 2) {
+        
+        
+        this._router.navigate(['/solicitudes/detalleSolProveeduria']);
+      }
+
+      if (idTipoServicio == 3) {
+
+
+        this._router.navigate(['/solicitudes/detalleSolServGenerales']);
+      }
     
     
     }
 
-    obtenerDatosApobar(idSolicitud: any){
+    obtenerDatosApobar(idSolicitud: any,idTipoServicio: any){
    
       sessionStorage.setItem('idSolicitud', idSolicitud);
-      this._router.navigate(['/solicitudes/decisionSolicitud']); 
-    
-    
+                 
+      if (idTipoServicio == 1) {
+        this._router.navigate(['/solicitudes/detalleSolicitud']); 
+      
+      } 
+
+      if (idTipoServicio == 2) {
+        
+        
+        this._router.navigate(['/solicitudes/detalleSolProveeduria']);
+      }
+
+      if (idTipoServicio == 3) {
+
+
+        this._router.navigate(['/solicitudes/detalleSolServGenerales']);
+      }
     }
 
 }

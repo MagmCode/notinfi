@@ -2,14 +2,14 @@ import { Component, OnInit, ViewChild } from '@angular/core';
 import { servicioGenerales } from 'app/models/infraestructura';
 import { ModaldecisionesComponent } from '../../solicitudes/modaldecisiones/modaldecisiones.component';
 import { MatTable, MatTableDataSource } from '@angular/material/table';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ToastrService } from 'ngx-toastr';
 import { SolicitudesService } from 'app/services/solicitudes.service';
 import { LoginService } from 'app/services/login.service';
-import { Subject } from 'rxjs';
+import { ReplaySubject, Subject } from 'rxjs';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { solicitudesDto } from 'app/models/usuario';
@@ -17,6 +17,8 @@ import { TooltipPosition } from '@angular/material/tooltip';
 import { articulo } from 'app/models/proveduria';
 import { User } from 'app/core/user/user.types';
 import { DatosSolicitudSgComponent } from '../../solicitudes/crear/infraestructura-servicio-g/datos-solicitud-sg/datos-solicitud-sg.component';
+import { takeUntil } from 'rxjs/operators';
+import { ISelect } from 'app/models/login';
 
 
 @Component({
@@ -36,9 +38,9 @@ export class DetalleSolicitudServgeneralesComponent implements OnInit {
   servicioR: boolean = false;
   serviA: boolean = false;
   mensaje: any;
-  articulo = {} as any;
- 
-datosArticulo = {} as articulo;
+  personalCargo  = new FormControl('', Validators.required);
+
+
   esValido:  boolean = false;
   hasError :boolean = false;
   estareaA :boolean = false;
@@ -47,8 +49,16 @@ datosArticulo = {} as articulo;
   metodo = [];
   ticket = new FormControl('');
   radioSelected: any;
+
+       //#region Select de tipo personal
+       protected personal : ISelect[] = [];
+       public personalCtrl : FormControl = new FormControl();
+       public personalFiltrosCtrl : FormControl = new FormControl();
+       public filtropersonal : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
+       //#endregion
+
     //#region  tablas
-    displayedColumnsP: string[] = ['tipoSolicitud','detalleSol','observacion', 'acciones'];
+    displayedColumnsP: string[] = ['tipoSolicitud','detalleSol','observacion','personal', 'acciones'];
     positionOptionsP: TooltipPosition[] = ['below'];
     positionP = new FormControl(this.positionOptionsP[0]);
     dataSourceP: MatTableDataSource<servicioGenerales>;
@@ -131,16 +141,12 @@ constructor(private _loginService : LoginService,
   ngOnInit(): void {
     this.obtenerDatos();
 
-/*     if (this.datosFormulario.value.idServicio == 4) {
-    
-      this.displayedColumnsP.push('tipoArt', 'dercripciónArt', 'cantidadArt','unidadVenta','acciones')
-    } else {
-      this.displayedColumnsP.push('tipoArt','direccionIp','tipoImpresora', 'dercripciónArt','descConsumible' ,'modeloConsumible','unidadVenta',  'cantidadArt', 'acciones')
-    } */
+  
     this.usuario = this._loginService.obterTokenInfo();
 
     this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
     this.user.email =this.usuario.descCargo; 
+
   
   }
 
@@ -178,7 +184,7 @@ constructor(private _loginService : LoginService,
   async obtenerDatos(){
    
     this.idSolicitud =  sessionStorage.getItem('idSolicitud');
-  
+    this.usuario = this._loginservices.obterTokenInfo();
   
 
     this._solicitudesService.consultaSolicitudDetalle(this.idSolicitud).subscribe(
@@ -221,6 +227,11 @@ constructor(private _loginService : LoginService,
             numContacto:        response.data.solicitud.numContacto
 
           }); 
+
+
+
+       
+          
           this.ELEMENT_DATAP = []; 
           this.serviA = true;
           
@@ -265,7 +276,7 @@ constructor(private _loginService : LoginService,
     sessionStorage.setItem('idServicio', this.datosFormulario.value.idServicio);
 
     const dialogRef = this.dialog.open(DatosSolicitudSgComponent,{
-      data: {articulo : row},
+      data: {solicitud : row},
       width: '50%',
       disableClose: true
     })
@@ -296,7 +307,7 @@ if (result) {
       
     
       const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-        data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceP.data,   idTipoServicio :this.datosFormulario.getRawValue().idTipoServicio , nroticket: this.ticket.value},
+        data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceP.data,   idTipoServicio :this.datosFormulario.getRawValue().idTipoServicio },
         disableClose: true,
       });
       
@@ -305,5 +316,7 @@ if (result) {
       });
     
     }
+
+   
 
 }

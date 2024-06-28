@@ -110,7 +110,15 @@
                        
         </mat-form-field>
     </div>
-
+    <div class="col-start-1 col-end-5 ">
+        <mat-form-field appearance="fill" class="width100">
+            <mat-label>Número teléfono de oficina completo</mat-label>
+            <input matInput formControlName="numContacto" maxlength="11" title="teléfono de oficina completo"> 
+             <mat-error *ngIf="datosFormulario.get('numContacto')?.hasError">
+                Campo <strong>Obligatorio</strong>
+            </mat-error> 
+        </mat-form-field>  
+    </div>
     <!-- <div class="col-span-5 text-center" [hidden]="!isShownSU"   id="divshowSU">
 
       <mat-form-field appearance="fill"class="width100">
