@@ -114,13 +114,18 @@
                                 <p >{{datosFormulario.value.ubicacionFisica}}</p>
                                                 
                             </div>
+                            <div class="col-span-4" >
+                              <b>Número de contacto  </b>
+                              <p >{{datosFormulario.value.numContacto}}</p>
+                                              
+                          </div>
                             
-                            <div class="col-span-8" *ngIf="servicioA">
+                            <div class="col-span-4" *ngIf="servicioA">
                               <b>Detalle del uso</b>
                               <p >{{datosFormulario.value.detalle}}</p>
                                               
                           </div>
-                            <div class="col-span-8" *ngIf="servicioR">
+                            <div class="col-span-4" *ngIf="servicioR">
                               <b>Detalle</b>
                               <p >{{datosFormulario.value.detalle}}</p>
                                               

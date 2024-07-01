@@ -112,7 +112,7 @@ protected _onDestroy = new Subject<void>();
                   idTipoServicio:  new FormControl(''),
                   tipoServicio: new FormControl(''),
                   detalle: new FormControl(''),
-              
+                  numContacto: new FormControl(''),
 
                 })
 
@@ -211,7 +211,8 @@ protected _onDestroy = new Subject<void>();
             categoria:          response.data.solicitud.categoria,
             idTipoServicio:     response.data.solicitud.idTipoServicio,
             tipoServicio:       response.data.solicitud.tipoServicio,
-            detalle:            response.data.solicitud.detalle           
+            detalle:            response.data.solicitud.detalle ,
+            numContacto: response.data.solicitud.numContacto            
     
           }); 
           

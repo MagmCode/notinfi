@@ -107,6 +107,7 @@ override2 = {
                   idTipoServicio:  new FormControl(''),
                   tipoServicio: new FormControl(''),
                   detalle:new FormControl(''),
+                  numContacto: new FormControl(''),
               
 
                 })
@@ -187,7 +188,8 @@ override2 = {
             categoria:          response.data.solicitud.categoria,
             idTipoServicio:     response.data.solicitud.idTipoServicio,
             tipoServicio:       response.data.solicitud.tipoServicio,
-            detalle:            response.data.solicitud.detalle             
+            detalle:            response.data.solicitud.detalle   ,
+            numContacto: response.data.solicitud.numContacto               
     
           });  
         
