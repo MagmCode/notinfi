@@ -27,6 +27,16 @@ export class SolicitudesService {
     return this.http.post(url, dataBusqueda);
   }
 
+  consultartipoServicioCreacion(categoria : any, codigoUsuario: any, nivelCargo: any): Observable<any>{
+    const url = this.urlEndPoint + 'tipoServicioCreacion';
+    const dataBusqueda = {
+      idCategoria : categoria,
+      nivelCargo: nivelCargo,
+      codigoUsuario: codigoUsuario
+    };
+    return this.http.post(url, dataBusqueda);
+  }
+
   consultarServicio(tipoServicio : any, nivelCargo: any): Observable<any>{
     const url = this.urlEndPoint + 'servicio';
     const dataBusqueda = {
@@ -89,6 +99,12 @@ gestionFlujoTarea (solicitudesDto : any):Observable<any>{
   return this.http.post(url, solicitudesDto);
 }
 
+
+modificacionDatosAdicional (solicitudesDto : any):Observable<any>{
+  const url = this.urlEndPoint + '/modificacionDatosAdicional ';
+  const jsonEnvio = JSON.stringify(solicitudesDto);
+  return this.http.post(url, solicitudesDto);
+}
 
 consultarMotivo(): Observable<any>{
   const url = this.urlEndPoint + 'consultarMotivos';

@@ -281,13 +281,40 @@ if (result) {
 
 
 
+  var enviarData = {};
+var forArray = [];
+forArray.push(result)
+  enviarData= {
+  "solicitud":this.datosFormulario.value,
+  "formulario":forArray
+  }
+
+  console.log(enviarData);
+
+
+
+  this._solicitudesService.modificacionDatosAdicional(enviarData).subscribe(
+    (data) =>{    
+      
+    if(data.estatus == "SUCCESS"){
  
-  const  indice = this.dataSourceP.data.findIndex(elemento => elemento.relacion === result.relacion);
+      const  indice = this.dataSourceP.data.findIndex(elemento => elemento.relacion === result.relacion);
 
 
-  this.dataSourceP.data[indice] = result;
+      this.dataSourceP.data[indice] = result;
+    
+       this.ngAfterViewInit();
+    }else{
+    this.toast.error(data.mensaje, '', this.override2);
+    }
+    this.spinner.hide();
+ 
+    }, 
+  
+    ); 
 
-   this.ngAfterViewInit();
+ 
+
 }
 
      
