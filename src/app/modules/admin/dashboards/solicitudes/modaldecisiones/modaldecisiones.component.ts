@@ -326,10 +326,10 @@ if (this.solicitud.metodo == 'buzon') {
     }
     ); 
 } else {
-/*   this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+  this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
     (response) => { 
      
-      if(response.estatus == 'SUCCESS'){  */
+      if(response.estatus == 'SUCCESS'){ 
        
       
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
@@ -351,14 +351,14 @@ if (this.solicitud.metodo == 'buzon') {
             this.toast.error(data.mensaje, '', this.override2);
             }
             ); 
-/*   
+  
      }else{
   
         this.toast.error(response.mensaje, '', this.override2);
       }
     
     }
-  );  */ 
+  );  
 }
 
 

@@ -157,15 +157,15 @@ clear(){
   }
 
   buscarTipoServicio(){    
-
+    this.usuario = this._loginService.obterTokenInfo();
 
     this.isShownAsignacion = false;
     this.isShownReposicion = false;
     this.isShownSolicitudART = false;
     this.isShownSolicitudARTC = false;
     this.isShownSolicitudSG = false;
-
-    this._solicitudesService.consultarTipoServicio(this.solFormulario.value.categoria?.id).subscribe(
+debugger
+    this._solicitudesService.consultartipoServicioCreacion(this.solFormulario.value.categoria?.id, this.usuario.codigo,  this.usuario.nivelCargo).subscribe(
       (response) => {
     
         this.tipoServicio.length = 0;
