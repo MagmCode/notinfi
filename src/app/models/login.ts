@@ -51,3 +51,35 @@ export interface ISelectEquipo{
     idTipoEquipo: string;
     tipoEquipo: string;
 }
+
+
+export interface usuario{
+apellidos: any;
+apellidosSupervisor: any;
+cedula: any;
+codEmpresa: any;
+codUbicacionFisica: any;
+codUnidad: any;
+codUnidadJrq: any;
+codUnidadOrg: any;
+codUnidadSupervisor: any;
+codigo: any;
+codigoCargo: any;
+codigoSupervisor: any;
+correo: any;
+correoSupervisor:any;
+descCargo: any;
+descEmpresa: any;
+descUnidad: any;
+detalleUbicacion: any;
+estatus: any;
+grupoPago: any;
+nacionalidad:  any;
+nivelCargo:  any;
+nombres:  any;
+nombresSupervisor:  any;
+ubicacionFisica:  any;
+unidadJrq: any;
+unidadOrg: any;
+usuarioUnicoBdv: any;
+}

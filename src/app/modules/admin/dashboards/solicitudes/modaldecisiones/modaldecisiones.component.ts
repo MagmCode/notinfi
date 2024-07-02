@@ -152,7 +152,7 @@ if (this.solicitud.metodo == 'buzon') {
   if (this.solicitud.idTipoServicio == 1 ) {
     this.mensaje = "¿Está seguro de asignar los siguiente equipos?";
   } else if (this.solicitud.idTipoServicio == 2) {
-    this.mensaje = "¿Está seguro de asignar los siguiente artículos?";
+    this.mensaje = "¿Esta seguro de asignar los artículos?";
   } else if (this.solicitud.idTipoServicio == 3) {
     
     this.mensaje = "¿Está seguro de asignar el sigiente personal a la solicitud?";
@@ -286,7 +286,7 @@ return;
   this.datosFormulario.value.motivo = 0;
   this.datosFormulario.value.observacion = this.solicitud.detalle
 
-debugger
+
 var formulario = [];        
 if (this.solicitud.metodo == 'buzon') {
 
@@ -326,15 +326,15 @@ if (this.solicitud.metodo == 'buzon') {
     }
     ); 
 } else {
-  this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+/*   this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
     (response) => { 
      
-      if(response.estatus == 'SUCCESS'){ 
+      if(response.estatus == 'SUCCESS'){  */
        
-      debugger
+      
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    
-              debugger
+              
             if(data.estatus == "SUCCESS"){
             this.toast.success(data.mensaje, '', this.override2);            
             setTimeout(()=>{
@@ -351,14 +351,14 @@ if (this.solicitud.metodo == 'buzon') {
             this.toast.error(data.mensaje, '', this.override2);
             }
             ); 
-  
+/*   
      }else{
   
         this.toast.error(response.mensaje, '', this.override2);
       }
     
     }
-  );  
+  );  */ 
 }
 
 

@@ -1,15 +1,32 @@
 import { SelectionModel } from '@angular/cdk/collections';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatSelect } from '@angular/material/select';
 import { servicioGenerales } from 'app/models/infraestructura';
-import { ISelect } from 'app/models/login';
+import { ISelect, usuario } from 'app/models/login';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
-import { forEach } from 'lodash';
+import { forEach, groupBy } from 'lodash';
 import { OverlayRef, ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
+
+interface personalGroup {
+  disabled?: boolean;
+  name: string;
+  personal: usuario[];
+}
+interface Bank {
+  id: string;
+  name: string;
+ }
+
+interface BankGroup {
+  name: string;
+  banks: Bank[];
+}
 
 @Component({
   selector: 'app-datos-solicitud-sg',
@@ -20,16 +37,18 @@ export class DatosSolicitudSgComponent implements OnInit {
   solFormulario: FormGroup; 
   datosSolicitud = {} as servicioGenerales;
   personalCargo  = new FormControl('', Validators.required);
-  
 
 
+  personalGroups: personalGroup[] = [];
   isShowPersonal : boolean = false;
-  //#region Select de tipo personal
-      protected personal : ISelect[] = [];
+  //#region Select 
+  
+  /*     protected personal : ISelect[] = []; */
       public personalCtrl : FormControl = new FormControl();
       public personalFiltrosCtrl : FormControl = new FormControl();
-      public filtropersonal : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
-      //#endregion
+      public filtropersonal : ReplaySubject<personalGroup[]> = new ReplaySubject<personalGroup[]>(1);
+
+
   protected ListTipoSolicitud : ISelect[] = [];
   public ListTipoSolicitudCtrl : FormControl = new FormControl();
   public ListTipoSolicitudFiltrosCtrl : FormControl = new FormControl();
@@ -40,7 +59,60 @@ export class DatosSolicitudSgComponent implements OnInit {
   public detalleSolicitudCtrl : FormControl = new FormControl();
   public detalleSolicitudFiltrosCtrl : FormControl = new FormControl();
   public filtrodetalleSolicitud : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
- 
+    
+  /** control for the selected bank for option groups */
+  public bankGroupsCtrl: FormControl = new FormControl();
+
+  /** control for the MatSelect filter keyword for option groups */
+  public bankGroupsFilterCtrl: FormControl = new FormControl();
+  public filteredBankGroups: ReplaySubject<BankGroup[]> = new ReplaySubject<BankGroup[]>(1);
+  private bankGroups: BankGroup[] = [
+    {
+      name: 'Switzerland',
+      banks: [
+        {name: 'Bank A', id: 'A'},
+        {name: 'Bank B', id: 'B'}
+      ]
+    },
+    {
+      name: 'France',
+      banks: [
+        {name: 'Bank C', id: 'C'},
+        {name: 'Bank D', id: 'D'},
+        {name: 'Bank E', id: 'E'},
+      ]
+    },
+    {
+      name: 'Italy',
+      banks: [
+        {name: 'Bank F', id: 'F'},
+        {name: 'Bank G', id: 'G'},
+        {name: 'Bank H', id: 'H'},
+        {name: 'Bank I', id: 'I'},
+        {name: 'Bank J', id: 'J'},
+      ]
+    },
+    {
+      name: 'United States of America',
+      banks: [
+        {name: 'Bank Kolombia', id: 'K'},
+      ]
+    },
+    {
+      name: 'Germany',
+      banks: [
+        {name: 'Bank L', id: 'L'},
+        {name: 'Bank M', id: 'M'},
+        {name: 'Bank N', id: 'N'},
+        {name: 'Bank O', id: 'O'},
+        {name: 'Bank P', id: 'P'},
+        {name: 'Bank Q', id: 'Q'},
+        {name: 'Bank R', id: 'R'}
+      ]
+    }
+  ];
+  @ViewChild('multiSelect') multiSelect: MatSelect;
+  //#endregion
   //#region toast
 override2 = {
   positionClass: 'toast-bottom-full-width',
@@ -110,15 +182,29 @@ if (this.datosSolicitud.personal != undefined) {
 
   
 this.isShowPersonal = true;
-  this._solicitudesService.consultarobtenerPlantilla('', '52115').subscribe(
+  this._solicitudesService.consultarobtenerPlantilla('', '31446').subscribe(
     (response) => {
       
-      this.personal.push({name: 'Selecciones', id:''});
+      this.personalGroups.push({name: 'Selecciones', personal:[]});
       if(response.status == 'success'){
-        for(const iterator of response.usuariosLts){
-          
-          this.personal.push({name: iterator.nombres + ' ' + iterator.apellidos , id:iterator.codigo + ' ' + iterator.nombres + ' ' + iterator.apellidos })
+        console.log(response.usuariosLts)
+
+        const resul2= groupBy(response.usuariosLts, (a) => a.descUnidad);
+        console.log(resul2)
+
+        for (const key in resul2) {
+          if (Object.prototype.hasOwnProperty.call(resul2, key)) {
+            const element = resul2[key];
+            console.log(key)
+            console.log(element)
+
+
+            
+               this.personalGroups.push({name:key, personal: element})
+          }
         }
+        console.log(this.personalGroups)
+       
       }
   
     
@@ -128,12 +214,19 @@ this.isShowPersonal = true;
 
   
     //#region select de personal
-    this.personalCtrl.setValue(this.personal);
-    this.filtropersonal.next(this.personal);
+    this.personalCtrl.setValue(this.personalGroups);
+    this.filtropersonal.next(this.personalGroups);
     this.personalFiltrosCtrl.valueChanges
     .pipe(takeUntil(this._onDestroy))
     .subscribe(() => {
       this.filtropersonalT();
+    });
+
+    this.filteredBankGroups.next(this.copyBankGroups(this.bankGroups));
+    this.bankGroupsFilterCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filterBankGroups();
     });
      //#endregion
 
@@ -332,6 +425,7 @@ protected filtroListTipoSolicitudT() {
 }
 
  protected filtrodetalleSolicitudT() {
+  debugger
   if (!this.detalleSolicitud) {
     return;
   }
@@ -350,20 +444,71 @@ protected filtroListTipoSolicitudT() {
 }
 
 protected filtropersonalT() {
-  if (!this.personal) { 
+  debugger
+  if (!this.personalGroups) { 
     return;
   }
   // get the search keyword
   let search = this.personalFiltrosCtrl.value;
   if (!search) {
-    this.filtropersonal.next(this.personal.slice());
+    this.filtropersonal.next(this.personalGroups.slice());
     return;
   } else {
     search = search.toLowerCase();
   }
   // filter the banks
   this.filtropersonal.next(
-    this.personal.filter(tipo => tipo.name.toLowerCase().indexOf(search) > -1)
+    this.personalGroups.filter(personalGroup => {
+      
+      const showBankGroup = personalGroup.name.toLowerCase().indexOf(search) > -1;
+      if (!showBankGroup) {
+       
+        personalGroup.personal = personalGroup.personal.filter(personal => personal.nombres.toLowerCase().indexOf(search) > -1);
+      
+      }
+
+   return personalGroup.personal.length > 0; 
+
+   
+      
+    })
   );
-}
+} 
+
+
+ private filterBankGroups() {
+    if (!this.bankGroups) {
+      return;
+    }
+    // get the search keyword
+    let search = this.bankGroupsFilterCtrl.value;
+    const bankGroupsCopy = this.copyBankGroups(this.bankGroups);
+    if (!search) {
+      this.filteredBankGroups.next(bankGroupsCopy);
+      return;
+    } else {
+      search = search.toLowerCase();
+    }
+    // filter the banks
+    this.filteredBankGroups.next(
+      bankGroupsCopy.filter(bankGroup => {
+        const showBankGroup = bankGroup.name.toLowerCase().indexOf(search) > -1;
+        if (!showBankGroup) {
+          bankGroup.banks = bankGroup.banks.filter(bank => bank.name.toLowerCase().indexOf(search) > -1);
+        }
+        return bankGroup.banks.length > 0;
+      })
+    );
+  }
+
+  private copyBankGroups(bankGroups: BankGroup[]) {
+    const bankGroupsCopy = [];
+    bankGroups.forEach(bankGroup => {
+      bankGroupsCopy.push({
+        name: bankGroup.name,
+        banks: bankGroup.banks.slice()
+      });
+    });
+    return bankGroupsCopy;
+  }
 }
