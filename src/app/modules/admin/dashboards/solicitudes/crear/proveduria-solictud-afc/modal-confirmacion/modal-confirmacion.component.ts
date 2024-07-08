@@ -57,13 +57,11 @@ let mensaje ;
 for (const key in resul2) {
   if (Object.prototype.hasOwnProperty.call(resul2, key)) {
     const element = resul2[key];
-
+    
+    this.data.enviarData.creacion.requiereAprobacion = key;
     this.data.enviarData.formulario = element
 
-
-     
-
-     this._solicitudesService.crear(this.data.enviarData).subscribe(
+     this._solicitudesService.crearSolicitudGenerales(this.data.enviarData).subscribe(
       (data) =>{    
        if(data.estatus == "SUCCESS"){
        

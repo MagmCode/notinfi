@@ -36,13 +36,13 @@ export class DetalleSolServGeneralesComponent implements OnInit {
    ELEMENT_DATA: solicitudesDto[] = [];
 
  
-    displayedColumnsE: string[] = ['tipoSolicitud','detalleSol','observacion'];
+    displayedColumnsE: string[] = ['tipoSolicitud','detalleSol','observacion','personal','observacionArea'];
     positionOptionsE: TooltipPosition[] = ['below'];
      positionE = new FormControl(this.positionOptionsE[0]);
      dataSourceE: MatTableDataSource<servicioGenerales>;    
      ELEMENT_DATAE: servicioGenerales[] = [];
     
-     displayedColumnsR: string[] = ['tipoSolicitud','detalleSol','observacion'];
+     displayedColumnsR: string[] = ['tipoSolicitud','detalleSol','observacion','personal','observacionArea'];
      positionOptionsR: TooltipPosition[] = ['below'];
       positionR = new FormControl(this.positionOptionsR[0]);
       dataSourceR: MatTableDataSource<servicioGenerales>;     
@@ -220,7 +220,7 @@ protected _onDestroy = new Subject<void>();
           this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
           this.ngAfterViewInit();
        
-     debugger
+     
           if (response.data.formulario != null) {
        
            
@@ -228,14 +228,7 @@ protected _onDestroy = new Subject<void>();
             this.ELEMENT_DATAR = response.data.formulario.original;
             this.dataSourceR = new MatTableDataSource(this.ELEMENT_DATAR);
 
-            if (this.datosFormulario.value.idTarea == 20) {
-              this.servicioP = true;
-              this.ELEMENT_DATAE = [];
-              this.ELEMENT_DATAE = response.data.formulario.gestion;
-              this.dataSourceE = new MatTableDataSource(this.ELEMENT_DATAE);
           
-    
-            }
            
            }
       }

@@ -7,25 +7,22 @@ import { servicioGenerales } from 'app/models/infraestructura';
 import { ISelect, usuario } from 'app/models/login';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
+
 import { forEach, groupBy } from 'lodash';
 import { OverlayRef, ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-
-interface personalGroup {
-  disabled?: boolean;
-  name: string;
-  personal: usuario[];
-}
-interface Bank {
+interface Personal {
+  
   id: string;
   name: string;
  }
 
-interface BankGroup {
+interface PersonalGroup {
+  disabled?: boolean;
   name: string;
-  banks: Bank[];
+  personals: Personal[];
 }
 
 @Component({
@@ -36,18 +33,17 @@ interface BankGroup {
 export class DatosSolicitudSgComponent implements OnInit {
   solFormulario: FormGroup; 
   datosSolicitud = {} as servicioGenerales;
-  personalCargo  = new FormControl('', Validators.required);
 
-
-  personalGroups: personalGroup[] = [];
+  observacionArea = new FormControl('', Validators.required);
   isShowPersonal : boolean = false;
+  protected personal : ISelect[] = []; 
   //#region Select 
-  
-  /*     protected personal : ISelect[] = []; */
+ /*  
+
       public personalCtrl : FormControl = new FormControl();
       public personalFiltrosCtrl : FormControl = new FormControl();
       public filtropersonal : ReplaySubject<personalGroup[]> = new ReplaySubject<personalGroup[]>(1);
-
+ */
 
   protected ListTipoSolicitud : ISelect[] = [];
   public ListTipoSolicitudCtrl : FormControl = new FormControl();
@@ -60,57 +56,14 @@ export class DatosSolicitudSgComponent implements OnInit {
   public detalleSolicitudFiltrosCtrl : FormControl = new FormControl();
   public filtrodetalleSolicitud : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
     
-  /** control for the selected bank for option groups */
-  public bankGroupsCtrl: FormControl = new FormControl();
 
-  /** control for the MatSelect filter keyword for option groups */
-  public bankGroupsFilterCtrl: FormControl = new FormControl();
-  public filteredBankGroups: ReplaySubject<BankGroup[]> = new ReplaySubject<BankGroup[]>(1);
-  private bankGroups: BankGroup[] = [
-    {
-      name: 'Switzerland',
-      banks: [
-        {name: 'Bank A', id: 'A'},
-        {name: 'Bank B', id: 'B'}
-      ]
-    },
-    {
-      name: 'France',
-      banks: [
-        {name: 'Bank C', id: 'C'},
-        {name: 'Bank D', id: 'D'},
-        {name: 'Bank E', id: 'E'},
-      ]
-    },
-    {
-      name: 'Italy',
-      banks: [
-        {name: 'Bank F', id: 'F'},
-        {name: 'Bank G', id: 'G'},
-        {name: 'Bank H', id: 'H'},
-        {name: 'Bank I', id: 'I'},
-        {name: 'Bank J', id: 'J'},
-      ]
-    },
-    {
-      name: 'United States of America',
-      banks: [
-        {name: 'Bank Kolombia', id: 'K'},
-      ]
-    },
-    {
-      name: 'Germany',
-      banks: [
-        {name: 'Bank L', id: 'L'},
-        {name: 'Bank M', id: 'M'},
-        {name: 'Bank N', id: 'N'},
-        {name: 'Bank O', id: 'O'},
-        {name: 'Bank P', id: 'P'},
-        {name: 'Bank Q', id: 'Q'},
-        {name: 'Bank R', id: 'R'}
-      ]
-    }
-  ];
+  public personalGroupsCtrl: FormControl = new FormControl('', Validators.required);
+   public personalGroupsFilterCtrl: FormControl = new FormControl();
+  public filteredPersonalGroups: ReplaySubject<PersonalGroup[]> = new ReplaySubject<PersonalGroup[]>(1);
+
+  private personalGroups: PersonalGroup[] = [  ];
+
+
   @ViewChild('multiSelect') multiSelect: MatSelect;
   //#endregion
   //#region toast
@@ -141,6 +94,7 @@ private overlayRef!: OverlayRef;
         idDetalleSol: new FormControl('', [Validators.required]),
         detalleSol : new FormControl(''),
         observacion:new FormControl('', [Validators.required]),
+        
         requiereAprobacion: new FormControl(''),
         tiempoRespuestaNum: new FormControl(''),
         tiempoRespuesta: new FormControl(''),
@@ -163,48 +117,74 @@ if (this.data) {
   let cod: string[];
   this.mostrarInput();
   
-if (this.datosSolicitud.personal != undefined) {
+/* if (this.datosSolicitud.personal != undefined) {
    cod =  this.datosSolicitud.personal.split(',');
-   this.personalCargo.patchValue(sessionStorage.getItem('perso'));
+   this.personalGroupsCtrl.patchValue(sessionStorage.getItem('perso'));
    
-} 
+}  */
  
 
   this.solFormulario = this.formBuilder.group({
     id: new FormControl( this.datosSolicitud.relacion),
     idTipoSolicitud:  new FormControl({value:  Number(this.datosSolicitud.idTipoSolicitud),  disabled: true}),
-   evento :  new FormControl( this.datosSolicitud.evento),
-    idDetalleSol: new FormControl(this.datosSolicitud.idDetalleSol+'-'+this.datosSolicitud.requiereAprobacion+'-'+this.datosSolicitud.tiempoRespuestaNum+'-'+this.datosSolicitud.tiempoRespuesta, [Validators.required]) ,
+   evento :  new FormControl( {value :this.datosSolicitud.evento, disabled: true}),
+    idDetalleSol: new FormControl({value :this.datosSolicitud.idDetalleSol+'-'+this.datosSolicitud.requiereAprobacion+'-'+this.datosSolicitud.tiempoRespuestaNum+'-'+this.datosSolicitud.tiempoRespuesta, disabled: true}) ,
     tiempoRespuesta:  new FormControl({value : this.datosSolicitud.tiempoRespuestaNum+' ' +this.datosSolicitud.tiempoRespuesta, disabled: true}),
-    observacion:new FormControl(this.datosSolicitud.observacion, [Validators.required]),
+    observacion:new FormControl({value :this.datosSolicitud.observacion,  disabled: true}),
    
   })
+  const data = [{
+    name: "Carmen Emilia Villazana Jimenez",
+    id: "CT19359" 
+  }];
 
-  
+
+  this.observacionArea = new FormControl(this.datosSolicitud.observacionArea, Validators.required);
+ /*  this.personalGroupsCtrl= new FormControl(data, Validators.required); */
+/*  this.personalGroupsCtrl.get('id').patchValue( "CT19359");
+ this.personalGroupsCtrl.value = data */
+/*   this.personalGroupsCtrl.patchValue(data); */
 this.isShowPersonal = true;
   this._solicitudesService.consultarobtenerPlantilla('', '31446').subscribe(
     (response) => {
       
-      this.personalGroups.push({name: 'Selecciones', personal:[]});
+    
       if(response.status == 'success'){
-        console.log(response.usuariosLts)
-
+    
+       
+ 
         const resul2= groupBy(response.usuariosLts, (a) => a.descUnidad);
-        console.log(resul2)
+     
+  
 
         for (const key in resul2) {
           if (Object.prototype.hasOwnProperty.call(resul2, key)) {
             const element = resul2[key];
-            console.log(key)
-            console.log(element)
+           this.personal = []; 
+            for(const iterator of element){
+              this.personal.push({name: iterator.nombres + ' ' + iterator.apellidos, id:iterator.codigo})             
+          
+            }
 
 
-            
-               this.personalGroups.push({name:key, personal: element})
+ this.personalGroups.push({name:key, personals: this.personal})
+
+ 
           }
         }
-        console.log(this.personalGroups)
-       
+
+    
+          
+    //#region select de personal
+
+    this.filteredPersonalGroups.next(this.copyPersonalGroups(this.personalGroups));
+    this.personalGroupsFilterCtrl.valueChanges
+    .pipe(takeUntil(this._onDestroy))
+    .subscribe(() => {
+      this.filterPersonalGroups();
+    });
+     //#endregion
+        
       }
   
     
@@ -213,22 +193,6 @@ this.isShowPersonal = true;
   );
 
   
-    //#region select de personal
-    this.personalCtrl.setValue(this.personalGroups);
-    this.filtropersonal.next(this.personalGroups);
-    this.personalFiltrosCtrl.valueChanges
-    .pipe(takeUntil(this._onDestroy))
-    .subscribe(() => {
-      this.filtropersonalT();
-    });
-
-    this.filteredBankGroups.next(this.copyBankGroups(this.bankGroups));
-    this.bankGroupsFilterCtrl.valueChanges
-    .pipe(takeUntil(this._onDestroy))
-    .subscribe(() => {
-      this.filterBankGroups();
-    });
-     //#endregion
 
 } 
 
@@ -367,19 +331,25 @@ mostrarInput(){
         if ( this.solFormulario.getRawValue().evento != undefined) {
        
           this.datosSolicitud.evento = this.solFormulario.getRawValue().evento;
-         
-          if (this.personalCargo.value.length == 0) {
+         if (this.observacionArea.value.length == 0) {
+          return
+         } else {
+          this.datosSolicitud.observacionArea = this.observacionArea.value;
+         }
+
+          if (this.personalGroupsCtrl.value.length == 0) {
             return
           }else{
             var perso: any = '';
-            sessionStorage.setItem('perso', this.personalCargo.value);
-            this.personalCargo.value.forEach(element => {
+       
+           
+            this.personalGroupsCtrl.value.forEach(element => {
 
               
                 if (perso =='') {
-                  perso = element.id ;
+                  perso = element.id +' ' + element.name;
                 } else {
-                  perso= perso +', ' + element.id ;
+                  perso= perso +', ' + element.id+' ' + element.name ;
                 }
 
             });
@@ -418,14 +388,14 @@ protected filtroListTipoSolicitudT() {
   } else {
     search = search.toLowerCase();
   }
-  // filter the banks
+  // filter the personals
   this.filtroListTipoSolicitud.next(
     this.ListTipoSolicitud.filter(cargo => cargo.name.toLowerCase().indexOf(search) > -1)
   );
 }
 
  protected filtrodetalleSolicitudT() {
-  debugger
+  
   if (!this.detalleSolicitud) {
     return;
   }
@@ -437,78 +407,50 @@ protected filtroListTipoSolicitudT() {
   } else {
     search = search.toLowerCase();
   }
-  // filter the banks
+  // filter the personals
   this.filtrodetalleSolicitud.next(
     this.detalleSolicitud.filter(cargo => cargo.name.toLowerCase().indexOf(search) > -1)
   );
 }
 
-protected filtropersonalT() {
-  debugger
-  if (!this.personalGroups) { 
-    return;
-  }
-  // get the search keyword
-  let search = this.personalFiltrosCtrl.value;
-  if (!search) {
-    this.filtropersonal.next(this.personalGroups.slice());
-    return;
-  } else {
-    search = search.toLowerCase();
-  }
-  // filter the banks
-  this.filtropersonal.next(
-    this.personalGroups.filter(personalGroup => {
-      
-      const showBankGroup = personalGroup.name.toLowerCase().indexOf(search) > -1;
-      if (!showBankGroup) {
-       
-        personalGroup.personal = personalGroup.personal.filter(personal => personal.nombres.toLowerCase().indexOf(search) > -1);
-      
-      }
-
-   return personalGroup.personal.length > 0; 
-
-   
-      
-    })
-  );
-} 
 
 
- private filterBankGroups() {
-    if (!this.bankGroups) {
+
+ private filterPersonalGroups() {
+    if (!this.personalGroups) {
       return;
     }
     // get the search keyword
-    let search = this.bankGroupsFilterCtrl.value;
-    const bankGroupsCopy = this.copyBankGroups(this.bankGroups);
+    let search = this.personalGroupsFilterCtrl.value;
+    const personalGroupsCopy = this.copyPersonalGroups(this.personalGroups);
     if (!search) {
-      this.filteredBankGroups.next(bankGroupsCopy);
+      this.filteredPersonalGroups.next(personalGroupsCopy);
       return;
     } else {
       search = search.toLowerCase();
     }
-    // filter the banks
-    this.filteredBankGroups.next(
-      bankGroupsCopy.filter(bankGroup => {
-        const showBankGroup = bankGroup.name.toLowerCase().indexOf(search) > -1;
-        if (!showBankGroup) {
-          bankGroup.banks = bankGroup.banks.filter(bank => bank.name.toLowerCase().indexOf(search) > -1);
+    // filter the personals
+    this.filteredPersonalGroups.next(
+      personalGroupsCopy.filter(personalGroup => {
+        
+        const showPersonalGroup = personalGroup.name.toLowerCase().indexOf(search) > -1;
+        if (!showPersonalGroup) {
+          personalGroup.personals = personalGroup.personals.filter(personal => personal.name.toLowerCase().indexOf(search) > -1);
         }
-        return bankGroup.banks.length > 0;
+        return personalGroup.personals.length > 0;
       })
     );
   }
 
-  private copyBankGroups(bankGroups: BankGroup[]) {
-    const bankGroupsCopy = [];
-    bankGroups.forEach(bankGroup => {
-      bankGroupsCopy.push({
-        name: bankGroup.name,
-        banks: bankGroup.banks.slice()
+  private copyPersonalGroups(personalGroups: PersonalGroup[]) {
+    
+    const personalGroupsCopy = [];
+    personalGroups.forEach(personalGroup => {
+      personalGroupsCopy.push({
+        name: personalGroup.name,
+        personals: personalGroup.personals.slice()
       });
     });
-    return bankGroupsCopy;
+    return personalGroupsCopy;
   }
 }

@@ -5,6 +5,7 @@ export interface  servicioGenerales {
     idDetalleSol:  any,
     detalleSol : any,
     observacion:any,
+    observacionArea:any,
     requiereAprobacion: any,
     tiempoRespuestaNum: any,
     tiempoRespuesta: any,

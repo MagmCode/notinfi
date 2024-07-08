@@ -10,6 +10,7 @@ import { User } from 'app/core/user/user.types';
 import { solicitudesDto } from 'app/models/usuario';
 import { LoginService } from 'app/services/login.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
+import { forIn } from 'lodash';
 import { Overlay, OverlayRef } from 'ngx-toastr';
 
 @Component({
@@ -80,18 +81,32 @@ if (this.dataSource.paginator) {
 
 async obtenerPlantilla(){
 this.usuario = this._loginservices.obterTokenInfo();
-
+this.ELEMENT_DATA = [];
 this._solicitudesService.consultarSolicitudesBuzonPendiente('ATENCION-SOLICITUD').subscribe(
 (response) =>{
 
-    this.ELEMENT_DATA = [];
+    
     this.ELEMENT_DATA = response.data;
-    this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
-    this.ngAfterViewInit();
-    this.dataSource.paginator = this.paginator;
-    this.dataSource.sort = this.sort;
+    
+    this._solicitudesService.consultarSolicitudesBuzonPendiente('VALIDAR').subscribe(
+      (response) =>{
+        console.log(response.data)
+        for(const iterator of response.data){
+         this.ELEMENT_DATA.push(iterator)
+         }
+
+         
+  this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  
+  this.ngAfterViewInit();
+      }
+      )
 }
 )
+
+
+
+   
 }
 
 

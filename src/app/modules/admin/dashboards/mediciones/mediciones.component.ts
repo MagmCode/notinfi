@@ -170,12 +170,13 @@ buscarTipoServicio(){
   }
 
   buscarServicio(){    
+    this.reporte = false;
 
     this.usuario = this._loginService.obterTokenInfo();
 
     this._solicitudesService.reporteTecServCons(this.solFormulario.value.categoria,this.solFormulario.value.tiposerv).subscribe(
       (response) => {
-      
+        
         this.cantCategoria = response.data.porCategoria[0].tcategoria;
         this.descCategoria =response.data.porCategoria[0].nombreCategoria;
         this.cantTipoSolicitud =response.data.porCategoria[0].ttiposervicio;
@@ -279,11 +280,11 @@ buscarTipoServicio(){
         
         chartServi.render();
         
-        
+       
       }
     );
-  this.reporte = true;
-  
+ 
+    this.reporte = true;
   }
 
   
