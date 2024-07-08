@@ -130,7 +130,10 @@ export class AdministracionComponent implements OnInit {
         this.tipoArticulo.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
           for(const iterator of response.data){
-            this.tipoArticulo.push({name: iterator.nombre, id:iterator.idTipoArticuloPk});            
+            if(iterator.idTipoArticuloPk != 3){
+              this.tipoArticulo.push({name: iterator.nombre, id:iterator.idTipoArticuloPk});   
+            }
+                    
           }
         }      
       }
@@ -138,7 +141,7 @@ export class AdministracionComponent implements OnInit {
   }  
 
   onChange(ev: MatSelectChange){ 
-  if(ev.value === ''){
+  if(ev.value === '' || ev.value === 3){
     this.crearButton = false;
   }else{
     this.crearButton = true;

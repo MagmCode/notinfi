@@ -76,6 +76,11 @@ export class CrearComponent implements OnInit {
     )
   }
 
+  cerrar(){
+    this.dialogRef.close(); 
+  }
+
+  
   guardar(){    
     if(this.formularioArticulo.valid){      
       this._proveeduriaService.crearArticulo(this.formularioArticulo.value).subscribe(
