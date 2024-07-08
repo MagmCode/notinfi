@@ -73,6 +73,12 @@ export class SolicitudesService {
     return this.http.post(url, usuario);
 }
 
+crearSolicitudGenerales(usuario : any):Observable<any>{
+  const url = this.urlEndPoint + '/crearSolicitudGenerales';
+  const jsonEnvio = JSON.stringify(usuario);
+  return this.http.post(url, usuario);
+}
+
 consultarSolicitudesCreadas(codigoUsuario: any): Observable <any>{
 
   const url = this.urlEndPoint + 'consultarSolicitudesCreadas';

@@ -154,8 +154,16 @@ if (this.solicitud.metodo == 'buzon') {
   } else if (this.solicitud.idTipoServicio == 2) {
     this.mensaje = "¿Esta seguro de asignar los artículos?";
   } else if (this.solicitud.idTipoServicio == 3) {
-    
-    this.mensaje = "¿Está seguro de asignar el sigiente personal a la solicitud?";
+    if (this.solicitud.idTarea == 39) {
+      
+    this.mensaje = "La solicitud sera enviada a su supervisor para la aprobación";
+    }else if (this.solicitud.idTarea == 40){
+
+      this.mensaje = "¿Está seguro de aprobar la siguiente solicitud?";
+    } else {
+      
+    this.mensaje = "¿Está seguro de asignar el siguiente personal a la solicitud?";
+    }
   }
 
 
@@ -326,11 +334,11 @@ if (this.solicitud.metodo == 'buzon') {
     }
     ); 
 } else {
-  this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+/*   this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
     (response) => { 
      
       if(response.estatus == 'SUCCESS'){ 
-       
+        */
       
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    
@@ -352,13 +360,13 @@ if (this.solicitud.metodo == 'buzon') {
             }
             ); 
   
-     }else{
+    /*  }else{
   
         this.toast.error(response.mensaje, '', this.override2);
       }
     
     }
-  );  
+  );   */
 }
 
 

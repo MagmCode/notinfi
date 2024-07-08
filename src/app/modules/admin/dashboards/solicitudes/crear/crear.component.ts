@@ -164,7 +164,7 @@ clear(){
     this.isShownSolicitudART = false;
     this.isShownSolicitudARTC = false;
     this.isShownSolicitudSG = false;
-debugger
+
     this._solicitudesService.consultartipoServicioCreacion(this.solFormulario.value.categoria?.id, this.usuario.codigo,  this.usuario.nivelCargo).subscribe(
       (response) => {
     

@@ -487,7 +487,7 @@ obtenerPlantilla(){
 }
 
 openDialog(codUsuarioI : string) {
-  debugger
+  
   const dialogRef = this.dialog.open(DatosAsignadoComponent,{
     data: { codUsuario :  codUsuarioI},
     disableClose: true,

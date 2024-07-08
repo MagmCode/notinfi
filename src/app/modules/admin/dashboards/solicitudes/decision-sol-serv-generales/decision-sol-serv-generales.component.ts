@@ -44,7 +44,7 @@ export class DecisionSolServGeneralesComponent implements OnInit {
 
   radioSelected: any;
     //#region  tablas
-    displayedColumnsP: string[] = ['tipoSolicitud','detalleSol','observacion'];
+    displayedColumnsP: string[] = ['tipoSolicitud','detalleSol','observacion','personal','observacionArea'];
     positionOptionsP: TooltipPosition[] = ['below'];
     positionP = new FormControl(this.positionOptionsP[0]);
     dataSourceP: MatTableDataSource<servicioGenerales>;
@@ -235,22 +235,15 @@ constructor(private _loginService : LoginService,
             this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
            
 
-            if (this.datosFormulario.value.idTarea == 20 || this.datosFormulario.value.idTarea == 21 ) {
-              this.servicioP = true;
-              this.ELEMENT_DATAPM = [];
-            this.ELEMENT_DATAPM = response.data.formulario.gestion;
-            this.dataSourcePM = new MatTableDataSource(this.ELEMENT_DATAP);
            
-
-            }
            }
 
           this.ELEMENT_DATA = [];
 this.ELEMENT_DATA =  response.data.detalle
            this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
            this.ngAfterViewInit();
-    debugger
-if (this.datosFormulario.value.idTarea == "31" ) {
+    console.log(this.datosFormulario.value)
+if (this.datosFormulario.value.tarea == "APROBACIÓN AUTORIZADOR (NIVEL 1)" ) {
   this.estareaA =  true;
   this.estareaC = false;
 } else {

@@ -155,7 +155,7 @@ isShownPT : boolean = false;
 isShownSU: boolean = false;
 
   async obtenerDatos(){
-debugger
+
     this.usuario = this._loginservices.obterTokenInfo();
  
 
@@ -339,7 +339,7 @@ debugger
     (data) =>{    
      
       if(data.estatus == "SUCCESS"){
-        debugger
+        
         this.toast.success(data.mensaje, '', this.override2);
         setTimeout(()=>{
             this.redirigirSuccess();

@@ -50,6 +50,7 @@ export class DetalleSolicitudServgeneralesComponent implements OnInit {
   ticket = new FormControl('');
   radioSelected: any;
 
+  observacion = new FormControl('');
        //#region Select de tipo personal
        protected personal : ISelect[] = [];
        public personalCtrl : FormControl = new FormControl();
@@ -58,7 +59,7 @@ export class DetalleSolicitudServgeneralesComponent implements OnInit {
        //#endregion
 
     //#region  tablas
-    displayedColumnsP: string[] = ['tipoSolicitud','detalleSol','observacion','personal', 'acciones'];
+    displayedColumnsP: string[] = ['tipoSolicitud','detalleSol','observacion','personal','observacionArea', 'acciones'];
     positionOptionsP: TooltipPosition[] = ['below'];
     positionP = new FormControl(this.positionOptionsP[0]);
     dataSourceP: MatTableDataSource<servicioGenerales>;
@@ -235,15 +236,17 @@ constructor(private _loginService : LoginService,
           this.ELEMENT_DATAP = []; 
           this.serviA = true;
           
-
-    if (this.datosFormulario.value.idTarea === 19) {
-      this.isShownD = true
+console.log(this.datosFormulario.value)
+    if (this.datosFormulario.value.idTarea === 40) {
+      this.mensaje = 'Aprobar'
+    }else{
+this.mensaje = 'Enviar'
     }
 
 
     if (response.data.formulario != null) {
      
-      this.ELEMENT_DATAP = response.data.formulario.gestion;
+      this.ELEMENT_DATAP = response.data.formulario.original;
       this.dataSourceP = new MatTableDataSource(this.ELEMENT_DATAP);
       this.ngAfterViewInit();
      }
@@ -254,18 +257,7 @@ constructor(private _loginService : LoginService,
            this.ngAfterViewInit();
     
 
-           this._solicitudesService.consultarMetodosAutenticacion().subscribe(
-            (response) => {
-             
-              if(response.estatus == 'SUCCESS'){
-                for(const iterator of response.data){
-                  this.metodo.push({name: iterator.nombre, id:iterator.idAutenticacion})
-               
-                }
-              }
-            
-            }
-          );
+   
       }
       )
     
@@ -304,10 +296,36 @@ if (result) {
   }
   openDialog(decision: String): void {
   
-      
+      if (this.datosFormulario.value.idTarea === 32) {
+
+        if (decision == 'A') {
+
+          var validaTabla, solicitud;
+                this.dataSourceP.data.forEach(element => {
+                
+                   if (element.personal == '') {
+                    solicitud = element.tipoSolicitud +" " + element.detalleSol;
+                    validaTabla = true;
+                    return;
+                   }
+                });
+              if (validaTabla == true) {
+                this.toast.error('Asignar personal a cargo a la solicitud ' +solicitud, '', this.override2);
+                return;
+              }
+                
+              }
+      } 
+      if (this.datosFormulario.value.idTarea === 40 || this.datosFormulario.value.idTarea === 39) {
+        if (this.observacion.value == '') {
+          this.observacion =  new FormControl('', Validators.required);
+          this.toast.error('Observación no puede estar vacia', '', this.override2);
+          return
+         }
+      }
     
       const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-        data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceP.data,   idTipoServicio :this.datosFormulario.getRawValue().idTipoServicio },
+        data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : 'buzon', formulario : this.dataSourceP.data, detalle: this.observacion.value,  idTipoServicio :this.datosFormulario.getRawValue().idTipoServicio },
         disableClose: true,
       });
       

@@ -289,7 +289,7 @@ forArray.push(result)
   "formulario":forArray
   }
 
-  console.log(enviarData);
+
 
 
 

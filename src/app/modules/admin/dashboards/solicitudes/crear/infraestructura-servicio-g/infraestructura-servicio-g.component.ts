@@ -542,7 +542,7 @@ if (result) {
           
           }else{
         
-            this.toast.error('Disculpe, debe agregar Artículos a solicitar', '' , this.override2);
+            this.toast.error('Disculpe, debe agregar un tipo de solicitud', '' , this.override2);
            
           }
         

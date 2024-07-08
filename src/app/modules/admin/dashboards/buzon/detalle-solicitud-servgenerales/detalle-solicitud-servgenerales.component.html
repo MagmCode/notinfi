@@ -124,7 +124,7 @@
                         
                         </div>
 
-                          <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center">Detalle de los artículos solicitados</div>
+                          <div class="text-2xl font-medium tracking-tight leading-6 truncate  mt-4  text-center">Detalle de la solicitud</div>
                           <hr>
                           <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
                               <div class="">
@@ -186,6 +186,10 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Personal a cargo</th>
                                         <td mat-cell *matCellDef="let row">{{row.personal}} </td>
                                       </ng-container>
+                                      <ng-container matColumnDef="observacionArea" class="text-center">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Observación del área</th>
+                                        <td mat-cell *matCellDef="let row">{{row.observacionArea}} </td>
+                                      </ng-container>
                                       <ng-container matColumnDef="acciones">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Acciones</th>
                                      
@@ -217,15 +221,31 @@
                                 
                           </div>
                        
+                          <div *ngIf="(datosFormulario.value.tarea === 'APROBACION-INTERNA-GENERALES') || (datosFormulario.value.tarea === 'VALIDAR')">
+                            <div class="grid grid-cols-6 gap-4"  >
+            
+                              <div class="col-start-2 col-span-4 text-center" >
+                            
+                                <mat-form-field  appearance="fill"class="width100"  style="width: 100%;">
+                                  <mat-label>Observación</mat-label>
+                                  <textarea matInput placeholder="" [formControl]="observacion"  ></textarea>
+                                  <mat-error *ngIf="observacion.hasError('required')">
+                                    Campo <strong>Obligatorio</strong>
+                                </mat-error>    
+                              
+                                </mat-form-field>
+                             
+                            </div>
+                            </div>
+                          </div>
                        
     
                                       <section>
                                         <div class="text-center" *ngIf="serviA">
-                                          <button mat-raised-button color="primary" type="button" (click)="openDialog('D')" *ngIf="isShownD" >Devolver</button>
-            
+                              
                                           <button mat-raised-button color="warn" type="button" (click)="openDialog('R')" >Rechazar</button>
                                           
-                                          <button mat-raised-button style="  background-color: green;   color: white;" type="button" (click)="openDialog('A')"  >Enviar</button>
+                                          <button mat-raised-button style="  background-color: green;   color: white;" type="button" (click)="openDialog('A')"  >{{mensaje}}</button>
                                           
                                         </div>
             

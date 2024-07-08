@@ -78,48 +78,44 @@
 
                             <mat-form-field appearance="fill" style="width: 50%;" >
                               <mat-label>Seleccione Personal a cargo</mat-label>
-                              <mat-select class="inputMat"  [formControl]="personalCargo" multiple  required  #buySellSelect="matSelect"    > 
-
-                                       
-                                <mat-option>
-                                  <ngx-mat-select-search [formControl]="personalFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
-                                  [noEntriesFoundLabel]="'No Encontrado'" >
-                                  <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
+                              <mat-select class="inputMat"  [formControl]="personalGroupsCtrl" multiple  required  #buySellSelect="matSelect"    > 
+                              <mat-option>
+                                <ngx-mat-select-search [formControl]="personalGroupsFilterCtrl"
+                                 [placeholderLabel]="'Buscar...'"
+                                [noEntriesFoundLabel]="'No Encontrado'">
+                                <mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
                                   [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
-                                </mat-option> 
-                                <mat-optgroup *ngFor="let group of personalGroups" [label]="group.name"  >
-                                    <mat-option *ngFor="let personal of group.personal" [value]="personal">
-                                      {{personal.nombres}} {{personal.apellidos}}
-                                    </mat-option>
-                                  </mat-optgroup>
+                                </mat-option>
+                              <mat-optgroup *ngFor="let group of filteredPersonalGroups | async" [label]="group.name">
+                                <mat-option *ngFor="let personal of group.personals" [value]="personal">
+                                  {{personal.name}}
+                                </mat-option>
+                              </mat-optgroup>  
+                       
                                </mat-select>
                 
-                              <mat-error *ngIf="personalCargo.hasError('required')">
+                              <mat-error *ngIf="personalGroupsCtrl.hasError('required')">
                                 Campo <strong>Obligatorio</strong>
                             </mat-error> 
-                            <mat-hint>{{personalCargo.value?.sound}}</mat-hint>  
+                            <mat-hint>{{personalGroupsCtrl.value?.sound}}</mat-hint>  
                             </mat-form-field>
                 
                           </div>
+                          <div  class="col-span-3" *ngIf="isShowPersonal">
+                            <mat-form-field  appearance="fill"class="width100 "  style="width: 100%;">
+                                <mat-label>Observación del área</mat-label>
+                                <textarea matInput placeholder="" [formControl]="observacionArea"  required></textarea>
+                            
+                                <mat-error *ngIf="observacionArea.hasError('required')">
+                                  Campo <strong>Obligatorio</strong>
+                              </mat-error> 
+                              <mat-hint>{{observacionArea.value?.sound}}</mat-hint> 
+                            
+                              </mat-form-field>
+                    
+                                </div>
 
-                          
-                          <h3>Single selection with option groups</h3>
-                          <p>
-                            <mat-form-field>
-                              <mat-select [formControl]="bankGroupsCtrl" placeholder="Bank" multiple #buySellSelect="matSelect" >
-                                <ngx-mat-select-search [formControl]="bankGroupsFilterCtrl"><mat-icon class="mr-1 icon-size-5"    ngxMatSelectSearchClear                                            
-                                    [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
-                                <mat-optgroup *ngFor="let group of filteredBankGroups | async" [label]="group.name">
-                                  <mat-option *ngFor="let bank of group.banks" [value]="bank">
-                                    {{bank.name}}
-                                  </mat-option>
-                                </mat-optgroup>
-                              </mat-select>
-                            </mat-form-field>
-                          </p>
-                          <p>
-                            Selected Bank: {{bankGroupsCtrl.value?.name}}
-                          </p>
+     
 
                           
 
