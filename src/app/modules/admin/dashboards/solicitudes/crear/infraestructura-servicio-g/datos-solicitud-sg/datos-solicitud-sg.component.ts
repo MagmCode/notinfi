@@ -138,14 +138,18 @@ if (this.data) {
     id: "CT19359" 
   }];
 
-
+  const opciones: any[] = [
+    { id: "CT19359" , name: "Carmen Emilia Villazana Jimenez" },
+    { id: "CT24489 ", name: "Yesleidy Marlibeth Becerra Brito" },
+    // ... otras opciones
+  ];
   this.observacionArea = new FormControl(this.datosSolicitud.observacionArea, Validators.required);
  /*  this.personalGroupsCtrl= new FormControl(data, Validators.required); */
 /*  this.personalGroupsCtrl.get('id').patchValue( "CT19359");
  this.personalGroupsCtrl.value = data */
-/*   this.personalGroupsCtrl.patchValue(data); */
+/*   this.personalGroupsCtrl.patchValue(opciones);  */
 this.isShowPersonal = true;
-  this._solicitudesService.consultarobtenerPlantilla('', '31446').subscribe(
+  this._solicitudesService.consultarobtenerPlantilla('', '32533').subscribe(
     (response) => {
       
     

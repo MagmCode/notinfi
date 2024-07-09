@@ -25,7 +25,7 @@ import {
   ApexLegend,
   ApexPlotOptions
 } from "ng-apexcharts";
-import { forEach, forIn, groupBy } from 'lodash';
+
 
 export type ChartOptions = {
   series: ApexAxisChartSeries;
@@ -153,7 +153,9 @@ private overlayRef!: OverlayRef;
 
 
   }
+
   async obtenerPlantilla(id: any){
+    debugger
     this.usuario = this._loginservices.obterTokenInfo();
 
     this._solicitudesService.reporteXarea(id).subscribe(
@@ -270,5 +272,28 @@ private overlayRef!: OverlayRef;
 
   }
 
-
+  obtenerDatos(idSolicitud: any,idTipoServicio: any ){
+        
+    sessionStorage.setItem('idSolicitud', idSolicitud); 
+  
+          if (idTipoServicio == 1) {
+            this._router.navigate(['/solicitudes/detalleSolicitud']); 
+          
+          } 
+  
+  if (idTipoServicio == 2) {
+    
+    
+    this._router.navigate(['/solicitudes/detalleSolProveeduria']);
+  }
+  
+  
+  if (idTipoServicio == 3) {
+    
+    
+    this._router.navigate(['/solicitudes/detalleSolServGenerales']);
+  }
+         
+        
+        }
 }

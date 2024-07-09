@@ -226,14 +226,13 @@ this.ELEMENT_DATA =  response.data.detalle
 
     this.usuario = this._loginservices.obterTokenInfo();
 
-    
     this._solicitudesService.asignarSolicitudes(this.datosFormulario.value?.idSolicitud, this.usuario.codigo).subscribe(
       (data) =>{    
    
         if(data.estatus == "SUCCESS"){
           this.toast.success(data.mensaje , '', this.override2);            
           setTimeout(()=>{
-            this.refrescarPagina()
+            this.refrescarPagina(this.datosFormulario.value.tarea)
         },1500);  
         
         }else{
@@ -250,9 +249,16 @@ this.ELEMENT_DATA =  response.data.detalle
 
 }
 
-refrescarPagina() {
-
+refrescarPagina(tarea) {
+if (tarea == 'APROBACION-INTERNA-GENERALES') {
+  
+  this._router.navigate(['/aprobacionSolInterna/buzonPendiente']);
+} else {
+  
   this._router.navigate(['/atencionSol/buzonPendiente']);
+}
+
+
 }
 
 }

@@ -98,7 +98,7 @@ this._solicitudesService.consultarSolicitudesBuzonPendiente('APROBACION-INTERNA-
 obtenerId(idSolicitud: any){
 
 sessionStorage.setItem('idSolicitud', idSolicitud);
-this.router.navigate(['/buzon/detalleSolicitudServGenerales']); 
+this.router.navigate(['/aprobacionSolInterna/asignarSolicitud']); 
 
 }
 }

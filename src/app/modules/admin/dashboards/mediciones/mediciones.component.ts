@@ -68,7 +68,6 @@ export class MedicionesComponent implements OnInit {
     protected _onDestroy = new Subject<void>();
   
     reporte : boolean = false;
-
   constructor(private _solicitudesService : SolicitudesService,    
               private formBuilder : FormBuilder,              
               private _loginService : LoginService ) {
@@ -170,10 +169,12 @@ buscarTipoServicio(){
   }
 
   buscarServicio(){    
-    this.reporte = false;
+ 
 
     this.usuario = this._loginService.obterTokenInfo();
 
+
+  
     this._solicitudesService.reporteTecServCons(this.solFormulario.value.categoria,this.solFormulario.value.tiposerv).subscribe(
       (response) => {
         
@@ -205,24 +206,12 @@ buscarTipoServicio(){
             width: "100%",
             height: 380,
             type: "bar",
-            animations: {
-              enabled: true,
-              easing: 'easeinout',
-              speed: 800,
-              animateGradually: {
-                  enabled: true,
-                  delay: 150
-              },
-              dynamicAnimation: {
-                  enabled: true,
-                  speed: 350
-              }
-          }
+    
           },
           plotOptions: {
             bar: {
               horizontal: true,
-              borderRadius: 20
+              borderRadius: 10
             }
           },
           dataLabels: {
@@ -272,18 +261,16 @@ buscarTipoServicio(){
           ],
         
         };
-        
-        var chartServi = new ApexCharts(
-          document.querySelector("#responsive-chart"),
-          optionsServi
-        );
-        
+     
+         var chartServi = new ApexCharts(document.querySelector("#responsive-chart"),
+        optionsServi );
         chartServi.render();
+        chartServi.updateOptions(optionsServi);
         
        
       }
     );
- 
+
     this.reporte = true;
   }
 
