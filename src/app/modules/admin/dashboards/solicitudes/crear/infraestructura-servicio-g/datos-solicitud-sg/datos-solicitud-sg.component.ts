@@ -147,9 +147,9 @@ if (this.data) {
  /*  this.personalGroupsCtrl= new FormControl(data, Validators.required); */
 /*  this.personalGroupsCtrl.get('id').patchValue( "CT19359");
  this.personalGroupsCtrl.value = data */
-  this.personalGroupsCtrl.patchValue(opciones); 
+/*   this.personalGroupsCtrl.patchValue(opciones);  */
 this.isShowPersonal = true;
-  this._solicitudesService.consultarobtenerPlantilla('', '31446').subscribe(
+  this._solicitudesService.consultarobtenerPlantilla('', '32533').subscribe(
     (response) => {
       
     
