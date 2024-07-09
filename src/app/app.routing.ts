@@ -168,6 +168,7 @@ export const appRoutes: Route[] = [
                 {path: 'buzonPendiente',  component: NivelAtencionComponent},
                 {path: 'asignarSolicitud',  component: AsignarSolCaciComponent},
                 {path: 'reasignarSolicitud',  component: ReasignarSolCaciComponent},
+                {path: 'reporteNivelCaci/:id',  component: ReportesGeneralesComponent},
                 
             ]},
             
@@ -199,6 +200,7 @@ export const appRoutes: Route[] = [
                 {path: 'buzonPendiente',  component: AtencionSolicitudComponent},
                 {path: 'asignarSolicitud',  component: AsignarSolicitudSgComponent},
                 {path: 'reasignarSolicitud',  component: ReasignarSolicitudSgComponent},
+                {path: 'reporteAtencionSol/:id',  component: ReportesGeneralesComponent},
                 
             ]},
 
