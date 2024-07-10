@@ -42,6 +42,7 @@ export class ModaldecisionesComponent implements OnInit {
   esValido:  boolean = false;
   hasError :boolean = false;
   isShownCO :boolean = true;
+  hasErrorOb :boolean = false;
   codusuarioAprobador: any = null;
 
     //#region toast
@@ -536,6 +537,14 @@ if(typeof data.data !=  'undefined'  ){
               return;
             }
           }
+          debugger
+if (this.solicitud.idTipoServicio == 3) {
+  if(!this.observacion) {
+    this.hasErrorOb = true;
+    return;
+  }
+} 
+        
           
           this.datosFormulario.value.decision = 'R';
           this.datosFormulario.value.idSolicitud = this.idSolicitud;
@@ -557,9 +566,9 @@ formulario.push(elemt)
            "solicitud":this.datosFormulario.value,
            "formulario":formulario
           }
+console.log(enviarData)
 
-
-          
+          return
           
           if (this.solicitud.metodo == 'buzon') {      
 
