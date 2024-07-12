@@ -49,7 +49,7 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-    <button type="button" mat-raised-button color="accent" >Cancelar</button>
+    <button type="button" mat-raised-button color="accent" (click)="cerrar()" >Cancelar</button>
     <button type="submit" mat-raised-button color="primary" cdkFocusInitial (click)="guardar()" >Guardar</button>
 
 </mat-dialog-actions>
