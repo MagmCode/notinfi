@@ -88,6 +88,7 @@ import { AsignarSolicitudSgComponent } from './modules/admin/dashboards/atencion
 import { AprobacionSolInternaComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/aprobacion-sol-interna.component';
 import { DetalleSolicitudServgeneralesComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-servgenerales/detalle-solicitud-servgenerales.component';
 import { ReasignarSolicitudSgAiComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/reasignar-solicitud-sg-ai/reasignar-solicitud-sg-ai.component';
+import { AdministracionServgeneralesComponent } from './modules/admin/dashboards/atencion-solicitud/administracion-servgenerales/administracion-servgenerales.component';
 
 
 const routerConfig: ExtraOptions = {
@@ -137,6 +138,7 @@ const routerConfig: ExtraOptions = {
         AprobacionSolInternaComponent,
         DetalleSolicitudServgeneralesComponent,
         ReasignarSolicitudSgAiComponent,
+        AdministracionServgeneralesComponent,
         
     ],
     imports     : [
