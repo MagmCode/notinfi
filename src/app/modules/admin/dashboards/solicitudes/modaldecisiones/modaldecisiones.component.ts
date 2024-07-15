@@ -170,7 +170,7 @@ if (this.solicitud.metodo == 'buzon') {
 
 
 }else{
-  if (this.solicitud.idTarea == 6 ) {
+  if (this.solicitud.tarea  == "CONFIRMACIÓN" ) {
     this.mensaje = "Conforme con la Solicitud";
   } else {
     this.mensaje = "Aprobar Solicitud";
@@ -238,8 +238,19 @@ this._solicitudesService.consultarMotivo().subscribe(
 this.isShownR = true,
 this.isShownM = true,
 this.isShownA = false,
-this.isShownD = false,
-this.mensaje = "Rechazar Solicitud";
+this.isShownD = false;
+if (this.solicitud.idTipoServicio == 3) {
+ 
+debugger
+  if (this.solicitud.tarea == "CONFIRMACIÓN") {
+    this.mensaje = "Solicitud No conforme ";
+  } else {
+    this.mensaje = "Rechazar Solicitud";
+  }
+} else {
+  this.mensaje = "Rechazar Solicitud";
+}
+
 }
 
 
@@ -335,11 +346,11 @@ if (this.solicitud.metodo == 'buzon') {
     }
     ); 
 } else {
-/*   this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+  this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
     (response) => { 
      
       if(response.estatus == 'SUCCESS'){ 
-        */
+        
       
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    
@@ -361,13 +372,13 @@ if (this.solicitud.metodo == 'buzon') {
             }
             ); 
   
-    /*  }else{
+    }else{
   
         this.toast.error(response.mensaje, '', this.override2);
       }
     
     }
-  );   */
+  );   
 }
 
 
@@ -591,10 +602,10 @@ formulario.push(elemt)
     ); 
  }else{
 
-    this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
+     this._solicitudesService.certificarToken(this.usuario.codigo, this.codigo).subscribe(
       (response) => {
        
-        if(response.estatus == 'SUCCESS'){
+        if(response.estatus == 'SUCCESS'){ 
          
           this._solicitudesService.gestionFlujoTarea(enviarData).subscribe(
             (data) =>{    
@@ -616,13 +627,12 @@ formulario.push(elemt)
             }
           ); 
     
-        }else{
+     }else{
     
           this.toast.error(response.mensaje, '', this.override2);
-        }
-      
-      }
-    );
+        }  
+            
+      } ); 
 
   } 
      

@@ -284,7 +284,7 @@ if (this.datosFormulario.value.tarea == "APROBACIÓN AUTORIZADOR (NIVEL 1)" ) {
              
               if(response.estatus == 'SUCCESS'){ */
                 const dialogRef = this.dialog.open(ModaldecisionesComponent,{
-                  data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea , metodo : this.radioSelected,  idTipoServicio :this.datosFormulario.getRawValue().idTipoServicio},
+                  data: {  idSolicitud :this.datosFormulario.value.idSolicitud , decision: decision, idTarea: this.datosFormulario.value.idTarea ,tarea: this.datosFormulario.value.tarea, metodo : this.radioSelected,  idTipoServicio :this.datosFormulario.getRawValue().idTipoServicio},
                   disableClose: true,
                 });
                 
