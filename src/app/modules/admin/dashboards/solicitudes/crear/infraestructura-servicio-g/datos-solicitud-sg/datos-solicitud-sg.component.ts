@@ -143,7 +143,9 @@ if (this.data) {
     { id: "CT24489 ", name: "Yesleidy Marlibeth Becerra Brito" },
     // ... otras opciones
   ];
+
   this.observacionArea = new FormControl(this.datosSolicitud.observacionArea, Validators.required);
+
  /*  this.personalGroupsCtrl= new FormControl(data, Validators.required); */
 /*  this.personalGroupsCtrl.get('id').patchValue( "CT19359");
  this.personalGroupsCtrl.value = data */
@@ -338,6 +340,7 @@ mostrarInput(){
          if (this.observacionArea.value.length == 0) {
           return
          } else {
+          
           this.datosSolicitud.observacionArea = this.observacionArea.value;
          }
 

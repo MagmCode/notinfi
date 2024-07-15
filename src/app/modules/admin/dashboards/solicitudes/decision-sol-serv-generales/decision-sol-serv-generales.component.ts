@@ -242,7 +242,7 @@ constructor(private _loginService : LoginService,
 this.ELEMENT_DATA =  response.data.detalle
            this.dataSource = new MatTableDataSource(this.ELEMENT_DATA);
            this.ngAfterViewInit();
-    console.log(this.datosFormulario.value)
+
 if (this.datosFormulario.value.tarea == "APROBACIÓN AUTORIZADOR (NIVEL 1)" ) {
   this.estareaA =  true;
   this.estareaC = false;

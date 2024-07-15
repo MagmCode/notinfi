@@ -155,7 +155,7 @@ private overlayRef!: OverlayRef;
   }
 
   async obtenerPlantilla(id: any){
-    debugger
+    
     this.usuario = this._loginservices.obterTokenInfo();
 
     this._solicitudesService.reporteXarea(id).subscribe(

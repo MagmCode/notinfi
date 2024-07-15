@@ -236,7 +236,7 @@ constructor(private _loginService : LoginService,
           this.ELEMENT_DATAP = []; 
           this.serviA = true;
           
-console.log(this.datosFormulario.value)
+
     if (this.datosFormulario.value.idTarea === 40) {
       this.mensaje = 'Aprobar'
     }else{
