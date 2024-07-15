@@ -336,38 +336,19 @@ mostrarInput(){
 
  if (result) {
 
-
   const  indicec = this.dataSource.data.filter(elemento => elemento.idDetalleSol === result.idDetalleSol);
-
 
   if (indicec.length >  0) {
 
-
-
-
-
-
-      this.toast.error(result.detalleSol + ' ya asignado' , '', this.override2);
-
-
-
-   
-    
-  } else {
-
-  
-      
- 
-
-      result.relacion = this.nextId;
+  this.toast.error(result.detalleSol + ' ya asignado' , '', this.override2);
+ } else {
+  result.relacion = this.nextId;
    
       this.dataSource.data.push(result); 
       this.dataSource.data = this.dataSource.data.slice();
       this.ngAfterViewInit();
       this.nextId++;
  
-
-  
   }
 } 
 

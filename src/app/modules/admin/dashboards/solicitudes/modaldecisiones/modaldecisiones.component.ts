@@ -537,8 +537,8 @@ if(typeof data.data !=  'undefined'  ){
               return;
             }
           }
-          debugger
-if (this.solicitud.idTipoServicio == 3) {
+          
+if (this.solicitud.idTipoServicio == 2) {
   if(!this.observacion) {
     this.hasErrorOb = true;
     return;
@@ -566,9 +566,7 @@ formulario.push(elemt)
            "solicitud":this.datosFormulario.value,
            "formulario":formulario
           }
-console.log(enviarData)
 
-          return
           
           if (this.solicitud.metodo == 'buzon') {      
 

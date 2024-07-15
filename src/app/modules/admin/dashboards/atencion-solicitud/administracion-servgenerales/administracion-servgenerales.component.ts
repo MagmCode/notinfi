@@ -15,11 +15,13 @@ import { articulo } from 'app/models/proveduria';
 import { solicitudesDto } from 'app/models/usuario';
 import { LoginService } from 'app/services/login.service';
 import { ProveeduriaService } from 'app/services/proveeduria.service';
+import { ServigeneralesService } from 'app/services/servigenerales.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
 import { NgxSpinnerService } from 'ngx-spinner';
-import { ToastrService } from 'ngx-toastr';
+import { OverlayRef, ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { CrearModificarComponent } from './crear-modificar/crear-modificar.component';
 
 @Component({
   selector: 'app-administracion-servgenerales',
@@ -48,17 +50,23 @@ export class AdministracionServgeneralesComponent implements OnInit {
   public ListTipoSolicitudCtrl : FormControl = new FormControl();
   public ListTipoSolicitudFiltrosCtrl : FormControl = new FormControl();
   public filtroListTipoSolicitud : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
- 
- protected _onDestroy = new Subject<void>();
-
-    
+       
+//#region toast
+override2 = {
+  positionClass: 'toast-bottom-full-width',
+  closeButton: true,
+  
+};
+//#endregion
+protected _onDestroy = new Subject<void>();
+//#region  spinner
+private overlayRef!: OverlayRef;
+//#endregion
   constructor(private _loginService : LoginService,
               private _solicitudesService : SolicitudesService,              
               public dialog: MatDialog,
-              private _proveduriaService : ProveeduriaService) {
-
-    
-     }
+              private toast: ToastrService,
+              private _serviGeneralesService : ServigeneralesService) {}
 
   ngOnInit(): void {
     this.usuario = this._loginService.obterTokenInfo();
@@ -158,7 +166,7 @@ export class AdministracionServgeneralesComponent implements OnInit {
     
    this._solicitudesService.tipoSolicitudDetalleServGene(data).subscribe(
     (response) => {
-console.log(response.data)
+
       if(response.estatus == 'SUCCESS'){
         this.dataSourceP = new MatTableDataSource(response.data);
         this.dataSourceP.paginator = this.paginator;
@@ -172,42 +180,58 @@ console.log(response.data)
    
   }
 
-  openDialogEdit(row: any): void {
-/*     const dialogRef = this.dialog.open(EditarComponent,{
-      data: {articulo : row},
-      width: '70%',
+
+  openDialogCrear(): void {
+    
+    const dialogRef = this.dialog.open(CrearModificarComponent,{
+      data: {idTipoSolicitud : this.idTipoSolicitud, tipo:'crear' },
+      width: '50%',
       disableClose: true
     })
     
-    dialogRef.afterClosed().subscribe(result => {     
-        if(result){
-          const  indice = this.dataSourceP.data.findIndex(elemento => elemento.idArticuloPk === result.idArticuloPk);
-          this.dataSourceP.data[indice] = result;
-          this.tablePaginacion();
-        }
-    }); */
+    dialogRef.afterClosed().subscribe(result => {
+debugger
+ if (result) {
+ const  indicec  = this.dataSourceP.data.filter(elemento => elemento.detalleSol === result.nombre);
+
+  if (indicec.length >  0) {
+
+  this.toast.error(result.detalleSol + ' ya asignado' , '', this.override2);
+ } else {
+  
+   
+      this.dataSourceP.data.push(result); 
+      this.dataSourceP.data = this.dataSourceP.data.slice();
+      this.ngAfterViewInit();
+      
+ 
   }
+} 
 
-  openDialogCrear(): void {
-/*     let  desctipoArticulo = document.querySelector('#selectart')?.textContent;
-    let  tipoArticulo =   this.idTipoArticulo;
-    let obj = {
-        tipoArticulo : tipoArticulo,
-        desctipoArticulo : desctipoArticulo
-    }   */ 
-
-/*     const dialogRef = this.dialog.open(CrearComponent,{
-      data: {articulo : obj},
-      width: '70%',
-      disableClose: false
-    }) */
+     
+    });
+  
     
- /*    dialogRef.afterClosed().subscribe(result => {     
-        if(result){
-          this.busquedaTipoFormulario(result.idTipoArticuloFk);
-        }
-    }); */
+  
   }
+
+
+  openDialogEdit(row: any): void {
+    /*     const dialogRef = this.dialog.open(EditarComponent,{
+          data: {articulo : row},
+          width: '70%',
+          disableClose: true
+        })
+        
+        dialogRef.afterClosed().subscribe(result => {     
+            if(result){
+              const  indice = this.dataSourceP.data.findIndex(elemento => elemento.idArticuloPk === result.idArticuloPk);
+              this.dataSourceP.data[indice] = result;
+              this.tablePaginacion();
+            }
+        }); */
+      }
+    
 
   tablePaginacion(){
     this.dataSourceP.paginator = this.paginator;
