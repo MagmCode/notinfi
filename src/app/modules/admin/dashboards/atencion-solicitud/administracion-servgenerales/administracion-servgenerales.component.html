@@ -21,19 +21,7 @@
             
                 </div>
 
-                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3" *ngIf="crearButton">
-                  <span></span>
-                  <button                     
-                      class="fuse-mat-button-rounded"
-                      mat-flat-button
-                      [color]="'primary'"
-                      (click)="openDialogCrear()">
-                      <mat-icon
-                          class="icon-size-5"
-                          [svgIcon]="'heroicons_solid:view-grid-add'"></mat-icon>
-                      <span class="ml-2">Crear {{tipoCreacion}}</span>
-                  </button>
-              </div>
+             
          
             </div>
             <!-- Project selector -->
@@ -73,9 +61,26 @@
                            </mat-form-field>
                            
                         </div>
+                        <div></div>
+                        <div></div>
+                        <div></div>
+                        <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3" *ngIf="crearButton">
+                          <span></span>
+                          <button                     
+                              class="fuse-mat-button-rounded"
+                              mat-flat-button
+                              [color]="'primary'"
+                              (click)="openDialogCrear()">
+                              <mat-icon
+                                  class="icon-size-5"
+                                  [svgIcon]="'heroicons_solid:view-grid-add'"></mat-icon>
+                              <span class="ml-2">Crear {{tipoCreacion}}</span>
+                          </button>
+                      </div>
                         </div>
                         
-                          
+                    
+
                           <div class="flex flex-col flex-auto mt-2 overflow-x-auto">
                               <div class="">
                               <mat-form-field appearance="outline" >

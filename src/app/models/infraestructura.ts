@@ -1,4 +1,5 @@
 export interface  servicioGenerales {
+    idTipSolDetallePk: any;
     
     idTipoSolicitud: any,
     tipoSolicitud: any,

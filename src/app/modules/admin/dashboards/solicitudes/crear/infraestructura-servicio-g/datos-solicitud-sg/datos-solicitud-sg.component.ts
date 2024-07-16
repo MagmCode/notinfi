@@ -34,7 +34,7 @@ export class DatosSolicitudSgComponent implements OnInit {
   solFormulario: FormGroup; 
   datosSolicitud = {} as servicioGenerales;
 
-  observacionArea = new FormControl('', Validators.required);
+  observacionArea = new FormControl('');
   isShowPersonal : boolean = false;
   protected personal : ISelect[] = []; 
   //#region Select 
@@ -57,7 +57,7 @@ export class DatosSolicitudSgComponent implements OnInit {
   public filtrodetalleSolicitud : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]>(1);
     
 
-  public personalGroupsCtrl: FormControl = new FormControl('', Validators.required);
+  public personalGroupsCtrl: FormControl = new FormControl('');
    public personalGroupsFilterCtrl: FormControl = new FormControl();
   public filteredPersonalGroups: ReplaySubject<PersonalGroup[]> = new ReplaySubject<PersonalGroup[]>(1);
 
@@ -117,39 +117,18 @@ if (this.data) {
   let cod: string[];
   this.mostrarInput();
   
-/* if (this.datosSolicitud.personal != undefined) {
-   cod =  this.datosSolicitud.personal.split(',');
-   this.personalGroupsCtrl.patchValue(sessionStorage.getItem('perso'));
-   
-}  */
- 
+
 
   this.solFormulario = this.formBuilder.group({
     id: new FormControl( this.datosSolicitud.relacion),
     idTipoSolicitud:  new FormControl({value:  Number(this.datosSolicitud.idTipoSolicitud),  disabled: true}),
-   evento :  new FormControl( {value :this.datosSolicitud.evento, disabled: true}),
+    evento :  new FormControl( {value :this.datosSolicitud.evento, disabled: true}),
     idDetalleSol: new FormControl({value :this.datosSolicitud.idDetalleSol+'-'+this.datosSolicitud.requiereAprobacion+'-'+this.datosSolicitud.tiempoRespuestaNum+'-'+this.datosSolicitud.tiempoRespuesta, disabled: true}) ,
     tiempoRespuesta:  new FormControl({value : this.datosSolicitud.tiempoRespuestaNum+' ' +this.datosSolicitud.tiempoRespuesta, disabled: true}),
     observacion:new FormControl({value :this.datosSolicitud.observacion,  disabled: true}),
    
   })
-  const data = [{
-    name: "Carmen Emilia Villazana Jimenez",
-    id: "CT19359" 
-  }];
 
-  const opciones: any[] = [
-    { id: "CT19359" , name: "Carmen Emilia Villazana Jimenez" },
-    { id: "CT24489 ", name: "Yesleidy Marlibeth Becerra Brito" },
-    // ... otras opciones
-  ];
-
-  this.observacionArea = new FormControl(this.datosSolicitud.observacionArea, Validators.required);
-
- /*  this.personalGroupsCtrl= new FormControl(data, Validators.required); */
-/*  this.personalGroupsCtrl.get('id').patchValue( "CT19359");
- this.personalGroupsCtrl.value = data */
-  /* this.personalGroupsCtrl.patchValue(opciones);  */ 
 this.isShowPersonal = true;
   this._solicitudesService.consultarobtenerPlantilla('', '32533').subscribe(
     (response) => {
@@ -168,7 +147,7 @@ this.isShowPersonal = true;
             const element = resul2[key];
            this.personal = []; 
             for(const iterator of element){
-              this.personal.push({name: iterator.nombres + ' ' + iterator.apellidos, id:iterator.codigo})             
+              this.personal.push({name:iterator.codigo +' ' + iterator.nombres + ' ' + iterator.apellidos, id:iterator.codigo +' ' +iterator.nombres + ' ' + iterator.apellidos})             
           
             }
 
@@ -179,8 +158,13 @@ this.isShowPersonal = true;
           }
         }
 
+      const opciones: any[] = this.datosSolicitud.personal.split(',');
     
-          
+      
+      const newArray = opciones.map(string => string.trim())
+
+     this.personalGroupsCtrl = new FormControl(newArray,  Validators.required); 
+      
     //#region select de personal
 
     this.filteredPersonalGroups.next(this.copyPersonalGroups(this.personalGroups));
@@ -201,6 +185,17 @@ this.isShowPersonal = true;
   
 
 } 
+
+
+
+
+if (this.datosSolicitud.observacionArea ) {
+  this.observacionArea = new FormControl(this.datosSolicitud.observacionArea, Validators.required);
+}else{
+  this.observacionArea = new FormControl('', Validators.required);
+}
+
+
 
   }
 
@@ -337,13 +332,9 @@ mostrarInput(){
         if ( this.solFormulario.getRawValue().evento != undefined) {
        
           this.datosSolicitud.evento = this.solFormulario.getRawValue().evento;
-         if (this.observacionArea.value.length == 0) {
-          return
-         } else {
-          
-          this.datosSolicitud.observacionArea = this.observacionArea.value;
-         }
 
+
+  
           if (this.personalGroupsCtrl.value.length == 0) {
             return
           }else{
@@ -354,14 +345,23 @@ mostrarInput(){
 
               
                 if (perso =='') {
-                  perso = element.id +' ' + element.name;
+                  perso = element ;
                 } else {
-                  perso= perso +', ' + element.id+' ' + element.name ;
+                  perso= perso +', ' + element ;
                 }
 
             });
             this.datosSolicitud.personal = perso;
           }
+          
+         if (this.observacionArea.value.length == 0) {
+
+          return
+         } else {
+          
+          this.datosSolicitud.observacionArea = this.observacionArea.value;
+         }
+
         }
     
       this.dialogRef.close(this.datosSolicitud);

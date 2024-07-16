@@ -23,7 +23,7 @@ export class AtencionSolicitudComponent implements OnInit {
   user = {} as User;
   usuario = {} as any;
  //#region  tablas
- displayedColumns: string[] = ['Idsolicitud','categoria', 'tipoServicio', 'servicio', 'codigoUsuario', 'cedula', 'nombres', 'codUnidad','unidad','ubicacionFisica', 'fechaCreacion', 'estatus','nombresResp', 'acciones'];
+ displayedColumns: string[] = ['Idsolicitud','area','categoria', 'tipoServicio', 'servicio', 'codigoUsuario', 'cedula', 'nombres', 'codUnidad','unidad','ubicacionFisica', 'fechaCreacion', 'estatus','nombresResp', 'acciones'];
  positionOptions: TooltipPosition[] = ['below'];
   position = new FormControl(this.positionOptions[0]);
   dataSource: MatTableDataSource<solicitudesDto>;    
@@ -90,7 +90,7 @@ this._solicitudesService.consultarSolicitudesBuzonPendiente('ATENCION-SOLICITUD'
     
     this._solicitudesService.consultarSolicitudesBuzonPendiente('VALIDAR').subscribe(
       (response) =>{
-        console.log(response.data)
+     
         for(const iterator of response.data){
          this.ELEMENT_DATA.push(iterator)
          }

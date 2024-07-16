@@ -87,7 +87,7 @@
                                   [svgIcon]="'heroicons_solid:x'"></mat-icon></ngx-mat-select-search>
                                 </mat-option>
                               <mat-optgroup *ngFor="let group of filteredPersonalGroups | async" [label]="group.name">
-                                <mat-option *ngFor="let personal of group.personals" [value]="personal">
+                                <mat-option *ngFor="let personal of group.personals" [value]="personal.id  ">
                                   {{personal.name}}
                                 </mat-option>
                               </mat-optgroup>  

@@ -9,7 +9,7 @@
                 <div class="col-start-3 col-end-7  ">
                     <mat-form-field appearance="fill"class="width100">
                         <mat-label>Seleccione Tipo de solicitud</mat-label>
-                        <mat-select class="inputMat" id="selectTsol" formControlName="idTipoSolicitud" required  #buySellSelect="matSelect" readonly >  <!--  -->
+                        <mat-select class="inputMat" id="selectTsol" formControlName="idTipoSolicitudFk" required  #buySellSelect="matSelect" readonly >  <!--  -->
                             <mat-option>
                                 <ngx-mat-select-search [formControl]="ListTipoSolicitudFiltrosCtrl"   [placeholderLabel]="'Buscar...'"
                                 [noEntriesFoundLabel]="'No Encontrado'" >
@@ -20,7 +20,7 @@
                              {{ListTipoSolicitud.name}}
                             </mat-option>
                          </mat-select>
-                         <mat-error *ngIf="solFormulario.get('idTipoSolicitud')?.hasError">
+                         <mat-error *ngIf="solFormulario.get('idTipoSolicitudFk')?.hasError">
                             Campo <strong>Obligatorio</strong>
                         </mat-error>  
                     </mat-form-field>
