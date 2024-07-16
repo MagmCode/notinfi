@@ -23,16 +23,16 @@
                         </mat-hint>
                     </div>
                     
-                    <div class="col-end-5  col-start-13">
+                    <div class="col-end-5  col-start-13"  >
 
                         <mat-form-field appearance="fill"class="width100">
                             <mat-label>Observación</mat-label>
                             <input matInput [(ngModel)]="observacion" /> 
         
                         </mat-form-field>
-                        <mat-hint class="mat-error" *ngIf="hasErrorOb" >
+                        <mat-error class="mat-error" *ngIf="hasErrorOb" >
                             Campo <strong>Obligatorio</strong>
-                        </mat-hint>
+                        </mat-error >
                     </div>
 
                   
@@ -40,6 +40,17 @@
                 </div>
 
               
+                <div class="col-span-12"  *ngIf="isShownN">
+
+                    <mat-form-field appearance="fill"class="width100">
+                        <mat-label>Observación</mat-label>
+                        <input matInput [(ngModel)]="observacion" /> 
+    
+                    </mat-form-field>
+                    <mat-hint class="mat-error" *ngIf="hasErrorOb" >
+                        Campo <strong>Obligatorio</strong>
+                    </mat-hint>
+                </div>
 
                 <div class="grid grid-cols-6  gap-2  text-center "   >
 
@@ -94,8 +105,11 @@
   <button type="button"  mat-raised-button color="primary" cdkFocusInitial (click)="Aprobar();"  >Enviar</button>
   </div>
   <div   *ngIf="isShownR" >
-  <button type="button" mat-raised-button color="warn" cdkFocusInitial  (click)="Rechazar();" >Enviar</button>
+  <button type="button" mat-raised-button color="warn" cdkFocusInitial  (click)="Rechazar('R');" >Enviar</button>
 </div>
+<div   *ngIf="isShownN" >
+    <button type="button" mat-raised-button color="warn" cdkFocusInitial  (click)="Rechazar('N');" >Enviar</button>
+  </div>
 <div   *ngIf="isShownD" >
     <button type="button" mat-raised-button color="primary" cdkFocusInitial  (click)="Devolver();" >Enviar</button>
   </div>

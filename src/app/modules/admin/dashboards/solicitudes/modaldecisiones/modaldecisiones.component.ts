@@ -32,6 +32,7 @@ export class ModaldecisionesComponent implements OnInit {
   isShownR: boolean = false;
   isShownD: boolean = false;
   isShownM: boolean = false;
+  isShownN: boolean = false;
   mensaje : any;
   mensaje2 : any;
   idSolicitud : any;
@@ -43,6 +44,7 @@ export class ModaldecisionesComponent implements OnInit {
   hasError :boolean = false;
   isShownCO :boolean = true;
   hasErrorOb :boolean = false;
+  hasErrorObn :boolean = false;
   codusuarioAprobador: any = null;
 
     //#region toast
@@ -147,7 +149,9 @@ if (this.solicitud.metodo == 'buzon') {
 if (this.solicitud.decision  == 'A') {
 this.isShownA = true;
 this.isShownR = false;
+this.isShownM = false,
 this.isShownD = false;
+this.isShownN = false;
 if (this.solicitud.metodo == 'buzon') {
 
   if (this.solicitud.idTipoServicio == 1 ) {
@@ -218,9 +222,20 @@ this.isShownR = false,
 this.isShownM = true,
 this.isShownA = false,
 this.isShownD = true,
+this.isShownN = false;
 this.mensaje = "Devolver Solicitud";
 
-} else {
+} else if (this.solicitud.decision  == 'N'){
+
+this.isShownR = false,
+this.isShownM = false,
+this.isShownA = false,
+this.isShownD = false;
+this.isShownN = true;
+this.mensaje = "Solicitud No conforme ";
+
+}
+else {
 
 this._solicitudesService.consultarMotivo().subscribe(
   (response) => {
@@ -239,17 +254,10 @@ this.isShownR = true,
 this.isShownM = true,
 this.isShownA = false,
 this.isShownD = false;
-if (this.solicitud.idTipoServicio == 3) {
- 
-debugger
-  if (this.solicitud.tarea == "CONFIRMACIÓN") {
-    this.mensaje = "Solicitud No conforme ";
-  } else {
-    this.mensaje = "Rechazar Solicitud";
-  }
-} else {
+this.isShownN = false;
+
   this.mensaje = "Rechazar Solicitud";
-}
+
 
 }
 
@@ -421,7 +429,7 @@ if(typeof data.data !=  'undefined'  ){
 
   }); 
 
-  if(!this.motivos) {
+  if(!this.motivos ) {
     this.hasError = true;
     return;
   }
@@ -515,7 +523,7 @@ if(typeof data.data !=  'undefined'  ){
 );
 }
 
-  Rechazar(){
+  Rechazar(decision: any){
     this.spinner.show();
     this.usuario = this._loginservices.obterTokenInfo();
 
@@ -537,27 +545,39 @@ if(typeof data.data !=  'undefined'  ){
             
     
           }); 
-    
-          if(!this.motivos) {
+          
+          if (this.isShownM != false) {
+          if(!this.motivos ) {
             this.hasError = true;
             return;
           }
-          if (this.isShownCO != false) {
-            if(!this.codigo) {
-              this.esValido = true;
-              return;
-            }
-          }
-          
+        }
+                  
 if (this.solicitud.idTipoServicio == 2) {
   if(!this.observacion) {
     this.hasErrorOb = true;
     return;
   }
 } 
-        
+
+if (decision == 'N') {
+  if(!this.observacion) {
+    this.hasErrorOb = true;
+    return;
+  }
+} 
+   
+
+
+          if (this.isShownCO != false) {
+            if(!this.codigo) {
+              this.esValido = true;
+              return;
+            }
+          }
+     
           
-          this.datosFormulario.value.decision = 'R';
+          this.datosFormulario.value.decision = decision;
           this.datosFormulario.value.idSolicitud = this.idSolicitud;
           this.datosFormulario.value.motivo =  this.motivos?.id;
           this.datosFormulario.value.observacion = this.observacion;

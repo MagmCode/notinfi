@@ -190,7 +190,7 @@ private overlayRef!: OverlayRef;
     })
     
     dialogRef.afterClosed().subscribe(result => {
-debugger
+
  if (result) {
  const  indicec  = this.dataSourceP.data.filter(elemento => elemento.detalleSol === result.nombre);
 
@@ -217,19 +217,22 @@ debugger
 
 
   openDialogEdit(row: any): void {
-    /*     const dialogRef = this.dialog.open(EditarComponent,{
-          data: {articulo : row},
+        const dialogRef = this.dialog.open(CrearModificarComponent,{
+          data: {solicitud : row, tipo:'editar' },
           width: '70%',
           disableClose: true
         })
         
-        dialogRef.afterClosed().subscribe(result => {     
+        dialogRef.afterClosed().subscribe(result => {    
+          debugger 
             if(result){
-              const  indice = this.dataSourceP.data.findIndex(elemento => elemento.idArticuloPk === result.idArticuloPk);
+
+
+              const  indice = this.dataSourceP.data.findIndex(elemento => elemento.idTipSolDetallePk === result.idTipSolDetallePk);
               this.dataSourceP.data[indice] = result;
               this.tablePaginacion();
             }
-        }); */
+        }); 
       }
     
 
