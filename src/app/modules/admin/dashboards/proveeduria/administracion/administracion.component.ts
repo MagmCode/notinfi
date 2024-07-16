@@ -35,6 +35,13 @@ export class AdministracionComponent implements OnInit {
   idTipoArticulo : any;
   tipoCreacion : string;
 
+  tablaArticulos : boolean = false;
+  tablaConsumible : boolean = false;
+  tablaImpresora : boolean = false;
+  tablaModelo : boolean = false;
+  tablaDetalle : boolean = false;
+
+  //#region  Table Articulos y formulario 
   displayedColumnsP: string[] = ['codArticulo', 'iddercripciónArt', 'dercripciónArt','unidadVenta','tipoArt', 'acciones'];
   positionOptionsP: TooltipPosition[] = ['below'];
   positionP = new FormControl(this.positionOptionsP[0]);
@@ -43,6 +50,42 @@ export class AdministracionComponent implements OnInit {
   ELEMENT_DATAP: articulo[] = [];
   @ViewChild(MatPaginator) paginator: MatPaginator | any;
   @ViewChild(MatSort) sort: MatSort = new MatSort;  
+  filtroTabla : any;
+//#endregion
+
+ //#region  impresora
+ displayedColumnsI: string[] = ['idTipoImpresora', 'descripcion', 'estatus','acciones'];
+ positionOptionsI: TooltipPosition[] = ['below'];
+ position = new FormControl(this.positionOptionsP[0]); 
+ dataSourceI: MatTableDataSource<any>;   
+ ELEMENT_DATAI: any[] = [];
+ @ViewChild(MatPaginator) paginatorI: MatPaginator | any;
+ @ViewChild(MatSort) sortI: MatSort = new MatSort;  
+ filtroTablaI : any;
+//#endregion
+
+ //#region  impresora
+ displayedColumnsM: string[] = ['idTipoImpresora', 'tipoImpresora','descripcion', 'estatus','acciones'];
+ positionOptionsM: TooltipPosition[] = ['below'];
+ positionM = new FormControl(this.positionOptionsP[0]); 
+ dataSourceM: MatTableDataSource<any>;    
+ @ViewChild(MatPaginator) paginatorM: MatPaginator | any;
+ @ViewChild(MatSort) sortM: MatSort = new MatSort;  
+ filtroTablaM : any;
+//#endregion
+
+
+ //#region Detalle impresora
+ displayedColumnsD: string[] = ['idTipoImpresora', 'modelo', 'codigo', 'descripcion', 'estatus','acciones'];
+ positionOptionsD: TooltipPosition[] = ['below'];
+ positionD = new FormControl(this.positionOptionsP[0]); 
+ dataSourceD: MatTableDataSource<any>;    
+ @ViewChild(MatPaginator) paginatorD: MatPaginator | any;
+ @ViewChild(MatSort) sortD: MatSort = new MatSort;  
+ filtroTablaD : any;
+//#endregion
+
+
 
 
   protected tipoArticulo : ISelect[] = [];
@@ -104,7 +147,7 @@ export class AdministracionComponent implements OnInit {
   }
   //#endregion
 
-  //#region tabla
+  //#region tabla articulos y formularios 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -129,11 +172,8 @@ export class AdministracionComponent implements OnInit {
       (response) =>{        
         this.tipoArticulo.push({name: 'Selecciones', id:''});
         if(response.estatus == 'SUCCESS'){
-          for(const iterator of response.data){
-            if(iterator.idTipoArticuloPk != 3){
-              this.tipoArticulo.push({name: iterator.nombre, id:iterator.idTipoArticuloPk});   
-            }
-                    
+          for(const iterator of response.data){            
+              this.tipoArticulo.push({name: iterator.nombre, id:iterator.idTipoArticuloPk});                     
           }
         }      
       }
@@ -141,13 +181,22 @@ export class AdministracionComponent implements OnInit {
   }  
 
   onChange(ev: MatSelectChange){ 
-  if(ev.value === '' || ev.value === 3){
+  if(ev.value === ''){
     this.crearButton = false;
+    this.tablaArticulos = false; 
+    this.tablaConsumible = false;  
+  }else if(ev.value === 3){
+    this.crearButton = false;
+    this.tablaArticulos = false
+    this.tablaConsumible = true;
   }else{
     this.crearButton = true;
+    this.tablaArticulos = true;
     this.tipoCreacion = ev.source.triggerValue.toLowerCase();
+    this.tablaConsumible = false;
   }
-
+    this.tablaImpresora = false;
+    this.filtroTabla = "";
     this.busquedaTipoFormulario(ev.value);
   }
 
@@ -205,5 +254,54 @@ export class AdministracionComponent implements OnInit {
     this.dataSourceP.paginator = this.paginator;
     this.dataSourceP.sort = this.sort;      
   }
+
+
+  tipoConsumibles(ev: MatSelectChange){
+    if(ev.value === "I"){
+      this.ObetenerTipoImpresora();
+      this.tablaImpresora = true;
+      this.tablaModelo = false;
+    }else if(ev.value === "M"){
+      this.ObetenerModelompresora();
+      this.tablaImpresora = false;
+      this.tablaModelo = true;
+    }else if(ev.value === "C"){
+      this.tablaImpresora = false;
+      this.tablaModelo = false;
+      this.tablaDetalle = true;
+      this.DetalleImpresora();
+    }
+  }
+
+  ObetenerTipoImpresora(){
+    this._solicitudesService.tipoImpresora().subscribe(
+      (response) => {
+        this.dataSourceI = new MatTableDataSource(response.data);
+        this.dataSourceI.paginator = this.paginatorI;
+        this.dataSourceI.sort = this.sortI;        
+      }
+    );
+  }
+
+  ObetenerModelompresora(){
+    this._proveduriaService.modeloImpresora().subscribe(
+      (response) => {
+        this.dataSourceM = new MatTableDataSource(response.data);
+        this.dataSourceM.paginator = this.paginatorM;
+        this.dataSourceM.sort = this.sortM;        
+      }
+    );
+  }
+
+  DetalleImpresora(){
+    this._proveduriaService.detalleImpresora().subscribe(
+      (response) => {
+        this.dataSourceD = new MatTableDataSource(response.data);
+        this.dataSourceD.paginator = this.paginatorD;
+        this.dataSourceD.sort = this.sortD;        
+      }
+    );
+  }
+
 
 }

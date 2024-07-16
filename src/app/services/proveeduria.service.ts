@@ -35,4 +35,14 @@ import { Observable } from "rxjs";
       const url = this.urlEndPoint + 'crearArticulo';
       return this.http.post(url, articulo); 
     }  
+
+    modeloImpresora(): Observable<any>{
+      const url = this.urlEndPoint + 'modeloImpresoraAdministrador';
+      return this.http.post(url, ""); 
+    }
+    
+    detalleImpresora(): Observable<any>{
+      const url = this.urlEndPoint + 'detalleImpresoraAdministrador';
+      return this.http.post(url, ""); 
+    }
   }
