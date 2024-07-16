@@ -45,4 +45,34 @@ import { Observable } from "rxjs";
       const url = this.urlEndPoint + 'detalleImpresoraAdministrador';
       return this.http.post(url, ""); 
     }
+
+    modificarImpresora(articulo : any): Observable<any>{
+      const url = this.urlEndPoint + 'modificaTipoImpresora';
+      return this.http.post(url, articulo); 
+    } 
+
+    creacionImpresora(articulo : any): Observable<any>{
+      const url = this.urlEndPoint + 'crearTipoImpresora';
+      return this.http.post(url, articulo); 
+    }
+
+    creacionImpresoraModelo(articulo : any): Observable<any>{
+      const url = this.urlEndPoint + 'crearModeloBn';
+      return this.http.post(url, articulo); 
+    }
+
+    modificarImpresoraModelo(articulo : any): Observable<any>{
+      const url = this.urlEndPoint + 'modificaModeloBn';
+      return this.http.post(url, articulo); 
+    }
+
+    creacionConsumible(articulo : any): Observable<any>{
+      const url = this.urlEndPoint + 'crearDetalleImpresora';
+      return this.http.post(url, articulo); 
+    }
+
+    tipoImpresoraAdmin(): Observable<any>{
+      const url = this.urlEndPoint + 'tipoImpresoraAdministrador';
+      return this.http.post(url, ""); 
+    }
   }
