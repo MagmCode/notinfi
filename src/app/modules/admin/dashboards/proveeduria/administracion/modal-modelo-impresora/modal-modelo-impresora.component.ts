@@ -4,6 +4,7 @@ import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ISelect } from 'app/models/login';
 import { ProveeduriaService } from 'app/services/proveeduria.service';
 import { SolicitudesService } from 'app/services/solicitudes.service';
+import { values } from 'lodash';
 import { ToastrService } from 'ngx-toastr';
 import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -85,12 +86,16 @@ export class ModalModeloImpresoraComponent implements OnInit, AfterViewInit {
 
   llenarObjectoInicial(){
     if(this.data != undefined ){
-      this.formularioImpresora.patchValue({
-        idModeloBnPk : this.data.articulo.idModeloBnPk,
-        idTipoImpresoraFk : this.data.articulo.idTipoImpresoraFk,
-        descripcion : this.data.articulo.descripcion,
-        estatus : this.data.articulo.estatus
-      })
+    
+      this.formularioImpresora = this.formBuilder.group({
+        idModeloBnPk : new FormControl(this.data.articulo.idModeloBnPk),
+        idTipoImpresoraFk : new FormControl({value:this.data.articulo.idTipoImpresoraFk,   disabled: true}),
+        descripcion : new FormControl(this.data.articulo.descripcion),
+        estatus : new FormControl(this.data.articulo.estatus)
+
+        
+      });
+      
     }else{
       this.formularioImpresora = this.formBuilder.group({
         idTipoImpresoraFk : new FormControl(''),
@@ -126,7 +131,7 @@ export class ModalModeloImpresoraComponent implements OnInit, AfterViewInit {
   
   modificarModeloImpresora(){      
    if(this.formularioImpresora.valid){
-      this._proveeduriaService.modificarImpresoraModelo(this.formularioImpresora.value).subscribe(
+      this._proveeduriaService.modificarImpresoraModelo(this.formularioImpresora.getRawValue()).subscribe(
         (response)=>{
             if(response.estatus == "SUCCESS"){
               this.toast.success(response.mensaje, '' ,this.override2);

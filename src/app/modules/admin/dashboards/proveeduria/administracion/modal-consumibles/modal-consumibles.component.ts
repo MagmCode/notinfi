@@ -47,7 +47,7 @@ public filtrotipoModelo : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]
     private toast: ToastrService,
     private _solicitudesService : SolicitudesService) {
       this.formularioImpresora = formBuilder.group({
-        idTipoImpresora : new FormControl(''),
+        idTipoImpresora : new FormControl('', ),
         idDetalleImpresoraPk : new FormControl(''),
         idModeloBnFk : new FormControl('', Validators.required),
         codigoBdv : new FormControl('', Validators.required),
@@ -70,8 +70,8 @@ public filtrotipoModelo : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]
     }
     this.obternerTipoImpresora();
     this.llenarObjectoInicial();
-    this.mostrarModelo(this.formularioImpresora.value.idTipoImpresora);
-    console.log(this.formularioImpresora.value);
+    this.mostrarModelo(this.formularioImpresora.getRawValue().idTipoImpresora);
+  
   }
 
   ngAfterViewInit(): void {
@@ -87,27 +87,34 @@ public filtrotipoModelo : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]
 
   llenarObjectoInicial(){
     if(this.data != undefined ){
-      this.formularioImpresora.patchValue({
-        idTipoImpresora : this.data.articulo.idTipoImpresora,
-        idDetalleImpresoraPk : this.data.articulo.idDetalleImpresoraPk,
-        idModeloBnFk : this.data.articulo.idModeloBnFk,
-        codigoBdv : this.data.articulo.codigoBdv,
-        descripcion : this.data.articulo.descripcion,
-        estatus : this.data.articulo.estatus
-      })
+
+
+      this.formularioImpresora = this.formBuilder.group({
+        idTipoImpresora : new FormControl({value :this.data.articulo.idTipoImpresora,  disabled: true}),
+        idDetalleImpresoraPk : new FormControl( this.data.articulo.idDetalleImpresoraPk),
+        idModeloBnFk : new FormControl({value :this.data.articulo.idModeloBnFk,  disabled: true}),
+        codigoBdv :  new FormControl(this.data.articulo.codigoBdv),
+        descripcion :  new FormControl(this.data.articulo.descripcion),
+        estatus :  new FormControl(this.data.articulo.estatus),
+        modelo :  new FormControl( this.data.articulo.modelo)
+      });
+
+
     }else{
       this.formularioImpresora = this.formBuilder.group({
         idTipoImpresoraFk : new FormControl(''),
         descripcion : new FormControl('', Validators.required),
         estatus: new FormControl('', Validators.required),
         idModeloBnFk :new FormControl('', Validators.required),
-        codigoBdv : new FormControl('', Validators.required)
+        codigoBdv : new FormControl('', Validators.required),
+        modelo :new FormControl('', Validators.required)
       });
     }
     
   }
 
-  onChange(ev: MatSelectChange){    
+  onChange(ev: MatSelectChange){  
+      
       this.mostrarModelo(ev.value);
     }
 
@@ -129,6 +136,8 @@ public filtrotipoModelo : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]
   }
 
   mostrarModelo(idModelo : any){
+
+    
     this._solicitudesService.modeloImpresora(idModelo).subscribe(
       (response) => {
         this.tipoModelo.length = 0;      
@@ -160,9 +169,7 @@ public filtrotipoModelo : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]
 
   guardarConsumible(){
     if(this.formularioImpresora.valid){
-
-      this.formularioImpresora.value.modelo = document.querySelector('#selectTipoModelo')?.textContent;
-      console.log(this.formularioImpresora.value)
+      
       this._proveeduriaService.creacionConsumible(this.formularioImpresora.value).subscribe(
         (response)=>{
             if(response.estatus == "SUCCESS"){
@@ -180,8 +187,8 @@ public filtrotipoModelo : ReplaySubject<ISelect[]> = new ReplaySubject<ISelect[]
 
   
   modificarConsumible(){      
-   if(this.formularioImpresora.valid){
-      this._proveeduriaService.modificarImpresoraModelo(this.formularioImpresora.value).subscribe(
+   if(this.formularioImpresora.valid){    
+      this._proveeduriaService.modificarConsumible(this.formularioImpresora.getRawValue()).subscribe(
         (response)=>{
             if(response.estatus == "SUCCESS"){
               this.toast.success(response.mensaje, '' ,this.override2);

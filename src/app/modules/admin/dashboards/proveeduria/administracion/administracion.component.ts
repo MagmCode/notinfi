@@ -79,7 +79,7 @@ export class AdministracionComponent implements OnInit {
 
 
  //#region Detalle impresora
- displayedColumnsD: string[] = ['idTipoImpresora', 'modelo', 'codigo', 'descripcion', 'estatus','acciones'];
+ displayedColumnsD: string[] = ['idTipoImpresora', 'tipoImpresora', 'modelo', 'descripcion', 'modeloConsumible', 'codigo', 'estatus','acciones'];
  positionOptionsD: TooltipPosition[] = ['below'];
  positionD = new FormControl(this.positionOptionsP[0]); 
  dataSourceD: MatTableDataSource<any>;    
@@ -302,6 +302,7 @@ export class AdministracionComponent implements OnInit {
   DetalleImpresora(){
     this._proveduriaService.detalleImpresora().subscribe(
       (response) => {
+        console.log(response.data)
         this.dataSourceD = new MatTableDataSource(response.data);
         this.dataSourceD.paginator = this.paginatorD;
         this.dataSourceD.sort = this.sortD;        
@@ -376,7 +377,7 @@ export class AdministracionComponent implements OnInit {
     
     dialogRef.afterClosed().subscribe(result => {          
         if(result){
-          this.ObetenerModelompresora();
+          this.DetalleImpresora();
         }
     });
   }

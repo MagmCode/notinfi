@@ -75,4 +75,9 @@ import { Observable } from "rxjs";
       const url = this.urlEndPoint + 'tipoImpresoraAdministrador';
       return this.http.post(url, ""); 
     }
+
+    modificarConsumible(articulo : any): Observable<any>{
+      const url = this.urlEndPoint + 'modificaDetalleImpresora';
+      return this.http.post(url, articulo); 
+    }
   }
