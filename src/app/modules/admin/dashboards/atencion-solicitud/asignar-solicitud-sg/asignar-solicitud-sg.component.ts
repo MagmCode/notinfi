@@ -250,7 +250,7 @@ this.ELEMENT_DATA =  response.data.detalle
 }
 
 refrescarPagina(tarea) {
-if (tarea == 'APROBACION-INTERNA-GENERALES') {
+if (tarea == 'APROBACIÓN-SOLICITUD-INTERNA') {
   
   this._router.navigate(['/aprobacionSolInterna/buzonPendiente']);
 } else {

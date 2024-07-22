@@ -81,7 +81,7 @@ if (this.dataSource.paginator) {
 async obtenerPlantilla(){
 this.usuario = this._loginservices.obterTokenInfo();
 
-this._solicitudesService.consultarSolicitudesBuzonPendiente('APROBACION-INTERNA-GENERALES').subscribe(
+this._solicitudesService.consultarSolicitudesBuzonPendiente('APROBACIÓN-SOLICITUD-INTERNA').subscribe(
 (response) =>{
 
     this.ELEMENT_DATA = [];

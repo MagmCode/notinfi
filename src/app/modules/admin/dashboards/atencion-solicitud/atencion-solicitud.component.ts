@@ -82,13 +82,13 @@ if (this.dataSource.paginator) {
 async obtenerPlantilla(){
 this.usuario = this._loginservices.obterTokenInfo();
 this.ELEMENT_DATA = [];
-this._solicitudesService.consultarSolicitudesBuzonPendiente('ATENCION-SOLICITUD').subscribe(
+this._solicitudesService.consultarSolicitudesBuzonPendiente('ATENCIÓN-SOLICITUD-APROBADA').subscribe(
 (response) =>{
 
     
     this.ELEMENT_DATA = response.data;
     
-    this._solicitudesService.consultarSolicitudesBuzonPendiente('VALIDAR').subscribe(
+    this._solicitudesService.consultarSolicitudesBuzonPendiente('ATENCIÓN-SOLICITUD').subscribe(
       (response) =>{
      
         for(const iterator of response.data){
