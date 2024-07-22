@@ -53,47 +53,54 @@ this.mensaje ="Recuerde tener el método de autenticación AMI Ven, al momento d
      const resul2= groupBy(this.data.enviarData.formulario, (a) => a.requiereAprobacion);
 
     
-let mensaje ;
-for (const key in resul2) {
-  if (Object.prototype.hasOwnProperty.call(resul2, key)) {
-    const element = resul2[key];
-    
-    this.data.enviarData.creacion.requiereAprobacion = key;
-    this.data.enviarData.formulario = element
+          let mensaje ;
+          for (const key in resul2) {
+            if (Object.prototype.hasOwnProperty.call(resul2, key)) {
+              const element = resul2[key];
+              
+              this.data.enviarData.creacion.requiereAprobacion = key;
+              this.data.enviarData.formulario = element
 
-     this._solicitudesService.crearSolicitudGenerales(this.data.enviarData).subscribe(
-      (data) =>{    
-       if(data.estatus == "SUCCESS"){
-       
-        this.toast.success(data.mensaje, '', this.override2);  
+              this._solicitudesService.crearSolicitudGenerales(this.data.enviarData).subscribe(
+                (data) =>{    
+                if(data.estatus == "SUCCESS"){
+                
+                  this.toast.success(data.mensaje, '', this.override2);  
 
-        }else{
-
-
-          this.toast.error(data.mensaje, '', this.override2);
-        }
-        this.spinner.hide();
-     this.spinner.hide('sp1'); 
-            }, 
-      (error) =>{
-        this.toast.error('', '', this.override2);
-      }
-    );  
+                  }else{
 
 
-  }
-}
- 
+                    this.toast.error(data.mensaje, '', this.override2);
+                  }
+                  this.spinner.hide();
+              this.spinner.hide('sp1'); 
+                      }, 
+                (error) =>{
+                  this.toast.error('', '', this.override2);
+                }
+              );  
+
+
+            }
+          }
           
-setTimeout(()=>{
-  
-  this.redirigirSuccess();
-},1500); 
-    
+                  
+        setTimeout(()=>{
+          
+          this.redirigirSuccess();
+        },1500); 
+            
+
   } else {
+
+console.log(this.data.enviarData);
+
     this._solicitudesService.crear(this.data.enviarData).subscribe(
       (data) =>{    
+        console.log(data);
        if(data.estatus == "SUCCESS"){
+
+
           this.toast.success(data.mensaje , '', this.override2);            
           setTimeout(()=>{
             
