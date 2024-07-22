@@ -21,6 +21,9 @@ import { ReplaySubject, Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { CrearComponent } from './crear/crear.component';
 import { EditarComponent } from './editar/editar.component';
+import { ModalConsumiblesComponent } from './modal-consumibles/modal-consumibles.component';
+import { ModalImpresoraComponent } from './modal-impresora/modal-impresora.component';
+import { ModalModeloImpresoraComponent } from './modal-modelo-impresora/modal-modelo-impresora.component';
 
 @Component({
   selector: 'app-administracion',
@@ -76,7 +79,7 @@ export class AdministracionComponent implements OnInit {
 
 
  //#region Detalle impresora
- displayedColumnsD: string[] = ['idTipoImpresora', 'modelo', 'codigo', 'descripcion', 'estatus','acciones'];
+ displayedColumnsD: string[] = ['idTipoImpresora', 'tipoImpresora', 'modelo', 'descripcion', 'modeloConsumible', 'codigo', 'estatus','acciones'];
  positionOptionsD: TooltipPosition[] = ['below'];
  positionD = new FormControl(this.positionOptionsP[0]); 
  dataSourceD: MatTableDataSource<any>;    
@@ -196,6 +199,7 @@ export class AdministracionComponent implements OnInit {
     this.tablaConsumible = false;
   }
     this.tablaImpresora = false;
+    this.tablaDetalle = false;
     this.filtroTabla = "";
     this.busquedaTipoFormulario(ev.value);
   }
@@ -261,10 +265,12 @@ export class AdministracionComponent implements OnInit {
       this.ObetenerTipoImpresora();
       this.tablaImpresora = true;
       this.tablaModelo = false;
+      this.tablaDetalle = false;
     }else if(ev.value === "M"){
       this.ObetenerModelompresora();
       this.tablaImpresora = false;
       this.tablaModelo = true;
+      this.tablaDetalle = false;
     }else if(ev.value === "C"){
       this.tablaImpresora = false;
       this.tablaModelo = false;
@@ -274,7 +280,7 @@ export class AdministracionComponent implements OnInit {
   }
 
   ObetenerTipoImpresora(){
-    this._solicitudesService.tipoImpresora().subscribe(
+    this._proveduriaService.tipoImpresoraAdmin().subscribe(
       (response) => {
         this.dataSourceI = new MatTableDataSource(response.data);
         this.dataSourceI.paginator = this.paginatorI;
@@ -296,11 +302,97 @@ export class AdministracionComponent implements OnInit {
   DetalleImpresora(){
     this._proveduriaService.detalleImpresora().subscribe(
       (response) => {
+        console.log(response.data)
         this.dataSourceD = new MatTableDataSource(response.data);
         this.dataSourceD.paginator = this.paginatorD;
         this.dataSourceD.sort = this.sortD;        
       }
     );
+  }
+
+  openDialogImpresoraEdit(row: any): void {
+    const dialogRef = this.dialog.open(ModalImpresoraComponent,{
+      data: {articulo : row},
+      width: '70%',
+      disableClose: true
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {          
+        if(result){
+          const  indice = this.dataSourceI.data.findIndex(elemento => elemento.idTipoImpresoraPk === result.idTipoImpresoraPk);          
+          this.dataSourceI.data[indice] = result;
+          this.dataSourceI.paginator = this.paginator;
+          this.dataSourceI.sort = this.sort;  
+        }
+    });
+  }
+
+  openDialogCrearImpresora(){
+    const dialogRef = this.dialog.open(ModalImpresoraComponent,{      
+      width: '70%',
+      disableClose: false
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {           
+        if(result){
+          this.ObetenerTipoImpresora();
+        }
+    });
+  }
+
+  openDialogCrearModeloImpresora(){
+    const dialogRef = this.dialog.open(ModalModeloImpresoraComponent,{      
+      width: '70%',
+      disableClose: false
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {           
+        if(result){
+          this.ObetenerModelompresora();
+        }
+    });
+  }
+
+  openDialogModeloEdit(row: any): void {
+    const dialogRef = this.dialog.open(ModalModeloImpresoraComponent,{
+      data: {articulo : row},
+      width: '70%',
+      disableClose: true
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {          
+        if(result){
+          this.ObetenerModelompresora();
+        }
+    });
+  }
+
+  openDialogConsumibleEdit(row: any): void {
+    console.log(row)
+    const dialogRef = this.dialog.open(ModalConsumiblesComponent,{
+      data: {articulo : row},
+      width: '70%',
+      disableClose: true
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {          
+        if(result){
+          this.DetalleImpresora();
+        }
+    });
+  }
+
+  openDialogConsumible(){
+    const dialogRef = this.dialog.open(ModalConsumiblesComponent,{      
+      width: '70%',
+      disableClose: false
+    })
+    
+    dialogRef.afterClosed().subscribe(result => {           
+        if(result){
+          this.DetalleImpresora();
+        }
+    });
   }
 
 

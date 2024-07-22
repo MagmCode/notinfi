@@ -90,6 +90,9 @@ import { DetalleSolicitudServgeneralesComponent } from './modules/admin/dashboar
 import { ReasignarSolicitudSgAiComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/reasignar-solicitud-sg-ai/reasignar-solicitud-sg-ai.component';
 import { AdministracionServgeneralesComponent } from './modules/admin/dashboards/atencion-solicitud/administracion-servgenerales/administracion-servgenerales.component';
 import { CrearModificarComponent } from './modules/admin/dashboards/atencion-solicitud/administracion-servgenerales/crear-modificar/crear-modificar.component';
+import { ModalImpresoraComponent } from './modules/admin/dashboards/proveeduria/administracion/modal-impresora/modal-impresora.component';
+import { ModalModeloImpresoraComponent } from './modules/admin/dashboards/proveeduria/administracion/modal-modelo-impresora/modal-modelo-impresora.component';
+import { ModalConsumiblesComponent } from './modules/admin/dashboards/proveeduria/administracion/modal-consumibles/modal-consumibles.component'; 
 
 
 const routerConfig: ExtraOptions = {
@@ -141,6 +144,9 @@ const routerConfig: ExtraOptions = {
         ReasignarSolicitudSgAiComponent,
         AdministracionServgeneralesComponent,
         CrearModificarComponent,
+        ModalImpresoraComponent,
+        ModalModeloImpresoraComponent,
+        ModalConsumiblesComponent,
         
     ],
     imports     : [

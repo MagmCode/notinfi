@@ -114,7 +114,7 @@
                                     </ng-container>
               
                                     <ng-container matColumnDef="iddercripciónArt">
-                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Codigo Bdv</th>
+                                      <th mat-header-cell *matHeaderCellDef mat-sort-header>Código BDV</th>
                                       <td mat-cell *matCellDef="let row"> {{row.codigoBdv}}</td>
                                     </ng-container>
               
@@ -170,12 +170,28 @@
                     <!-- Consumible de impresora -->                       
                        <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card mt-8 shadow rounded-2xl overflow-hidden" *ngIf="tablaImpresora">
                         <div class="flex flex-col flex-auto mt-2 overflow-x-auto" >
-                          <div class="">
+                          <div class="col-span-4">
                           <mat-form-field appearance="outline" >
                               <mat-label>Filtro</mat-label>
                               <input matInput  [(ngModel)]="filtroTablaI" (keyup)="applyFilterP($event)" placeholder="" #input >
                             </mat-form-field>
                           </div>
+
+                          <div class="flex justify-end">
+                            <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                              <span></span>
+                              <button                     
+                                  class="fuse-mat-button-rounded buttonCrearConsumible"
+                                  mat-flat-button
+                                  [color]="'primary'"
+                                  (click)="openDialogCrearImpresora()">
+                                  <mat-icon
+                                      class="icon-size-5"
+                                      [svgIcon]="'heroicons_solid:view-grid-add'"></mat-icon>
+                                  <span class="ml-2">Crear Impresora</span>
+                              </button>
+                          </div>
+                            </div>
                           
                           <div class="mat-elevation-z8">
                             <table mat-table [dataSource]="dataSourceI" matSort>
@@ -187,7 +203,7 @@
                                   </ng-container>
             
                                   <ng-container matColumnDef="descripcion">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción Impresora</th>
                                     <td mat-cell *matCellDef="let row"> {{row.descripcion}}</td>
                                   </ng-container>
 
@@ -202,7 +218,7 @@
                     <td mat-cell *matCellDef="let row"> 
             
                         <mat-icon class=" icon-size-6 text-green-500"                                          
-                         [svgIcon]="'heroicons_solid:pencil'"   (click)="openDialogEdit(row)" > </mat-icon>                       
+                         [svgIcon]="'heroicons_solid:pencil'"   (click)="openDialogImpresoraEdit(row)" > </mat-icon>                       
 
                    
                     </td>
@@ -233,12 +249,28 @@
                     <!-- Consumible de modelos impresora -->                       
                     <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card mt-8 shadow rounded-2xl overflow-hidden" *ngIf="tablaModelo">
                       <div class="flex flex-col flex-auto mt-2 overflow-x-auto" >
-                        <div class="">
+                        <div class="col-span-4">
                         <mat-form-field appearance="outline" >
                             <mat-label>Filtro</mat-label>
                             <input matInput  [(ngModel)]="filtroTablaM" (keyup)="applyFilterP($event)" placeholder="" #input >
                           </mat-form-field>
                         </div>
+
+                        <div class="flex justify-end">
+                          <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                            <span></span>
+                            <button                     
+                                class="fuse-mat-button-rounded buttonCrearConsumible"
+                                mat-flat-button
+                                [color]="'primary'"
+                                (click)="openDialogCrearModeloImpresora()">
+                                <mat-icon
+                                    class="icon-size-5"
+                                    [svgIcon]="'heroicons_solid:view-grid-add'"></mat-icon>
+                                <span class="ml-2">Crear Modelo Impresora</span>
+                            </button>
+                        </div>
+                          </div>
                         
                         <div class="mat-elevation-z8">
                           <table mat-table [dataSource]="dataSourceM" matSort>
@@ -255,7 +287,7 @@
                                 </ng-container>
           
                                 <ng-container matColumnDef="descripcion">
-                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
+                                  <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción modelo</th>
                                   <td mat-cell *matCellDef="let row"> {{row.descripcion}}</td>
                                 </ng-container>
 
@@ -270,7 +302,7 @@
                   <td mat-cell *matCellDef="let row"> 
           
                       <mat-icon class=" icon-size-6 text-green-500"                                          
-                       [svgIcon]="'heroicons_solid:pencil'"   (click)="openDialogEdit(row)" > </mat-icon>                       
+                       [svgIcon]="'heroicons_solid:pencil'"   (click)="openDialogModeloEdit(row)" > </mat-icon>                       
 
                  
                   </td>
@@ -302,12 +334,28 @@
                            <!-- Detalles impresora -->                       
                            <div class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card mt-8 shadow rounded-2xl overflow-hidden" *ngIf="tablaDetalle">
                             <div class="flex flex-col flex-auto mt-2 overflow-x-auto" >
-                              <div class="">
+                              <div class="col-span-4">
                               <mat-form-field appearance="outline" >
                                   <mat-label>Filtro</mat-label>
                                   <input matInput  [(ngModel)]="filtroTablaM" (keyup)="applyFilterP($event)" placeholder="" #input >
                                 </mat-form-field>
                               </div>
+
+                              <div class="flex justify-end">
+                                <div class="flex items-center mt-6 sm:mt-0 sm:ml-2 space-x-3">
+                                  <span></span>
+                                  <button                     
+                                      class="fuse-mat-button-rounded buttonCrearConsumible"
+                                      mat-flat-button
+                                      [color]="'primary'"
+                                      (click)="openDialogConsumible()">
+                                      <mat-icon
+                                          class="icon-size-5"
+                                          [svgIcon]="'heroicons_solid:view-grid-add'"></mat-icon>
+                                      <span class="ml-2">Crear Consumible</span>
+                                  </button>
+                              </div>
+                                </div>
                               
                               <div class="mat-elevation-z8">
                                 <table mat-table [dataSource]="dataSourceD" matSort>
@@ -317,21 +365,32 @@
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header> Id </th>
                                         <td mat-cell *matCellDef="let row">{{row.idDetalleImpresoraPk}}</td>
                                       </ng-container>
+                                      <ng-container matColumnDef="tipoImpresora">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header> Tipo de Impresora </th>
+                                        <td mat-cell *matCellDef="let row">{{row.tipoImpresora}}</td>
+                                      </ng-container>
       
                                       <ng-container matColumnDef="modelo">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo</th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo Impresora</th>
+                                        <td mat-cell *matCellDef="let row"> {{row.modeloFk}}</td>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="descripcion">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción Consumible</th>
+                                        <td mat-cell *matCellDef="let row"> {{row.descripcion}}</td>
+                                      </ng-container>
+
+                                      <ng-container matColumnDef="modeloConsumible">
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Modelo Consumible</th>
                                         <td mat-cell *matCellDef="let row"> {{row.modelo}}</td>
                                       </ng-container>
 
                                       <ng-container matColumnDef="codigo">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cod. Bdv</th>
+                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Cod. BDV</th>
                                         <td mat-cell *matCellDef="let row"> {{row.codigoBdv}}</td>
                                       </ng-container>
                 
-                                      <ng-container matColumnDef="descripcion">
-                                        <th mat-header-cell *matHeaderCellDef mat-sort-header>Descripción</th>
-                                        <td mat-cell *matCellDef="let row"> {{row.descripcion}}</td>
-                                      </ng-container>
+                                     
       
                                       <ng-container matColumnDef="estatus">
                                         <th mat-header-cell *matHeaderCellDef mat-sort-header>Estatus</th>
@@ -344,7 +403,7 @@
                         <td mat-cell *matCellDef="let row"> 
                 
                             <mat-icon class=" icon-size-6 text-green-500"                                          
-                             [svgIcon]="'heroicons_solid:pencil'"   (click)="openDialogEdit(row)" > </mat-icon>                       
+                             [svgIcon]="'heroicons_solid:pencil'"   (click)="openDialogConsumibleEdit(row)" > </mat-icon>                       
       
                        
                         </td>
