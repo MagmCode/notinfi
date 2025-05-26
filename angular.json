@@ -53,7 +53,8 @@
                             "src/styles/styles.scss",
                             "src/styles/tailwind.scss",
                             "node_modules/ngx-toastr/toastr.css",
-                            "node_modules/ngx-spinner/animations/ball-clip-rotate-pulse.css"
+                            "node_modules/ngx-spinner/animations/ball-clip-rotate-pulse.css",
+                            "src/assets/styles/icons-bdv.css"
                         ],
                         "scripts": []
                     },

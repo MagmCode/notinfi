@@ -1,0 +1,107 @@
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="oferta-container-MesaCambio">
+            <div class="oferta-MesaCambio-header-content">
+                <span>Oferta</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-bs-l head-icon-mesa"></mat-icon>
+            </div>
+            <mat-card class="card-container-oferta-MesaCambio">
+                <div class="title-oferta-MesaCambio">
+                    <span>Seleccione Criterios</span>
+                </div>
+                <!-- Carga Form -->
+                <form class="card-form-oferta-MesaCambio" #operacionesForm="ngForm" [formGroup]="operofertaaMesaCambioForm">
+
+                    <div class="field-container">
+                        <!-- file  -->
+                        <div class=" campos-oferta-MesaCambio">
+                            
+                        <mat-form-field class="w-full field-oper tipo-documento" appearance="outline">
+                            <mat-label>Rif</mat-label>
+                                <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full field-oper tipo-documento" appearance="outline">
+                            <mat-label>Nombre</mat-label>
+                                <input matInput>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full field-oper" appearance="outline">
+                            <mat-label>Moneda</mat-label>
+                            <mat-select class="agua">
+                                <mat-option value="one">First option</mat-option>
+                                <mat-option value="two">Second option</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+            </div>
+
+                <div class=" campos-oferta-MesaCambio">
+
+                       
+
+                        <mat-form-field class="w-full field-oper tipo-documento" appearance="outline">
+                            <mat-label>Monto</mat-label>
+                                <input matInput>
+                        </mat-form-field>
+                    
+
+                            <mat-form-field class="w-full field-oper tipo-documento" appearance="outline">
+                                <mat-label>Tasa</mat-label>
+                                    <input matInput>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full field-oper tipo-documento" appearance="outline">
+                                <mat-label>Código Banco</mat-label>
+                                    <input matInput>
+                            </mat-form-field>
+                        </div>
+
+                        <div class=" campos-oferta-MesaCambio">
+
+                            <mat-form-field class="w-full field-oper tipo-documento" appearance="outline">
+                                <mat-label>Código Jornada</mat-label>
+                                    <input matInput>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full field-oper tipo-documento" appearance="outline">
+                                <mat-label>Cuenta Convenio</mat-label>
+                                    <input matInput>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full field-oper tipo-documento" appearance="outline">
+                                <mat-label>Cuenta Cliente</mat-label>
+                                    <input matInput>
+                            </mat-form-field>
+                        </div>
+
+                        <div class=" campos-oferta-MesaCambio">
+
+                           
+
+                            <mat-form-field class="w-full field-oper" appearance="outline">
+                                <mat-label>Instrumento</mat-label>
+                                <mat-select class="agua">
+                                    <mat-option value="one">First option</mat-option>
+                                    <mat-option value="two">Second option</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+
+                <div class="buttons-oper">
+                    <div class="button-container2-oper">
+                        <button class="mat-raised-button" type="submit" form="cargaForm">Registrar</button>
+                        <button class="mat-raised-button" type="submit" form="cargaForm">Salir</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

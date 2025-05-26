@@ -1,0 +1,52 @@
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="operacionesMenudeo-container-consultaTasasBCV">
+            <div class="operaMenudeo-header-content-consultaTasasBCV">
+                <span>Consulta Tasas BCV</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-usd-l head-icon-Menudeo-consultaTasasBCV"></mat-icon>
+            </div>
+            <mat-card class="card-container-operaMenudeo-consultaTasasBCV">
+                <div class="title-operaMenudeo-consultaTasasBCV">
+                    <span>Seleccione Criterios de Búsqueda</span>
+                </div>
+                <!-- Carga Form -->
+                <form class="card-form-operaMenudeo-consultaTasasBCV" #operacionesForm="ngForm" [formGroup]="consultaTasasBCVMenudeoForm">
+
+                    <div class="field-container-Menudeo-consultaTasasBCV">
+                        <!-- file  -->
+
+
+                <div class="campos-operaMenudeo-consultaTasasBCV">
+
+
+                        <mat-form-field class="w-full field-operMenudeo-consultaTasasBCV" appearance="outline">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly>
+                            <mat-icon (click)="picker.open()" class="icon-bdv-icon-scheduledit-m date-icon-Menudeo-consultaTasasBCV"></mat-icon>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+
+            </div>
+    </form>
+
+                <div class="buttons-operMenudeo-consultaTasasBCV">
+                    <div class="button-container-operMenudeo-consultaTasasBCV">
+                        <button class="mat-raised-button" type="submit" form="cargaForm">Actualizar Tasas</button>
+                    </div>
+                    <div class="button-container2-operMenudeo-consultaTasasBCV">
+                        <button class="mat-raised-button" type="submit" form="cargaForm">Procesar</button>
+                        <button class="mat-raised-button" type="submit" form="cargaForm" (click)="menuPrincipal()">Salir</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -1,0 +1,307 @@
+
+* {
+    font-family: 'Nunito', sans-serif !important;
+}
+
+.operacionesMenudeo-container-lecturaArchivo {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    height: 80vh;
+    width: 100vw;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+}
+
+.operaMenudeo-header-content-lecturaArchivo {
+    width: 100%;
+    padding: 0 600px 0 400px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    color: #004a72;
+    font-size: 3.6em;
+}
+
+.head-icon-Menudeo-lecturaArchivo::before {
+    color: #004a72;
+    font-size: 2.7em;
+    opacity: 40%;
+    padding-top: 25px;
+}
+
+.card-container-operaMenudeo-lecturaArchivo    {
+    width: 650px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+    color: #004a72;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
+}
+
+
+.title-operaMenudeo-lecturaArchivo {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+
+
+.card-form-operaMenudeo-lecturaArchivo {
+    display: flex;
+    // flex-direction: column;
+    align-items: center;
+    // width: 100%;
+}
+
+.field-container-Menudeo-lecturaArchivo {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 0px 23px;
+}
+
+.card-form-operaMenudeo-lecturaArchivo .mat-form-field {
+    // flex: 1;
+    margin-right: 0px;
+
+}
+
+.campos-operaMenudeo-lecturaArchivo .tipoDocumentoMenudeo {
+    margin-right: 0 !important;
+}
+
+.cedula-Menudeo-lecturaArchivo {
+    display: flex;
+}
+
+.campos-operaMenudeo-lecturaArchivo {
+    display: flex;
+    gap: 50px;
+    width: 245px;
+}
+
+.campos-operaMenudeo-lecturaArchivo .tipoDocumentoMenudeo {
+    .mat-form-field-flex {
+        padding: 0 5px 0 6px !important;
+    }
+}
+
+.tipoDocumentoMenudeo-lecturaArchivo .mat-select-value {
+    padding-left: 25px;
+}
+
+.campos-operaMenudeo-lecturaArchivo .tipoDocumentoMenudeo {
+    .mat-form-field-label {
+        width: 30px;
+    }
+}
+
+.input-cedula-Menudeo-lecturaArchivo .mat-form-field-wrapper {
+    width: 165px;
+}
+
+.input-cedula-Menudeo-lecturaArchivo {
+    color: #1e293b;
+
+    &.mat-focused {
+
+        .mat-form-field-outline-thick,
+        .mat-form-field-label {
+            color: #004a72 !important;
+        }
+    }
+}
+
+
+.campos-operaMenudeo-lecturaArchivo .documentoMenudeo {
+    width: 80px;
+    /* Ancho fijo para el select */
+}
+
+
+.file-icon-Menudeo-lecturaArchivo:before {
+    color: grey;
+}
+
+.file-icon-Menudeo-lecturaArchivo:hover {
+    cursor: pointer;
+}
+
+
+.field-operMenudeo-lecturaArchivo .mat-form-field-infix {
+    display: flex !important;
+    padding: 0 !important;
+    width: 220px !important;
+}
+
+.field-operMenudeo-lecturaArchivo mat-icon {
+    padding: 9px 7px 0px 0px !important;
+    justify-content: end;
+    width: 25%;
+}
+
+.field-operMenudeo-lecturaArchivo .mat-form-field-flex {
+    padding: 0 5px 0 20px !important;
+    margin-top: -0.25em !important;
+    position: relative !important;
+    opacity: 5 !important;
+}
+
+.field-operMenudeo-lecturaArchivo mat-hint {
+    padding-left: 60px !important;
+    padding-top: 5px;
+    color: #004a72 !important;
+    font-size: 1.23em;
+    font-weight: 400;
+}
+
+.field-operMenudeo-lecturaArchivo .mat-form-field-flex:hover,
+.field-operMenudeo-lecturaArchivo .mat-form-field-outline-thick {
+    opacity: 1 !important;
+}
+
+.field-operMenudeo-lecturaArchivo input.mat-input-element {
+    margin: 0.7em 0em 0.9em 0em;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+
+.tipoDocumentoMenudeo-lecturaArchivo {
+    .mat-form-field-wrapper {
+
+        width: 80px !important;
+    }
+}
+
+.tipoDocumentoMenudeo-lecturaArchivo .mat-form-field {
+    padding-left: 13px !important;
+    margin-right: 0px !important;
+}
+
+
+.field-operMenudeo-lecturaArchivo .mat-form-field.mat-form-field-appearance-outline,
+.field-operMenudeo-lecturaArchivo .mat-form-field-label-wrapper {
+    width: 50% !important;
+    top: -1px !important;
+    left: 1px !important;
+}
+
+
+.field-operMenudeo-lecturaArchivo {
+    &.mat-form-field-invalid.mat-form-field-invalid {
+        .mat-form-field-outline-thick {
+            color: rgba(48, 48, 48, 0.247) !important;
+        }
+
+        .mat-form-field-label {
+            color: rgba(48, 48, 48, 0.616) !important;
+        }
+    }
+
+    &.mat-form-field-valid.mat-form-field-valid {
+
+        .mat-form-field-outline-thick,
+        .mat-form-field-label {
+            color: #004a72 !important;
+        }
+    }
+
+    &.mat-focused {
+
+        .mat-form-field-outline-thick,
+        .mat-form-field-label {
+            color: #004a72 !important;
+        }
+    }
+}
+
+.buttons-operMenudeo-lecturaArchivo {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+}
+
+.button-container-operMenudeo-lecturaArchivo button {
+    white-space: normal;
+    overflow-wrap: break-word;
+    width: 70%;
+    padding: 0 20px !important;
+    border-radius: 50px !important;
+}
+
+.button-container2-operMenudeo-lecturaArchivo {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+
+    button {
+        padding: 0 20px !important;
+        border-radius: 50px !important;
+        width: 100px;
+        // background-color: lightblue;
+    }
+}
+
+
+.buttons-operMenudeo-lecturaArchivo {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+
+}
+
+.buttons-operMenudeo-lecturaArchivo .mat-raised-button {
+    color: #004a72 !important;
+    font-weight: 500;
+}
+
+.button-container-operMenudeo-lecturaArchivo .mat-raised-button,
+.button-container2-operMenudeo-lecturaArchivo .mat-raised-button {
+    transition: background-color 0s, color 0s;
+}
+
+.button-container-operMenudeo-lecturaArchivo .mat-raised-button:hover,
+.button-container2-operMenudeo-lecturaArchivo .mat-raised-button:hover {
+    background-color: #004a72;
+    color: white !important;
+}
+
+
+
+.field-operMenudeo-lecturaArchivo .mat-select {
+
+    .mat-select-trigger {
+        display: inline-flex;
+        align-items: center;
+        width: 100%;
+        height: 35px !important;
+    }
+}
+
+.field-operMenudeo-lecturaArchivo { 
+ .mat-form-field-flex {
+    height: 53px;
+}
+}
+
+.mat-select-panel {
+    border-radius: 15px !important;
+}
+

@@ -1,0 +1,57 @@
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="operacionesMenudeo-container-lecturaArchivo">
+            <div class="operaMenudeo-header-content-lecturaArchivo">
+                <span>Lectura de Archivo</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-usd-l head-icon-Menudeo-lecturaArchivo"></mat-icon>
+            </div>
+            <mat-card class="card-container-operaMenudeo-lecturaArchivo">
+                <div class="title-operaMenudeo-lecturaArchivo">
+                    <span>Seleccione Criterios</span>
+                </div>
+                <!-- lecturaArchivo Form -->
+                <form class="card-form-operaMenudeo-lecturaArchivo" #lecturaArchivoaForm="ngForm" [formGroup]="lecturaArchivooMenudeoForm">
+
+
+                        <mat-form-field 
+                        class="w-full field-operMenudeo-lecturaArchivo" appearance="outline"
+                        [ngClass]="{'mat-form-field-valid': lecturaArchivooMenudeoForm.controls['file'].valid && lecturaArchivooMenudeoForm.controls['file'].value}">
+                            <mat-label>Archivo</mat-label>
+                            <input
+                            id="file"
+                            matInput
+                            [formControlName]="'file'"  
+                            [value]="fileName"
+                            readonly>
+                            <mat-hint>Suba un archivo Excel</mat-hint>
+                            <mat-error *ngIf="lecturaArchivooMenudeoForm.get('file').hasError('required') && lecturaArchivooMenudeoForm.get('file').touched">
+                                Debe seleccionar un archivo
+                              </mat-error>
+                            <mat-error *ngIf="lecturaArchivooMenudeoForm.get('file').hasError('invalidFile')">
+                                Por favor, sube un archivo Excel válido
+                            </mat-error>
+                            <mat-icon (click)="fileInput.click()" class="icon-bdv-icon-file2-m file-icon-Menudeo-lecturaArchivo"></mat-icon>
+                            <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+                        </mat-form-field>
+
+    </form>
+
+                <div class="buttons-operMenudeo-lecturaArchivo">
+                    <div class="button-container-operMenudeo-lecturaArchivo">
+                        <button class="mat-raised-button" type="submit" form="lecturaArchivoForm">Descargar Plantilla de Anulación</button>
+                    </div>
+                    <div class="button-container2-operMenudeo-lecturaArchivo">
+                        <button class="mat-raised-button" type="submit" form="lecturaArchivoForm">Procesar</button>
+                        <button class="mat-raised-button" type="submit" form="lecturaArchivoForm" (click)="menuPrincipal()">Salir</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

@@ -29,14 +29,12 @@ import { NgxSpinnerModule } from "ngx-spinner";
 import { SpinnerComponent } from './modules/admin/spinner/spinner.component';
 import { InventarioComponent } from './modules/admin/dashboards/inventario/inventario.component';
 import { BuzonPendienteComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/buzon-pendiente.component';
-
 import { MatDividerModule } from '@angular/material/divider';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatNativeDateModule, MatRippleModule } from '@angular/material/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { NgApexchartsModule } from 'ng-apexcharts';
 import { SharedModule } from 'app/shared/shared.module';
-
 import { MatRadioModule} from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatPaginatorModule } from '@angular/material/paginator';
@@ -44,55 +42,53 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import {  MatTooltipModule } from '@angular/material/tooltip';
 import {MatDialogModule} from '@angular/material/dialog';
 import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component';
-import { BuzonComponent } from './modules/admin/dashboards/buzon/buzon.component';
-import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component';
-
-import { ModalIngresarEquipoComponent } from './modules/admin/dashboards/buzon/modal-ingresar-equipo/modal-ingresar-equipo.component'; 
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { MAT_AUTOCOMPLETE_SCROLL_STRATEGY } from '@angular/material/autocomplete';
 import {MAT_CHIPS_DEFAULT_OPTIONS, MatChipsModule} from '@angular/material/chips';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { SoporteComponent } from './modules/admin/dashboards/soporte/soporte.component';
-import { BuzonPendienteSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/buzon-pendiente-sop.component';
-import { AsignarSolicitudSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/asignar-solicitud-sop/asignar-solicitud-sop.component';
-
-import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitd/detalle-solicitd.component';
 import { NgxMatSelectSearchModule } from 'ngx-mat-select-search';
 import { ReasignarSolicitudinvComponent } from './modules/admin/dashboards/inventario/reasignar-solicitudinv/reasignar-solicitudinv.component';
-import { ReasignarSolicitudsopComponent } from './modules/admin/dashboards/soporte/reasignar-solicitudsop/reasignar-solicitudsop.component';
 import { ModalReasignarComponent } from './modules/admin/dashboards/inventario/modal-reasignar/modal-reasignar.component';
-import { ModalDesicionSopComponent } from './modules/admin/dashboards/buzon/modal-desicion-sop/modal-desicion-sop.component';
-import { MedicionesComponent } from './modules/admin/dashboards/mediciones/mediciones.component';
-import { ReportesComponent } from './modules/admin/dashboards/mediciones/reportes/reportes.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { CaciComponent } from './modules/admin/dashboards/caci/caci.component';
-import { InventarioProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/inventario-proveeduria.component';
-import { AsignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/asignar-sol-proveeduria/asignar-sol-proveeduria.component';
-import { ReasignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/reasignar-sol-proveeduria/reasignar-sol-proveeduria.component';
-import { AdministracionComponent } from './modules/admin/dashboards/proveeduria/administracion/administracion.component';
-import { EditarComponent } from './modules/admin/dashboards/proveeduria/administracion/editar/editar.component';
-import { DespachoProveeduriaComponent } from './modules/admin/dashboards/despacho-proveeduria/despacho-proveeduria.component';
-import { AsignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/asignar-sol-proveeduria-des/asignar-sol-proveeduria-des.component';
-import { ReasignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/reasignar-sol-proveeduria-des/reasignar-sol-proveeduria-des.component';
-import { DetalleSolicitudProveduriaComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-proveduria/detalle-solicitud-proveduria.component';
-import { ReportesGeneralesComponent } from './modules/admin/dashboards/reportes-generales/reportes-generales.component';
-import { CrearComponent } from './modules/admin/dashboards/proveeduria/administracion/crear/crear.component';
-import { NivelAtencionComponent } from './modules/admin/dashboards/caci/nivel-atencion/nivel-atencion.component';
-import { AsignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/asignar-sol-caci/asignar-sol-caci.component';
-import { ReasignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/reasignar-sol-caci/reasignar-sol-caci.component';
-import { AtencionSolicitudComponent } from './modules/admin/dashboards/atencion-solicitud/atencion-solicitud.component';
-import { ReasignarSolicitudSgComponent } from './modules/admin/dashboards/atencion-solicitud/reasignar-solicitud-sg/reasignar-solicitud-sg.component';
-import { AsignarSolicitudSgComponent } from './modules/admin/dashboards/atencion-solicitud/asignar-solicitud-sg/asignar-solicitud-sg.component';
-import { AprobacionSolInternaComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/aprobacion-sol-interna.component';
-import { DetalleSolicitudServgeneralesComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-servgenerales/detalle-solicitud-servgenerales.component';
-import { ReasignarSolicitudSgAiComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/reasignar-solicitud-sg-ai/reasignar-solicitud-sg-ai.component';
-import { AdministracionServgeneralesComponent } from './modules/admin/dashboards/atencion-solicitud/administracion-servgenerales/administracion-servgenerales.component';
-import { CrearModificarComponent } from './modules/admin/dashboards/atencion-solicitud/administracion-servgenerales/crear-modificar/crear-modificar.component';
-import { ModalImpresoraComponent } from './modules/admin/dashboards/proveeduria/administracion/modal-impresora/modal-impresora.component';
-import { ModalModeloImpresoraComponent } from './modules/admin/dashboards/proveeduria/administracion/modal-modelo-impresora/modal-modelo-impresora.component';
-import { ModalConsumiblesComponent } from './modules/admin/dashboards/proveeduria/administracion/modal-consumibles/modal-consumibles.component'; 
+import { MenuPrincipalComponent } from './modules/menu-principal/menu-principal.component';
+import { UserModule } from "./layout/common/user/user.module";
+import { MainLayoutsComponent } from './modules/main-layouts/main-layouts.component';
+import { CargaMesaCambioComponent } from './modules/mesaDeCambio/carga/carga.component';
+import { OperacionesMesaCambioComponent } from './modules/mesaDeCambio/operaciones/operaciones.component';
+import { OperacionesIntervencionComponent } from './modules/intervencion/operaciones-intervencion/operaciones-intervencion.component';
+import { CargaIntervencionComponent } from './modules/intervencion/carga-intervencion/carga-intervencion.component';
+import { InterbancarioIntervencionComponent } from './modules/intervencion/interbancario-intervencion/interbancario-intervencion.component';
+import { CambioClaveIntervencionComponent } from './modules/intervencion/cambio-clave-intervencion/cambio-clave-intervencion.component';
+import { AnulacionIntervencionComponent } from './modules/intervencion/anulacion-intervencion/anulacion-intervencion.component';
+import { ConsultabcvIntervencionComponent } from './modules/intervencion/consultabcv-intervencion/consultabcv-intervencion.component';
+import { ConsultabcvMenudeoComponent } from './modules/menudeo/consultabcv-menudeo/consultabcv-menudeo.component';
+import { OperacionesMenudeoComponent } from './modules/menudeo/operaciones-menudeo/operaciones-menudeo.component';
+import { DemandaMenudeoComponent } from './modules/menudeo/demanda-menudeo/demanda-menudeo.component';
+import { CargaMenudeoComponent } from './modules/menudeo/carga-menudeo/carga-menudeo.component';
+import { ConsultaTasasbcvMenudeoComponent } from './modules/menudeo/consulta-tasasbcv-menudeo/consulta-tasasbcv-menudeo.component';
+import { LecturaArchivoMenudeoComponent } from './modules/menudeo/lectura-archivo-menudeo/lectura-archivo-menudeo.component';
+import { ConsultaConciliacionMenudeoComponent } from './modules/menudeo/consulta-conciliacion-menudeo/consulta-conciliacion-menudeo.component';
+import { CambioClaveMenudeoComponent } from './modules/menudeo/cambio-clave-menudeo/cambio-clave-menudeo.component';
+import { ConsultabcvMesaCambioComponent } from './modules/mesaDeCambio/consultabcv-mesa-cambio/consultabcv-mesa-cambio.component';
+import { AnulacionMasivaMesaCambioComponent } from './modules/mesaDeCambio/anulacion-masiva-mesa-cambio/anulacion-masiva-mesa-cambio.component';
+import { CambioClaveMesaCambioComponent } from './modules/mesaDeCambio/cambio-clave-mesa-cambio/cambio-clave-mesa-cambio.component';
+import { InterbancarioMesaCambioComponent } from './modules/mesaDeCambio/interbancario-mesa-cambio/interbancario-mesa-cambio.component';
+import { DemandaMesaCambioComponent } from './modules/mesaDeCambio/demanda-mesa-cambio/demanda-mesa-cambio.component';
+import { ConsultaIntercambioMesaCambioComponent } from './modules/mesaDeCambio/consulta-intercambio-mesa-cambio/consulta-intercambio-mesa-cambio.component';
+import { OfertaMesaCambioComponent } from './modules/mesaDeCambio/oferta-mesa-cambio/oferta-mesa-cambio.component';
+import { EditOperacionesIntervencionModalComponent } from './modules/intervencion/operaciones-intervencion/edit-operaciones-intervencion-modal/edit-operaciones-intervencion-modal.component';
+import { FuseLoadingBarModule } from "../@fuse/components/loading-bar/loading-bar.module";
+import { JornadaIntervencionComponent } from './modules/intervencion/jornada-intervencion/jornada-intervencion.component';
+import { HttpClientModule } from '@angular/common/http';
+import { MatTreeModule } from '@angular/material/tree';
+import { IntencionRetiroComponent } from './modules/intencion-retiro/intencion-retiro.component';
+import { MAT_DATE_FORMATS } from '@angular/material/core';
+import { MY_DATE_FORMATS } from 'app/models/dateFormat';
+import { IntencionVentaComponent } from './modules/intencion-venta/intencion-venta.component';
+import { MatPaginatorIntl } from '@angular/material/paginator';
+import { getSpanishPaginatorIntl } from './shared/mat-paginator-intl';
 
 
 const routerConfig: ExtraOptions = {
@@ -108,98 +104,94 @@ const routerConfig: ExtraOptions = {
         InventarioComponent,
         BuzonPendienteComponent,
         AsignarSolicitudComponent,
-        BuzonComponent,
-        BuzonAsignadaComponent,
-        DetalleSolicitdComponent,
-        ModalIngresarEquipoComponent,
-        SoporteComponent,
-        BuzonPendienteSopComponent,
-        AsignarSolicitudSopComponent,
         ReasignarSolicitudinvComponent,
-        ReasignarSolicitudsopComponent,
         ModalReasignarComponent,
-        ModalDesicionSopComponent,
-        MedicionesComponent,
-        ReportesComponent,
-        InventarioProveeduriaComponent,
-        AsignarSolProveeduriaComponent,
-        ReasignarSolProveeduriaComponent,
-        CaciComponent,
-        AdministracionComponent,
-        EditarComponent,
-        DespachoProveeduriaComponent,
-        AsignarSolProveeduriaDESComponent,
-        ReasignarSolProveeduriaDESComponent,
-        DetalleSolicitudProveduriaComponent,
-        ReportesGeneralesComponent,
-        CrearComponent,
-        NivelAtencionComponent,
-        AsignarSolCaciComponent,
-        ReasignarSolCaciComponent,
-        AtencionSolicitudComponent,
-        ReasignarSolicitudSgComponent,
-        AsignarSolicitudSgComponent,
-        AprobacionSolInternaComponent,
-        DetalleSolicitudServgeneralesComponent,
-        ReasignarSolicitudSgAiComponent,
-        AdministracionServgeneralesComponent,
-        CrearModificarComponent,
-        ModalImpresoraComponent,
-        ModalModeloImpresoraComponent,
-        ModalConsumiblesComponent,
+        MenuPrincipalComponent,
+        MainLayoutsComponent,
+        CargaMesaCambioComponent,
+        OperacionesMesaCambioComponent,
+        OperacionesIntervencionComponent,
+        CargaIntervencionComponent,
+        InterbancarioIntervencionComponent,
+        CambioClaveIntervencionComponent,
+        AnulacionIntervencionComponent,
+        ConsultabcvIntervencionComponent,
+        ConsultabcvMenudeoComponent,
+        OperacionesMenudeoComponent,
+        DemandaMenudeoComponent,
+        CargaMenudeoComponent,
+        ConsultaTasasbcvMenudeoComponent,
+        LecturaArchivoMenudeoComponent,
+        ConsultaConciliacionMenudeoComponent,
+        CambioClaveMenudeoComponent,
+        ConsultabcvMesaCambioComponent,
+        AnulacionMasivaMesaCambioComponent,
+        CambioClaveMesaCambioComponent,
+        InterbancarioMesaCambioComponent,
+        DemandaMesaCambioComponent,
+        ConsultaIntercambioMesaCambioComponent,
+        OfertaMesaCambioComponent,
+        EditOperacionesIntervencionModalComponent,
+        JornadaIntervencionComponent,
+        IntencionRetiroComponent,
+        IntencionVentaComponent,
+
+        
+
         
     ],
-    imports     : [
-        BrowserModule,
-        BrowserAnimationsModule,
-        RouterModule.forRoot(appRoutes, routerConfig),
-
-        // Fuse, FuseConfig & FuseMockAPI
-        FuseModule,
-        FuseConfigModule.forRoot(appConfig),
-        FuseMockApiModule.forRoot(mockApiServices),
-
-        // Core module of your application
-        CoreModule,
-
-        // Layout module of your application
-        LayoutModule,
-        // 3rd party modules that require global configuration via forRoot
-        MarkdownModule.forRoot({}),
-          MatButtonModule,
-          MatButtonToggleModule,
-          MatFormFieldModule,
-          MatIconModule,
-          MatInputModule,
-          MatMenuModule,
-          MatSelectModule,
-          NgxMatSelectSearchModule,
-          MatSidenavModule,
-          MatSortModule,
-          MatTableModule,
-          MatTabsModule,
-          ToastrModule.forRoot(),
-          NgxSpinnerModule,
-          MatDividerModule,
-          MatProgressBarModule,
-          MatRippleModule,
-          TranslocoModule,
-          NgApexchartsModule,
-          SharedModule,
-          MatRadioModule,
-          MatCheckboxModule,
-          MatPaginatorModule,
-          MatSlideToggleModule,
-          MatTooltipModule,
-          MatDialogModule,
-          ScrollingModule,
-          MatChipsModule,
-          MatAutocompleteModule,
-          MatDatepickerModule,
-          MatNativeDateModule,
-          MatMomentDateModule
-
-    ],
+    imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    RouterModule.forRoot(appRoutes, routerConfig),
+    // Fuse, FuseConfig & FuseMockAPI
+    FuseModule,
+    FuseConfigModule.forRoot(appConfig),
+    FuseMockApiModule.forRoot(mockApiServices),
+    // Core module of your application
+    CoreModule,
+    // Layout module of your application
+    LayoutModule,
+    // 3rd party modules that require global configuration via forRoot
+    MarkdownModule.forRoot({}),
+    MatButtonModule,
+    MatButtonToggleModule,
+    MatFormFieldModule,
+    MatIconModule,
+    MatInputModule,
+    MatMenuModule,
+    MatSnackBarModule,
+    MatSelectModule,
+    NgxMatSelectSearchModule,
+    MatSidenavModule,
+    MatSortModule,
+    MatTableModule,
+    MatTabsModule,
+    ToastrModule.forRoot(),
+    NgxSpinnerModule,
+    MatDividerModule,
+    MatProgressBarModule,
+    MatRippleModule,
+    TranslocoModule,
+    NgApexchartsModule,
+    SharedModule,
+    MatRadioModule,
+    MatCheckboxModule,
+    MatPaginatorModule,
+    MatSlideToggleModule,
+    MatTooltipModule,
+    MatDialogModule,
+    ScrollingModule,
+    MatChipsModule,
+    MatAutocompleteModule,
+    MatDatepickerModule,
+    MatNativeDateModule,
+    MatMomentDateModule,
+    UserModule,
+    FuseLoadingBarModule,
+    MatTreeModule
+],
     exports: [NgxSpinnerModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],
     
@@ -218,7 +210,9 @@ const routerConfig: ExtraOptions = {
             useValue: {
               separatorKeyCodes: [ENTER, COMMA]
             }
-          }
+          },
+          { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS },
+          { provide: MatPaginatorIntl, useValue: getSpanishPaginatorIntl() }
        ],
 })
 export class AppModule

@@ -1,0 +1,204 @@
+@import url("//src/assets/styles/icons-bdv.css");
+  
+
+  
+  // Sidebar
+  
+  mat-sidenav {
+      border-radius: 0 50px 50px 0;
+      width: 285px;
+      box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
+      z-index: 1000;
+      position: fixed;
+      background-color: #fff;
+  }
+  
+  .sidenav-container {
+    //   height: 100vh;
+    //   width: 15vw;
+    //   background-color: black !important;
+      z-index: 2;
+  }
+
+  
+  .back-container {
+      display: flex;
+      justify-content: start;
+      :hover {
+          cursor: pointer;
+      }
+    }
+  
+    .back::before {
+      color: #fff;
+      margin: 20px 0 0 20px;
+    }
+    
+  .profile-container {
+      display: flex;
+      justify-content: center;
+      padding: 35px 0 20px 0;
+  }
+  
+  .profile::before {
+      color: #fff;
+      font-size: 6rem;
+    }
+  
+    .user {
+      color: #fff;
+      font-weight: bolder;
+      font-size: 1.2em;
+    }
+  
+    .menu-items {
+      ul {
+        list-style: none;
+        padding: 0;
+        margin: 0;
+        
+        li {
+          display: flex;
+          align-items: center;
+          margin-bottom: 25px;
+          :hover {
+              cursor: pointer;
+          }
+          .item {
+              // margin-left: 8px;
+              font-size: 1.1rem;
+              white-space: nowrap;
+              color: #DB0032;
+          }
+        }
+      }
+    }
+  
+    .icon-item::before{
+      color: #DB0032 !important;
+      cursor: pointer;
+    }
+    
+  
+  
+  
+  // Header 
+  .header {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: linear-gradient(135deg, white 53%, #fec800 50%, #fec800 58%, #fbfbfb 56%, white 59%, #db0032 59%, #db0032 64%, #0067b1 60%) !important;
+      height: 100px;
+  }
+  
+  .red-bg {
+      background-color: #DB0032;
+      height: 235px;
+  }
+  
+  .text {
+      margin-right: 40px;
+      display: grid;
+      justify-items: center;
+      color: #fff !important;
+      font-weight: 600;
+  }
+  
+  .text1 {
+      margin-bottom: -10px;
+  }
+  
+  .button-menu {
+      margin: 0 20px 0 20px;
+  }
+  
+  .button-menu:hover {
+          cursor: pointer;
+    }
+  
+  
+  #notinfi-logo {
+      height: 90px;
+      width: 80px;
+  }
+  
+  #bdv-logo {
+      height: 80px;
+      width: 240px;
+  }
+  
+  // Footer
+  
+  .footer{
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+
+  }
+  .footer2{
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      border-color: rgba(128, 128, 128, 0.377); 
+      color: gray;
+  }
+  
+  // .menuFondo {
+  //     background: #070707 !important;
+  // }
+  
+  
+  // Shapes from Footer
+  .shapes-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 200px;
+      overflow: hidden; 
+      opacity: 0.5;
+  }
+  
+  .shape {
+  
+      position: absolute;
+      border-radius: 30px;
+      opacity: 1;
+      transform: rotate(106deg);  
+      box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.5);  
+      }
+  
+  .shape1 {
+  
+      width: 400px;
+      height: 300px;
+      background-color: #DB0032;
+      bottom: -240px;
+      left: -100px;
+      
+      }
+      
+      .shape2 {
+      
+      width: 400px;
+      height: 300px;
+      background-color: #E89600;
+      bottom: -200px;
+      left: 14px;
+      
+      }
+      
+      .shape3 {
+      
+      width: 400px;
+      height: 300px;
+      background-color: #0067B1;
+      bottom: -275px;
+      left: 88px;
+      
+      }
+  

@@ -1,0 +1,51 @@
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="operacionesIntervencion-container-interbancario">
+            <div class="operaInter-header-content-interbancario">
+                <span>Interbancario</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intervencion-interbancario"></mat-icon>
+            </div>
+            <mat-card class="card-container-operaInter-interbancario">
+                <div class="title-operaInter-interbancario">
+                    <span>Seleccione Criterios de Búsqueda</span>
+                </div>
+                <!-- Carga Form -->
+                <form class="card-form-operaInter-interbancario" #operacionesForm="ngForm" [formGroup]="interbanInterForm">
+                    <div class="field-container-intervencion-interbancario">
+                        <div class="campos-operaInter-interbancario">
+                            <mat-form-field class="w-full field-operInter-interbancario" appearance="outline">
+                                <mat-label>Fecha</mat-label>
+                                <input matInput [matDatepicker]="picker" readonly>
+                                <mat-icon (click)="picker.open()" class="icon-bdv-icon-scheduledit-m date-icon-inter-interbancario"></mat-icon>
+                                <mat-datepicker #picker></mat-datepicker>
+                            </mat-form-field>
+
+                            <mat-form-field class="w-full field-operInter-interbancario" appearance="outline">
+                                <mat-label>Envio BCV</mat-label>
+                                <mat-select>
+                                    <mat-option value="one">First option</mat-option>
+                                    <mat-option value="two">Second option</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
+                <div class="buttons-intervencion-interbancario">
+                    <div class="button-container-intervencion-interbancario">
+                        <button class="mat-raised-button" type="submit" form="cargaInterForm">Salir</button>
+                    </div>
+                    <div class="button-container2-intervencion-interbancario">
+                        <button class="mat-raised-button" type="submit" form="cargaInterForm">Consultar</button>
+                        <button class="mat-raised-button">Limpiar</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

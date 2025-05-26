@@ -14,7 +14,7 @@ import { ToastrService } from 'ngx-toastr';
 import { NgxSpinnerService } from 'ngx-spinner';
 import { SpinnerComponent } from 'app/modules/admin/spinner/spinner.component';
 import { Overlay, OverlayRef } from '@angular/cdk/overlay';
-import { ModaldecisionesComponent } from './modaldecisiones/modaldecisiones.component';
+//import { ModaldecisionesComponent } from './modaldecisiones/modaldecisiones.component';
 
 @Component({
     selector       : 'project',

@@ -1,0 +1,310 @@
+<!-- Loading Bar -->
+<fuse-loading-bar [show]="isLoading"></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+    <router-outlet></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <mat-tab-group class="mat-tab-group-intencionVenta" [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
+            <mat-tab label="Búsqueda">
+
+                <div class="intencionVenta-container">
+                    <div class="intencionVenta-header-content">
+                        <span>Intención Venta</span>
+                        <div class="icon-container">
+                            <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intencionVenta"></mat-icon>
+                            <span class="text-head-venta">Venta</span>
+                        </div>
+                    </div>
+                    <mat-card class="card-container-intencionVenta">
+                        <div class="title-intencionVenta">
+                            <span>Seleccione Criterios de Búsqueda</span>
+                        </div>
+                        <!-- Carga Form -->
+                        <form class="card-form-intencionVenta" #intencionVentaForm="ngForm"
+                            [formGroup]="intencionVentaFb">
+
+                            <div class="field-container-intencionVenta">
+                                <!-- <div class="campos-intencionVenta"> -->
+
+                                    <!-- <div class="cedula-intencionVenta">
+                                        <mat-form-field appearance="outline"
+                                            class="field-intencionVenta tipoDocumentoInter">
+                                            <mat-label>Tipo</mat-label>
+                                            <mat-select [formControlName]="'nacionalidad'">
+                                                <mat-option value="V">V</mat-option>
+                                                <mat-option value="E">E</mat-option>
+                                                <mat-option value="P">P</mat-option>
+                                                <mat-option value="J">J</mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+
+                                        <mat-form-field appearance="outline" class="flex-grow-1 input-cedula-inter">
+                                            <mat-label>Cédula o RIF</mat-label>
+                                            <input type="number" matInput [formControlName]="'documento'" matInput>
+                                        </mat-form-field>
+                                    </div> -->
+
+                                    <!-- <mat-form-field class="w-full field-intencionVenta sucursalesField"
+                                        appearance="outline">
+                                        <mat-label>Oficinas</mat-label>
+                                        <mat-select [formControlName]="'agencia'">
+                                            <mat-option value="TODAS">Todas</mat-option>
+                                            <mat-option value="1">501 -Sucursal Centro </mat-option>
+                                        </mat-select>
+                                    </mat-form-field> -->
+
+                                <!-- </div> -->
+
+                                <div class="campos-intencionVenta">
+
+                                    <mat-form-field class="w-full field-intencionVenta" appearance="outline">
+                                        <mat-label>Fecha Desde</mat-label>
+                                        <input matInput formControlName="fechaDesde" [max]="today" [matDatepicker]="pickerDesde"
+                                            readonly>
+                                        <mat-icon (click)="pickerDesde.open()"
+                                            class="icon-bdv-icon-scheduledit-m date-icon-inter"></mat-icon>
+                                        <mat-datepicker #pickerDesde></mat-datepicker>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-full field-intencionVenta" appearance="outline">
+                                        <mat-label>Fecha Hasta</mat-label>
+                                        <input matInput formControlName="fechaHasta" [max]="today" [min]="intencionVentaFb.get('fechaDesde')?.value"
+                                            [matDatepicker]="pickerHasta" readonly>
+                                        <mat-icon (click)="pickerHasta.open()"
+                                            class="icon-bdv-icon-scheduledit-m date-icon-inter"></mat-icon>
+                                        <mat-datepicker #pickerHasta></mat-datepicker>
+                                    </mat-form-field>
+
+                                </div>
+
+                                <!-- <div class="campos-intencionVenta">
+                                    <mat-form-field class="w-full field-intencionVenta sucursalesField"
+                                        appearance="outline">
+                                        <mat-label>Estatus</mat-label>
+                                        <mat-select [formControlName]="'estatus'">
+                                            <mat-option value="TODAS">Todas</mat-option>
+                                            <mat-option value="ACTIVO">Activo</mat-option>
+                                            <mat-option value="LIQUIDADO">Liquidado</mat-option>
+                                            <mat-option value="RECHAZADO">Rechazado</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div> -->
+
+                            </div>
+                        </form>
+
+                        <div class="buttons-intencionVenta">
+                            <div class="button-container2-intencionVenta">
+                                <button class="mat-raised-button" type="submit" (click)="consultarintencionVenta()"form="cargaForm">Procesar</button>
+                                <button class="mat-raised-button" type="submit" form="cargaForm"
+                                    (click)="inicio()">Salir</button>
+                            </div>
+                        </div>
+                    </mat-card>
+                </div>
+            </mat-tab>
+
+
+
+
+
+
+
+
+
+
+
+            
+            <mat-tab label="Resultado">
+                <ng-template matTabContent>
+                    <div
+                        class="w-full p-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0 resultados-intervencion ">
+                        <!-- Summary -->
+                       
+                        <!-- Overdue -->
+                        
+
+
+
+                        <!-- Github issues summary -->
+                        <div
+                            class="sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                            <div
+                                class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <!-- <div class="text-lg font-medium tracking-tight leading-6 truncate">Buscar</div> -->
+
+                                <div class="flex flex-col flex-auto mt-2 overflow-x-auto results" >
+                                    <div class="flex items-start justify-between">
+                                        <mat-form-field appearance="outline" class="input-filter-intencionVenta">
+                                            <mat-label>Filtro</mat-label>
+                                            <input matInput (keyup)="applyFilterH($event)" placeholder="" #input>
+                                        </mat-form-field>
+                                        
+                                            <div class="action-buttons">
+                                        <button class="mat-raised-button mr-5" (click)="exportarExcel()">Exportar Ordenes</button>                                       
+                                        <button class="mat-raised-button mr-5" (click)="regresar()">Regresar</button>                                       
+                                        <button class="mat-raised-button mr-5" (click)="inicio()">Salir</button>                                       
+                                        </div>
+                                        
+                                    </div>
+                                    <div class="mat-elevation-z8 table-responsive-venta">
+                                        <table mat-table [dataSource]="dataSourceH" matSort class="table-intencionVenta">
+                                            <!-- Tipo Intervención Column -->
+                                            <ng-container matColumnDef="numeroReferencia">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="pl-10">
+                                                    # Referencia
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.numeroReferencia }}
+                                                </td>
+                                            </ng-container>
+                                            
+                                            <!-- coVentaBCV Column -->
+                                            <ng-container matColumnDef="rif">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="pl-6">
+                                                    Rif
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.rif }}
+                                                </td>
+                                            </ng-container>
+    
+    
+                                            <!-- Fecha Inicio Column -->
+                                            <ng-container matColumnDef="nombreEmpresa">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-40 pl-7">
+                                                    Nombre
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.nombreEmpresa }}
+                                                </td>
+                                            </ng-container>
+                                            <!-- Fecha Inicio Column -->
+                                            <ng-container matColumnDef="cuentaOrigen">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-50">
+                                                    Cuenta Origen
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.cuentaOrigen }}
+                                                </td>
+                                            </ng-container>
+    
+                                            <!-- Fecha Fin Column -->
+                                            <ng-container matColumnDef="cuentaDestino">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-40">
+                                                    Cuenta Destino
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.cuentaDestino }}</td>
+                                            </ng-container>
+    
+                                             <!-- Fecha Valor Column -->
+                                             <ng-container matColumnDef="montoDivisa">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-10 pl-7">
+                                                    <!-- Monto Divisa -->
+                                                   Monto Divisa
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.montoDivisa }}
+                                                </td>
+                                            </ng-container>
+                                            
+                                            <!-- Tipo Cambio Column -->
+                                            <ng-container matColumnDef="moneda">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-10 pl-7">
+                                                    Moneda
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.moneda}}
+                                                </td>
+                                            </ng-container>
+    
+                                            <!-- Moneda Column -->
+                                            <ng-container matColumnDef="tasaPropuesta">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-10 pl-5">
+                                                    Tasa Propuesta
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.tasaPropuesta}}
+                                                </td>
+                                            </ng-container>
+    
+                                            <!-- Saldo Disponible Column -->
+                                            <ng-container matColumnDef="actividadEconomica">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-10 pl-5">
+                                                    Actividad Económica
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.actividadEconomica }}
+                                                </td>
+                                            </ng-container>
+    
+                                            <!-- Semana Column -->
+                                            <ng-container matColumnDef="destinoFondos">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-10 pl-3">
+                                                    Destino de Fondos
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.destinoFondos }}
+                                                </td>
+                                            </ng-container>
+                                            <!-- Semana Column -->
+                                            <ng-container matColumnDef="fechaSolicitud">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-10 pl-3">
+                                                    Fecha Solicitud
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.fechaSolicitud }}
+                                                </td>
+                                            </ng-container>
+                                            <!-- Semana Column -->
+                                            <ng-container matColumnDef="fechaRegistro">
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-10 pl-3">
+                                                    Fecha Registro
+                                                </th>
+                                                <td mat-cell *matCellDef="let row">
+                                                    {{ row.fechaRegistro }}
+                                                </td>
+                                            </ng-container>
+    
+                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+
+                                            <!-- Row shown when there is no matching data. -->
+                                            <tr class="mat-row" *matNoDataRow>
+                                                    <td class="mat-cell" colspan="12">No Existe Resultado</td>
+                                            </tr>
+                                        </table>
+
+                                         <div class="paginator-actions-row">
+                                            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                                                [showFirstLastButtons]="true" #paginatorH>
+                                            </mat-paginator>
+                                            <div class="action-buttons" *ngIf="paginatorH?.pageSize !== 5">
+                                                <button class="mat-raised-button mr-5"
+                                                    (click)="exportarExcel()">Exportar Ordenes</button>
+                                                <button class="mat-raised-button mr-5"
+                                                    (click)="regresar()">Regresar</button>
+                                                <button class="mat-raised-button mr-5"
+                                                    (click)="inicio()">Salir</button>
+                                            </div>
+                                        </div>
+    
+    
+                                    </div>
+
+                                </div>
+                            </div>
+
+                        </div>
+
+                    </div>
+                </ng-template>
+            </mat-tab>
+
+
+        </mat-tab-group>
+    </mat-sidenav-content>
+</mat-sidenav-container>

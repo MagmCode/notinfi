@@ -68,7 +68,7 @@ export class FuseLoadingBarComponent implements OnChanges, OnInit, OnDestroy
             .subscribe((value) => {
                 this.show = value;
             });
-
+// console.log("llegue")
     }
 
     /**

@@ -1,3 +1,19 @@
+// @import url("//src/assets/styles/icons-bdv.css");
+
+* {
+  font-family: 'Nunito', sans-serif !important;
+}
+
+
+mat-form-field{
+  border: 1px;
+  border-radius: 50px;
+}
+
+a {
+  color: #0067b1 !important;
+}
+
 
   .login-container-float-center{
     position: fixed;
@@ -19,6 +35,29 @@
     border-style: solid !important;
   }
 
+
+.right-side-container {
+   position: fixed;
+    top: 50%;
+    flex: 0 0 300px; 
+    display: flex;
+    align-items: center; 
+    justify-content: center; 
+}
   .text-azul{
     color: #0067b1 !important;
   }
+
+
+.icon-size-6  {
+  width: 1.25rem !important;
+  height: 1.35rem !important;
+}
+
+.ingresar {
+  font-size: 15px;
+}
+
+.icon-size-6::before {
+  color: gray;
+}

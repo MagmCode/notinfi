@@ -1,12 +1,431 @@
-.fondoNav{
-    background: linear-gradient(135deg,white 69%,#fec800 69%,#fec800 74%,#fbfbfb 74%,white 76%,#db0032 76%,#db0032 81%,#0067b1 81%) !important;
+// @import url("//src/assets/styles/icons-bdv.css");
+  
+
+  
+  // Sidebar
+  
+ /* Estructura principal del sidenav (ya existente) */
+mat-sidenav {
+  border-radius: 0 50px 50px 0;
+  width: 285px;
+  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
+  z-index: 1000;
+  position: fixed;
+  background-color: #fff;
 }
 
-.menuFondo{
-    background: #fff !important;
+
+.sidenav-container {
+  z-index: 2;
+}
+
+/* Contenedor del menú */
+.menu-items {
+  ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    width: 100%;
+    
+    > li:not(.tree-node) { // Estilo para items que NO son parte del árbol
+      display: flex;
+      align-items: center;
+      margin-bottom: 6px;
+
+      
+      // &:hover {
+      //   cursor: pointer;
+      // }
+      
+      .item {
+        font-size: 1rem;
+        white-space: nowrap;
+        color: #303030;
+        margin-left: 3px !important;
+
+        &:hover {
+          color: #181818;
+          cursor: pointer;
+        }
+      }
+    }
+  }
+}
+
+/* Estilos específicos para el árbol de menú */
+.mat-tree {
+  background: transparent;
+  width: 100%;
+  padding-left: 0;
+}
+
+.tree-node {
+  list-style: none;
+  padding-left: 0;
+  
+  button.list-button {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding: 0 5px;
+    margin: 0px 0;
+    background-color: transparent;
+    border-radius: 10px;
+    text-align: left;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    color: #303030;
+    border: none;
+    font-size: 1rem;
+
+    menu-item-text {
+      font-size: inherit;
+    }
+    
+    .menu-icon::before  {
+      color: #303030;
+      font-size: 18px;
+      margin-right: 8px;
+      transition: color 0.2s ease;
+    }
+
+    
+    // &:hover {
+    //   background-color: #DB0032;
+    //   color: white;
+      
+    //   .menu-icon::before {
+    //     color: white;
+    //   }
+    // }
+  }
+  button.list-button:hover{ 
+      color: #181818;
+  }
+
+    .seleccionado::before {
+
+      color: #DB0032 !important;
+      font-weight: bolder !important;
+      transform: rotate(90deg);
+      /*transform-origin: left top; /* Opcional: ajusta el punto de origen de la rotación */
+      display: inline-block; /* Necesario para que la rotación funcione correctamente en elementos inline */
+    }
+
+    .seleccionado {
+      color: #DB0032 !important;
+      font-weight:  bolder !important;     
+    }
+
+}
+
+/* Niveles de anidación */
+.mat-tree-node {
+  padding-left: calc(20px * var(--level)) !important;
+}
+
+[aria-level="2"] { --level: 0; }
+[aria-level="3"] { --level: 1; }
+[aria-level="4"] { --level: 2; }
+[aria-level="5"] { --level: 3; }
+[aria-level="6"] { --level: 4; }
+[aria-level="7"] { --level: 5; }
+
+/* Iconos */
+.icon-item::before {
+  color: #303030 !important;
+  cursor: pointer;
+
+  font-size: 24px;
+  margin-top: 1px;
+  margin-left: 3px;
+
+}
+
+.menu-icon::before {
+  color: #DB0032;
+  font-size: 18px;
+  height: 18px;
+  width: 18px;
+  margin-right: 8px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.logout-icon::before {
+  color: #ffffff;
+  font-size: 30px;
+  height: 18px;
+  width: 18px;
+  margin-right: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: end;
+  transform: rotate(180deg);
+}
+
+.logout-icon:hover::before {
+  cursor: pointer;
 }
 
 
-fuse-vertical-navigation-group-item > .fuse-vertical-navigation-item-wrapper .fuse-vertical-navigation-item .fuse-vertical-navigation-item-title-wrapper .fuse-vertical-navigation-item-title{
-    color: #0067b1 !important;
+/* Nodo seleccionado sin hijos */
+li.selected .menu-item-text {
+  color: #DB0032 !important; /* Cambia el texto a rojo */
+  font-weight: bold; /* Opcional: resalta el texto */
 }
+
+
+/* Estilo para nodos de nivel 1 (nodos principales) */
+ mat-tree-node {
+  min-height: 0px !important; /* Espaciado entre nodos principales */
+}
+
+
+.level-1 {
+  padding: 6px 0; /* Espaciado entre nodos principales */
+}
+
+/* Estilo para nodos de nivel 2 y superiores */
+.level-2 button.list-button {
+  min-height: 10px; /* Altura mínima para nodos hijos */
+  padding: 0 5px; /* Ajusta el padding si es necesario */
+  :hover{
+    color:  #181818; /* Cambia el color del texto al pasar el mouse */
+  }
+}
+
+/* Opcional: Ajuste de fuente o colores para nodos secundarios */
+.level-2 .menu-item-text {
+  font-size: 0.9rem; /* Ajusta el tamaño de la fuente si es necesario */
+  color: #666; /* Color más tenue para nodos secundarios */
+}
+
+
+/* Estilos para la sección superior del sidebar (existente) */
+.back-container {
+  display: flex;
+  justify-content: start;
+  
+  &:hover {
+    cursor: pointer;
+  }
+}
+
+.back::before {
+  color: #fff;
+  margin: 20px 0 0 20px;
+}
+
+.profile-container {
+  display: flex;
+  justify-content: center;
+  padding: 0 0 15px 0;
+}
+
+.profile::before {
+  color: #fff;
+  font-size: 5.3rem;
+}
+
+
+
+
+.user {
+  color: #fff;
+  font-weight: bolder;
+  font-size: 1.2em;
+  text-align: center;
+  // padding-bottom: 20px;
+}
+
+.perfil {
+  color: #fff;
+}
+  
+  
+  
+  // Header 
+  .header {
+      width: 100%;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
+      background: linear-gradient(135deg, white 53%, #fec800 50%, #fec800 58%, #fbfbfb 56%, white 59%, #db0032 59%, #db0032 64%, #0067b1 60%) !important;
+      height: 100px;
+  }
+  
+  .red-bg {
+      background-color: #DB0032;
+      height: 190px;
+  }
+
+
+//   .text {
+//     display: grid;
+//     justify-items: center;
+//     color: #fff !important;
+//     font-weight: 600;
+//     position: relative; 
+// }
+
+// .text1 {
+//     margin-bottom: 0; 
+//     align-self: end; 
+//     margin-right:6rem !important;
+// }
+
+// .info-bar {
+//   position: absolute;
+//   bottom: 0;
+//   left: 50%;
+//   transform: translateX(-50%);
+//   display: flex;
+//   align-items: center;
+//   gap: 15px; 
+//   color: #ffffff;
+//   font-size: 13px;
+//   white-space: nowrap;
+//   padding-right: 16rem;
+  
+//   .separator {
+//       opacity: 0.5;
+//   }
+// }
+
+
+.text {
+  display: grid;
+  justify-items: center;
+  color: #fff !important;
+  // font-weight: 600;
+  position: relative;
+  margin-right: 2rem !important;
+  margin-top: 33px !important;
+}
+
+.text1 {
+  margin-bottom: 0;
+  align-self: end;
+  margin: 0 !important;
+  margin-bottom: 5px !important;
+  font-weight: 600;
+}
+
+/* Adaptamos solo la parte de fecha y tasas */
+.fecha {
+  color: #ffffff;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.tasa-columna {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  font-size: 13px;
+  color: #ffffff;
+  margin-top: 54px !important;
+  margin-right: 2.5rem !important;
+}
+
+
+  .button-menu {
+      margin: 0 20px 0 20px;
+  }
+  
+  .button-menu:hover {
+          cursor: pointer;
+    }
+  
+  
+  #notinfi-logo {
+      height: 90px;
+      width: 80px;
+  }
+  
+  #bdv-logo {
+      height: 80px;
+      width: 240px;
+  }
+  
+  #bdv-logo:hover {
+      cursor: pointer;
+      
+  }
+
+  
+  
+  // Footer
+  
+  .footer{
+      width: 100%;
+      position: fixed;
+      bottom: 0;
+      left: 0;
+      z-index: 1000;
+
+  }
+  .footer2{
+      width: 100%;
+      bottom: 0;
+      left: 0;
+      border-color: rgba(128, 128, 128, 0.377); 
+      color: gray;
+  }
+  
+
+  
+  
+  // Shapes from Footer
+  .shapes-container {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      width: 100%;
+      height: 109px;
+      overflow: hidden; 
+      opacity: 0.5;
+  }
+  
+  .shape {
+  
+      position: absolute;
+      border-radius: 30px;
+      opacity: 1;
+      transform: rotate(106deg);  
+      box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.5);  
+      }
+  
+  .shape1 {
+  
+      width: 400px;
+      height: 300px;
+      background-color: #DB0032;
+      bottom: -297px;
+      left: -100px;
+      
+      }
+      
+      .shape2 {
+      
+      width: 400px;
+      height: 300px;
+      background-color: #E89600;
+      bottom: -276px;
+      left: -40px;
+      
+      }
+      
+      .shape3 {
+      
+      width: 400px;
+      height: 300px;
+      background-color: #0067B1;
+      bottom: -305px;
+      left: 17px;
+      
+      }
+

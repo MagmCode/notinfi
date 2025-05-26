@@ -54,7 +54,7 @@ override2 = {
 
   ngOnInit(): void {
     this.obtenerPlantilla();
-    this.usuario = this._loginService.obterTokenInfo();
+    // this.usuario = this._loginService.obterTokenInfo();
 
     this.user.name = this.usuario.nombres + ' ' +this.usuario.apellidos;  
     this.user.email =this.usuario.descCargo; 
@@ -76,7 +76,7 @@ override2 = {
   }
 
   async obtenerPlantilla(){
-    this.usuario = this._loginservices.obterTokenInfo();
+    // this.usuario = this._loginservices.obterTokenInfo();
 
     this._solicitudesService.consultarSolicitudReasignar('INVENTARIO').subscribe(
     (response) =>{

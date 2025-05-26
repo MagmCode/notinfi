@@ -52,7 +52,7 @@ this.mensaje = "¿Esta seguro de desasignar la solicitud " + this.solicitud.idSo
   Reasignar(){
 
 
-    this.usuario = this._loginservices.obterTokenInfo();
+    // this.usuario = this._loginservices.obterTokenInfo();
     this._solicitudesService.reasignarSolicitud(this.solicitud.idSolicitud ,this.usuario.codigo).subscribe(
       (data) =>{    
        

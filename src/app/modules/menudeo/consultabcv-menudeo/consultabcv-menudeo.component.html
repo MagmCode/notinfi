@@ -1,0 +1,49 @@
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="operacionesMenudeo-container-consultaBCV">
+            <div class="operaMenudeo-header-content-consultaBCV">
+                <span>Consulta BCV</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-usd-l head-icon-Menudeo-consultaBCV"></mat-icon>
+            </div>
+            <mat-card class="card-container-operaMenudeo-consultaBCV">
+                <div class="title-operaMenudeo-consultaBCV">
+                    <span>Seleccione Criterios de Búsqueda</span>
+                </div>
+                <!-- Carga Form -->
+                <form class="card-form-operaMenudeo-consultaBCV" #operacionesForm="ngForm" [formGroup]="consultaBCVMenudeoForm">
+
+                    <div class="field-container-Menudeo-consultaBCV">
+                        <!-- file  -->
+
+
+                <div class="campos-operaMenudeo-consultaBCV">
+
+
+                        <mat-form-field class="w-full field-operMenudeo-consultaBCV" appearance="outline">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly>
+                            <mat-icon (click)="picker.open()" class="icon-bdv-icon-scheduledit-m date-icon-Menudeo-consultaBCV"></mat-icon>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+
+            </div>
+    </form>
+
+                <div class="buttons-operMenudeo-consultaBCV">
+                    <div class="button-container2-operMenudeo-consultaBCV">
+                        <button class="mat-raised-button" type="submit" form="cargaForm">Exportar Menudeo BCV</button>
+                        <button class="mat-raised-button" type="submit" form="cargaForm" (click)="menuPrincipal()">Salir</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

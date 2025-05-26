@@ -2,46 +2,36 @@ import { Route } from '@angular/router';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
-import { InitialDataResolver } from 'app/app.resolvers';
-import { CrearComponent } from './modules/admin/dashboards/solicitudes/crear/crear.component';
-import { RequerimientoEquipoAsignacionComponent } from './modules/admin/dashboards/solicitudes/crear/requerimiento-equipo-asignacion/requerimiento-equipo-asignacion.component';
-import { BuzonPendienteComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/buzon-pendiente.component';
-import { AsignarSolicitudComponent } from './modules/admin/dashboards/inventario/buzon-pendiente/asignar-solicitud/asignar-solicitud.component';
-import { DetalleSolicitudComponent } from './modules/admin/dashboards/solicitudes/detalle-solicitud/detalle-solicitud.component';
-import { DecisionSolicitudComponent } from './modules/admin/dashboards/solicitudes/decision-solicitud/decision-solicitud.component';
-import { BuzonAsignadaComponent } from './modules/admin/dashboards/buzon/buzon-asignada/buzon-asignada.component';
+import { MainLayoutsComponent } from './modules/main-layouts/main-layouts.component';
+import { MenuPrincipalComponent } from './modules/menu-principal/menu-principal.component';
+import { CargaMesaCambioComponent } from './modules/mesaDeCambio/carga/carga.component';
+import { OperacionesMesaCambioComponent } from './modules/mesaDeCambio/operaciones/operaciones.component';
+import { OperacionesIntervencionComponent } from './modules/intervencion/operaciones-intervencion/operaciones-intervencion.component';
+import { CargaIntervencionComponent } from './modules/intervencion/carga-intervencion/carga-intervencion.component';
+import { InterbancarioIntervencionComponent } from './modules/intervencion/interbancario-intervencion/interbancario-intervencion.component';
+import { CambioClaveIntervencionComponent } from './modules/intervencion/cambio-clave-intervencion/cambio-clave-intervencion.component';
+import { AnulacionIntervencionComponent } from './modules/intervencion/anulacion-intervencion/anulacion-intervencion.component';
+import { ConsultabcvIntervencionComponent } from './modules/intervencion/consultabcv-intervencion/consultabcv-intervencion.component';
+import { CargaMenudeoComponent } from './modules/menudeo/carga-menudeo/carga-menudeo.component';
+import { OperacionesMenudeoComponent } from './modules/menudeo/operaciones-menudeo/operaciones-menudeo.component';
+import { ConsultaTasasbcvMenudeoComponent } from './modules/menudeo/consulta-tasasbcv-menudeo/consulta-tasasbcv-menudeo.component';
+import { CambioClaveMenudeoComponent } from './modules/menudeo/cambio-clave-menudeo/cambio-clave-menudeo.component';
+import { DemandaMenudeoComponent } from './modules/menudeo/demanda-menudeo/demanda-menudeo.component';
+import { ConsultabcvMenudeoComponent } from './modules/menudeo/consultabcv-menudeo/consultabcv-menudeo.component';
+import { LecturaArchivoMenudeoComponent } from './modules/menudeo/lectura-archivo-menudeo/lectura-archivo-menudeo.component';
+import { ConsultaConciliacionMenudeoComponent } from './modules/menudeo/consulta-conciliacion-menudeo/consulta-conciliacion-menudeo.component';
+import { ConsultabcvMesaCambioComponent } from './modules/mesaDeCambio/consultabcv-mesa-cambio/consultabcv-mesa-cambio.component';
+import { AnulacionMasivaMesaCambioComponent } from './modules/mesaDeCambio/anulacion-masiva-mesa-cambio/anulacion-masiva-mesa-cambio.component';
+import { CambioClaveMesaCambioComponent } from './modules/mesaDeCambio/cambio-clave-mesa-cambio/cambio-clave-mesa-cambio.component';
+import { InterbancarioMesaCambioComponent } from './modules/mesaDeCambio/interbancario-mesa-cambio/interbancario-mesa-cambio.component';
+import { DemandaMesaCambioComponent } from './modules/mesaDeCambio/demanda-mesa-cambio/demanda-mesa-cambio.component';
+import { ConsultaIntercambioMesaCambioComponent } from './modules/mesaDeCambio/consulta-intercambio-mesa-cambio/consulta-intercambio-mesa-cambio.component';
+import { OfertaMesaCambioComponent } from './modules/mesaDeCambio/oferta-mesa-cambio/oferta-mesa-cambio.component';
+import { JornadaIntervencionComponent } from './modules/intervencion/jornada-intervencion/jornada-intervencion.component';
+import { IntencionRetiroComponent } from './modules/intencion-retiro/intencion-retiro.component';
+import { IntencionVentaComponent } from './modules/intencion-venta/intencion-venta.component';
 
-import { BuzonPendienteSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/buzon-pendiente-sop.component';
-import { AsignarSolicitudSopComponent } from './modules/admin/dashboards/soporte/buzon-pendiente-sop/asignar-solicitud-sop/asignar-solicitud-sop.component';
-import { DetalleSolicitdComponent } from './modules/admin/dashboards/buzon/detalle-solicitd/detalle-solicitd.component';
-import { ReasignarSolicitudinvComponent } from './modules/admin/dashboards/inventario/reasignar-solicitudinv/reasignar-solicitudinv.component';
-import { ReasignarSolicitudsopComponent } from './modules/admin/dashboards/soporte/reasignar-solicitudsop/reasignar-solicitudsop.component';
-import { MedicionesComponent } from './modules/admin/dashboards/mediciones/mediciones.component';
-import { ReportesComponent } from './modules/admin/dashboards/mediciones/reportes/reportes.component';
-import { CaciComponent } from './modules/admin/dashboards/caci/caci.component';
-import { DetalleSolProveeduriaComponent } from './modules/admin/dashboards/solicitudes/detalle-sol-proveeduria/detalle-sol-proveeduria.component';
-import { DecisionSolProveeduriaComponent } from './modules/admin/dashboards/solicitudes/decision-sol-proveeduria/decision-sol-proveeduria.component';
-import { InventarioProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/inventario-proveeduria.component';
-import { AsignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/asignar-sol-proveeduria/asignar-sol-proveeduria.component';
-import { ReasignarSolProveeduriaComponent } from './modules/admin/dashboards/inventario-proveeduria/reasignar-sol-proveeduria/reasignar-sol-proveeduria.component';
-import { AdministracionComponent } from './modules/admin/dashboards/proveeduria/administracion/administracion.component';
-import { DespachoProveeduriaComponent } from './modules/admin/dashboards/despacho-proveeduria/despacho-proveeduria.component';
-import { AsignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/asignar-sol-proveeduria-des/asignar-sol-proveeduria-des.component';
-import { ReasignarSolProveeduriaDESComponent } from './modules/admin/dashboards/despacho-proveeduria/reasignar-sol-proveeduria-des/reasignar-sol-proveeduria-des.component';
-import { DetalleSolicitudProveduriaComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-proveduria/detalle-solicitud-proveduria.component';
-import { ReportesGeneralesComponent } from './modules/admin/dashboards/reportes-generales/reportes-generales.component';
-import { NivelAtencionComponent } from './modules/admin/dashboards/caci/nivel-atencion/nivel-atencion.component';
-import { AsignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/asignar-sol-caci/asignar-sol-caci.component';
-import { ReasignarSolCaciComponent } from './modules/admin/dashboards/caci/nivel-atencion/reasignar-sol-caci/reasignar-sol-caci.component';
-import { AtencionSolicitudComponent } from './modules/admin/dashboards/atencion-solicitud/atencion-solicitud.component';
-import { AsignarSolicitudSgComponent } from './modules/admin/dashboards/atencion-solicitud/asignar-solicitud-sg/asignar-solicitud-sg.component';
-import { ReasignarSolicitudSgComponent } from './modules/admin/dashboards/atencion-solicitud/reasignar-solicitud-sg/reasignar-solicitud-sg.component';
-import { AprobacionSolInternaComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/aprobacion-sol-interna.component';
-import { DecisionSolServGeneralesComponent } from './modules/admin/dashboards/solicitudes/decision-sol-serv-generales/decision-sol-serv-generales.component';
-import { DetalleSolServGeneralesComponent } from './modules/admin/dashboards/solicitudes/detalle-sol-serv-generales/detalle-sol-serv-generales.component';
-import { DetalleSolicitudServgeneralesComponent } from './modules/admin/dashboards/buzon/detalle-solicitud-servgenerales/detalle-solicitud-servgenerales.component';
-import { ReasignarSolicitudSgAiComponent } from './modules/admin/dashboards/atencion-solicitud/aprobacion-sol-interna/reasignar-solicitud-sg-ai/reasignar-solicitud-sg-ai.component';
-import { AdministracionServgeneralesComponent } from './modules/admin/dashboards/atencion-solicitud/administracion-servgenerales/administracion-servgenerales.component';
+
 
 
 // @formatter:off
@@ -49,15 +39,17 @@ import { AdministracionServgeneralesComponent } from './modules/admin/dashboards
 /* eslint-disable @typescript-eslint/explicit-function-return-type */
 export const appRoutes: Route[] = [
 
-    // Redirect empty path to '/dashboards/project'
-    {path: '', pathMatch : 'full', redirectTo: 'dashboards/project'},
+    // Redirect empty path to '/sign-in'
+    {path: '', pathMatch : 'full', redirectTo: 'sign-in'},
 
     // Redirect signed in user to the '/dashboards/project'
     //
     // After the user signs in, the sign in page will redirect the user to the 'signed-in-redirect'
     // path. Below is another redirection for that path to redirect the user to the desired
     // location. This is a small convenience to keep all main routes together here on this file.
-    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'solicitudes/gestionarSolicitudes'},
+    {path: 'signed-in-redirect', pathMatch : 'full', redirectTo: 'menu-principal'},
+
+
 
     // Auth routes for guests
     {
@@ -106,118 +98,96 @@ export const appRoutes: Route[] = [
         path       : '',
         canActivate: [AuthGuard],
         canActivateChild: [AuthGuard],
-        component  : LayoutComponent,
-        resolve    : {
-            initialData: InitialDataResolver,
+        component: LayoutComponent,
+        data: {
+            layout: 'classy'
         },
         children   : [
+
+
+            // {path: 'solicitudes', children: [
+            //     { path: 'gestionarSolicitudes', loadChildren: () => import('app/modules/admin/dashboards/solicitudes/solicitudes.module').then(m => m.ProjectModule) },
+            //   ]
+            // },
             
-            {path: 'solicitudes', children: [
-                {path: 'gestionarSolicitudes', loadChildren: () => import('app/modules/admin/dashboards/solicitudes/solicitudes.module').then(m => m.ProjectModule)},
-                {path: 'crear',  component: CrearComponent},
-                {path: 'asignacion', component: RequerimientoEquipoAsignacionComponent},
-                {path: 'detalleSolicitud', component: DetalleSolicitudComponent}, 
-                {path: 'decisionSolicitud', component: DecisionSolicitudComponent},
-                {path: 'detalleSolProveeduria', component:DetalleSolProveeduriaComponent},
-                {path: 'decisionSolProveeduria', component: DecisionSolProveeduriaComponent},
-                {path: 'detalleSolServGenerales', component:DetalleSolServGeneralesComponent},
-                {path: 'decisionSolServGenerales', component: DecisionSolServGeneralesComponent},
-                
-                
-                
-            ]},            
+            {
+              path: 'menu-principal', children: [
+                { path: '', component: MenuPrincipalComponent },
+              ]
+            },
+            {
+                path: 'mesa-de-cambio', children: [
+                  { path: 'carga', component: CargaMesaCambioComponent },
+                  { path: 'operaciones', component: OperacionesMesaCambioComponent },
+                  { path: 'consultaBCV', component: ConsultabcvMesaCambioComponent },
+                  { path: 'anulacion-masiva', component: AnulacionMasivaMesaCambioComponent },
+                  { path: 'cambio-de-clave', component: CambioClaveMesaCambioComponent },
+                  { path: 'interbancario', component: InterbancarioMesaCambioComponent },
+                  { path: 'demanda', component: DemandaMesaCambioComponent },
+                  { path: 'consulta-intercambio', component: ConsultaIntercambioMesaCambioComponent },
+                  { path: 'oferta', component: OfertaMesaCambioComponent },
+                ]
+              },
+            {
+              path: 'intervencion', children: [
+                { path: 'carga', component: CargaIntervencionComponent },
+                { path: 'operaciones', component: OperacionesIntervencionComponent},
+                { path: 'interbancario', component: InterbancarioIntervencionComponent},
+                { path: 'cambio_clave', component: CambioClaveIntervencionComponent},
+                { path: 'anulacion', component: AnulacionIntervencionComponent},
+                { path: 'consulta_bcv', component: ConsultabcvIntervencionComponent},
+                { path: 'consulta_jornada', component: JornadaIntervencionComponent},
 
-            {path: 'inventario', children: [
-                {path: 'buzonPendiente',  component: BuzonPendienteComponent},
-                {path: 'asignarSolicitud',  component: AsignarSolicitudComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolicitudinvComponent},
-                {path: 'reportesInv/:id',  component: ReportesGeneralesComponent},
-            ]},
+              ]
+            },
+            {
+
+              path: 'menudeo', children: [
+                { path: 'carga', component: CargaMenudeoComponent },
+                { path: 'operaciones', component: OperacionesMenudeoComponent},
+                { path: 'consulta-tasasBCV', component: ConsultaTasasbcvMenudeoComponent},
+                { path: 'cambio-de-clave', component: CambioClaveMenudeoComponent},
+                { path: 'demanda', component: DemandaMenudeoComponent},
+                { path: 'consultaBCV', component: ConsultabcvMenudeoComponent},
+                { path: 'lectura-de-archivo', component: LecturaArchivoMenudeoComponent},
+                { path: 'consulta-conciliacion', component: ConsultaConciliacionMenudeoComponent},
+              ]
+            },
+
+            {
+                path: 'retiro', children: [
+                    {path: 'intencion_retiro', component: IntencionRetiroComponent},
+                    ]
+            },
+            {
+                path: 'venta', children: [
+                    {path: 'intencion_venta', component: IntencionVentaComponent},
+                    ]
+            },
             
-            {path: 'soporte', children: [
-                {path: 'buzonPendiente',  component: BuzonPendienteSopComponent},
-                {path: 'asignarSolicitud',  component: AsignarSolicitudSopComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolicitudsopComponent},
-                {path: 'reportesSop/:id',  component: ReportesGeneralesComponent},
-            ]},
-            
-
-            {path: 'buzon', children: [
-                {path: 'buzonAsignadas',  component: BuzonAsignadaComponent},
-                {path: 'detalleSolicitud',  component: DetalleSolicitdComponent},
-                {path: 'detalleSolicitudProvee',  component: DetalleSolicitudProveduriaComponent},                
-                {path: 'detalleSolicitudServGenerales',  component: DetalleSolicitudServgeneralesComponent},
+            // {path: 'solicitudes', children: [
+            //     {path: 'gestionarSolicitudes', loadChildren: () => import('app/modules/admin/dashboards/solicitudes/solicitudes.module').then(m => m.ProjectModule)},
+                              
                 
-                
-            ]},
+            // ]},            
+
+            // {path: 'inventario', children: [
+            //     {path: 'layout',  component: LayoutComponent},
+            //     {path: 'vertical', component: ClassyLayoutComponent}
+               
+            // ]},
+        ]
+    },
             
-            {path: 'mediciones', children: [
-                {path: 'indicadores',  component: MedicionesComponent},
-                {path: 'reportes',  component: ReportesComponent},
-                
-                
-            ]},
-
-            
-
-            {path: 'caci', children: [
-                {path: 'consultacaci',  component: CaciComponent},
-                
-            ]},
-
-            {path: 'nivelcaci', children: [
-                {path: 'buzonPendiente',  component: NivelAtencionComponent},
-                {path: 'asignarSolicitud',  component: AsignarSolCaciComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolCaciComponent},
-                {path: 'reporteNivelCaci/:id',  component: ReportesGeneralesComponent},
-                
-            ]},
-            
-            
-
-            
-            
-            {path: 'inventario-proveeduria', children: [
-                {path: 'buzonPendiente',  component: InventarioProveeduriaComponent},
-                {path: 'asignarSolicitud',  component: AsignarSolProveeduriaComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolProveeduriaComponent},
-                {path: 'reportesInvPro/:id',  component: ReportesGeneralesComponent},
-            ]},
-
-
-            {path: 'despacho-proveeduria', children: [
-                {path: 'buzonPendiente',  component: DespachoProveeduriaComponent},
-                {path: 'asignarSolicitud',  component: AsignarSolProveeduriaDESComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolProveeduriaDESComponent},
-                {path: 'reportesDespProve/:id',  component: ReportesGeneralesComponent},
-            ]},
-            
-            {path: 'proveeduria', children: [
-                {path: 'administracion',  component: AdministracionComponent},
-                
-            ]},
-
-            {path: 'atencionSol', children: [
-                {path: 'buzonPendiente',  component: AtencionSolicitudComponent},
-                {path: 'asignarSolicitud',  component: AsignarSolicitudSgComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolicitudSgComponent},
-                {path: 'reporteAtencionSol/:id',  component: ReportesGeneralesComponent},                
-                {path: 'administracion',  component: AdministracionServgeneralesComponent},
-                
-            ]},
-
-
-            {path: 'aprobacionSolInterna', children: [
-                {path: 'buzonPendiente',  component: AprobacionSolInternaComponent},                
-                {path: 'asignarSolicitud',  component: AsignarSolicitudSgComponent},
-                {path: 'reasignarSolicitud',  component: ReasignarSolicitudSgAiComponent},
-                {path: 'reporteAprobacionSol/:id',  component: ReportesGeneralesComponent},
-            ]},
-
-            
-
-
-
+    {
+            path       : '',
+            canActivate: [NoAuthGuard],
+            canActivateChild: [NoAuthGuard],
+            component: LayoutComponent,
+            data: {
+                layout: 'empty'
+            },
+            children   : [
 
             // Pages
             {path: 'pages', children: [                
@@ -233,5 +203,6 @@ export const appRoutes: Route[] = [
             {path: '404-not-found', pathMatch: 'full', loadChildren: () => import('app/modules/admin/pages/error/error-404/error-404.module').then(m => m.Error404Module)},
             {path: '**', redirectTo: '404-not-found'}
         ]
+  
     }
 ];

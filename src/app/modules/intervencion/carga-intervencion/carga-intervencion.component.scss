@@ -1,0 +1,193 @@
+* {
+    font-family: 'Nunito', sans-serif !important;
+}
+
+body {
+    background-color: transparent !important;
+}
+
+.carga-container-intervencion-Carga {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    height: 80vh;
+    width: 100vw;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+}
+
+.header-content-intervencion-Carga {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    color: #e89600;
+    font-size: 3.6em;
+}
+
+.card-container-intervencion-Carga {
+    width: 650px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+    color: #e89600;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
+}
+
+.title-intervencion-Carga {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+
+.head-icon-intervencion-Carga::before {
+    color: #e89600;
+    font-size: 2.9em;
+    opacity: 40%;
+    padding-top: 25px;
+}
+
+.card-form-intervencion-Carga {
+    display: flex;
+    align-items: center;
+}
+
+.card-form-intervencion-Carga .mat-form-field {
+    flex: 1;
+    margin-right: 8px;
+}
+
+.icon-bdv-icon-file2-m::before {
+    color: grey;
+}
+
+.file-intervencion-Carga .mat-form-field-infix {
+    display: flex !important;
+    padding: 0 !important;
+    width: 235px !important;
+}
+
+.file-intervencion-Carga mat-icon {
+    padding: 9px 7px 0px 0px !important;
+    justify-content: end;
+    width: 25%;
+}
+
+.file-intervencion-Carga .mat-form-field-flex {
+    padding: 0 5px 0 20px !important;
+    margin-top: -0.25em !important;
+    position: relative !important;
+    opacity: 5 !important;
+}
+
+.file-intervencion-Carga mat-hint {
+    padding-left: 60px !important;
+    padding-top: 5px;
+    color: #e89600 !important;
+    font-size: 1.23em;
+    font-weight: 400;
+}
+
+.file-intervencion-Carga .mat-form-field-flex:hover,
+.file-intervencion-Carga .mat-form-field-outline-thick {
+    opacity: 1 !important;
+}
+
+.file-intervencion-Carga input.mat-input-element {
+    margin: 0.7em 0em 0.9em 0em;
+    color: currentColor;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+.file-icon-intervencion-Carga:hover {
+    cursor: pointer;
+}
+
+.file-intervencion-Carga .mat-form-field.mat-form-field-appearance-outline,
+.file-intervencion-Carga .mat-form-field-label-wrapper {
+    width: 50% !important;
+    top: -1px !important;
+    left: 1px !important;
+}
+
+.file-intervencion-Carga {
+    color: #1e293b;
+
+    &.mat-form-field-invalid.mat-form-field-invalid {
+        .mat-form-field-outline-thick {
+            color: rgba(48, 48, 48, 0.247) !important;
+        }
+
+        .mat-form-field-label {
+            color: rgba(48, 48, 48, 0.616) !important;
+        }
+    }
+
+    &.mat-form-field-valid.mat-form-field-valid {
+        .mat-form-field-outline-thick,
+        .mat-form-field-label {
+            color: #e89600 !important;
+        }
+    }
+
+    &.mat-focused {
+        .mat-form-field-outline-thick,
+        .mat-form-field-label {
+            color: #e89600 !important;
+        }
+    }
+}
+
+.buttons-intervencion-Carga {
+    display: flex;
+    justify-content: space-between;
+    width: 100%;
+}
+
+.button-container-intervencion-Carga button {
+    white-space: normal;
+    overflow-wrap: break-word;
+    width: 70%;
+    padding: 0 20px !important;
+    border-radius: 50px !important;
+}
+
+.button-container2-intervencion-Carga {
+    display: flex;
+    justify-content: flex-end;
+    gap: 5px;
+
+    button {
+        padding: 0 20px !important;
+        border-radius: 50px !important;
+    }
+}
+
+.buttons-intervencion-Carga .mat-raised-button {
+    color: #e89600 !important;
+    font-weight: 500;
+}
+
+.button-container-intervencion-Carga .mat-raised-button,
+.button-container2-intervencion-Carga .mat-raised-button {
+    transition: background-color 0s, color 0s;
+}
+
+.button-container-intervencion-Carga .mat-raised-button:hover,
+.button-container2-intervencion-Carga .mat-raised-button:hover {
+    background-color: #e89600;
+    color: white !important;
+}

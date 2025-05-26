@@ -1,0 +1,79 @@
+
+<mat-sidenav-container 
+    [mode]="isScreenSmall ? 'over' : 'side'"
+    [opened]="!isScreenSmall"
+    class="sidenav-container">
+    <mat-sidenav #sidenav mode="over" [(opened)]="opened" (opened)="events.push('open!')"
+        (closed)="events.push('close!')">
+        <!-- Navigation header hook -->
+        <ng-container fuseVerticalNavigationContentHeader>
+            <!-- User -->
+            <div class="red-bg">
+                <div class="back-container">
+                    <mat-icon 
+                        (click)="sidenav.toggle()" 
+                        class="icon-size-7 icon-bdv-icon-back-m back">
+                    </mat-icon>
+                </div>
+                <div class="profile-container w-full">
+                    <!-- <div class="w-24 h-24"> -->
+                    <!-- <img class="w-full h-full rounded-full" src="assets/images/logo/logo3.svg" alt="User avatar"> -->
+                    <mat-icon 
+                        class="icon-size-20 icon-bdv-icon-profileround-l profile">
+                    </mat-icon>
+                    <!-- </div> -->
+                </div>
+                <div class="user flex justify-center w-full">
+                    User Name
+                    <!-- {{user.name}} --> 
+                </div>        
+            </div>
+            <div class="menu-items flex justify-start w-full p-6">
+                <ul>
+                    <li class="icon-item icon-size-8 icon-bdv-icon-bank-m" (click)="inicio()">
+                        <span class="item ml-3 pt-2">Inicio</span>
+                    </li>
+                    <li class=" icon-item icon-size-6 icon-bdv-icon-exit-m" (click)="signOut()">
+                        <span class="item ml-5">Cerrar Sesión</span>
+                    </li>
+                </ul> 
+            </div>
+        </ng-container>
+                <!-- Navigation footer hook -->
+                <ng-container fuseVerticalNavigationContentFooter>
+            <!-- Footer content -->
+        </ng-container>
+    </mat-sidenav>
+
+    <router-outlet *ngIf="true"></router-outlet>
+    <div
+        class="header flex items-center w-full pl-4 pr-8 md:pl-4 md:pr-8 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden fondoNav">
+        <div (click)="sidenav.toggle()" class="button-menu">
+            <mat-icon class="icon-size-8 icon-bdv-icon-menu3-l menu"></mat-icon>
+        </div>
+        <img id="bdv-logo" src="assets/images/header/bdv-logo.png" alt="BDV Logo">
+        <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
+            <div class="text text-3xl  text-secondary">
+                <span class="text1">Notificaciones</span>
+                <span class="text2">INFI</span>
+            </div>
+            <div class=" w-20 mt-1">
+                <img id="notinfi-logo" src="assets/images/header/notinfi-logo.png">
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+<div class="footer">
+    <div class="shapes-container">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+    </div>
+    <div class="footer2 flex items-center justify-center w-full h-13 px-4 md:px-6
+    z49 border-t dark:bg-transparent print:hidden">
+        <span class="font-medium text-secondary">Banco de Venezuela &copy; {{currentYear}}</span>
+    </div>
+</div>
+
+</mat-sidenav-container>

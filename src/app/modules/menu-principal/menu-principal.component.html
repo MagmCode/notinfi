@@ -1,0 +1,172 @@
+<!-- Loading Bar -->
+<fuse-loading-bar *ngIf="isLoading"></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="content-container">
+    <!-- <mat-card class="custom-card mesa-cambio">
+                <div class="card-header">
+                    <div class="icon-circle circle-1">
+                        <mat-icon class="icon-size-10 icon-bdv-icon-bs-l card-icon"></mat-icon>
+                    </div>
+                    <span class="font-bold">MESA DE CAMBIO</span>
+                </div>
+                <ul class="item-list">
+                    <li><button 
+                            (click)="carga()" class="list-button">
+                                Carga
+                    </button></li>
+                    <li><button 
+                            (click)="operaciones()" class="list-button">
+                                Operaciones
+                    </button></li>
+                    <li><button 
+                            (click)="consultaBCVMesaCambio()" class="list-button">
+                                Consulta BCV
+                    </button></li>
+                    <li><button
+                            (click)="anulacionMasivaMesaCambio()" class="list-button">
+                                Anulación
+                    </button></li>
+                    <li><button 
+                            (click)="cambioClaveMesaCambio()" class="list-button">
+                                Cambio de Clave
+                    </button></li>
+                    <li><button 
+                            (click)="interbancarioMesaCambio()" class="list-button">
+                                Interbancario
+                    </button></li>
+                    <li><button 
+                            (click)="demandaMesaCambio()" class="list-button">
+                                Demanda
+                    </button></li>
+                    <li><button 
+                            (click)="cosultaIntercambioMesaCambio()" class="list-button">
+                                Consulta Intercambio
+                    </button></li>
+                    <li><button 
+                        (click)="ofertaMesaCambio()" class="list-button">
+                            Oferta
+                    </button></li>
+
+                </ul>
+            </mat-card>
+
+            <mat-card class="custom-card intervencion">
+                <div class="card-header">
+                    <div class="icon-circle circle-2">
+                        <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l card-icon"></mat-icon>
+                    </div>
+                    <span class="font-bold">INTERVENCION</span>
+                </div>
+                <ul class="item-list">
+                    <li><button (click)="jornada()" class="list-button">Consulta Jornada</button></li>
+                    <li><button (click)="cargaInter()"  class="list-button">Carga</button></li>
+                    <li><button (click)="interbancarioInter()"
+                        class="list-button">Interbancario</button></li>
+                        <li><button  (click)="operacionesInter()" class="list-button">Operaciones</button></li>
+                        <li><button (click)="anulacionInter()" class="list-button">Anulación</button></li>
+                        <li><button (click)="consultaBCVInter()" class="list-button">Consulta BCV</button></li>
+                        <li><button (click)="cambioClaveInter()" class="list-button">Cambio de Clave</button></li>
+                </ul>
+            </mat-card>
+
+            <mat-card class="custom-card menudeo">
+                <div class="card-header">
+                    <div class="icon-circle circle-3">
+                        <mat-icon class="icon-size-10 icon-bdv-icon-usd-l card-icon"></mat-icon>
+                    </div>
+                    <span class="font-bold">MENUDEO</span>
+                </div>
+                <ul class="item-list">
+                    <li><button (click)="consultaTasasBCVMenudeo()" class="list-button">Consulta tasas BCV </button></li>
+                    <li><button (click)="operacionesMenudeo()" class="list-button">Operaciones</button></li>
+                    <li><button (click)="demandaMenudeo()" class="list-button">Menudeo Demanda</button></li>
+                    <li><button class="list-button">Menudeo Oferta</button></li>
+                    <li><button (click)="cargaMenudeo()" class="list-button">Carga</button></li>
+                    <li><button (click)="consultaBCVMenudeo()" class="list-button">Consulta BCV</button></li>
+                    <li><button (click)="lecturaArchivoMenudeo()" class="list-button">Lectura de Archivo</button></li>
+                    <li><button class="list-button">Conciliación</button></li>
+                    <li><button class="list-button">Consulta de Menudeo BCV</button></li>
+                    <li><button (click)="ConsultaConciliacionMenudeo()" class="list-button">Consulta de Conciliación</button></li>
+                    <li><button (click)="cambioClaveMenudeo()" class="list-button">Cambio de clave</button></li>
+                </ul>
+            </mat-card> -->
+<!-- <mat-card class="custom-card configuracion">
+    <div class="card-header">
+        <div class="icon-circle circle-4">
+            <mat-icon class="icon-size-10 icon-bdv-icon-config-l card-icon"></mat-icon>
+        </div>
+        <span class="font-bold">CONFIGURACIÓN</span>
+    </div>
+
+    
+</mat-card> -->
+
+<mat-card class="custom-card tasas" *ngIf="tasas">
+    <div class="card-header">
+        <div class="icon-circle circle-5">
+            <mat-icon class="icon-size-10 icon-bdv-icon-infographic-l card-icon"></mat-icon>
+        </div>
+        <span class="font-bold">Tipo de cambio BCV</span>
+    </div>
+    <ul class="exchange-rate-list">
+        <li class="exchange-item">
+            <span class="item-left">
+                <mat-icon class="currency-icon">$</mat-icon>
+                <span class="currency">USD</span>
+            </span>
+            <span class="value">{{tasas.compraUsd}}</span>
+        </li>
+        <li class="exchange-item">
+            <span class="item-left">
+                <mat-icon class="currency-icon">€</mat-icon>
+                <span class="currency">EUR</span>
+            </span>
+            <span class="value">{{tasas.compraEur}}</span>
+        </li>
+        <li class="exchange-item">
+            <span class="item-left">
+                <mat-icon class="currency-icon">₽</mat-icon>
+                <span class="currency">PTR</span>
+            </span>
+            <span class="value">{{tasas.compraPTR}}</span>
+        </li>
+        <li class="exchange-item">
+            <span class="item-left">
+                <mat-icon class="currency-icon">¥</mat-icon>
+                <span class="currency">CNY</span>
+            </span>
+            <span class="value">{{tasas.compraCNY}}</span>
+        </li>
+        <li class="exchange-item">
+            <span class="item-left">
+                <mat-icon class="currency-icon">₺</mat-icon>
+                <span class="currency">TRY</span>
+            </span>
+            <span class="value">{{tasas.compraTRY}}</span>
+        </li>
+        <li class="exchange-item">
+            <span class="item-left">
+                <mat-icon class="currency-icon">₽</mat-icon>
+                <span class="currency">RUB</span>
+            </span>
+            <span class="value">{{tasas.compraRUB}}</span>
+        </li>
+        <li class="fechaValor">
+            <span class="item-left">
+                <span class="fechaText">Fecha Valor: </span>
+            </span>
+            <span class="value">{{tasas.fechaValor}}</span>
+        </li>
+    </ul>
+</mat-card>
+        </div>
+
+
+<!-- <app-footer></app-footer> -->
+    </mat-sidenav-content>
+</mat-sidenav-container>

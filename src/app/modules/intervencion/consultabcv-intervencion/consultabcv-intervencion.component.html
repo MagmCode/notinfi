@@ -1,0 +1,49 @@
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="operacionesIntervencion-container-consultaBCV">
+            <div class="operaInter-header-content-consultaBCV">
+                <span>Consulta BCV</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intervencion-consultaBCV"></mat-icon>
+            </div>
+            <mat-card class="card-container-operaInter-consultaBCV">
+                <div class="title-operaInter-consultaBCV">
+                    <span>Seleccione Criterios de Búsqueda</span>
+                </div>
+                <!-- Carga Form -->
+                <form class="card-form-operaInter-consultaBCV" #operacionesForm="ngForm" [formGroup]="consultaBCVInterForm">
+
+                    <div class="field-container-intervencion-consultaBCV">
+                        <!-- file  -->
+
+
+                <div class="campos-operaInter-consultaBCV">
+
+
+                        <mat-form-field class="w-full field-operInter-consultaBCV" appearance="outline">
+                            <mat-label>Fecha</mat-label>
+                            <input matInput [matDatepicker]="picker" readonly>
+                            <mat-icon (click)="picker.open()" class="icon-bdv-icon-scheduledit-m date-icon-inter-consultaBCV"></mat-icon>
+                            <mat-datepicker #picker></mat-datepicker>
+                        </mat-form-field>
+
+                    </div>
+
+            </div>
+    </form>
+
+                <div class="buttons-operInter-consultaBCV">
+                    <div class="button-container2-operInter-consultaBCV">
+                        <button class="mat-raised-button" type="submit" form="cargaForm">Procesar</button>
+                        <button class="mat-raised-button" type="submit" form="cargaForm" (click)="menuPrincipal()">Salir</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

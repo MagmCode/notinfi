@@ -1,87 +1,179 @@
-<!-- Loading bar -->
-<fuse-loading-bar></fuse-loading-bar>
+<fuse-loading-bar *ngIf="isLoading"></fuse-loading-bar>
 
-<!-- Navigation -->
-<fuse-vertical-navigation
-    class="bg-gray-900 print:hidden menuFondo"
-    [mode]="isScreenSmall ? 'over' : 'side'"
-    [name]="'mainNavigation'"
-    [navigation]="navigation.default"
-    [opened]="!isScreenSmall">
+<mat-sidenav-container class="sidenav-container">
+  <router-outlet *ngIf="true"></router-outlet>
+  <div
+    class="header flex items-center w-full pl-4 pr-8 md:pl-4 md:pr-8 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden fondoNav"
+  >
+    <div (click)="sidenav.toggle()" class="button-menu">
+      <mat-icon class="icon-size-8 icon-bdv-icon-menu3-l menu"></mat-icon>
+    </div>
+
+    <img
+      id="bdv-logo"
+      src="assets/images/header/bdv-logo.png"
+      alt="BDV Logo"
+      (click)="inicio()"
+    />
+
+    <ng-container>
+      <div
+        class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2 relative"
+      >
+        <div class="text text-3xl text-secondary mr-10">
+          <span class="text1">Notificaciones INFI</span>
+          <span class="fecha">{{ formattedDate }}</span>
+        </div>
+
+        <div class="w-20 mt-1">
+          <img id="notinfi-logo" src="assets/images/header/notinfi-logo.png" />
+        </div>
+
+        <!-- <div class="mt-5">
+          <mat-icon class="ml-5 icon-bdv-icon-exit-m logout-icon" matTooltip="Cerrar Sesión"></mat-icon>
+        </div> -->
+      </div>
+    </ng-container>
+  </div>
+
+
+
+
+  <mat-sidenav
+    #sidenav
+    mode="over"
+    [ngClass]="{ closing: !opened }"
+    [(opened)]="opened"
+    (opened)="events.push('open!')"
+    (closed)="events.push('close!')"
+  >
     <!-- Navigation header hook -->
-    <ng-container fuseVerticalNavigationContentHeader>
-        <div class="flex items-center w-full p-4 pl-6">
-            <!-- Logo -->
-           <!--  <div class="flex items-center justify-center">
-                <img
-                    class="w-8"
-                    src="assets/images/logo/logo3.svg">
-            </div> -->
-            <!-- Components -->
-            <div class="flex items-center ml-auto">
-                <user [showAvatar]="false"></user>
-            </div>
+    <ng-container>
+      <!-- User -->
+      <div class="red-bg">
+        <div class="back-container">
+          <mat-icon
+            (click)="sidenav.toggle()"
+            class="icon-size-7 icon-bdv-icon-back-m back"
+          >
+          </mat-icon>
         </div>
-        <!-- User -->
-        <div class="flex flex-col items-center w-full p-4">
-            <div class="relative w-24 h-24">
-                <img
-                    class="w-full h-full rounded-full"                    
-                    src="assets/images/logo/logo3.svg"
-                    alt="User avatar">
-                <!-- <mat-icon
-                    class="icon-size-24"
-                    *ngIf="!user.avatar"
-                    [svgIcon]="'heroicons_solid:user-circle'"></mat-icon> -->
-            </div>
-            <div class="flex flex-col items-center justify-center w-full mt-6">
-                <div class="w-full whitespace-nowrap overflow-ellipsis overflow-hidden text-center leading-normal font-medium">
-                    {{user.name}}
-                </div>
-                <div class="w-full mt-0.5 whitespace-nowrap overflow-ellipsis overflow-hidden text-center text-md leading-normal font-medium text-secondary">
-                    {{user.email}}
-                </div>
-            </div>
+        <div class="profile-container w-full">
+          <mat-icon class="icon-size-20 icon-bdv-icon-profileround-l profile">
+          </mat-icon>
         </div>
+        <div class="user flex justify-center w-full">
+          <!-- User Name -->
+          {{ userName }}
+        </div>
+        <div class="perfil flex justify-center w-full">
+          <!-- User Role -->
+          {{ roleName }}
+        </div>
+               
+      </div>
+      <!-- Dentro del mat-sidenav, después del ítem "Inicio" -->
+      <div class="menu-items flex justify-start w-full pl-7 pr-2 pt-4 pb-2">
+        <ul>
+          <li
+            class="icon-item icon-size-8 icon-bdv-icon-bank-m"
+            (click)="inicio()"
+          >
+            <span class="item ml-3 pt-2">Inicio</span>
+          </li>
+
+          <!-- Aquí insertamos el menú -->
+          <mat-tree
+            [dataSource]="dataSource"
+            [treeControl]="treeControl"
+            class="item-list"
+          >
+            <!-- Nodo con hijos -->
+            <mat-tree-node
+              *matTreeNodeDef="let node; when: hasChild"
+              matTreeNodePadding
+              class="tree-node"
+            >
+              <li
+                [ngClass]="{
+                  'level-1': node.nivel === 1,
+                  'level-2': node.nivel > 1
+                }"
+              >
+                <button class="list-button" (click)="toggleNode(node)">
+                  <ng-container
+                    *ngIf="treeControl.isExpanded(node); else collapsedIcon"
+                  >
+                    <mat-icon
+                      class="icon-size-1 icon-bdv-icon-foward-m menu-icon seleccionado"
+                    ></mat-icon>
+                  </ng-container>
+                  <ng-template #collapsedIcon>
+                    <mat-icon
+                      class="icon-size-1 icon-bdv-icon-foward-m menu-icon"
+                    ></mat-icon>
+                  </ng-template>
+                  <ng-container
+                    *ngIf="treeControl.isExpanded(node); else collapsedIcon2"
+                  >
+                    <span class="menu-item-text seleccionado">{{
+                      node.nombre
+                    }}</span>
+                  </ng-container>
+                  <ng-template #collapsedIcon2>
+                    <span class="menu-item-text">{{ node.nombre }}</span>
+                  </ng-template>
+                </button>
+              </li>
+            </mat-tree-node>
+
+            <!-- Nodo sin hijos -->
+            <mat-tree-node
+              *matTreeNodeDef="let node"
+              matTreeNodePadding
+              class="tree-node"
+            >
+              <li
+                [ngClass]="{
+                  'level-1': node.nivel === 1,
+                  'level-2': node.nivel > 1,
+                  selected: node.id === selectedNodeId
+                }"
+                (click)="selectNode(node)"
+              >
+                <button class="list-button" (click)="navigateTo(node)">
+                  <!-- Icono para el item Salir -->
+                  <mat-icon
+                    *ngIf="node.id === 5659"
+                    class="menu-icon icon-bdv-icon-exit-m"
+                  ></mat-icon>
+                  <span class="menu-item-text">{{ node.nombre }}</span>
+                </button>
+              </li>
+            </mat-tree-node>
+          </mat-tree>
+        </ul>
+      </div>
     </ng-container>
-    <!-- Navigation footer hook -->
-    <ng-container fuseVerticalNavigationContentFooter>
-        <div class="flex flex-0 items-center justify-center h-16 pr-6 pl-2 mt-2 mb-4 opacity-12">
-            
-        </div>
-    </ng-container>
-</fuse-vertical-navigation>
+           
+  </mat-sidenav>
 
-<!-- Wrapper -->
-<div class="flex flex-col flex-auto w-full min-w-0">
 
-    <!-- Header -->
-    <div class="relative flex flex-0 items-center w-full h-16 px-4 md:px-6 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden fondoNav">
-        <!-- Navigation toggle button -->
-        <button title="Menú"
-            mat-icon-button
-            (click)="toggleNavigation('mainNavigation')">
-            <mat-icon [svgIcon]="'heroicons_outline:menu'"></mat-icon>
-        </button>
-        <!-- Components -->
-        <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2">
-           
-        </div>
+
+
+  <!-- Footer -->
+  <div class="footer">
+    <div class="shapes-container">
+      <div class="shape shape1"></div>
+      <div class="shape shape2"></div>
+      <div class="shape shape3"></div>
     </div>
-
-    <!-- Content -->
-    <div class="flex flex-col flex-auto">
-        <!-- *ngIf="true" hack is required here for router-outlet to work correctly.
-             Otherwise, layout changes won't be registered and the view won't be updated! -->
-        <router-outlet *ngIf="true"></router-outlet>
+    <div
+      class="footer2 flex items-center justify-center w-full h-13 px-4 md:px-6 z49 border-t dark:bg-transparent print:hidden"
+    >
+      <span class="font-medium text-secondary"
+        >Banco de Venezuela &copy; {{ currentYear }} | Entorno
+      </span>
     </div>
-
-    <!-- Footer -->
-    <!--<div class="relative flex flex-0 items-center justify-start w-full h-14 px-4 md:px-6 z-49 border-t bg-card dark:bg-transparent print:hidden">
-        <span class="font-medium text-secondary">Fuse &copy; {{currentYear}}</span>
-    </div>-->
-
-</div>
-
-<!-- Quick chat -->
-<!-- <quick-chat #quickChat="quickChat"></quick-chat> -->
+  </div>
+</mat-sidenav-container>

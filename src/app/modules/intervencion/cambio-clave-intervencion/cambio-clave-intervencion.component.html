@@ -1,0 +1,66 @@
+<!-- Loading Bar -->
+<fuse-loading-bar [show]="isLoading"></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="operacionesIntervencion-container-cambioClave">
+            <div class="operaInter-header-content-cambioClave">
+                <span>Cambio de Clave</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intervencion-cambioClave"></mat-icon>
+            </div>
+            <mat-card class="card-container-operaInter-cambioClave">
+                <div class="title-operaInter-cambioClave">
+                    <span>Clave de Intervencion</span>
+                </div>
+                <!-- Carga Form -->
+                <form class="card-form-operaInter-cambioClave" #operacionesForm="ngForm" [formGroup]="cambioClaveeInterForm">
+
+                    <div class="field-container-intervencion-cambioClave">
+                        <!-- file  -->
+
+                        <mat-form-field class="w-full field-operInter-cambioClave" appearance="outline">
+                            <mat-label>Clave Actual</mat-label>
+                            <input matInput formControlName="claveActual" required>
+                            <mat-error *ngIf="cambioClaveeInterForm.get('claveActual').hasError('required') && (cambioClaveeInterForm.get('claveActual').touched || cambioClaveeInterForm.get('claveActual').dirty)">
+                                La clave actual es obligatoria
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full field-operInter-cambioClave" appearance="outline">
+                            <mat-label>Clave Nueva</mat-label>
+                            <input matInput formControlName="claveNueva" required>
+                            <mat-error *ngIf="cambioClaveeInterForm.get('claveNueva').hasError('required') && (cambioClaveeInterForm.get('claveNueva').touched || cambioClaveeInterForm.get('claveNueva').dirty)">
+                                La clave nueva es obligatoria
+                            </mat-error>
+                            <mat-error *ngIf="cambioClaveeInterForm.get('claveNueva').hasError('minlength') && (cambioClaveeInterForm.get('claveNueva').touched || cambioClaveeInterForm.get('claveNueva').dirty)">
+                                La clave debe tener al menos 6 caracteres
+                            </mat-error>
+                        </mat-form-field>
+
+                        <mat-form-field class="w-full field-operInter-cambioClave" appearance="outline">
+                            <mat-label>Confirmar Clave</mat-label>
+                            <input matInput formControlName="confirmarClave" required>
+                            <mat-error *ngIf="cambioClaveeInterForm.get('confirmarClave').hasError('required') && (cambioClaveeInterForm.get('confirmarClave').touched || cambioClaveeInterForm.get('confirmarClave').dirty)">
+                                Debe confirmar la clave
+                            </mat-error>
+                            <mat-error *ngIf="!cambioClaveeInterForm.get('confirmarClave').hasError('required') && cambioClaveeInterForm.hasError('clavesNoCoinciden') && (cambioClaveeInterForm.get('confirmarClave').touched || cambioClaveeInterForm.get('confirmarClave').dirty)">
+                                Las claves no coinciden
+                            </mat-error>
+                        </mat-form-field>
+
+                    </div>
+                </form>
+
+                <div class="buttons-operInter-cambioClave">
+                    <div class="button-container2-operInter-cambioClave">
+                        <button class="mat-raised-button" type="submit" form="cargaForm" (click)="onSubmit()">Actualizar</button>
+                        <button class="mat-raised-button" type="submit" form="cargaForm" (click)="menuPrincipal()">Salir</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

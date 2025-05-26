@@ -3,11 +3,19 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-    production: false,    
-    urlEndPoint:'http://sun23dl04n1.banvendes.corp:7008/asiWS/',
-    baseUrl: '/asi/',
-
+    production: false,
+    // urlEndPoint: 'http://localhost:8085/', // URL }base de tu backend Spring Boot
+    urlEndPoint: 'http://localhost:9090/', // URL base de tu backend Spring Boot
+    // urlEndPoint: 'http://localhost:8083/', // URL base de tu backend Spring Boot
+    // urlEndPoint: 'http://180.183.67.228:8080/', // URL base de tu backend Spring Boot
+    baseUrl: '/',
 };
+// export const environment = {
+//     production: false,    
+//     urlEndPoint:'http://sun23dl04n1.banvendes.corp:7008/asiWS/',
+//     baseUrl: '/asi/',
+
+// };
 
 /*
  * For easier debugging in development mode, you can import the following file

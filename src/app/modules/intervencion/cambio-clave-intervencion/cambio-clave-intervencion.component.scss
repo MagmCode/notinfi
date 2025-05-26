@@ -1,0 +1,346 @@
+// @import url("//src/assets/styles/icons-bdv.css");
+
+* {
+    font-family: 'Nunito', sans-serif !important;
+}
+
+// body {
+//     background-color: transparent !important;
+// }
+
+.operacionesIntervencion-container-cambioClave {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    height: 80vh;
+    width: 100vw;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+}
+
+.operaInter-header-content-cambioClave {
+    width: 40%;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    color: #e89600;
+    font-size: 3.6em;
+}
+
+.head-icon-intervencion-cambioClave::before {
+    color: #e89600;
+    font-size: 2.9em;
+    opacity: 40%;
+    padding-top: 25px;
+}
+
+.card-container-operaInter-cambioClave    {
+    width: 650px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+    color: #e89600;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
+}
+
+
+.title-operaInter-cambioClave {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+
+
+.card-form-operaInter-cambioClave {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+.field-container-intervencion-cambioClave {
+    display: flex;
+    flex-direction: column;
+    width: 60%;
+    padding: 0px 23px;
+}
+
+.card-form-operaInter-cambioClave .mat-form-field {
+    // flex: 1;
+    margin-right: 0px;
+
+}
+
+.campos-operaInter-cambioClave .tipoDocumentoInter {
+    margin-right: 0 !important;
+}
+
+.cedula-intervencion-cambioClave {
+    display: flex;
+}
+
+.campos-operaInter-cambioClave {
+    display: flex;
+    gap: 50px;
+    width: 245px;
+}
+
+.campos-operaInter-cambioClave .tipoDocumentoInter {
+    .mat-form-field-flex {
+        padding: 0 5px 0 6px !important;
+    }
+}
+
+.tipoDocumentoInter-cambioClave .mat-select-value {
+    padding-left: 25px;
+}
+
+.campos-operaInter-cambioClave .tipoDocumentoInter {
+    .mat-form-field-label {
+        width: 30px;
+    }
+}
+
+.input-cedula-inter-cambioClave .mat-form-field-wrapper {
+    width: 165px;
+}
+
+.input-cedula-inter-cambioClave {
+    color: #1e293b;
+
+    &.mat-focused {
+
+        .mat-form-field-outline-thick,
+        .mat-form-field-label {
+            color: #e89600 !important;
+        }
+    }
+}
+
+
+.campos-operaInter-cambioClave .documentoInter {
+    width: 80px;
+    /* Ancho fijo para el select */
+}
+
+
+.date-icon-inter-cambioClave:before {
+    color: grey;
+}
+
+.date-icon-inter-cambioClave:hover {
+    cursor: pointer;
+}
+
+
+.field-operInter-cambioClave .mat-form-field-infix {
+    display: flex !important;
+    padding: 0 !important;
+    width: 220px !important;
+}
+
+.field-operInter-cambioClave mat-icon {
+    padding: 9px 7px 0px 0px !important;
+    justify-content: end;
+    width: 25%;
+}
+
+.field-operInter-cambioClave .mat-form-field-flex {
+    padding: 0 5px 0 20px !important;
+    margin-top: -0.25em !important;
+    position: relative !important;
+    opacity: 5 !important;
+}
+
+.field-operInter-cambioClave mat-hint {
+    padding-left: 60px !important;
+    padding-top: 5px;
+    color: #e89600 !important;
+    font-size: 1.23em;
+    font-weight: 400;
+}
+
+.field-operInter-cambioClave .mat-form-field-flex:hover,
+.field-operInter-cambioClave .mat-form-field-outline-thick {
+    opacity: 1 !important;
+}
+
+.field-operInter-cambioClave input.mat-input-element {
+    margin: 0.7em 0em 0.9em 0em;
+    color: #1e293b;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    max-width: 100%;
+}
+
+
+.tipoDocumentoInter-cambioClave {
+    .mat-form-field-wrapper {
+
+        width: 80px !important;
+    }
+}
+
+.tipoDocumentoInter-cambioClave .mat-form-field {
+    padding-left: 13px !important;
+    margin-right: 0px !important;
+}
+
+
+.field-operInter-cambioClave .mat-form-field.mat-form-field-appearance-outline,
+.field-operInter-cambioClave .mat-form-field-label-wrapper {
+    width: 50% !important;
+    top: -1px !important;
+    left: 1px !important;
+}
+
+
+.field-operInter-cambioClave {
+    &.mat-form-field-invalid.mat-form-field-invalid {
+        .mat-form-field-outline-thick {
+            color: rgba(48, 48, 48, 0.247) !important;
+        }
+
+        .mat-form-field-label {
+            color: rgba(48, 48, 48, 0.616) !important;
+        }
+    }
+
+    &.mat-form-field-valid.mat-form-field-valid {
+
+        .mat-form-field-outline-thick,
+        .mat-form-field-label {
+            color: #e89600 !important;
+        }
+    }
+
+    &.mat-focused {
+
+        .mat-form-field-outline-thick,
+        .mat-form-field-label {
+            color: #e89600 !important;
+        }
+    }
+}
+
+.buttons-operInter-cambioClave   {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+
+}
+
+.button-container-operInter-cambioClave  button {
+    white-space: normal;
+    overflow-wrap: break-word;
+    width: 70%;
+    padding: 0 20px !important;
+    border-radius: 50px !important;
+}
+
+.button-container2-operInter-cambioClave     {
+    display: flex;
+    justify-content: flex-end;
+    gap: 15px;
+
+    button {
+        padding: 0 20px !important;
+        border-radius: 50px !important;
+        width: 100px;
+        // background-color: lightblue;
+    }
+}
+
+.buttons-operInter-cambioClave   .mat-raised-button {
+    color: #e89600 !important;
+    font-weight: 500;
+}
+
+.button-container-operInter-cambioClave  .mat-raised-button,
+.button-container2-operInter-cambioClave     .mat-raised-button {
+    transition: background-color 0s, color 0s;
+}
+
+.button-container-operInter-cambioClave  .mat-raised-button:hover,
+.button-container2-operInter-cambioClave     .mat-raised-button:hover {
+    background-color: #e89600;
+    color: white !important;
+}
+
+
+
+.field-operInter-cambioClave     .mat-select {
+
+    .mat-select-trigger {
+        display: inline-flex;
+        align-items: center;
+        width: 100%;
+        height: 35px !important;
+    }
+}
+
+.field-operInter-cambioClave     { 
+ .mat-form-field-flex {
+    height: 53px;
+}
+}
+
+.mat-select-panel {
+    border-radius: 15px !important;
+}
+
+
+
+
+// .field-operInter .mat-option{
+//     &.mat-active {
+//     background: rgba(232, 150, 0, 0.137) !important;
+//     color: #1e293b;
+//     }
+// }
+
+
+// body.light .mat-option:hover:not(.mat-option-disabled) {
+//     background: rgba(232, 150, 0, 0.301)
+// }
+
+// body.light .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+//     color: #1e293b;
+// }
+
+// body.light .mat-form-field.mat-focused.mat-primary .mat-select-arrow,
+// body .light .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+//     color: #e89600 !important;
+// }
+
+// body.light .mat-calendar-body-selected {
+//     background-color: #e89600 !important;
+//     color: var(--fuse-on-primary);
+// }
+
+
+// .mat-calendar-body-cell:not(.mat-calendar-body-disabled):hover,
+// .cdk-keyboard-focused .mat-calendar-body-active,
+// .cdk-program-focused .mat-calendar-body-active {
+//     &>.mat-calendar-body-cell-content {
+//         &:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+//             background-color: rgba(232, 150, 0, 0.301) !important;
+//         }
+//     }
+// }
+
+// body.light .mat-calendar-body-today:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
+//     border-color: #e89600b0;
+// }
+

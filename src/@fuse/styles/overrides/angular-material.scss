@@ -464,16 +464,16 @@
     }
 
     /* Disable floating mat-label */
-    &.mat-form-field-has-label.mat-form-field-can-float.mat-form-field-should-float {
+    // &.mat-form-field-has-label.mat-form-field-can-float.mat-form-field-should-float {
 
-        .mat-form-field-label-wrapper {
+    //     .mat-form-field-label-wrapper {
 
-            .mat-form-field-label {
-                width: 100% !important;
-                transform: none !important;
-            }
-        }
-    }
+    //         .mat-form-field-label {
+    //             width: 100% !important;
+    //             transform: none !important;
+    //         }
+    //     }
+    // }
 
     /* Remove the default arrow for native select */
     &.mat-form-field-type-mat-native-select {
@@ -520,10 +520,10 @@
             display: flex;
             align-items: stretch;
             min-height: 48px;
-            border-radius: 6px;
+            border-radius: 12px;
             padding: 0 16px;
             border-width: 1px;
-            @apply shadow-sm bg-white border-gray-300 dark:bg-black dark:bg-opacity-5 dark:border-gray-500 #{'!important'};
+            @apply shadow-sm bg-white border-primary dark:bg-black dark:bg-opacity-5 dark:border-primary #{'!important'};
 
             .mat-form-field-prefix {
 
@@ -698,6 +698,7 @@
                             display: flex;
                             position: relative;
                             max-width: none;
+                            
 
                             .mat-select-value-text {
                                 display: inline-flex;
@@ -1043,17 +1044,226 @@
 }
 
 /* Fix the outline appearance */
+
+body.light .mat-form-field-appearance-outline .mat-form-field-outline-thick, 
+body .light .mat-form-field-appearance-outline .mat-form-field-outline-thick {
+    color: rgb(0, 0, 0);
+    opacity: 1;
+
+}
+
+body.light .mat-form-field-appearance-outline .mat-form-field-outline, 
+body .light .mat-form-field-appearance-outline .mat-form-field-outline {
+    color: rgba(48, 48, 48, 0.247);
+    opacity: 1;
+}
+
+
+
 .mat-form-field.mat-form-field-appearance-outline {
 
-    .mat-form-field-wrapper {
 
-        .mat-form-field-flex {
+    // Outline Style
 
-            .mat-form-field-outline {
-                @apply text-gray-300 dark:text-gray-500 #{'!important'};
-            }
+    .mat-form-field-outline-start {
+        border-radius: 12px 0 0 12px;
+        border-right-style: none;
+        flex-grow: 1;
+    }
+
+    [dir=rtl] .mat-form-field-outline-start {
+        border-right-style: none;
+        border-left-style: solid;
+        border-radius: 12px 0 0 12px;
+    }
+
+    .mat-form-field-outline-end {
+        border-radius: 0 12px 12px 0;
+        border-left-style: none;
+        flex-grow: 130;
+    }
+
+    [dir=rtl] .mat-form-field-outline-end {
+        border-left-style: solid;
+        border-right-style: none;
+        border-radius: 0 12px 12px 0;
+    }
+
+        .mat-form-field-outline-gap {
+        border-radius: .000001px;
+        border: 1px solid currentColor;
+        border-left-style: none;
+        border-right-style: none;
+    }
+    
+    .mat-form-field-appearance-outline.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-outline-gap {
+        border-top-color: transparent;
+        transition: border-color 200ms cubic-bezier(0.25, 0.8, 0.25, 1);
+    }
+    
+
+    &.mat-form-field-can-float.mat-form-field-should-float .mat-form-field-outline-gap {
+        border-top-color: transparent;
+    }
+
+    &.mat-form-field-appearance-outline .mat-form-field-infix {
+        padding: 0.8em 0 0.8em 0;
+    }
+
+    .mat-form-field-label-wrapper {
+        top: -2px;
+        height: auto;
+        // padding-top: 0;
+        overflow: visible;
+        pointer-events: auto;
+
+        // Label
+
+        .mat-form-field-label {
+            position: absolute;
+            top: 10px;
+            margin-top: 0;
+            left: 15px;
         }
     }
+
+        /* Disabled */
+        &.mat-form-field-disabled .mat-form-field-outline {
+            opacity: 0.7 !important;
+            color: rgba(48, 48, 48, 0.247) !important;
+        }
+
+        /*  Valid */
+
+        &.mat-form-field-valid .mat-form-field-outline-thick {
+            color: rgba(0, 103, 177, 0.87);
+            
+        }
+
+        &.mat-form-field-valid .mat-form-field-label {
+            color: rgba(0, 103, 177, 0.87);
+            
+        }
+
+    
+        /* Invalid */
+        &.mat-form-field-invalid {
+    
+            .mat-form-field-wrapper {
+    
+                /* Border color */
+                .mat-form-field-flex {
+                    @apply border-warn dark:border-warn #{'!important'};
+                }
+            }
+        }
+    
+        /* Hover effects */
+        .mat-form-field-flex:hover .mat-form-field-outline-thick {
+            opacity: 0;
+        }
+    
+        .mat-form-field-subscript-wrapper {
+            padding: 0 1em;
+        }
+    
+        /* High contrast mode */
+        .cdk-high-contrast-active &.mat-focused .mat-form-field-outline-thick {
+            border: 0px dashed;
+        }
+    
+        /* Hover effects for non-disabled fields */
+        &:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline {
+            opacity: 1;
+            transition: opacity 600ms cubic-bezier(0.25, 0.8, 0.25, 1);
+            // color: rgba(0, 103, 177, 0.87); 
+        }
+    
+        &:not(.mat-form-field-disabled) &._mat-animation-noopable:not(.mat-form-field-disabled) .mat-form-field-flex:hover~.mat-form-field-outline,
+        &._mat-animation-noopable .mat-form-field-outline,
+        &._mat-animation-noopable .mat-form-field-outline-start,
+        &._mat-animation-noopable .mat-form-field-outline-end,
+        &._mat-animation-noopable .mat-form-field-outline-gap {
+            transition: none;
+        }
+    
+        /* Additional styles */
+        .mat-form-field-wrapper {
+            margin: .25em 0;
+            
+        }
+        
+        .mat-form-field-flex {
+            padding: 0 .75em;
+            margin-top: -0.25em;
+            position: relative;
+            opacity: 5;
+            // border-width: 1px;
+        }
+    
+        .mat-form-field-prefix,
+        .mat-form-field-suffix {
+            top: .25em;
+        }
+    
+        .mat-form-field-outline {
+            display: flex;
+            position: absolute;
+            top: .25em;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            pointer-events: none;
+        }
+
+        
+            .mat-form-field-outline-thick {
+                opacity: 1;
+            }
+        
+            .mat-form-field-outline-thick .mat-form-field-outline-start,
+            .mat-form-field-outline-thick .mat-form-field-outline-end,
+            .mat-form-field-outline-thick .mat-form-field-outline-gap {
+                border-width: 2px;
+                
+            }
+        
+            &.mat-focused .mat-form-field-outline,
+            &.mat-form-field-invalid .mat-form-field-outline {
+                opacity: 0;
+            }
+        
+            &.mat-focused .mat-form-field-outline-thick,
+            &.mat-form-field-invalid .mat-form-field-outline-thick {
+                opacity: 1;
+            }
+        
+            .cdk-high-contrast-active &.mat-focused .mat-form-field-outline-thick {
+                border: 3px dashed;
+            }
+        
+            // &:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline {
+            //     opacity: 1;
+            //     transition: opacity 600ms cubic-bezier(0.25, 0.8, 0.25, 1);
+            //     color: rgba(0, 103, 177, 0.87); 
+            // }
+
+        
+            // &:not(.mat-form-field-disabled) .mat-form-field-flex:hover .mat-form-field-outline-thick {
+            //     opacity: 1;
+            //     color: rgba(0, 103, 177, 0.87); 
+            // }
+
+            
+        
+            &._mat-animation-noopable:not(.mat-form-field-disabled) .mat-form-field-flex:hover~.mat-form-field-outline,
+            &._mat-animation-noopable .mat-form-field-outline,
+            &._mat-animation-noopable .mat-form-field-outline-start,
+            &._mat-animation-noopable .mat-form-field-outline-end,
+            &._mat-animation-noopable .mat-form-field-outline-gap {
+                transition: none;
+            }
+            
 }
 
 /* ----------------------------------------------------------------------------------------------------- */
@@ -1065,7 +1275,7 @@
 .cdk-program-focused .mat-calendar-body-active {
     & > .mat-calendar-body-cell-content {
         &:not(.mat-calendar-body-selected):not(.mat-calendar-body-comparison-identical) {
-            @apply bg-primary bg-opacity-30 #{'!important'};
+            @apply bg-gray-400 bg-opacity-30 #{'!important'};
         }
     }
 }

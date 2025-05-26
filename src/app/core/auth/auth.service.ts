@@ -1,174 +1,146 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
-import { catchError, switchMap, timeout } from 'rxjs/operators';
-import { AuthUtils } from 'app/core/auth/auth.utils';
-import { UserService } from 'app/core/user/user.service';
-import { LoginService } from 'app/services/login.service';
-import { usuarioMenu } from 'app/models/login';
+import { catchError, finalize, tap } from 'rxjs/operators';
+import { Router } from '@angular/router';
+import { environment } from 'environments/environment';
 
-@Injectable()
-export class AuthService
-{
-    private _authenticated: boolean = false;
-    usuarioMenu !: usuarioMenu;
-    /**
-     * Constructor
-     */
-    constructor(
-        private _httpClient: HttpClient,
-        private _userService: UserService,
-        private _loginService: LoginService
-    )
-    {
+@Injectable({ providedIn: 'root' })
+export class AuthService {
+  private _authenticated: boolean = false;
+  private apiUrl = environment.urlEndPoint;
+
+  constructor(
+    private _http: HttpClient, 
+    private _router: Router
+  ) {}
+
+
+  /**
+   * Obtiene los datos del usuario desde localStorage
+   */
+  get currentUser(): any {
+    const user = localStorage.getItem('user');
+    return user ? JSON.parse(user) : null;
+  }
+
+  /**
+   * Obtiene el nombre completo del usuario
+   */
+  get userFullName(): string {
+  const userData = JSON.parse(localStorage.getItem('user') || '{}');
+  // console.log('Datos recuperados de localStorage:', userData); // Debug
+  return userData?.fullName || 'Usuario';
+}
+
+get formattedUserName(): string {
+  const fullName = this.userFullName?.trim() || '';
+  
+  if (!fullName) return 'Usuario';
+
+  // Dividir el nombre completo en partes y eliminar espacios vacíos
+  const nameParts = fullName.split(/\s+/).filter(part => part.length > 0);
+
+  // Caso 1: Nombre muy corto
+  if (nameParts.length === 1) return nameParts[0];
+  
+  // Caso 2: Nombre + 1 apellido
+  if (nameParts.length === 2) return fullName;
+  
+  // Caso 3: Nombre compuesto + apellidos
+  const firstName = nameParts[0]; // Alexander
+  const firstSurname = nameParts[nameParts.length - 2]; 
+  
+  return `${firstName} ${firstSurname}`;
+}
+  /**
+   * Obtiene el rol del usuario
+   */
+  get userRole(): string {
+    const userData = JSON.parse(localStorage.getItem('user') || '{}');
+    // console.log('Datos recuperados de localStorage:', userData); // Debug
+    return userData?.roleName || 'Usuario';
+    }
+  // Propiedad para verificar estado de autenticación
+  get authenticated(): boolean {
+    return this._authenticated || !!localStorage.getItem('token');
+  }
+  // Método para establecer autenticación
+  setAuthenticated(value: boolean): void {
+    this._authenticated = value;
+    localStorage.setItem('isAuthenticated', value.toString());
+  }
+
+  /**
+   * Cierra la sesión en el backend y limpia los datos locales
+   */
+  signOut(): Observable<any> {
+    // console.group('[AuthService] Proceso de logout');
+    
+    const token = localStorage.getItem('token');
+    const userData = this.currentUser; // Guardar datos antes de limpiar
+    
+    this._clearAuthData(false);
+    
+    if (!token) {
+      // console.warn('No se encontró token - Solo limpieza local');
+      // console.groupEnd();
+      return of({ status: 'WARNING', message: 'No había sesión activa' });
     }
 
-    // -----------------------------------------------------------------------------------------------------
-    // @ Accessors
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Setter & getter for access token
-     */
-    set accessToken(token: string)
-    {
-        sessionStorage.setItem('accessToken', token);
-    }
-
-    get accessToken(): string
-    {
-        return sessionStorage.getItem('accessToken') ?? '';
-    }
-
-    // -----------------------------------------------------------------------------------------------------
-    // @ Public methods
-    // -----------------------------------------------------------------------------------------------------
-
-    /**
-     * Forgot password
-     *
-     * @param email
-     */
-    forgotPassword(email: string): Observable<any>
-    {
-        return this._httpClient.post('api/auth/forgot-password', email);
-    }
-
-    /**
-     * Reset password
-     *
-     * @param password
-     */
-    resetPassword(password: string): Observable<any>
-    {
-        return this._httpClient.post('api/auth/reset-password', password);
-    }
-
-    /**
-     * Sign in
-     *
-     * @param credentials
-     */
-    signIn(credentials: { email: string; password: string }): Observable<any>
-    {
-        // Throw error, if the user is already logged in
-        if ( this._authenticated )
-        {
-            return throwError('Usuario se encuentra logeado');
-        }
-
-         return this._loginService.validarUsuario(credentials.email, credentials.password).pipe(
-            switchMap((response: any) => {
-                if(response.status == 'success'){
-                    this.accessToken = this._loginService.iniciarToken(response.usuario);
-                    this._authenticated = true;
-                    const usu =
-                    {
-                        id    : '',
-                        name  : response.usuario.apellidos + ' ' + response.usuario.nombres,
-                        email : response.usuario.cargo,
-                        avatar: 'assets/images/avatars/brian-hughes.jpg',
-                        status: ''
-                    }
-                    this._userService.user = usu;
-
-                }
-                return of(response);    
-            })
-        );
+    // console.log('Enviando petición de logout al backend...');
+    
+    return this._http.post(`${this.apiUrl}api/auth/logout`, {}, {
+    // return this._http.post(`${this.apiUrl}logout`, {}, {
+      headers: new HttpHeaders({
+        'Authorization': `Bearer ${token}`
+      })
+    }).pipe(
+      tap((response: any) => {
+        // console.log('Respuesta del backend:', response);
+        this._clearAuthData(true);
         
+        // Opcional: Registrar datos del usuario que cerró sesión
+        // console.log(`Usuario desconectado: ${userData?.fullName || 'Desconocido'}`);
+      }),
+      catchError(error => {
+        // console.error('Error en logout:', error);
+        this._clearAuthData(true);
+        return throwError(() => ({
+          status: 'ERROR',
+          message: 'Error al cerrar sesión',
+          error: error
+        }));
+      }),
+      finalize(() => {
+        // console.log('Proceso de logout completado');
+        // console.groupEnd();
+      })
+    );
+  }
+
+  /**
+   * Limpia los datos de autenticación local
+   * @param complete - Si true, elimina también el token
+   */
+  private _clearAuthData(complete: boolean): void {
+    // console.log('[AuthService] Limpiando datos de autenticación...');
+    
+    // Items a eliminar
+    const itemsToRemove = ['isAuthenticated', 'user'];
+    
+    if (complete) {
+      itemsToRemove.push('token');
     }
-
-    /**
-     * Sign in using the access token
-     */
-    signInUsingToken(): Observable<any>
-    {
-        // Renew token
-        return of(true);
+    
+    itemsToRemove.forEach(item => localStorage.removeItem(item));
+    
+    // Resetear estado
+    this._authenticated = false;
+    
+    // Redirigir si es limpieza completa
+    if (complete) {
+      this._router.navigate(['/sign-in']);
     }
-    /**
-     * Sign out
-     */
-    signOut(): Observable<any>
-    {
-        // Remove the access token from the local storage
-
-        console.log("cerrando session")
-        sessionStorage.removeItem('accessToken');
-        sessionStorage.clear();
-
-        // Set the authenticated flag to false
-        this._authenticated = false;
-
-        // Return the observable
-        return of(true);
-    }
-
-    /**
-     * Sign up
-     *
-     * @param user
-     */
-    signUp(user: { name: string; email: string; password: string; company: string }): Observable<any>
-    {
-        return this._httpClient.post('api/auth/sign-up', user);
-    }
-
-    /**
-     * Unlock session
-     *
-     * @param credentials
-     */
-    unlockSession(credentials: { email: string; password: string }): Observable<any>
-    {
-        return this._httpClient.post('api/auth/unlock-session', credentials);
-    }
-
-    /**
-     * Check the authentication status
-     */
-    check(): Observable<boolean>
-    {
-        // Check if the user is logged in
-        if ( this._authenticated )
-        {
-            return of(true);
-        }
-
-        // Check the access token availability
-        if ( !this.accessToken )
-        {
-            return of(false);
-        }
-
-        // Check the access token expire date
-        // if ( AuthUtils.isTokenExpired(this.accessToken) )
-        // {
-        //     return of(false);
-        // }
-
-        // If the access token exists and it didn't expire, sign in using it
-        return this.signInUsingToken();
-    }
+  }
 }

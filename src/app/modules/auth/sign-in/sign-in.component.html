@@ -1,111 +1,121 @@
-<div class="flex flex-col flex-auto items-center sm:justify-center min-w-0 ">
-    <div class="w-full sm:w-auto py-8 px-4 sm:p-12 sm:rounded-2xl sm:shadow sm:bg-card login-container-float-center">
-        <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
-            <!-- Logo -->
-        <!--     <div class="w-12">
+<div
+  class="container flex flex-col flex-auto items-center sm:justify-center min-w-0"
+>
+  <div
+    class="w-full sm:w-auto py-8 px-4 sm:p-12 sm:rounded-2xl sm:shadow sm:bg-card login-container-float-center"
+  >
+    <div class="w-full max-w-80 sm:w-80 mx-auto sm:mx-0">
+      <!-- Logo -->
+      <!--     <div class="w-12">
                 <img src="assets/images/logo/logo3.svg">
             </div> -->
 
-            <!-- Title -->
-   <!--          <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Inicio de Sesión</div> -->
+      <!-- Title -->
+      <!--          <div class="mt-8 text-4xl font-extrabold tracking-tight leading-tight">Inicio de Sesión</div> -->
 
-            <div class="flex items-center mt-2">
-                <div class="w-20">
-                    <img src="assets/images/logo/logo3.svg">
-                </div>
-                <div class="mx-2  text-2xl font-extrabold text-azul text-center">Autogestión de Solicitudes Internas</div>
-              
-            </div>
-
-            <!-- Alert -->
-            <fuse-alert
-                class="mt-8 -mb-4"
-                *ngIf="showAlert"
-                [appearance]="'outline'"
-                [showIcon]="false"
-                [type]="alert.type"
-                [@shake]="alert.type === 'error'">
-                {{alert.message}}
-            </fuse-alert>
-
-            <!-- Sign in form -->
-            <form
-                class="mt-8"
-                [formGroup]="signInForm"
-                #signInNgForm="ngForm">
-
-                <!-- Email field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Usuario</mat-label>
-                    <input
-                        id="email"
-                        matInput
-                        [formControlName]="'email'">
-                    <mat-error *ngIf="signInForm.get('email').hasError('required')">
-                        Usuario es obligatorio
-                    </mat-error>
-                </mat-form-field>
-
-                <!-- Password field -->
-                <mat-form-field class="w-full">
-                    <mat-label>Contraseña</mat-label>
-                    <input
-                        id="password"
-                        matInput
-                        type="password"
-                        [formControlName]="'password'"
-                        #passwordField>
-                    <button
-                        mat-icon-button
-                        type="button"
-                        (click)="passwordField.type === 'password' ? passwordField.type = 'text' : passwordField.type = 'password'"
-                        matSuffix>
-                        <mat-icon
-                            class="icon-size-5"
-                            *ngIf="passwordField.type === 'password'"
-                            [svgIcon]="'heroicons_solid:eye'"></mat-icon>
-                        <mat-icon
-                            class="icon-size-5"
-                            *ngIf="passwordField.type === 'text'"
-                            [svgIcon]="'heroicons_solid:eye-off'"></mat-icon>
-                    </button>
-                    <mat-error>
-                        Contraseña es obligatorio
-                    </mat-error>
-                </mat-form-field>
-
-                <!-- Actions -->
-                <div class="inline-flex items-end justify-between w-full mt-1.5">
-                    <span></span>
-                    <a
-                        class="text-md font-medium text-primary-500 hover:underline"
-                        href="http://sun1305.banvenez.corp:7004/gtc">¿Olvido de Contraseña?
-                    </a>
-                </div>
-
-                <!-- Submit button -->
-                <button
-                    class="fuse-mat-button-large w-full mt-6"
-                    mat-flat-button
-                    [color]="'primary'"
-                    [disabled]="signInForm.disabled"
-                    (click)="signIn()">
-                    <span *ngIf="!signInForm.disabled">
-                       Aceptar
-                    </span>
-                    <mat-progress-spinner
-                        *ngIf="signInForm.disabled"
-                        [diameter]="24"
-                        [mode]="'indeterminate'"></mat-progress-spinner>
-                </button>
-
-                <!-- Separator -->
-                <div class="flex items-center mt-8">
-                    <div class="flex-auto mt-px border-t"></div>
-                    <div class="mx-2 text-secondary">Banco de Venezuela</div>
-                    <div class="flex-auto mt-px border-t"></div>
-                </div>
-            </form>
+      <div class="flex items-center mt-2" style="margin-left: 30px">
+        <div class="w-15">
+          <img src="assets/images/logo/logo3.svg" />
         </div>
+        <div class="mx-7 text-3xl text-azul font-extrabold text-center">
+          Credenciales
+        </div>
+      </div>
+
+      <!-- Alert -->
+      <fuse-alert
+      class="mt-8 -mb-4"
+      *ngIf="showAlert"
+      [appearance]="'outline'"
+      [showIcon]="false"
+      [type]="alert.type"
+  >
+      {{ alert.message }}
+  </fuse-alert>
+
+      <!-- Sign in form -->
+      <form
+      class="mt-8 singIn-form"
+      [formGroup]="signInForm"
+      #signInNgForm="ngForm"
+      (ngSubmit)="signIn($event)" 
+    >
+      <!-- Campo de usuario -->
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label class="text-l">Usuario (NM, CT, TP)</mat-label>
+        <input id="usuario" matInput [formControlName]="'usuario'" />
+        <mat-error *ngIf="signInForm.get('usuario').hasError('required')">
+          Usuario es obligatorio
+        </mat-error>
+      </mat-form-field>
+    
+      <!-- Campo de contraseña -->
+      <mat-form-field class="w-full" appearance="outline">
+        <mat-label class="text-l">Contraseña</mat-label>
+        <input
+          id="password"
+          matInput
+          type="password"
+          [formControlName]="'password'"
+          #passwordField
+        />
+        <button
+          mat-icon-button
+          type="button"
+          (click)="
+            passwordField.type === 'password'
+              ? (passwordField.type = 'text')
+              : (passwordField.type = 'password')
+          "
+          matSuffix
+        >
+          <mat-icon
+            class="icon-size-6 icon-bdv-icon-show-m"
+            *ngIf="passwordField.type === 'password'"
+          >
+          </mat-icon>
+          <mat-icon
+            class="icon-size-6 icon-bdv-icon-hide-m"
+            *ngIf="passwordField.type === 'text'"
+          >
+          </mat-icon>
+        </button>
+        <mat-error> Contraseña es obligatorio </mat-error>
+      </mat-form-field>
+    
+      <!-- Actions -->
+      <div class="inline-flex items-end justify-between w-full mt-1.5">
+        <span></span>
+        <a
+          class="text-md font-medium hover:underline"
+          href="http://sun1305.banvenez.corp:7004/gtc"
+          >¿Olvido de Contraseña?
+        </a>
+      </div>
+    
+      <!-- Botón de envío -->
+      <button
+        class="fuse-mat-button-large w-full mt-6"
+        mat-flat-button
+        [color]="'primary'"
+        [disabled]="signInForm.disabled"
+        type="submit" 
+      >
+        <span class="ingresar" *ngIf="!signInForm.disabled"> Ingresar </span>
+        <mat-progress-spinner
+          *ngIf="signInForm.disabled"
+          [diameter]="24"
+          [mode]="'indeterminate'"
+        ></mat-progress-spinner>
+      </button>
+    
+      <!-- Separator -->
+      <div class="flex items-center mt-8">
+        <div class="flex-auto mt-px border-t"></div>
+        <div class="mx-2 text-secondary">Banco de Venezuela</div>
+        <div class="flex-auto mt-px border-t"></div>
+      </div>
+    </form>
     </div>
+  </div>
 </div>

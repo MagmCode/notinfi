@@ -1,0 +1,57 @@
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="carga-container-intervencion-Carga">
+            <div class="header-content-intervencion-Carga">
+                <span>Carga</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intervencion-Carga"></mat-icon>
+            </div>
+
+            <mat-card class="card-container-intervencion-Carga">
+                <div class="title-intervencion-Carga">
+                    <span>Seleccione Criterios</span>
+                </div>
+
+                <!-- Carga Form -->
+                <form class="card-form-intervencion-Carga" #cargaaForm="ngForm" [formGroup]="cargaInterForm">  
+                    <!-- file  -->
+                    <mat-form-field
+                        class="w-full file-intervencion-Carga"
+                        appearance="outline"
+                        [ngClass]="{'mat-form-field-valid': cargaInterForm.controls['file'].valid && cargaInterForm.controls['file'].value}">
+                        <mat-label>Archivo</mat-label>
+                        <input
+                        id="file"
+                        matInput
+                        [formControlName]="'file'"  
+                        [value]="fileName"
+                        readonly>
+                        <mat-hint>Suba un archivo Excel</mat-hint>
+                        <mat-error *ngIf="cargaInterForm.get('file').hasError('required') && cargaInterForm.get('file').touched">
+                            Debe seleccionar un archivo
+                          </mat-error>
+                        <mat-error *ngIf="cargaInterForm.get('file').hasError('invalidFile')">
+                            Por favor, sube un archivo Excel válido
+                        </mat-error>
+                        <mat-icon (click)="fileInput.click()" class="icon-bdv-icon-file2-m file-icon-intervencion-Carga"></mat-icon>
+                        <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+                    </mat-form-field>
+                </form>
+
+                <div class="buttons-intervencion-Carga">
+                    <div class="button-container-intervencion-Carga">
+                        <button class="mat-raised-button" type="submit" form="cargaInterForm">Descargar plantilla Intervencion</button>
+                    </div>
+                    <div class="button-container2-intervencion-Carga">
+                        <button class="mat-raised-button" type="submit" form="cargaInterForm">Procesar</button>
+                        <button class="mat-raised-button" (click)="menuPrincipal()">Salir</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

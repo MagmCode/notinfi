@@ -1,0 +1,57 @@
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="operacionesMenudeo-container-carga">
+            <div class="operaMenudeo-header-content-carga">
+                <span>Carga</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-usd-l head-icon-Menudeo-carga"></mat-icon>
+            </div>
+            <mat-card class="card-container-operaMenudeo-carga">
+                <div class="title-operaMenudeo-carga">
+                    <span>Seleccione Criterios</span>
+                </div>
+                <!-- Carga Form -->
+                <form class="card-form-operaMenudeo-carga" #cargaaForm="ngForm" [formGroup]="cargaaMenudeoForm">
+
+
+                        <mat-form-field 
+                        class="w-full field-operMenudeo-carga" appearance="outline"
+                        [ngClass]="{'mat-form-field-valid': cargaaMenudeoForm.controls['file'].valid && cargaaMenudeoForm.controls['file'].value}">
+                            <mat-label>Archivo</mat-label>
+                            <input
+                            id="file"
+                            matInput
+                            [formControlName]="'file'"  
+                            [value]="fileName"
+                            readonly>
+                            <mat-hint>Suba un archivo Excel</mat-hint>
+                            <mat-error *ngIf="cargaaMenudeoForm.get('file').hasError('required') && cargaaMenudeoForm.get('file').touched">
+                                Debe seleccionar un archivo
+                              </mat-error>
+                            <mat-error *ngIf="cargaaMenudeoForm.get('file').hasError('invalidFile')">
+                                Por favor, sube un archivo Excel válido
+                            </mat-error>
+                            <mat-icon (click)="fileInput.click()" class="icon-bdv-icon-file2-m file-icon-Menudeo-carga"></mat-icon>
+                            <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+                        </mat-form-field>
+
+    </form>
+
+                <div class="buttons-operMenudeo-carga">
+                    <div class="button-container-operMenudeo-carga">
+                        <button class="mat-raised-button" type="submit" form="cargaForm">Descargar Plantilla de Anulación</button>
+                    </div>
+                    <div class="button-container2-operMenudeo-carga">
+                        <button class="mat-raised-button" type="submit" form="cargaForm">Procesar</button>
+                        <button class="mat-raised-button" type="submit" form="cargaForm" (click)="menuPrincipal()">Salir</button>
+                    </div>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

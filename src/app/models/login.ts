@@ -3,11 +3,17 @@ export interface login{
     clave: string
 }
 
-export interface loginLdap{
-    status: string,
-    mensaje: string,
-    usuario: IusuarioLdap
-}
+export interface loginLdap {
+    estatus: string;
+    mensaje: string;
+    token: string;
+    data?: {
+      fullName: string;
+      roleId: string;
+      roleName: string;
+      userId: string;
+    };
+  }
 
 export interface IusuarioLdap{
     codigo: string,

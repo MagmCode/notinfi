@@ -11,6 +11,7 @@ layout {
         display: flex;
         flex: 1 1 auto;
         width: 100%;
+        background-color: #fff;
     }
 
     /* Base styles for components that load as a route */
@@ -23,7 +24,14 @@ layout {
             width: 100%;
         }
     }
+
+    empty-layout {
+            background-color: transparent !important;
+        
+    }
+
 }
+
 
 body{
     background: (237, 237, 237) !important;

@@ -23,39 +23,39 @@ export class AuthInterceptor implements HttpInterceptor
      */
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
     {
-        // Clone the request object
-        let newReq = req.clone();
+        // Obtener el token desde localStorage
+        const token = localStorage.getItem('token');
 
-        // Request
-        //
-        // If the access token didn't expire, add the Authorization header.
-        // We won't add the Authorization header if the access token expired.
-        // This will force the server to return a "401 Unauthorized" response
-        // for the protected API routes which our response interceptor will
-        // catch and delete the access token from the local storage while logging
-        // the user out from the app.
-        if ( this._authService.accessToken && !AuthUtils.isTokenExpired(this._authService.accessToken) )
-        {
+        // Si hay token, agregarlo a la cabecera Authorization
+        let newReq = req;
+        if (token) {
             newReq = req.clone({
-                headers: req.headers.set('Authorization', 'Bearer ' + this._authService.accessToken)
+                headers: req.headers.set('Authorization', 'Bearer ' + token)
             });
         }
 
         // Response
         return next.handle(newReq).pipe(
             catchError((error) => {
-
-                // Catch "401 Unauthorized" responses
-                if ( error instanceof HttpErrorResponse && error.status === 401 )
-                {
-                    // Sign out
-                    this._authService.signOut();
-
-                    // Reload the app
-                    location.reload();
+                // Catch "401 Unauthorized" and "403 Forbidden" responses
+                if (
+                    error instanceof HttpErrorResponse &&
+                    (error.status === 401 || error.status === 403)
+                ) {
+                    // Limpia el token y cualquier otro dato de sesión
+                    localStorage.clear();
+                    sessionStorage.clear();
+                    // Log para depuración de redirección
+                    console.log('Interceptor: Redirigiendo a', window.location.origin + '/#/sign-in', 'desde', window.location.href);
+                    // Elimina cualquier query param antes de redirigir
+                    if (window.location.hash !== '#/sign-in') {
+                        window.location.hash = '#/sign-in';
+                    } else {
+                        window.location.replace(window.location.origin + '/#/sign-in');
+                    }
+                    return throwError(() => error);
                 }
-
-                return throwError(error);
+                return throwError(() => error);
             })
         );
     }

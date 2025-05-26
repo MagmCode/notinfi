@@ -1,0 +1,62 @@
+
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenido -->
+        <div class="anulacionMasiva-container-MesaCambio">
+            <div class="header-content-MesaCambio">
+                <span>Anulación Masiva</span>
+                <mat-icon class="icon-size-10 icon-bdv-icon-bs-l head-icon-anulacion-MesaCambio"></mat-icon>
+            </div>
+            <mat-card class="card-container">
+                <div class="title">
+                    <span>Seleccione Criterios</span>
+                </div>
+                <!-- Carga Form -->
+                <form class="card-form" #cargaaForm="ngForm" [formGroup]="anulacionMasivaMesaCambioForm">  
+
+                    <!-- file  -->
+                    <mat-form-field 
+                        class="w-full file"
+                        appearance="outline"
+                         [ngClass]="{'mat-form-field-valid': anulacionMasivaMesaCambioForm.controls['file'].valid && anulacionMasivaMesaCambioForm.controls['file'].value}">
+                        <mat-label>Archivo</mat-label>
+                        <input
+                        id="file"
+                        matInput
+                        [formControlName]="'file'"  
+                        [value]="fileName"
+                        readonly>
+                        <mat-hint>Suba un archivo Excel</mat-hint>
+                        <mat-error *ngIf="anulacionMasivaMesaCambioForm.get('file').hasError('required') && anulacionMasivaMesaCambioForm.get('file').touched">
+                            Debe seleccionar un archivo
+                          </mat-error>
+                          <mat-error *ngIf="anulacionMasivaMesaCambioForm.get('file').hasError('invalidFile')">
+                            Por favor, sube un archivo Excel válido
+                          </mat-error>
+                        <mat-icon (click)="fileInput.click()" class="icon-bdv-icon-file2-m file-icon"></mat-icon>
+                        <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
+                      </mat-form-field>
+                    
+                    
+                </form>
+                
+                <div class="buttons">
+                <div class="button-container">
+                    <button class="mat-raised-button" type="submit" form="anulacionMasivaMesaCambioForm">Descargar plantilla de Anulación</button>
+                </div>
+
+                <div class="button-container2">
+                    <button class="mat-raised-button" type="submit" form="anulacionMasivaMesaCambioForm">Procesar</button>
+                    <button class="mat-raised-button" (click)="menuPrincipal()">Salir</button>
+                </div>
+
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>

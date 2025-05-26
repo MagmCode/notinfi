@@ -181,71 +181,71 @@ export class NavigationService
     /**
      * Get all navigation data
      */
-    get(): Observable<Navigation>
-    {
-        this.usuario = this._loginService.obterTokenInfo();
-        this.menuReplicar.default = null;
-        this.menuAdministrado = [];
-        this.menuAdministrado = this.iniciarMenuAdmin();
-        this.menuPublico = [];
-        this.menuPublico = this.inciarMenuPublico();
-        this.menuMediciones = [];
-        this.menuMediciones = this.iniciarMenuMedi();
-        this.menuCaci = [];
-        this.menuCaci = this.iniciarMenuCaci();
-       return this._loginService.obtenerMenu(this.usuario.cedula).pipe(
-          tap( (response) =>{
+    // get(): Observable<Navigation>
+    // {
+    //     // this.usuario = this._loginService.obterTokenInfo();
+    //     this.menuReplicar.default = null;
+    //     this.menuAdministrado = [];
+    //     this.menuAdministrado = this.iniciarMenuAdmin();
+    //     this.menuPublico = [];
+    //     this.menuPublico = this.inciarMenuPublico();
+    //     this.menuMediciones = [];
+    //     this.menuMediciones = this.iniciarMenuMedi();
+    //     this.menuCaci = [];
+    //     this.menuCaci = this.iniciarMenuCaci();
+    //    return this._loginService.obtenerMenu(this.usuario.cedula).pipe(
+    //       tap( (response) =>{
            
-                if(response.status == 'success'){
+    //             if(response.status == 'success'){
                     
-                    let medi;
-                    this.menuReplicar.default = [];
+    //                 let medi;
+    //                 this.menuReplicar.default = [];
                 
-                    response.data.forEach(element => {
+    //                 response.data.forEach(element => {
                   
-                        medi = element.title ;
-                        if (element.title == 'Mediciones') {
-                            element.icon = 'heroicons_outline:chart-pie';
-                            this.menuMediciones.children.push(element);
+    //                     medi = element.title ;
+    //                     if (element.title == 'Mediciones') {
+    //                         element.icon = 'heroicons_outline:chart-pie';
+    //                         this.menuMediciones.children.push(element);
                             
-                        } else if(element.title == 'Caci'){
-                            this.menuCaci.children.push(element);
+    //                     } else if(element.title == 'Caci'){
+    //                         this.menuCaci.children.push(element);
 
-                        }
+    //                     }
                         
                         
-                        else {
-                            this.menuAdministrado.children.push(element); 
+    //                     else {
+    //                         this.menuAdministrado.children.push(element); 
                       
-                        }
+    //                     }
 
-                    });
+    //                 });
 
-                    if (this.menuMediciones.children.length > 0) {                
-                        this.menuPublico.push(this.menuMediciones);  
-                    } 
+    //                 if (this.menuMediciones.children.length > 0) {                
+    //                     this.menuPublico.push(this.menuMediciones);  
+    //                 } 
 
-                    if (this.menuCaci.children.length > 0 ) {
-                        this.menuPublico.push(this.menuCaci);  
-                    } 
+    //                 if (this.menuCaci.children.length > 0 ) {
+    //                     this.menuPublico.push(this.menuCaci);  
+    //                 } 
 
-                    if (this.menuAdministrado.children.length > 1 ) {
-                        this.menuPublico.push(this.menuAdministrado);  
-                    } 
+    //                 if (this.menuAdministrado.children.length > 1 ) {
+    //                     this.menuPublico.push(this.menuAdministrado);  
+    //                 } 
         
                              
-                    this.menuReplicar.default = [];
-                    this.menuReplicar.default = this.menuPublico;
-                    this._navigation.next(this.menuReplicar);
-                    return of(this._navigation);
-                }else{
-                    this.menuReplicar.default = this.menuPublico;
-                    this._navigation.next(this.menuReplicar);
-                    return of(this._navigation);
-                }
-            })
-        )
+    //                 this.menuReplicar.default = [];
+    //                 this.menuReplicar.default = this.menuPublico;
+    //                 this._navigation.next(this.menuReplicar);
+    //                 return of(this._navigation);
+    //             }else{
+    //                 this.menuReplicar.default = this.menuPublico;
+    //                 this._navigation.next(this.menuReplicar);
+    //                 return of(this._navigation);
+    //             }
+    //         })
+    //     )
          // llamar al servicio de menu del proyecto
         
     }
-}
+

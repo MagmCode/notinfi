@@ -75,7 +75,7 @@ export class AuthMockApi
                 this._routerLogin.validarUsuario(request.body.email, request.body.password)
                 .subscribe(
                     (data) =>{
-                        if(data.status == 'success'){
+                        if(data.estatus == 'success'){
                             return [
                                 200,
                                 {
