@@ -2,7 +2,7 @@ import { Route } from '@angular/router';
 import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
-import { MainLayoutsComponent } from './modules/main-layouts/main-layouts.component';
+// import { MainLayoutsComponent } from './modules/main-layouts/main-layouts.component';
 import { MenuPrincipalComponent } from './modules/menu-principal/menu-principal.component';
 import { CargaMesaCambioComponent } from './modules/mesaDeCambio/carga/carga.component';
 import { OperacionesMesaCambioComponent } from './modules/mesaDeCambio/operaciones/operaciones.component';
@@ -127,26 +127,31 @@ export const appRoutes: Route[] = [
                   { path: 'consulta-intercambio', component: ConsultaIntercambioMesaCambioComponent },
                   { path: 'oferta', component: OfertaMesaCambioComponent },
                 ]
-              },
-            {
-              path: 'intervencion', children: [
-                { path: 'carga', component: CargaIntervencionComponent },
-                { path: 'operaciones', component: OperacionesIntervencionComponent},
-                { path: 'interbancario', component: InterbancarioIntervencionComponent},
-                { path: 'cambio_clave', component: CambioClaveIntervencionComponent},
-                { path: 'anulacion', component: AnulacionIntervencionComponent},
-                { path: 'consulta_bcv', component: ConsultabcvIntervencionComponent},
-                { path: 'consulta_jornada', component: JornadaIntervencionComponent},
-
-              ]
             },
+
+            {
+                path: 'intervencion', // <-- Esta es la ruta base
+                loadChildren: () => import('./modules/intervencion/intervencion.module').then(m => m.IntervencionModule)
+            },
+            // {
+            //   path: 'intervencion', children: [
+            //     { path: 'carga', component: CargaIntervencionComponent },
+            //     { path: 'operaciones', component: OperacionesIntervencionComponent},
+            //     { path: 'interbancario', component: InterbancarioIntervencionComponent},
+            //     { path: 'cambio_clave', component: CambioClaveIntervencionComponent},
+            //     { path: 'anulacion', component: AnulacionIntervencionComponent},
+            //     { path: 'consulta_bcv', component: ConsultabcvIntervencionComponent},
+            //     { path: 'consulta_jornada', component: JornadaIntervencionComponent},
+
+            //   ]
+            // },
             {
 
               path: 'menudeo', children: [
-                { path: 'carga', component: CargaMenudeoComponent },
-                { path: 'operaciones', component: OperacionesMenudeoComponent},
+                { path: 'carga', component: CargaMenudeoComponent }, //tiene la misma ruta de lectura de archivo
+                { path: 'operaciones', component: OperacionesMenudeoComponent}, //tiene la misma ruta de demanda
                 { path: 'consulta-tasasBCV', component: ConsultaTasasbcvMenudeoComponent},
-                { path: 'cambio-de-clave', component: CambioClaveMenudeoComponent},
+                { path: 'cambio_clave', component: CambioClaveMenudeoComponent},
                 { path: 'demanda', component: DemandaMenudeoComponent},
                 { path: 'consultaBCV', component: ConsultabcvMenudeoComponent},
                 { path: 'lectura-de-archivo', component: LecturaArchivoMenudeoComponent},

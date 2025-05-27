@@ -1,5 +1,7 @@
 // @import url("//src/assets/styles/icons-bdv.css");
-  
+  * {
+    font-family: 'Nunito', sans-serif ;
+}
 
   
   // Sidebar
@@ -87,6 +89,7 @@ mat-sidenav {
       font-size: 18px;
       margin-right: 8px;
       transition: color 0.2s ease;
+      font-family: icomoon !important;
     }
 
     
@@ -151,6 +154,7 @@ mat-sidenav {
   display: inline-flex;
   align-items: center;
   justify-content: center;
+  font-family: icomoon !important;
 }
 
 .logout-icon::before {
@@ -163,6 +167,7 @@ mat-sidenav {
   align-items: center;
   justify-content: end;
   transform: rotate(180deg);
+  font-family: icomoon !important;
 }
 
 .logout-icon:hover::before {
@@ -216,6 +221,7 @@ li.selected .menu-item-text {
 .back::before {
   color: #fff;
   margin: 20px 0 0 20px;
+  font-family: icomoon !important;
 }
 
 .profile-container {
@@ -227,6 +233,7 @@ li.selected .menu-item-text {
 .profile::before {
   color: #fff;
   font-size: 5.3rem;
+  font-family: icomoon !important;
 }
 
 

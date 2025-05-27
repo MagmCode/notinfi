@@ -8,7 +8,7 @@ import { ServiceService } from 'app/services/service.service';
   selector: 'app-cambio-clave-intervencion',
   templateUrl: './cambio-clave-intervencion.component.html',
   styleUrls: ['./cambio-clave-intervencion.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class CambioClaveIntervencionComponent implements OnInit {
 
@@ -74,6 +74,14 @@ export class CambioClaveIntervencionComponent implements OnInit {
     this._service.cambioClaveIntervencion({ claveActual, claveNueva }).subscribe({
       next: (response) => {
         this.isLoading = false;
+        if (response && response.error) {
+          this._snackBar.open('Ocurrió un error al cambiar la clave', 'Cerrar', {
+            duration: 5000,
+            verticalPosition: 'bottom',
+            panelClass: ['snackbar-error']
+          });
+          return
+        }
         this._snackBar.open('La clave fue cambiada con éxito', 'Cerrar', {
           duration: 5000,
           verticalPosition: 'bottom',

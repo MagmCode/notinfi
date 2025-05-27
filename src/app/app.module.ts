@@ -57,12 +57,12 @@ import { UserModule } from "./layout/common/user/user.module";
 import { MainLayoutsComponent } from './modules/main-layouts/main-layouts.component';
 import { CargaMesaCambioComponent } from './modules/mesaDeCambio/carga/carga.component';
 import { OperacionesMesaCambioComponent } from './modules/mesaDeCambio/operaciones/operaciones.component';
-import { OperacionesIntervencionComponent } from './modules/intervencion/operaciones-intervencion/operaciones-intervencion.component';
-import { CargaIntervencionComponent } from './modules/intervencion/carga-intervencion/carga-intervencion.component';
-import { InterbancarioIntervencionComponent } from './modules/intervencion/interbancario-intervencion/interbancario-intervencion.component';
-import { CambioClaveIntervencionComponent } from './modules/intervencion/cambio-clave-intervencion/cambio-clave-intervencion.component';
-import { AnulacionIntervencionComponent } from './modules/intervencion/anulacion-intervencion/anulacion-intervencion.component';
-import { ConsultabcvIntervencionComponent } from './modules/intervencion/consultabcv-intervencion/consultabcv-intervencion.component';
+// import { OperacionesIntervencionComponent } from './modules/intervencion/operaciones-intervencion/operaciones-intervencion.component';
+// import { CargaIntervencionComponent } from './modules/intervencion/carga-intervencion/carga-intervencion.component';
+// import { InterbancarioIntervencionComponent } from './modules/intervencion/interbancario-intervencion/interbancario-intervencion.component';
+// import { CambioClaveIntervencionComponent } from './modules/intervencion/cambio-clave-intervencion/cambio-clave-intervencion.component';
+// import { AnulacionIntervencionComponent } from './modules/intervencion/anulacion-intervencion/anulacion-intervencion.component';
+// import { ConsultabcvIntervencionComponent } from './modules/intervencion/consultabcv-intervencion/consultabcv-intervencion.component';
 import { ConsultabcvMenudeoComponent } from './modules/menudeo/consultabcv-menudeo/consultabcv-menudeo.component';
 import { OperacionesMenudeoComponent } from './modules/menudeo/operaciones-menudeo/operaciones-menudeo.component';
 import { DemandaMenudeoComponent } from './modules/menudeo/demanda-menudeo/demanda-menudeo.component';
@@ -78,9 +78,9 @@ import { InterbancarioMesaCambioComponent } from './modules/mesaDeCambio/interba
 import { DemandaMesaCambioComponent } from './modules/mesaDeCambio/demanda-mesa-cambio/demanda-mesa-cambio.component';
 import { ConsultaIntercambioMesaCambioComponent } from './modules/mesaDeCambio/consulta-intercambio-mesa-cambio/consulta-intercambio-mesa-cambio.component';
 import { OfertaMesaCambioComponent } from './modules/mesaDeCambio/oferta-mesa-cambio/oferta-mesa-cambio.component';
-import { EditOperacionesIntervencionModalComponent } from './modules/intervencion/operaciones-intervencion/edit-operaciones-intervencion-modal/edit-operaciones-intervencion-modal.component';
+// import { EditOperacionesIntervencionModalComponent } from './modules/intervencion/operaciones-intervencion/edit-operaciones-intervencion-modal/edit-operaciones-intervencion-modal.component';
 import { FuseLoadingBarModule } from "../@fuse/components/loading-bar/loading-bar.module";
-import { JornadaIntervencionComponent } from './modules/intervencion/jornada-intervencion/jornada-intervencion.component';
+// import { JornadaIntervencionComponent } from './modules/intervencion/jornada-intervencion/jornada-intervencion.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTreeModule } from '@angular/material/tree';
 import { IntencionRetiroComponent } from './modules/intencion-retiro/intencion-retiro.component';
@@ -89,6 +89,7 @@ import { MY_DATE_FORMATS } from 'app/models/dateFormat';
 import { IntencionVentaComponent } from './modules/intencion-venta/intencion-venta.component';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getSpanishPaginatorIntl } from './shared/mat-paginator-intl';
+import { IntervencionModule } from './modules/intervencion/intervencion.module';
 
 
 const routerConfig: ExtraOptions = {
@@ -110,12 +111,12 @@ const routerConfig: ExtraOptions = {
         MainLayoutsComponent,
         CargaMesaCambioComponent,
         OperacionesMesaCambioComponent,
-        OperacionesIntervencionComponent,
-        CargaIntervencionComponent,
-        InterbancarioIntervencionComponent,
-        CambioClaveIntervencionComponent,
-        AnulacionIntervencionComponent,
-        ConsultabcvIntervencionComponent,
+        // OperacionesIntervencionComponent,
+        // CargaIntervencionComponent,
+        // InterbancarioIntervencionComponent,
+        // CambioClaveIntervencionComponent,
+        // AnulacionIntervencionComponent,
+        // ConsultabcvIntervencionComponent,
         ConsultabcvMenudeoComponent,
         OperacionesMenudeoComponent,
         DemandaMenudeoComponent,
@@ -131,8 +132,8 @@ const routerConfig: ExtraOptions = {
         DemandaMesaCambioComponent,
         ConsultaIntercambioMesaCambioComponent,
         OfertaMesaCambioComponent,
-        EditOperacionesIntervencionModalComponent,
-        JornadaIntervencionComponent,
+        // EditOperacionesIntervencionModalComponent,
+        // JornadaIntervencionComponent,
         IntencionRetiroComponent,
         IntencionVentaComponent,
 
@@ -190,7 +191,8 @@ const routerConfig: ExtraOptions = {
     MatMomentDateModule,
     UserModule,
     FuseLoadingBarModule,
-    MatTreeModule
+    MatTreeModule,
+    IntervencionModule
 ],
     exports: [NgxSpinnerModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

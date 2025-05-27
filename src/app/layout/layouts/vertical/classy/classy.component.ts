@@ -330,7 +330,7 @@ export class ClassyLayoutComponent implements OnDestroy, OnInit {
         error: (err) => {
           console.error("Error en logout:", err);
           this._router.navigate(["/sign-in"]).then(() => {
-            this.opened = false;
+            this.opened = false; 
           });
         },
       });

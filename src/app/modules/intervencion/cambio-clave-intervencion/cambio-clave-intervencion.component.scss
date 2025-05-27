@@ -37,6 +37,7 @@
     font-size: 2.9em;
     opacity: 40%;
     padding-top: 25px;
+    font-family: icomoon !important;
 }
 
 .card-container-operaInter-cambioClave    {
@@ -58,6 +59,7 @@
     align-items: center;
     margin-bottom: 20px;
     font-size: 1.3em;
+    color: #e89600;
 }
 
 
@@ -143,11 +145,12 @@
 }
 
 
-.field-operInter-cambioClave .mat-form-field-infix {
+.field-operInter-cambioClave ::ng-deep .mat-form-field-infix {
     display: flex !important;
     padding: 0 !important;
     width: 220px !important;
 }
+
 
 .field-operInter-cambioClave mat-icon {
     padding: 9px 7px 0px 0px !important;
@@ -155,7 +158,7 @@
     width: 25%;
 }
 
-.field-operInter-cambioClave .mat-form-field-flex {
+.field-operInter-cambioClave ::ng-deep .mat-form-field-flex {
     padding: 0 5px 0 20px !important;
     margin-top: -0.25em !important;
     position: relative !important;
@@ -217,7 +220,7 @@
         }
     }
 
-    &.mat-form-field-valid.mat-form-field-valid {
+    & .mat-form-field-valid.mat-form-field-valid {
 
         .mat-form-field-outline-thick,
         .mat-form-field-label {
