@@ -52,6 +52,9 @@ import { InterbancarioIntervencionComponent } from './interbancario-intervencion
 import { JornadaIntervencionComponent } from './jornada-intervencion/jornada-intervencion.component';
 import { OperacionesIntervencionComponent } from './operaciones-intervencion/operaciones-intervencion.component';
 import { EditOperacionesIntervencionModalComponent } from './operaciones-intervencion/edit-operaciones-intervencion-modal/edit-operaciones-intervencion-modal.component';
+import { SustitucionesPendientesComponent } from './sustituciones-pendientes/sustituciones-pendientes.component';
+import { SustitucionOperacionesComponent } from './sustitucion-operaciones/sustitucion-operaciones.component';
+import { ConsultaDefinitivaBcvComponent } from './consulta-definitiva-bcv/consulta-definitiva-bcv.component';
 
 
 @NgModule({
@@ -63,7 +66,10 @@ import { EditOperacionesIntervencionModalComponent } from './operaciones-interve
     InterbancarioIntervencionComponent,
     JornadaIntervencionComponent,
     OperacionesIntervencionComponent,
-    EditOperacionesIntervencionModalComponent
+    EditOperacionesIntervencionModalComponent,
+    SustitucionesPendientesComponent,
+    SustitucionOperacionesComponent,
+    ConsultaDefinitivaBcvComponent
   ],
   imports: [
     CommonModule,

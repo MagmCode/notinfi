@@ -83,13 +83,15 @@ import { FuseLoadingBarModule } from "../@fuse/components/loading-bar/loading-ba
 // import { JornadaIntervencionComponent } from './modules/intervencion/jornada-intervencion/jornada-intervencion.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTreeModule } from '@angular/material/tree';
-import { IntencionRetiroComponent } from './modules/intencion-retiro/intencion-retiro.component';
+// import { IntencionRetiroComponent } from './modules/intencion-retiro/intencion-retiro.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/models/dateFormat';
-import { IntencionVentaComponent } from './modules/intencion-venta/intencion-venta.component';
+// import { IntencionVentaComponent } from './modules/intencion-venta/intencion-venta.component';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getSpanishPaginatorIntl } from './shared/mat-paginator-intl';
 import { IntervencionModule } from './modules/intervencion/intervencion.module';
+import { IntencionRetiroModule } from './modules/intencion-retiro/intencion-retiro.module';
+import { IntencionVentaModule } from './modules/intencion-venta/intencion-venta.module';
 
 
 const routerConfig: ExtraOptions = {
@@ -134,8 +136,8 @@ const routerConfig: ExtraOptions = {
         OfertaMesaCambioComponent,
         // EditOperacionesIntervencionModalComponent,
         // JornadaIntervencionComponent,
-        IntencionRetiroComponent,
-        IntencionVentaComponent,
+        // IntencionRetiroComponent,
+        // IntencionVentaComponent,
 
         
 
@@ -192,7 +194,9 @@ const routerConfig: ExtraOptions = {
     UserModule,
     FuseLoadingBarModule,
     MatTreeModule,
-    IntervencionModule
+    IntervencionModule,
+    IntencionRetiroModule,
+    IntencionVentaModule
 ],
     exports: [NgxSpinnerModule],
     schemas: [CUSTOM_ELEMENTS_SCHEMA],

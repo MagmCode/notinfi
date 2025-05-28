@@ -28,7 +28,6 @@ import { DemandaMesaCambioComponent } from './modules/mesaDeCambio/demanda-mesa-
 import { ConsultaIntercambioMesaCambioComponent } from './modules/mesaDeCambio/consulta-intercambio-mesa-cambio/consulta-intercambio-mesa-cambio.component';
 import { OfertaMesaCambioComponent } from './modules/mesaDeCambio/oferta-mesa-cambio/oferta-mesa-cambio.component';
 import { JornadaIntervencionComponent } from './modules/intervencion/jornada-intervencion/jornada-intervencion.component';
-import { IntencionRetiroComponent } from './modules/intencion-retiro/intencion-retiro.component';
 import { IntencionVentaComponent } from './modules/intencion-venta/intencion-venta.component';
 
 
@@ -133,18 +132,6 @@ export const appRoutes: Route[] = [
                 path: 'intervencion', // <-- Esta es la ruta base
                 loadChildren: () => import('./modules/intervencion/intervencion.module').then(m => m.IntervencionModule)
             },
-            // {
-            //   path: 'intervencion', children: [
-            //     { path: 'carga', component: CargaIntervencionComponent },
-            //     { path: 'operaciones', component: OperacionesIntervencionComponent},
-            //     { path: 'interbancario', component: InterbancarioIntervencionComponent},
-            //     { path: 'cambio_clave', component: CambioClaveIntervencionComponent},
-            //     { path: 'anulacion', component: AnulacionIntervencionComponent},
-            //     { path: 'consulta_bcv', component: ConsultabcvIntervencionComponent},
-            //     { path: 'consulta_jornada', component: JornadaIntervencionComponent},
-
-            //   ]
-            // },
             {
 
               path: 'menudeo', children: [
@@ -160,14 +147,12 @@ export const appRoutes: Route[] = [
             },
 
             {
-                path: 'retiro', children: [
-                    {path: 'intencion_retiro', component: IntencionRetiroComponent},
-                    ]
+                path: 'retiro', 
+                    loadChildren: () => import('./modules/intencion-retiro/intencion-retiro.module').then(m => m.IntencionRetiroModule)
             },
             {
-                path: 'venta', children: [
-                    {path: 'intencion_venta', component: IntencionVentaComponent},
-                    ]
+                path: 'venta',
+                loadChildren: () => import('./modules/intencion-venta/intencion-venta.module').then(m => m.IntencionVentaModule)
             },
             
             // {path: 'solicitudes', children: [

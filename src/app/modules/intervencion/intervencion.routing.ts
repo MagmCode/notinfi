@@ -7,10 +7,11 @@ import { CambioClaveIntervencionComponent } from './cambio-clave-intervencion/ca
 import { AnulacionIntervencionComponent } from './anulacion-intervencion/anulacion-intervencion.component';
 import { ConsultabcvIntervencionComponent } from './consultabcv-intervencion/consultabcv-intervencion.component';
 import { JornadaIntervencionComponent } from './jornada-intervencion/jornada-intervencion.component';
+import { SustitucionesPendientesComponent } from './sustituciones-pendientes/sustituciones-pendientes.component';
+import { SustitucionOperacionesComponent } from './sustitucion-operaciones/sustitucion-operaciones.component';
+import { ConsultaDefinitivaBcvComponent } from './consulta-definitiva-bcv/consulta-definitiva-bcv.component';
 
 const routes: Routes = [
-  // DEFINE LAS RUTAS HIJAS DE 'INTERVENCION' AQUÍ
-  // (¡Sin el prefijo 'intervencion'!)
   { path: 'carga', component: CargaIntervencionComponent },
   { path: 'operaciones', component: OperacionesIntervencionComponent},
   { path: 'interbancario', component: InterbancarioIntervencionComponent},
@@ -18,8 +19,10 @@ const routes: Routes = [
   { path: 'anulacion', component: AnulacionIntervencionComponent},
   { path: 'consulta_bcv', component: ConsultabcvIntervencionComponent},
   { path: 'consulta_jornada', component: JornadaIntervencionComponent},
-  // Opcional: una ruta por defecto para /intervencion
-  { path: '', redirectTo: 'carga', pathMatch: 'full' }
+  { path: 'sustituciones-pendientes', component: SustitucionesPendientesComponent},
+  { path: 'sustitucion-operaciones', component: SustitucionOperacionesComponent},
+  { path: 'consulta-definitiva-bcv', component: ConsultaDefinitivaBcvComponent},
+
 ];
 
 

@@ -94,6 +94,7 @@ get formattedUserName(): string {
     // return this._http.post(`${this.apiUrl}logout`, {}, {
       headers: new HttpHeaders({
         'Authorization': `Bearer ${token}`
+        // 'Authorization': token // Descomentar cuando se actualice el back
       })
     }).pipe(
       tap((response: any) => {
