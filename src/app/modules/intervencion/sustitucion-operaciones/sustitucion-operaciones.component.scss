@@ -1,0 +1,145 @@
+.main-container{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    overflow-y: auto;
+    height: 80vh;
+    width: 100vw;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background-color: #fff;
+}
+
+.card-header {
+    width: 50%;
+    margin-left: -200px;
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 40px;
+    color: #e89600;
+    font-size: 3.6em;
+}
+
+
+.head-icon-container::before {
+    color: #e89600;
+    font-size: 2.9em;
+    opacity: 40%;
+    padding-top: 25px;
+    font-family: icomoon;
+}
+
+
+.card-container {
+    width: 650px;
+    height: 480px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: space-between;
+    padding: 30px;
+    color: #e89600;
+    border-radius: 25px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
+}
+
+.card-title {
+    display: flex;
+    align-items: center;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+    color: #e89600;
+}
+
+
+.file-browse ::ng-deep .mat-form-field-infix {
+    display: flex !important;
+    padding: 0 !important;
+    width: 235px !important;
+    justify-content: space-between;
+}
+
+.file-browse mat-icon {
+    padding: 9px 7px 0px 0px !important;
+    justify-content: end;
+    // width: 100%;
+}
+
+
+.file-browse mat-hint {
+    padding-left: 60px !important;
+    padding-top: 5px;
+    color: #e89600 !important;
+    font-size: 1.23em;
+    font-weight: 400;
+}
+
+.file-browse .mat-input-element {
+    margin: 0.7em 0em 0.9em 0em;
+    max-width: 80%;
+    color: #646464;
+
+}
+
+.file-browse .mat-form-field.mat-form-field-appearance-outline,
+.file-browse .mat-form-field-label-wrapper {
+    width: 50% !important;
+    top: -1px !important;
+    left: 1px !important;
+}
+
+.icon-bdv-icon-file2-m::before {
+    color: grey;
+    font-family: icomoon;
+}
+
+.file-icon:hover {
+    cursor: pointer;
+}
+
+
+
+// Amarillo cuando está enfocado o válido
+:host ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
+:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-outline-thick {
+    color: #e89600 !important;
+}
+
+:host ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label,
+:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-label {
+    color: #e89600 !important;
+}
+
+// Rojo cuando es inválido
+:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-outline-thick,
+:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-label {
+    color: #f44336 !important; // o el color que prefieras para error
+}
+
+
+
+.buttons-container {
+    display: flex;
+    justify-content: center;
+    gap: 15px;
+
+    button {
+        padding: 0 20px !important;
+        border-radius: 50px !important;
+        width: 100px;    }
+}
+
+.buttons-container .mat-raised-button {
+    transition: background-color 0s, color 0s;
+    color: #e89600 !important;
+    font-weight: 500;
+}
+
+
+.buttons-container .mat-raised-button:hover {
+    background-color: #e89600;
+    color: white !important;
+}
