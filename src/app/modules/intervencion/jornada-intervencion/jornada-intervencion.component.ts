@@ -1,16 +1,18 @@
 // #region Imports
 import { Component, OnInit, ViewChild, AfterViewInit } from '@angular/core';
 import { Router } from '@angular/router';
-import { intervencion, jornadaActiva, respuestaIntervencion } from 'app/models/intervencion';
+import { jornadaActiva } from 'app/models/intervencion';
 import { ServiceService } from 'app/services/service.service';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 // #endregion
 
-
+/**
+ * Componente para la consulta de jornadas de intervención.
+ * Muestra una tabla con los datos de la jornada y permite filtrar y ordenar.
+ */
 @Component({
   selector: 'jornada-intervencion',
   templateUrl: './jornada-intervencion.component.html',
@@ -19,10 +21,11 @@ import { MatSnackBar } from '@angular/material/snack-bar';
 export class JornadaIntervencionComponent implements OnInit, AfterViewInit {
 
   //#region Variables
-  selectedTabIndex = 0;
+
+  /** Indica si la información está cargando */
   isLoading: boolean = false;
 
-  // Variables relacionadas con la tabla
+  /** Columnas a mostrar en la tabla de jornadas */
   displayedColumns: string[] = [
     'tipoIntervencion',
     'coVentaBCV',
@@ -34,19 +37,36 @@ export class JornadaIntervencionComponent implements OnInit, AfterViewInit {
     'saldoDisponible',
     'semana'
   ];
+
+  /** Fuente de datos para la tabla de jornadas */
   dataSourceH: MatTableDataSource<jornadaActiva> = new MatTableDataSource([]);
+
+  /** Referencia al componente de ordenamiento de Angular Material */
   @ViewChild(MatSort) sortH: MatSort = new MatSort();
+
+  /** Referencia al paginador de Angular Material */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  // #region Constructor
+  //#endregion
+
+  /**
+   * Constructor del componente.
+   * @param _router Servicio de rutas de Angular.
+   * @param _service Servicio para obtener datos de intervención.
+   * @param _snackBar Servicio para mostrar notificaciones.
+   */
   constructor(
     private _router: Router,
     private _service: ServiceService,
     private _snackBar: MatSnackBar
   ) {}
-  // #endregion
 
-  // #region Métodos principales
+  //#region Métodos principales
+
+  /**
+   * Inicializa el componente y carga los datos de la jornada.
+   * Si no hay datos precargados, consulta al backend y guarda en cache local.
+   */
   ngOnInit(): void {
     this.isLoading = true;
     const LOCAL_KEY = 'jornadaActivaCache';
@@ -79,11 +99,22 @@ export class JornadaIntervencionComponent implements OnInit, AfterViewInit {
     });
   }
 
+  /**
+   * Asigna el paginador y el ordenamiento a la tabla después de que la vista se inicializa.
+   */
   ngAfterViewInit(): void {
     this.dataSourceH.paginator = this.paginator;
     this.dataSourceH.sort = this.sortH;
   }
 
+  //#endregion
+
+  //#region funciones privadas
+
+  /**
+   * Asigna los datos a la tabla y configura el ordenamiento personalizado.
+   * @param jornada Lista de jornadas activas.
+   */
   private setDataSource(jornada: jornadaActiva[]): void {
     this.dataSourceH = new MatTableDataSource(jornada);
     this.dataSourceH.sortingDataAccessor = this.getSortingDataAccessor();
@@ -91,6 +122,12 @@ export class JornadaIntervencionComponent implements OnInit, AfterViewInit {
     this.dataSourceH.sort = this.sortH;
   }
 
+  /**
+   * Intenta cargar los datos desde cache local y muestra un mensaje.
+   * Si no hay cache, deja la tabla vacía.
+   * @param localKey Clave de cache en localStorage.
+   * @param message Mensaje a mostrar en el snackBar.
+   */
   private loadFromCacheOrEmpty(localKey: string, message: string): void {
     const cache = localStorage.getItem(localKey);
     if (cache) {
@@ -102,6 +139,9 @@ export class JornadaIntervencionComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Devuelve una función para acceder a los datos de las columnas personalizadas al ordenar.
+   */
   private getSortingDataAccessor() {
     return (item: jornadaActiva, property: string) => {
       if (property === 'tipoIntervencion') {
@@ -124,6 +164,10 @@ export class JornadaIntervencionComponent implements OnInit, AfterViewInit {
     };
   }
 
+  /**
+   * Aplica un filtro a la tabla de jornadas.
+   * @param event Evento de entrada del filtro.
+   */
   applyFilterH(event: Event): void {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceH.filter = filterValue.trim().toLowerCase();
@@ -132,6 +176,11 @@ export class JornadaIntervencionComponent implements OnInit, AfterViewInit {
     }
   }
 
+  /**
+   * Calcula la semana del mes para una fecha dada en formato dd/mm/yyyy o yyyy-mm-dd.
+   * @param dateString Fecha en formato string.
+   * @returns Número de semana del mes (1-5) o NaN si la fecha es inválida.
+   */
   getWeekOfMonth(dateString: string): number {
     if (!dateString) {
       console.error('Fecha no válida:', dateString);
@@ -152,7 +201,11 @@ export class JornadaIntervencionComponent implements OnInit, AfterViewInit {
     return Math.ceil((dayOfMonth + startDayOfWeek) / 7);
   }
 
-  menuPrincipal(): void {
+  /**
+   * Navega al menú principal de la aplicación.
+   */
+  inicio(): void {
     this._router.navigate(['/menu-principal/']);
   }
+  //#endregion
 }

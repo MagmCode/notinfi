@@ -1,32 +1,52 @@
-<!-- Loading Bar -->
+<!--
+  jornada-intervencion.component.html
+  Vista para la consulta de jornadas de intervención.
+  Muestra una tabla con los datos de la jornada, permite ordenar y filtrar.
+-->
+
+<!-- Barra de carga global -->
 <fuse-loading-bar *ngIf="isLoading"></fuse-loading-bar>
 
-<!-- <main-layouts></main-layouts> -->
+<!-- Contenedor principal con menú lateral -->
 <mat-sidenav-container>
+    <!-- Router outlet para rutas hijas (si aplica) -->
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
-        <!-- Contenido -->
+        <!-- Contenido principal centrado -->
         <div class="main-container flex flex-col items-center w-full fixed">
+            
+            <!-- Cabecera de la página -->
             <div class="header-container flex justify-between w-3/6 mb-10 text-7xl">
                 <span>Consulta Jornada</span>
                 <div class="icon-container flex flex-col items-center mr-30">
+                    <!-- Icono representativo -->
                     <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
                     <span class="text-head mt-8">Intervención</span>
                 </div>
             </div>
-            <div class=" flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                <div class=" flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl overflow-hidden">
+
+            <!-- Tarjeta principal -->
+            <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                <div class="flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl overflow-hidden">
+                    
+                    <!-- Tabla de resultados -->
                     <div class="results-table flex flex-col flex-auto mt-2 overflow-x-auto ">
+                        
+                        <!-- Botón de salida -->
                         <div class="buttons-table flex items-end justify-end">
                             <div class="action-buttons font-medium mb-5">
-                                <button class="button mat-raised-button mr-3 w-26" (click)="menuPrincipal()">
+                                <button class="button mat-raised-button mr-3 w-26" (click)="inicio()">
                                     Salir
                                 </button>
                             </div>
                         </div>
+
+                        <!-- Tabla de datos de la jornada -->
                         <div class="mat-elevation-z8 table-responsive">
                             <table mat-table [dataSource]="dataSourceH" matSort>
-                                <!-- Tipo Intervención Column -->
+                                <!-- Columnas de la tabla -->
+                                
+                                <!-- Tipo Intervención -->
                                 <ng-container matColumnDef="tipoIntervencion">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
                                         Tipo de Intervención
@@ -36,9 +56,9 @@
                                     </td>
                                 </ng-container>
 
-                                <!-- coVentaBCV Column -->
+                                <!-- Código Jornada -->
                                 <ng-container matColumnDef="coVentaBCV">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell ">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
                                         Código Jornada
                                     </th>
                                     <td mat-cell *matCellDef="let row" class="table-cell">
@@ -46,8 +66,7 @@
                                     </td>
                                 </ng-container>
 
-
-                                <!-- Fecha Inicio Column -->
+                                <!-- Fecha Inicio -->
                                 <ng-container matColumnDef="fechaInicio">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
                                         Fecha Inicio
@@ -57,16 +76,18 @@
                                     </td>
                                 </ng-container>
 
-                                <!-- Fecha Fin Column -->
+                                <!-- Fecha Fin -->
                                 <ng-container matColumnDef="fechaFin">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
                                         Fecha Fin
                                     </th>
-                                    <td mat-cell *matCellDef="let row" class="table-cell">{{ row.fechaFin }}</td>
+                                    <td mat-cell *matCellDef="let row" class="table-cell">
+                                        {{ row.fechaFin }}
+                                    </td>
                                 </ng-container>
 
-                                <!-- Fecha Valor Column -->
-                                <ng-container matColumnDef="fechaValor" class="w-5">
+                                <!-- Fecha Valor -->
+                                <ng-container matColumnDef="fechaValor">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
                                         Fecha Valor
                                     </th>
@@ -75,7 +96,7 @@
                                     </td>
                                 </ng-container>
 
-                                <!-- Tipo Cambio Column -->
+                                <!-- Tasa Cambio -->
                                 <ng-container matColumnDef="tipoCambio">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
                                         Tasa Cambio
@@ -85,9 +106,9 @@
                                     </td>
                                 </ng-container>
 
-                                <!-- Moneda Column -->
+                                <!-- Moneda -->
                                 <ng-container matColumnDef="coMonedaIso">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell w-fit">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
                                         Moneda
                                     </th>
                                     <td mat-cell *matCellDef="let row" class="table-cell">
@@ -95,9 +116,9 @@
                                     </td>
                                 </ng-container>
 
-                                <!-- Saldo Disponible Column -->
+                                <!-- Saldo Disponible -->
                                 <ng-container matColumnDef="saldoDisponible">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell w-0">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell w-26">
                                         Saldo Disponible
                                     </th>
                                     <td mat-cell *matCellDef="let row" class="table-cell">
@@ -105,7 +126,7 @@
                                     </td>
                                 </ng-container>
 
-                                <!-- Semana Column -->
+                                <!-- Semana -->
                                 <ng-container matColumnDef="semana">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
                                         Semana
@@ -115,10 +136,11 @@
                                     </td>
                                 </ng-container>
 
+                                <!-- Filas de encabezado y datos -->
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 
-                                <!-- Row shown when there is no matching data -->
+                                <!-- Mensaje cuando no hay datos -->
                                 <tr class="mat-row" *matNoDataRow>
                                     <td class="mat-cell" colspan="9">
                                         No existen intervenciones activas

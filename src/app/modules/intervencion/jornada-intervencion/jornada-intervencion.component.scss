@@ -1,29 +1,41 @@
+/* ==========================================================================
+   Estilos generales del componente Jornada Intervención
+   ========================================================================== */
 
-.main-container{
+/* Centrado absoluto del contenedor principal */
+.main-container {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
 
+/* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
 .header-container {
-    // font-size: 3.6em;
+    // font-size: 3.6em; // Comentado, usar Tailwind si es posible
     color: #e89600;
 }
 
+/* Icono principal de la cabecera */
 .head-icon::before {
     color: #e89600;
     font-size: 2.9em;
 }
 
+/* Texto debajo del icono en la cabecera */
 .text-head {
     color: #e89600;
     font-size: 0.4em;
     opacity: 0.4;
 }
 
+/* ==========================================================================
+   Tabla de resultados y botones de acción
+   ========================================================================== */
 .results-table {
     .action-buttons {
-        .button{
+        .button {
             transition: background-color 0s, color 0s !important;
             &:hover {
                 background-color: #e89600 !important;
@@ -33,13 +45,15 @@
     }
 }
 
-
+/* ==========================================================================
+   Tabla de datos (Angular Material)
+   ========================================================================== */
 .table-responsive {
-  overflow-x: auto; 
-  width: 100%; 
-  max-width: 80vw; 
+    overflow-x: auto; 
+    width: 100%;
+    max-width: 80vw;
 
-
+    /* Celdas de la tabla */
     .table-cell {
         text-align: center !important;
         font-size: 0.78rem;
@@ -48,9 +62,10 @@
         padding-left: 0;
     }
 
+    /* Encabezados de la tabla */
     .header-cell {
-        padding-top: 15px   !important;
-        padding-bottom: 15px   !important;
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
         padding-left: 20px;
         justify-content: center !important;
         font-size: 0.87rem;
