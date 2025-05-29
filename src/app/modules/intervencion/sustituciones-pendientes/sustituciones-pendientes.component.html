@@ -1,1 +1,284 @@
-<p>sustituciones-pendientes works!</p>
+<!--
+  sustituciones-pendientes.component.html
+  Vista principal para la gestión de jornadas de intervención y sustituciones pendientes.
+  Incluye dos pestañas: Búsqueda y Pendientes, cada una con su propia tabla de datos.
+-->
+
+<!-- Barra de carga global mientras se obtienen los datos -->
+<fuse-loading-bar *ngIf="isLoading"></fuse-loading-bar>
+
+<!-- Contenedor principal con menú lateral y rutas hijas -->
+<mat-sidenav-container>
+    <!-- Outlet para rutas hijas si aplica -->
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Grupo de pestañas para las operaciones de intervención -->
+        <mat-tab-group class="mat-tab-group flex flex-col w-full items-center fixed"
+            [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
+            
+            <!-- Pestaña de Búsqueda de jornadas activas -->
+            <mat-tab label="Búsqueda">
+                <div class="main-container mt-18 flex flex-col items-center">
+                    <!-- Cabecera de la página -->
+                    <div class="header-container flex justify-between w-3/5 mb-10 text-7xl w-full">
+                        <span>Sustituciones Pendientes</span>
+                        <div class="icon-container flex flex-col items-center mr-30">
+                            <!-- Icono representativo -->
+                            <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                            <span class="text-head mt-8">Intervención</span>
+                        </div>
+                    </div>
+                    <!-- Tarjeta principal con la tabla de jornadas -->
+                    <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                        <div class="flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl overflow-hidden">
+                            <!-- Tabla de resultados -->
+                            <div class="results-table flex flex-col flex-auto mt-2 overflow-x-auto ">
+                                <!-- Botones de acción -->
+                                <div class="buttons-table flex items-end justify-end">
+                                    <div class="action-buttons font-medium mb-5">
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="consultar()">
+                                            Consultar
+                                        </button>
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="inicio()">
+                                            Salir
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Tabla de datos de la jornada activa -->
+                                <div class="mat-elevation-z8 table-responsive">
+                                    <table mat-table [dataSource]="dataSourceH" matSort>
+                                        <!-- Columna de selección con radio button -->
+                                        <ng-container matColumnDef="seleccion">
+                                            <th mat-header-cell *matHeaderCellDef class="header-cell">
+                                                #
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell pl-6">
+                                                <mat-radio-button [checked]="selectedCodigo === row.coVentaBCV"
+                                                    (change)="selectedCodigo = row.coVentaBCV"
+                                                    name="jornadaRadio"></mat-radio-button>
+                                            </td>
+                                        </ng-container>
+                                        <!-- Tipo Intervención -->
+                                        <ng-container matColumnDef="tipoIntervencion">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Tipo de Intervención
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ row.tipoIntervencion.nombreTipoIntervencion }}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Código Jornada -->
+                                        <ng-container matColumnDef="coVentaBCV">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Código Jornada
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ row.coVentaBCV }}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Fecha Inicio -->
+                                        <ng-container matColumnDef="fechaInicio">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Fecha Inicio
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ row.fechaInicio }}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Fecha Fin -->
+                                        <ng-container matColumnDef="fechaFin">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Fecha Fin
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ row.fechaFin }}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Fecha Valor -->
+                                        <ng-container matColumnDef="fechaValor">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Fecha Valor
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ row.tipoCambioIntervencion[0].fechaValor }}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Tasa Cambio -->
+                                        <ng-container matColumnDef="tipoCambio">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Tasa Cambio
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ row.tipoCambioIntervencion[0].tipoCambio }}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Moneda -->
+                                        <ng-container matColumnDef="coMonedaIso">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Moneda
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ row.codigoIsoDivisa.coMonedaIso }}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Saldo Disponible -->
+                                        <ng-container matColumnDef="saldoDisponible">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                class="header-cell w-26">
+                                                Saldo Disponible
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ row.saldoDisponible }}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Semana -->
+                                        <ng-container matColumnDef="semana">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Semana
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ getWeekOfMonth(row.fechaInicio) }}
+                                            </td>
+                                        </ng-container>
+                                        <!-- Filas de encabezado y datos -->
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                                        <!-- Mensaje cuando no hay datos -->
+                                        <tr class="mat-row" *matNoDataRow>
+                                            <td class="mat-cell" colspan="9">
+                                                No existen intervenciones activas
+                                            </td>
+                                        </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+
+            <!-- Pestaña de Pendientes -->
+            <mat-tab label="Pendientes">
+                <div class="main-container mt-18 flex flex-col items-center">
+                    <!-- Tarjeta principal con la tabla de pendientes -->
+                    <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                        <div class="flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl overflow-hidden">
+                            <!-- Tabla de resultados -->
+                            <div class="results-table flex flex-col flex-auto mt-2 overflow-x-auto ">
+                                <!-- Botones de acción -->
+                                <div class="buttons-table flex items-end justify-end">
+                                    <div class="action-buttons font-medium mb-5">
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="consultar()">
+                                            Exportar
+                                        </button>
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="consultar()">
+                                            Regresar
+                                        </button>
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="inicio()">
+                                            Salir
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Tabla de datos de pendientes -->
+                                <div class="mat-elevation-z8 table-responsive">
+                                    <table mat-table [dataSource]="dataSourcePendientes" matSort #sortPendientes="matSort">
+                                        <!-- CodBCV -->
+                                        <ng-container matColumnDef="codBCV">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                CodBCV</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.codBCV }}</td>
+                                        </ng-container>
+                                        <!-- Cliente -->
+                                        <ng-container matColumnDef="cliente">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Cliente</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.cliente }}</td>
+                                        </ng-container>
+                                        <!-- Nombre Cliente -->
+                                        <ng-container matColumnDef="nombreCliente">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Nombre Cliente</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.nombreCliente }}</td>
+                                        </ng-container>
+                                        <!-- Fecha valor -->
+                                        <ng-container matColumnDef="fechaValor">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Fecha Valor</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.fechaValor }}</td>
+                                        </ng-container>
+                                        <!-- Tipo Operacion -->
+                                        <ng-container matColumnDef="tipoOperacion">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Tipo Operación</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.tipoOperacion }}</td>
+                                        </ng-container>
+                                        <!-- Monto -->
+                                        <ng-container matColumnDef="monto">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Monto</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.monto }}</td>
+                                        </ng-container>
+                                        <!-- Tipo cambio -->
+                                        <ng-container matColumnDef="tipoCambio">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Tipo Cambio</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.tipoCambio }}</td>
+                                        </ng-container>
+                                        <!-- Cuenta Divisa -->
+                                        <ng-container matColumnDef="cuentaDivisa">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Cuenta Divisa</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.cuentaDivisa }}</td>
+                                        </ng-container>
+                                        <!-- Cuenta bs -->
+                                        <ng-container matColumnDef="cuentaBs">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Cuenta Bs</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.cuentaBs }}</td>
+                                        </ng-container>
+                                        <!-- Moneda -->
+                                        <ng-container matColumnDef="moneda">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Moneda</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.moneda }}</td>
+                                        </ng-container>
+                                        <!-- Jornada -->
+                                        <ng-container matColumnDef="jornada">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Jornada</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.jornada }}</td>
+                                        </ng-container>
+                                        <!-- Filas de encabezado y datos -->
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumnsPendientes"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumnsPendientes"></tr>
+                                        <!-- Mensaje cuando no hay datos -->
+                                        <tr class="mat-row" *matNoDataRow>
+                                            <td class="mat-cell" colspan="11">
+                                                No existen registros pendientes
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- Paginador y botones de acción adicionales -->
+                                    <div class="paginator-actions-row">
+                                        <mat-paginator #paginatorPendientes [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
+                                        <div class="action-buttons font-medium mb-5" *ngIf="paginatorPendientes?.pageSize !== 5">
+                                            <button class="button mat-raised-button mr-3 w-26" (click)="consultar()">
+                                                Exportar
+                                            </button>
+                                            <button class="button mat-raised-button mr-3 w-26" (click)="consultar()">
+                                                Regresar
+                                            </button>
+                                            <button class="button mat-raised-button mr-3 w-26" (click)="inicio()">
+                                                Salir
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </mat-sidenav-content>
+</mat-sidenav-container>

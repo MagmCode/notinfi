@@ -1,0 +1,150 @@
+/* ==========================================================================
+   Estilos generales del componente Jornada Intervención
+   ========================================================================== */
+
+
+
+/*===========================================================================
+   Estilos para el contenedor de pestañas 
+   ========================================================================== */
+
+.mat-tab-group {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    height: 72vh !important;
+
+    
+    ::ng-deep .mat-tab-body-content {
+        padding: 10px 219px;
+    }
+    
+    ::ng-deep  .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
+    min-width: 0 !important;
+    height: 20px !important;
+    padding: 0 20px !important;
+    border-radius: 9999px !important;
+    --tw-text-opacity: 0.5;
+    color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity));
+    }
+
+    ::ng-deep .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label.mat-tab-label-active {
+        --tw-bg-opacity: 1 !important;
+        background-color: rgba(51, 65, 85, 0.060) !important;
+    }
+
+}
+
+/* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
+.header-container {
+    // font-size: 3.6em; // Comentado, usar Tailwind si es posible
+    color: #e89600;
+}
+
+/* Icono principal de la cabecera */
+.head-icon::before {
+    color: #e89600;
+    font-size: 2.9em;
+}
+
+/* Texto debajo del icono en la cabecera */
+.text-head {
+    color: #e89600;
+    font-size: 0.4em;
+    opacity: 0.4;
+}
+
+/* ==========================================================================
+   Tabla de resultados y botones de acción
+   ========================================================================== */
+.results-table {
+    .action-buttons {
+        .button {
+            transition: background-color 0s, color 0s !important;
+            &:hover {
+                background-color: #e89600 !important;
+                color: white !important;
+            }
+        }
+    }
+}
+
+/* ==========================================================================
+   Tabla de datos (Angular Material)
+   ========================================================================== */
+.table-responsive {
+    overflow-x: auto; 
+    width: 100%;
+    max-width: 80vw;
+
+    /* Celdas de la tabla */
+    .table-cell {
+        text-align: center !important;
+        font-size: 0.78rem;
+        border-bottom-width: 2px !important;
+        border-style: solid;
+        padding-left: 0;
+        text-align: center !important;
+    }
+
+    /* Encabezados de la tabla */
+    .header-cell {
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+        padding-left: 20px;
+        justify-content: center !important;
+        font-size: 0.87rem;
+        border-bottom-width: 2px !important;
+        border-style: solid;
+        min-width: 100px;
+        text-align: center !important;
+    }
+
+
+    .paginator-actions-row {
+        display: flex;
+        align-items: center;
+        justify-content: space-between; // o flex-end si quieres los botones a la derecha
+        margin-top: 8px;
+        gap: 16px;
+    }
+
+    .paginator-actions-row .action-buttons {
+        margin-top: 15px;
+    }
+/* ==========================================================================
+   Personalización de los radio buttons de Angular Material en la tabla
+   ========================================================================== */
+
+/* Ajusta el tamaño y elimina márgenes/paddings del círculo exterior del radio */
+    ::ng-deep .mat-radio-outer-circle {
+        margin: 0 !important;
+        padding: 0 !important;
+        height: 18px !important;
+        width: 18px !important;
+    }
+
+/* Ajusta el tamaño y color del círculo interior cuando el radio está seleccionado */
+    ::ng-deep .mat-radio-inner-circle {
+        height: 18px !important;
+        width: 18px !important;
+        background-color: #e89600 !important; /* Color corporativo */
+    }
+
+    /* Cambia el color del borde del radio seleccionado al color corporativo */
+    ::ng-deep .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+        border-color: #e89600 !important;
+    }
+
+    /* Cambia el color del efecto ripple (onda) al color corporativo */
+    ::ng-deep .mat-radio-persistent-ripple {
+        background-color: #e89600 !important;
+    }    
+}
+
+
+
+
+

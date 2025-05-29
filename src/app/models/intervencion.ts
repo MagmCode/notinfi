@@ -53,3 +53,17 @@ export interface jornadaActiva{
     };
     saldoDisponible: number;
 }
+
+export interface SustitucionesPendientes {
+  codBCV: string;
+  cliente: string;
+  nombreCliente: string;
+  fechaValor: string;
+  tipoOperacion: string;
+  monto: number;
+  tipoCambio: number;
+  cuentaDivisa: string;
+  cuentaBs: string;
+  moneda: string;
+  jornada: string;
+}
