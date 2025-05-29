@@ -37,8 +37,10 @@ export class SustitucionOperacionesComponent implements OnInit {
       } else {
         this.resetFile('Por favor, sube un archivo Excel válido', { invalidFile: true });
       }
-    } else {
-      this.resetFile('Archivo inválido. Debe ser un archivo Excel', { required: true });
+      } else {
+        if (!this.cargaForm.controls['file'].value) {
+            this.resetFile('Archivo inválido. Debe ser un archivo Excel', { required: true });
+        }
     }
   }
 
