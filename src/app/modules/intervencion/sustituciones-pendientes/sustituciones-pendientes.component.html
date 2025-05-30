@@ -15,9 +15,9 @@
         <!-- Grupo de pestañas para las operaciones de intervención -->
         <mat-tab-group class="mat-tab-group flex flex-col w-full items-center fixed"
             [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
-            
-            <!-- Pestaña de Búsqueda de jornadas activas -->
-            <mat-tab label="Búsqueda">
+
+            <!-- Pestaña de Selección de jornadas activas -->
+            <mat-tab label="Selección">
                 <div class="main-container mt-18 flex flex-col items-center">
                     <!-- Cabecera de la página -->
                     <div class="header-container flex justify-between w-3/5 mb-10 text-7xl w-full">
@@ -145,7 +145,7 @@
                                         <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                                         <!-- Mensaje cuando no hay datos -->
                                         <tr class="mat-row" *matNoDataRow>
-                                            <td class="mat-cell" colspan="9">
+                                            <td class="mat-cell text-center" colspan="9">
                                                 No existen intervenciones activas
                                             </td>
                                         </tr>
@@ -158,7 +158,7 @@
             </mat-tab>
 
             <!-- Pestaña de Pendientes -->
-            <mat-tab label="Pendientes">
+            <mat-tab label="Pendientes" [disabled]="!canViewTab" *ngIf="canViewTab">
                 <div class="main-container mt-18 flex flex-col items-center">
                     <!-- Tarjeta principal con la tabla de pendientes -->
                     <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
@@ -168,10 +168,10 @@
                                 <!-- Botones de acción -->
                                 <div class="buttons-table flex items-end justify-end">
                                     <div class="action-buttons font-medium mb-5">
-                                        <button class="button mat-raised-button mr-3 w-26" (click)="consultar()">
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="exportarSustituciones()">
                                             Exportar
                                         </button>
-                                        <button class="button mat-raised-button mr-3 w-26" (click)="consultar()">
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="regresar()">
                                             Regresar
                                         </button>
                                         <button class="button mat-raised-button mr-3 w-26" (click)="inicio()">
@@ -253,8 +253,8 @@
                                         <tr mat-row *matRowDef="let row; columns: displayedColumnsPendientes"></tr>
                                         <!-- Mensaje cuando no hay datos -->
                                         <tr class="mat-row" *matNoDataRow>
-                                            <td class="mat-cell" colspan="11">
-                                                No existen registros pendientes
+                                            <td class="mat-cell text-center" colspan="11">
+                                                No existen sustituciones pendientes
                                             </td>
                                         </tr>
                                     </table>
@@ -262,10 +262,10 @@
                                     <div class="paginator-actions-row">
                                         <mat-paginator #paginatorPendientes [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
                                         <div class="action-buttons font-medium mb-5" *ngIf="paginatorPendientes?.pageSize !== 5">
-                                            <button class="button mat-raised-button mr-3 w-26" (click)="consultar()">
+                                            <button class="button mat-raised-button mr-3 w-26" (click)="exportarSustituciones()">
                                                 Exportar
                                             </button>
-                                            <button class="button mat-raised-button mr-3 w-26" (click)="consultar()">
+                                            <button class="button mat-raised-button mr-3 w-26" (click)="regresar()">
                                                 Regresar
                                             </button>
                                             <button class="button mat-raised-button mr-3 w-26" (click)="inicio()">

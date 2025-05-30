@@ -19,6 +19,10 @@ export class ServiceService {
     // BehaviorSubject para almacenar los datos de la jornada activa
     jornadaActivaSource = new BehaviorSubject<any[]>([]);
     jornadaActiva$ = this.jornadaActivaSource.asObservable();
+    // Para sustituciones pendientes
+sustitucionesPendientesSource = new BehaviorSubject<any[]>([]);
+sustitucionesPendientes$ = this.sustitucionesPendientesSource.asObservable();
+
     tasasSource = new BehaviorSubject<{
         compraUsd: string, 
         compraEur: string, 
@@ -84,6 +88,33 @@ exportarIntervencion( metodo: string, dataBusqueda: any): Observable<Blob> {
       })
     );
   }
+
+
+// -------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------
+// -------------------------------------------------------------------------------------------------------------
+
+
+// #region Sustituciones Pendientes
+// 
+// Consulta para obtener las sustituciones pendientes
+// 
+// 
+  consultaSustitucionesPendientes(): Observable<any> {
+    return this.http.get(`${this.apiUrl}api/bcv/jornadaActiva/`).pipe(
+      map((response: any) => {
+        this.jornadaActivaSource.next(response); // Actualiza el BehaviorSubject con los datos obtenidos
+        return response;
+      })
+    );
+  }
+
+
+  
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+
 
 
   

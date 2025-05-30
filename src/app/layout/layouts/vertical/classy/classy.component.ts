@@ -217,65 +217,94 @@ export class ClassyLayoutComponent implements OnDestroy, OnInit {
 
   navigateTo(node: ExampleFlatNode): void {
     if (node.id === 5659) {
-      // Nodo "Salir"
-      this.signOut();
-      return;
+        // Nodo "Salir"
+        this.signOut();
+        return;
     }
 
     if (!node.configDir) {
-      console.warn("El ítem del menú no tiene configDir definido");
-      return;
+        console.warn("El ítem del menú no tiene configDir definido");
+        return;
     }
 
     const targetRoute = `/${node.configDir}`;
 
     if (this._router.url === targetRoute) {
-      console.log(`Ya estás en la ruta: ${targetRoute}`);
-      this.opened = false;
-      this.isSidebarOpened = false; // Cierra el sidebar
-      return;
+        console.log(`Ya estás en la ruta: ${targetRoute}`);
+        this.opened = false;
+        this.isSidebarOpened = false; // Cierra el sidebar
+        return;
     }
 
-    if (node.id === 5593) {
-      // Nodo específico para "Jornada Activa"
-      this.isLoading = true; // Activa el estado de carga
-      this.opened = false;
-      this._services.consultaJornadaActiva().subscribe({
-        next: (jornada) => {
-          console.log("Datos precargados para Jornada Activa:", jornada);
-          this._services.jornadaActivaSource.next(jornada); // Actualiza el BehaviorSubject
-          this._router.navigate([node.configDir]).then(() => {
-            this.isLoading = false; // Desactiva el estado de carga después de navegar
-          });
-        },
-        error: (err) => {
-          console.error("Error al precargar datos para Jornada Activa:", err);
-          this.isLoading = false;
-          this._snackBar.open(
-            "No se ha podido consultar la jornada en este momento. Por favor, inténtalo más tarde.", // Mensaje
-            "Cerrar", // Botón de acción
-            {
-              duration: 5000, // Duración en milisegundos
-              horizontalPosition: "right", // Posición horizontal
-              verticalPosition: "bottom", // Posición vertical
-              // panelClass: ['error-snackbar'] // Clase CSS personalizada
-            }
-          );
-        },
-      });
-    } else {
-      this.isLoading = true; // Activa el estado de carga
-      this._router
-        .navigate([node.configDir])
-        .then(() => {
-          this.opened = false;
-          this.isLoading = false; // Desactiva el estado de carga después de navegar
-        })
-        .catch((error) => {
-          console.error("Error inesperado al navegar:", error);
-        });
+    switch (node.id) {
+        case 5593: // Jornada Activa
+            this.isLoading = true;
+            this.opened = false;
+            this._services.consultaJornadaActiva().subscribe({
+                next: (jornada) => {
+                    console.log("Datos precargados para Jornada Activa:", jornada);
+                    this._services.jornadaActivaSource.next(jornada);
+                    this._router.navigate([node.configDir]).then(() => {
+                        this.isLoading = false;
+                    });
+                },
+                error: (err) => {
+                    console.error("Error al precargar datos para Jornada Activa:", err);
+                    this.isLoading = false;
+                    this._snackBar.open(
+                        "No se ha podido consultar la jornada en este momento. Por favor, inténtalo más tarde.",
+                        "Cerrar",
+                        {
+                            duration: 5000,
+                            horizontalPosition: "right",
+                            verticalPosition: "bottom",
+                        }
+                    );
+                },
+            });
+            break;
+
+        case 5673: // Sustituciones Pendientes
+            this.isLoading = true;
+            this.opened = false;
+            this._services.consultaJornadaActiva().subscribe({
+                next: (jornada) => {
+                    console.log("Datos precargados para Jornada Activa:", jornada);
+                    this._services.jornadaActivaSource.next(jornada);
+                    this._router.navigate([node.configDir]).then(() => {
+                        this.isLoading = false;
+                    });
+                },
+                error: (err) => {
+                    console.error("Error al precargar datos para Jornada Activa:", err);
+                    this.isLoading = false;
+                    this._snackBar.open(
+                        "No se ha podido consultar la jornada en este momento. Por favor, inténtalo más tarde.",
+                        "Cerrar",
+                        {
+                            duration: 5000,
+                            horizontalPosition: "right",
+                            verticalPosition: "bottom",
+                        }
+                    );
+                },
+            });
+            break;
+
+        default:
+            this.isLoading = true;
+            this._router
+                .navigate([node.configDir])
+                .then(() => {
+                    this.opened = false;
+                    this.isLoading = false;
+                })
+                .catch((error) => {
+                    console.error("Error inesperado al navegar:", error);
+                });
+            break;
     }
-  }
+}
 
   // -----------------------------------------------------------------------------------------------------
   // @ Public methods
