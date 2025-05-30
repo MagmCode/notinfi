@@ -1,4 +1,6 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-consulta-definitiva-bcv',
@@ -7,9 +9,26 @@ import { Component, OnInit } from '@angular/core';
 })
 export class ConsultaDefinitivaBcvComponent implements OnInit {
 
-  constructor() { }
+  consultaForm: FormGroup;
+  codNumber = '';
+  codError = '';
+
+  constructor(
+    private _formBuilder: FormBuilder,
+    private _router: Router
+  ) {}
 
   ngOnInit(): void {
+    this.consultaForm = this._formBuilder.group({
+      cod: ['', Validators.required]
+    });
   }
 
+  exportarJornada(): void {
+    // Logica para exportar la jornada
+  }
+
+  menuPrincipal(): void {
+    this._router.navigate(['/menu-principal/']);
+  }
 }

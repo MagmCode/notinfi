@@ -1,1 +1,51 @@
-<p>consulta-definitiva-bcv works!</p>
+<!--
+  consulta-definitiva-bcv.component.html
+  Vista principal para la consulta definitiva BCV de jornadas de intervención.
+  Permite al usuario ingresar el código de jornada y exportar la información asociada.
+  Incluye cabecera, formulario de criterios y botones de acción.
+-->
+
+<fuse-loading-bar></fuse-loading-bar>
+
+<mat-sidenav-container>
+    <!-- Outlet para rutas hijas si aplica -->
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Contenedor principal de la vista -->
+        <div class="main-container">
+            <!-- Cabecera de la página -->
+            <div class="header-container flex justify-between w-3/5 mb-10 text-7xl ">
+                <span>Consulta BCV Definitiva</span>
+                <div class="icon-container flex flex-col items-center mr-30">
+                    <!-- Icono representativo -->
+                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                    <span class="text-head mt-8">Intervención</span>
+                </div>
+            </div>
+            <!-- Tarjeta principal con el formulario de criterios -->
+            <mat-card class="card-container">
+                <div class="card-title">
+                    <span>Seleccione Criterios</span>
+                </div>
+                <!-- Formulario para ingresar el código de jornada -->
+                <form class="card-form" [formGroup]="consultaForm">
+                    <!-- Campo para el código de jornada -->
+                    <mat-form-field class="w-full consulta-input" appearance="outline">
+                        <mat-label>Código de Jornada</mat-label>
+                        <input id="cod" matInput type="number" formControlName="cod">
+                        <mat-hint>Introduzca el código de jornada</mat-hint>
+                        <!-- Mensaje de error si el campo es inválido -->
+                        <mat-error>
+                            Campo inválido
+                        </mat-error>
+                    </mat-form-field>
+                </form>
+                <!-- Botones de acción: Exportar y Salir -->
+                <div class="buttons-container">
+                    <button class="mat-raised-button" type="submit" (click)="exportarJornada()">Exportar</button>
+                    <button class="mat-raised-button" (click)="menuPrincipal()">Salir</button>
+                </div>
+            </mat-card>
+        </div>
+    </mat-sidenav-content>
+</mat-sidenav-container>
