@@ -12,7 +12,7 @@
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
         <!-- Contenedor principal de la vista -->
-        <div class="main-container">
+        <div class="main-container flex flex-col items-center justify-center h-full w-full fixed ">
             <!-- Cabecera de la página -->
             <div class="header-container flex justify-between w-3/5 mb-10 text-7xl ">
                 <span>Consulta BCV Definitiva</span>
@@ -23,17 +23,17 @@
                 </div>
             </div>
             <!-- Tarjeta principal con el formulario de criterios -->
-            <mat-card class="card-container">
-                <div class="card-title">
+            <mat-card class="card-container flex flex-col items-center justify-between">
+                <div class="card-title text-xl ">
                     <span>Seleccione Criterios</span>
                 </div>
                 <!-- Formulario para ingresar el código de jornada -->
                 <form class="card-form" [formGroup]="consultaForm">
                     <!-- Campo para el código de jornada -->
-                    <mat-form-field class="w-full consulta-input" appearance="outline">
+                    <mat-form-field class="consulta-input w-full" appearance="outline">
                         <mat-label>Código de Jornada</mat-label>
                         <input id="cod" matInput type="number" formControlName="cod">
-                        <mat-hint>Introduzca el código de jornada</mat-hint>
+                        <mat-hint class="hint font-medium pt-2 pl-7">Introduzca el código de jornada</mat-hint>
                         <!-- Mensaje de error si el campo es inválido -->
                         <mat-error>
                             Campo inválido
@@ -41,9 +41,9 @@
                     </mat-form-field>
                 </form>
                 <!-- Botones de acción: Exportar y Salir -->
-                <div class="buttons-container">
+                <div class="buttons-container flex justify-center gap-6">
                     <button class="mat-raised-button" type="submit" (click)="exportarJornada()">Exportar</button>
-                    <button class="mat-raised-button" (click)="menuPrincipal()">Salir</button>
+                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
                 </div>
             </mat-card>
         </div>

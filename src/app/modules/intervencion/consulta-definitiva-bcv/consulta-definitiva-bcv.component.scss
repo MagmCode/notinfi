@@ -1,21 +1,11 @@
-.main-container{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow-y: auto;
-    height: 80vh;
-    width: 100vw;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-}
+/* ==========================================================================
+   Estilos generales del componente Consulta Definitiva BCV
+   ========================================================================== */
 
-
+/* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
 .header-container {
-    // font-size: 3.6em; // Comentado, usar Tailwind si es posible
     color: #e89600;
 }
 
@@ -32,126 +22,90 @@
     opacity: 0.4;
 }
 
-
-.consulta-input input,
-.consulta-input .mat-input-element {
-  caret-color: #e89600;
-}
-
-
-
+/* ==========================================================================
+   Tarjeta principal y formulario de criterios
+   ========================================================================== */
 .card-container {
     width: 650px;
     height: 480px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px;
     color: #e89600;
     border-radius: 25px;
     box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
 }
 
+/* Título de la tarjeta */
 .card-title {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 1.3em;
     color: #e89600;
 }
 
+/* Personalización del campo de entrada */
+.consulta-input {
+    /* Ajuste del campo de Angular Material */
+    ::ng-deep .mat-form-field-infix {
+        display: flex !important;
+        padding: 0 !important;
+        width: 235px !important;
+        justify-content: space-between;
+    }
 
-.consulta-input ::ng-deep .mat-form-field-infix {
-    display: flex !important;
-    padding: 0 !important;
-    width: 235px !important;
-    justify-content: space-between;
+    /* Estilo para el texto de ayuda */
+    mat-hint {
+        color: #e89600;
+        font-size: 1.23em;
+    }
+
+    /* Estilo para el input y el cursor */
+    input, .mat-input-element {
+        caret-color: #e89600;
+        margin: 0.7em 0em 0.9em 0em;
+        max-width: 80%;
+        color: #646464;
+    }
+
+    /* Oculta flechas en inputs numéricos */
+    input {
+        &[type="number"]::-webkit-outer-spin-button,
+        &[type="number"]::-webkit-inner-spin-button {
+            -webkit-appearance: none;
+            margin: 0;
+        }
+        &[type="number"] {
+            appearance: textfield;
+            -moz-appearance: textfield;
+        }
+    }
 }
 
-.consulta-input mat-icon {
-    padding: 9px 0px 0px 0px !important;
-    justify-content: end;
-    // width: 100%;
-}
+/* ==========================================================================
+   Personalización de campos Angular Material (colores de borde y etiqueta)
+   ========================================================================== */
 
-
-.consulta-input mat-hint {
-    padding-left: 28px !important;
-    padding-top: 5px;
-    color: #e89600 !important;
-    font-size: 1.23em;
-    font-weight: 400;
-}
-
-.consulta-input .mat-input-element {
-    margin: 0.7em 0em 0.9em 0em;
-    max-width: 80%;
-    color: #646464;
-
-}
-
-.consulta-input .mat-form-field.mat-form-field-appearance-outline,
-.consulta-input .mat-form-field-label-wrapper {
-    width: 50% !important;
-    top: -1px !important;
-    left: 1px !important;
-}
-
-
-/* Quita las flechitas en Chrome, Safari, Edge, Opera */
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-  -webkit-appearance: none;
-  margin: 0;
-}
-
-/* Quita las flechitas en Firefox */
-input[type="number"] {
-  appearance: textfield;
-  -moz-appearance: textfield;
-}
-
-
-
-// Amarillo cuando está enfocado o válido
-:host ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
-:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-outline-thick {
+/* Amarillo cuando está enfocado o válido */
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-outline-thick {
     color: #e89600 !important;
 }
 
-:host ::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label,
-:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-label {
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label,
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-label {
     color: #e89600 !important;
 }
 
-// Rojo cuando es inválido
-:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-outline-thick,
-:host ::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-label {
-    color: #f44336 !important; // o el color que prefieras para error
+/* Rojo cuando es inválido */
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-outline-thick,
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-label {
+    color: #eb3333 !important; // o el color que prefieras para error
 }
 
-
-
-.buttons-container {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-
-    button {
-        padding: 0 20px !important;
-        border-radius: 50px !important;
-        width: 100px;    }
-}
-
+/* ==========================================================================
+   Botones de acción
+   ========================================================================== */
 .buttons-container .mat-raised-button {
     transition: background-color 0s, color 0s;
     color: #e89600 !important;
     font-weight: 500;
-}
-
-
-.buttons-container .mat-raised-button:hover {
-    background-color: #e89600;
-    color: white !important;
+    &:hover {
+        background-color: #e89600;
+        color: white !important;
+    }
 }
