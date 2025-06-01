@@ -1,50 +1,73 @@
-<!-- Loading Bar -->
+<!--
+  sustitucion-operaciones.component.html
+  Vista principal para la carga y procesamiento de archivos de Sustitución de Operaciones.
+  Permite al usuario seleccionar un archivo Excel, valida la extensión y muestra mensajes de error.
+  Incluye botones para procesar el archivo o salir al menú principal.
+-->
+
+<!-- Barra de carga superior (puede mostrar progreso de operaciones globales) -->
 <fuse-loading-bar></fuse-loading-bar>
 
+<!-- Contenedor principal con menú lateral y rutas hijas -->
 <mat-sidenav-container>
+    <!-- Outlet para rutas hijas si aplica -->
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
-        <!-- Contenido -->
-        <div class="main-container">
-            <div class="card-header">
+        <!-- Contenido principal centrado vertical y horizontalmente -->
+        <div class="main-container flex flex-col justify-center items-center w-screen h-4/5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+            
+            <!-- Cabecera de la tarjeta principal -->
+            <div class="card-header w-1/2 flex justify-between mb-10 text-7xl">
                 <span>Sustitución de Operaciones</span>
-                <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-container"></mat-icon>
+                <!-- Icono representativo de la sección -->
+                <mat-icon class="head-icon-container icon-size-10 icon-bdv-icon-usdbill-l"></mat-icon>
             </div>
 
-            <mat-card class="card-container">
+            <!-- Tarjeta principal con el formulario de carga -->
+            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+                <!-- Título de la tarjeta -->
                 <div class="card-title">
                     <span>Seleccione Criterios</span>
                 </div>
 
-                <!-- Carga Form -->
+                <!-- Formulario reactivo para la carga de archivos -->
                 <form class="card-form" [formGroup]="cargaForm">  
-                    <!-- file  -->
+                    <!-- Campo de selección de archivo Excel -->
                     <mat-form-field
-                        class="w-full file-browse"
+                        class="file-browse w-full"
                         appearance="outline"
                         [ngClass]="{'mat-form-field-valid': cargaForm.controls['file'].valid && cargaForm.controls['file'].value}">
                         <mat-label>Archivo</mat-label>
+                        <!-- Input de solo lectura que muestra el nombre del archivo seleccionado -->
                         <input
-                        id="file"
-                        matInput
-                        [formControlName]="'file'"  
-                        [value]="fileName"
-                        readonly>
-                        <mat-hint>Suba un archivo Excel</mat-hint>
+                            id="file"
+                            matInput
+                            [formControlName]="'file'"  
+                            [value]="fileName"
+                            readonly>
+                        <!-- Mensaje de ayuda para el usuario -->
+                        <mat-hint class="mat-hint font-medium pt-2 pl-14">Suba un archivo Excel</mat-hint>
+                        <!-- Mensaje de error si no se selecciona archivo -->
                         <mat-error *ngIf="cargaForm.get('file').hasError('required') && cargaForm.get('file').touched">
                             Debe seleccionar un archivo
-                          </mat-error>
+                        </mat-error>
+                        <!-- Mensaje de error si el archivo no es válido -->
                         <mat-error *ngIf="cargaForm.get('file').hasError('invalidFile')">
                             Por favor, sube un archivo Excel válido
                         </mat-error>
+                        <!-- Icono para abrir el selector de archivos -->
                         <mat-icon (click)="fileInput.click()" class="icon-bdv-icon-file2-m file-icon"></mat-icon>
+                        <!-- Input real de tipo file, oculto, que dispara el evento de selección -->
                         <input type="file" #fileInput (change)="onFileSelected($event)" accept=".xls,.xlsx,.xlsm,.xlsb,.xlt,.xltx,.xltm" hidden>
                     </mat-form-field>
                 </form>
 
-                 <div class="buttons-container">
-                        <button class="mat-raised-button" type="submit" form="cargaForm">Procesar</button>
-                        <button class="mat-raised-button" (click)="menuPrincipal()">Salir</button>
+                <!-- Botones de acción -->
+                <div class="buttons-container flex justify-center gap-6">
+                    <!-- Botón para procesar el archivo cargado -->
+                    <button class="mat-raised-button" type="submit" (click)="procesar()">Procesar</button>
+                    <!-- Botón para salir y regresar al menú principal -->
+                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
                 </div>
             </mat-card>
         </div>

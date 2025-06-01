@@ -1,7 +1,13 @@
+//#region Imports
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+//#endregion
 
+/**
+ * Componente para la carga y procesamiento de archivos de Sustitución de Operaciones.
+ * Permite seleccionar un archivo Excel, valida su extensión y gestiona el formulario de carga.
+ */
 @Component({
   selector: 'app-sustitucion-operaciones',
   templateUrl: './sustitucion-operaciones.component.html',
@@ -9,22 +15,46 @@ import { Router } from '@angular/router';
 })
 export class SustitucionOperacionesComponent implements OnInit {
 
+  //#region Variables
+
+  /** Formulario reactivo para la carga de archivos */
   cargaForm: FormGroup;
+
+  /** Nombre del archivo seleccionado */
   fileName = '';
+
+  /** Mensaje de error para la carga de archivos */
   fileError = '';
+
+  /** Extensiones de archivo permitidas para la carga */
   private allowedExtensions = ['xls', 'xlsx', 'xlsm', 'xlsb', 'xlt', 'xltx', 'xltm'];
 
+  //#endregion
+
+  /**
+   * Constructor del componente.
+   * @param _formBuilder Servicio para construir formularios reactivos.
+   * @param _router Servicio de rutas de Angular.
+   */
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router
   ) {}
 
+  /**
+   * Inicializa el formulario de carga al iniciar el componente.
+   */
   ngOnInit(): void {
     this.cargaForm = this._formBuilder.group({
       file: ['', Validators.required]
     });
   }
 
+  /**
+   * Maneja el evento de selección de archivo.
+   * Valida la extensión y actualiza el formulario.
+   * @param event Evento de selección de archivo.
+   */
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
     if (input.files && input.files.length > 0) {
@@ -37,19 +67,27 @@ export class SustitucionOperacionesComponent implements OnInit {
       } else {
         this.resetFile('Por favor, sube un archivo Excel válido', { invalidFile: true });
       }
-      } else {
-        if (!this.cargaForm.controls['file'].value) {
-            this.resetFile('Archivo inválido. Debe ser un archivo Excel', { required: true });
-        }
+    } else {
+      if (!this.cargaForm.controls['file'].value) {
+        this.resetFile('Archivo inválido. Debe ser un archivo Excel', { required: true });
+      }
     }
   }
 
+  /**
+   * Resetea el campo de archivo y muestra un mensaje de error.
+   * @param errorMsg Mensaje de error a mostrar.
+   * @param errorObj Objeto de error para el control del formulario.
+   */
   private resetFile(errorMsg: string, errorObj: any): void {
     this.fileName = '';
     this.fileError = errorMsg;
     this.cargaForm.controls['file'].setErrors(errorObj);
   }
 
+  /**
+   * Navega a la página de éxito si el formulario es válido.
+   */
   loadFile(): void {
     if (this.cargaForm.invalid) {
       return;
@@ -57,7 +95,18 @@ export class SustitucionOperacionesComponent implements OnInit {
     this._router.navigate(['success']);
   }
 
-  menuPrincipal(): void {
+  /**
+   * Procesa el archivo cargado.
+   * Aquí se debe implementar la lógica de procesamiento.
+   */
+  procesar() {
+    // Lógica para procesar el archivo
+  }
+
+  /**
+   * Navega al menú principal.
+   */
+  inicio(): void {
     this._router.navigate(['/menu-principal/']);
   }
 }
