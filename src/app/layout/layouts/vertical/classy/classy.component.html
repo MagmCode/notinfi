@@ -1,44 +1,16 @@
+<!--
+  classy.component.html
+  Plantilla principal del layout vertical "Classy".
+  Incluye barra lateral (sidebar), header, contenido principal y footer.
+  Utiliza Angular Material y estilos personalizados.
+-->
+
+<!-- Barra de carga global mientras se obtienen los datos -->
 <fuse-loading-bar *ngIf="isLoading"></fuse-loading-bar>
 
-<mat-sidenav-container class="sidenav-container">
-  <router-outlet *ngIf="true"></router-outlet>
-  <div
-    class="header flex items-center w-full pl-4 pr-8 md:pl-4 md:pr-8 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden fondoNav"
-  >
-    <div (click)="sidenav.toggle()" class="button-menu">
-      <mat-icon class="icon-size-8 icon-bdv-icon-menu3-l menu"></mat-icon>
-    </div>
-
-    <img
-      id="bdv-logo"
-      src="assets/images/header/bdv-logo.png"
-      alt="BDV Logo"
-      (click)="inicio()"
-    />
-
-    <ng-container>
-      <div
-        class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2 relative"
-      >
-        <div class="text text-3xl text-secondary mr-10">
-          <span class="text1">Notificaciones INFI</span>
-          <span class="fecha">{{ formattedDate }}</span>
-        </div>
-
-        <div class="w-20 mt-1">
-          <img id="notinfi-logo" src="assets/images/header/notinfi-logo.png" />
-        </div>
-
-        <!-- <div class="mt-5">
-          <mat-icon class="ml-5 icon-bdv-icon-exit-m logout-icon" matTooltip="Cerrar Sesión"></mat-icon>
-        </div> -->
-      </div>
-    </ng-container>
-  </div>
-
-
-
-
+<!-- Contenedor principal con menú lateral y contenido -->
+<mat-sidenav-container class="sidenav-container w-full">
+  <!-- Sidebar lateral con menú de navegación y perfil de usuario -->
   <mat-sidenav
     #sidenav
     mode="over"
@@ -46,43 +18,42 @@
     [(opened)]="opened"
     (opened)="events.push('open!')"
     (closed)="events.push('close!')"
+    (backdropClick)="sidenav.close()"
   >
-    <!-- Navigation header hook -->
     <ng-container>
-      <!-- User -->
+      <!-- Sección de usuario en el sidebar -->
       <div class="red-bg">
-        <div class="back-container">
+        <div class="back-container flex justify-start">
+          <!-- Botón para cerrar el sidebar -->
           <mat-icon
             (click)="sidenav.toggle()"
-            class="icon-size-7 icon-bdv-icon-back-m back"
-          >
-          </mat-icon>
+            class="back icon-size-7 icon-bdv-icon-back-m"
+          ></mat-icon>
         </div>
-        <div class="profile-container w-full">
-          <mat-icon class="icon-size-20 icon-bdv-icon-profileround-l profile">
-          </mat-icon>
+        <div class="profile-container w-full flex justify-center">
+          <!-- Icono de perfil de usuario -->
+          <mat-icon class="profile icon-size-20 icon-bdv-icon-profileround-l"></mat-icon>
         </div>
-        <div class="user flex justify-center w-full">
-          <!-- User Name -->
+        <div class="user flex justify-center w-full text-white font-bold text-center mt-3">
+          <!-- Nombre de usuario -->
           {{ userName }}
         </div>
-        <div class="perfil flex justify-center w-full">
-          <!-- User Role -->
+        <div class="perfil text-white flex justify-center w-full">
+          <!-- Rol del usuario -->
           {{ roleName }}
         </div>
-               
       </div>
-      <!-- Dentro del mat-sidenav, después del ítem "Inicio" -->
+      <!-- Menú de navegación lateral -->
       <div class="menu-items flex justify-start w-full pl-7 pr-2 pt-4 pb-2">
-        <ul>
+        <ul class="w-full p-0 m-0">
+          <!-- Opción de inicio -->
           <li
             class="icon-item icon-size-8 icon-bdv-icon-bank-m"
             (click)="inicio()"
           >
             <span class="item ml-3 pt-2">Inicio</span>
           </li>
-
-          <!-- Aquí insertamos el menú -->
+          <!-- Menú dinámico con árbol de opciones -->
           <mat-tree
             [dataSource]="dataSource"
             [treeControl]="treeControl"
@@ -101,24 +72,16 @@
                 }"
               >
                 <button class="list-button" (click)="toggleNode(node)">
-                  <ng-container
-                    *ngIf="treeControl.isExpanded(node); else collapsedIcon"
-                  >
-                    <mat-icon
-                      class="icon-size-1 icon-bdv-icon-foward-m menu-icon seleccionado"
-                    ></mat-icon>
+                  <!-- Icono expandir/colapsar -->
+                  <ng-container *ngIf="treeControl.isExpanded(node); else collapsedIcon">
+                    <mat-icon class="menu-icon icon-size-1 icon-bdv-icon-foward-m seleccionado"></mat-icon>
                   </ng-container>
                   <ng-template #collapsedIcon>
-                    <mat-icon
-                      class="icon-size-1 icon-bdv-icon-foward-m menu-icon"
-                    ></mat-icon>
+                    <mat-icon class="menu-icon icon-size-1 icon-bdv-icon-foward-m"></mat-icon>
                   </ng-template>
-                  <ng-container
-                    *ngIf="treeControl.isExpanded(node); else collapsedIcon2"
-                  >
-                    <span class="menu-item-text seleccionado">{{
-                      node.nombre
-                    }}</span>
+                  <!-- Texto del nodo -->
+                  <ng-container *ngIf="treeControl.isExpanded(node); else collapsedIcon2">
+                    <span class="menu-item-text seleccionado">{{ node.nombre }}</span>
                   </ng-container>
                   <ng-template #collapsedIcon2>
                     <span class="menu-item-text">{{ node.nombre }}</span>
@@ -126,7 +89,6 @@
                 </button>
               </li>
             </mat-tree-node>
-
             <!-- Nodo sin hijos -->
             <mat-tree-node
               *matTreeNodeDef="let node"
@@ -142,7 +104,7 @@
                 (click)="selectNode(node)"
               >
                 <button class="list-button" (click)="navigateTo(node)">
-                  <!-- Icono para el item Salir -->
+                  <!-- Icono especial para nodo de salida -->
                   <mat-icon
                     *ngIf="node.id === 5659"
                     class="menu-icon icon-bdv-icon-exit-m"
@@ -155,25 +117,58 @@
         </ul>
       </div>
     </ng-container>
-           
   </mat-sidenav>
 
-
-
-
-  <!-- Footer -->
-  <div class="footer">
-    <div class="shapes-container">
-      <div class="shape shape1"></div>
-      <div class="shape shape2"></div>
-      <div class="shape shape3"></div>
-    </div>
+  <!-- Contenido principal, incluye header, router-outlet y footer -->
+  <mat-sidenav-content>
+    <!-- Header superior con logo, título y fecha -->
     <div
-      class="footer2 flex items-center justify-center w-full h-13 px-4 md:px-6 z49 border-t dark:bg-transparent print:hidden"
+      class="header flex items-center w-full pl-4 pr-8 md:pl-4 md:pr-8 z-49 shadow dark:shadow-none dark:border-b bg-card dark:bg-transparent print:hidden fondoNav"
     >
-      <span class="font-medium text-secondary"
-        >Banco de Venezuela &copy; {{ currentYear }} | Entorno
-      </span>
+      <!-- Botón para abrir el menú lateral -->
+      <div (click)="sidenav.toggle()" class="button-menu">
+        <mat-icon class="icon-size-8 icon-bdv-icon-menu3-l menu"></mat-icon>
+      </div>
+      <!-- Logo principal -->
+      <img
+        id="bdv-logo"
+        src="assets/images/header/bdv-logo.png"
+        alt="BDV Logo"
+        (click)="inicio()"
+      />
+      <ng-container>
+        <div class="flex items-center pl-2 ml-auto space-x-0.5 sm:space-x-2 relative">
+          <!-- Título y fecha actual -->
+          <div class="text grid text-3xl text-white text-secondary justify-items-center relative" >
+            <span class="text1 m-0">Notificaciones INFI</span>
+            <span class="fecha text-white">{{ formattedDate }}</span>
+          </div>
+          <!-- Logo secundario -->
+          <div class="w-20 mt-1">
+            <img id="notinfi-logo" src="assets/images/header/notinfi-logo.png" />
+          </div>
+        </div>
+      </ng-container>
     </div>
-  </div>
+
+    <!-- Contenido principal de la página según la ruta activa -->
+    <router-outlet></router-outlet>
+
+    <!-- Footer fijo en la parte inferior con información institucional y decoraciones -->
+    <div class="footer fixed w-full bottom-0 left-0 z-10 bg-white">
+      <div
+        class="footer2 flex absolute bottom-0 items-center justify-center w-full h-13 px-4 md:px-6 z49 border-t dark:bg-transparent print:hidden"
+      >
+        <span class="font-medium text-secondary"
+          >Banco de Venezuela &copy; {{ currentYear }} | Entorno
+        </span>
+      </div>
+      <!-- Elementos decorativos del footer -->
+      <div class="shapes-container bg-white z-10 ">
+        <div class="shape shape1"></div>
+        <div class="shape shape2"></div>
+        <div class="shape shape3"></div>
+      </div>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>

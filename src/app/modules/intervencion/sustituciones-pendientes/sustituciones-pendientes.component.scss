@@ -2,7 +2,9 @@
    Estilos generales del componente Jornada Intervención
    ========================================================================== */
 
-
+::ng-deep .mat-drawer-container {
+    background-color: white !important;
+}
 
 /*===========================================================================
    Estilos para el contenedor de pestañas 

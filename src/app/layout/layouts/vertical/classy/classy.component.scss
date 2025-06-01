@@ -1,50 +1,57 @@
-// @import url("//src/assets/styles/icons-bdv.css");
-  * {
-    font-family: 'Nunito', sans-serif ;
-}
+/* ==========================================================================
+   Estilos generales del layout vertical "Classy"
+   ========================================================================== */
 
-  
-  // Sidebar
-  
- /* Estructura principal del sidenav (ya existente) */
+/* ==========================================================================
+   Sidebar (mat-sidenav)
+   ========================================================================== */
 mat-sidenav {
   border-radius: 0 50px 50px 0;
   width: 285px;
-  box-shadow: 4px 0 8px rgba(0, 0, 0, 0.2);
-  z-index: 1000;
-  position: fixed;
-  background-color: #fff;
 }
 
-
-.sidenav-container {
-  z-index: 2;
+/* ==========================================================================
+   Sección superior del sidebar (usuario y perfil)
+   ========================================================================== */
+.red-bg {
+  background-color: #DB0032;
+  height: 190px;
 }
 
-/* Contenedor del menú */
+.back-container {
+  &:hover {
+    cursor: pointer;
+  }
+  .back::before {
+    color: #fff;
+    margin: 20px 0 0 20px;
+  }
+}
+
+.profile::before {
+  color: #fff;
+  font-size: 5.3rem;
+}
+
+.user {
+  font-size: 1.2em;
+}
+
+/* ==========================================================================
+   Menú lateral (árbol de navegación)
+   ========================================================================== */
 .menu-items {
   ul {
     list-style: none;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    
-    > li:not(.tree-node) { // Estilo para items que NO son parte del árbol
+    > li:not(.tree-node) {
       display: flex;
       align-items: center;
       margin-bottom: 6px;
-
-      
-      // &:hover {
-      //   cursor: pointer;
-      // }
-      
       .item {
         font-size: 1rem;
         white-space: nowrap;
         color: #303030;
         margin-left: 3px !important;
-
         &:hover {
           color: #181818;
           cursor: pointer;
@@ -64,7 +71,6 @@ mat-sidenav {
 .tree-node {
   list-style: none;
   padding-left: 0;
-  
   button.list-button {
     display: flex;
     align-items: center;
@@ -79,11 +85,9 @@ mat-sidenav {
     color: #303030;
     border: none;
     font-size: 1rem;
-
     menu-item-text {
       font-size: inherit;
     }
-    
     .menu-icon::before  {
       color: #303030;
       font-size: 18px;
@@ -91,42 +95,25 @@ mat-sidenav {
       transition: color 0.2s ease;
       font-family: icomoon !important;
     }
-
-    
-    // &:hover {
-    //   background-color: #DB0032;
-    //   color: white;
-      
-    //   .menu-icon::before {
-    //     color: white;
-    //   }
-    // }
   }
   button.list-button:hover{ 
       color: #181818;
   }
-
-    .seleccionado::before {
-
-      color: #DB0032 !important;
-      font-weight: bolder !important;
-      transform: rotate(90deg);
-      /*transform-origin: left top; /* Opcional: ajusta el punto de origen de la rotación */
-      display: inline-block; /* Necesario para que la rotación funcione correctamente en elementos inline */
-    }
-
-    .seleccionado {
-      color: #DB0032 !important;
-      font-weight:  bolder !important;     
-    }
-
+  .seleccionado::before {
+    color: #DB0032 !important;
+    font-weight: bolder !important;
+    transform: rotate(90deg);
+  }
+  .seleccionado {
+    color: #DB0032 !important;
+    font-weight:  bolder !important;     
+  }
 }
 
-/* Niveles de anidación */
+/* Niveles de anidación para el árbol */
 .mat-tree-node {
   padding-left: calc(20px * var(--level)) !important;
 }
-
 [aria-level="2"] { --level: 0; }
 [aria-level="3"] { --level: 1; }
 [aria-level="4"] { --level: 2; }
@@ -134,15 +121,13 @@ mat-sidenav {
 [aria-level="6"] { --level: 4; }
 [aria-level="7"] { --level: 5; }
 
-/* Iconos */
+/* Iconos del menú */
 .icon-item::before {
   color: #303030 !important;
   cursor: pointer;
-
   font-size: 24px;
   margin-top: 1px;
   margin-left: 3px;
-
 }
 
 .menu-icon::before {
@@ -165,274 +150,138 @@ mat-sidenav {
   margin-right: 0;
   display: inline-flex;
   align-items: center;
-  justify-content: end;
+  justify-content: flex-end;
   transform: rotate(180deg);
   font-family: icomoon !important;
 }
-
 .logout-icon:hover::before {
   cursor: pointer;
 }
 
-
 /* Nodo seleccionado sin hijos */
 li.selected .menu-item-text {
-  color: #DB0032 !important; /* Cambia el texto a rojo */
-  font-weight: bold; /* Opcional: resalta el texto */
+  color: #DB0032 !important;
+  font-weight: bold;
 }
 
-
-/* Estilo para nodos de nivel 1 (nodos principales) */
- mat-tree-node {
-  min-height: 0px !important; /* Espaciado entre nodos principales */
+/* Nodos principales y secundarios */
+mat-tree-node {
+  min-height: 0px !important;
 }
-
-
 .level-1 {
-  padding: 6px 0; /* Espaciado entre nodos principales */
+  padding: 6px 0;
 }
-
-/* Estilo para nodos de nivel 2 y superiores */
 .level-2 button.list-button {
-  min-height: 10px; /* Altura mínima para nodos hijos */
-  padding: 0 5px; /* Ajusta el padding si es necesario */
+  min-height: 10px;
+  padding: 0 5px;
   :hover{
-    color:  #181818; /* Cambia el color del texto al pasar el mouse */
+    color:  #181818;
   }
 }
-
-/* Opcional: Ajuste de fuente o colores para nodos secundarios */
 .level-2 .menu-item-text {
-  font-size: 0.9rem; /* Ajusta el tamaño de la fuente si es necesario */
-  color: #666; /* Color más tenue para nodos secundarios */
+  font-size: 0.9rem;
+  color: #666;
 }
 
+/* ==========================================================================
+   Header (barra superior)
+   ========================================================================== */
+.header {
+  position: sticky;
+  top: 0;
+  left: 0;
+  background: linear-gradient(135deg, white 53%, #fec800 50%, #fec800 58%, #fbfbfb 56%, white 59%, #db0032 59%, #db0032 64%, #0067b1 60%) !important;
+  height: 100px;
+  z-index: 10;
+}
 
-/* Estilos para la sección superior del sidebar (existente) */
-.back-container {
-  display: flex;
-  justify-content: start;
-  
+.button-menu {
+  margin: 0 20px 0 20px;
   &:hover {
     cursor: pointer;
   }
 }
 
-.back::before {
-  color: #fff;
-  margin: 20px 0 0 20px;
-  font-family: icomoon !important;
-}
-
-.profile-container {
-  display: flex;
-  justify-content: center;
-  padding: 0 0 15px 0;
-}
-
-.profile::before {
-  color: #fff;
-  font-size: 5.3rem;
-  font-family: icomoon !important;
-}
-
-
-
-
-.user {
-  color: #fff;
-  font-weight: bolder;
-  font-size: 1.2em;
-  text-align: center;
-  // padding-bottom: 20px;
-}
-
-.perfil {
-  color: #fff;
-}
-  
-  
-  
-  // Header 
-  .header {
-      width: 100%;
-      position: fixed;
-      top: 0;
-      left: 0;
-      z-index: 1000;
-      background: linear-gradient(135deg, white 53%, #fec800 50%, #fec800 58%, #fbfbfb 56%, white 59%, #db0032 59%, #db0032 64%, #0067b1 60%) !important;
-      height: 100px;
-  }
-  
-  .red-bg {
-      background-color: #DB0032;
-      height: 190px;
-  }
-
-
-//   .text {
-//     display: grid;
-//     justify-items: center;
-//     color: #fff !important;
-//     font-weight: 600;
-//     position: relative; 
-// }
-
-// .text1 {
-//     margin-bottom: 0; 
-//     align-self: end; 
-//     margin-right:6rem !important;
-// }
-
-// .info-bar {
-//   position: absolute;
-//   bottom: 0;
-//   left: 50%;
-//   transform: translateX(-50%);
-//   display: flex;
-//   align-items: center;
-//   gap: 15px; 
-//   color: #ffffff;
-//   font-size: 13px;
-//   white-space: nowrap;
-//   padding-right: 16rem;
-  
-//   .separator {
-//       opacity: 0.5;
-//   }
-// }
-
-
 .text {
-  display: grid;
-  justify-items: center;
-  color: #fff !important;
-  // font-weight: 600;
-  position: relative;
   margin-right: 2rem !important;
   margin-top: 33px !important;
 }
-
 .text1 {
-  margin-bottom: 0;
-  align-self: end;
-  margin: 0 !important;
   margin-bottom: 5px !important;
   font-weight: 600;
 }
-
-/* Adaptamos solo la parte de fecha y tasas */
 .fecha {
-  color: #ffffff;
   font-size: 13px;
   white-space: nowrap;
 }
-
-.tasa-columna {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  font-size: 13px;
-  color: #ffffff;
-  margin-top: 54px !important;
-  margin-right: 2.5rem !important;
+#notinfi-logo {
+  height: 90px;
+  width: 80px;
+}
+#bdv-logo {
+  height: 80px;
+  width: 240px;
+}
+#bdv-logo:hover {
+  cursor: pointer;
 }
 
-
-  .button-menu {
-      margin: 0 20px 0 20px;
-  }
-  
-  .button-menu:hover {
-          cursor: pointer;
-    }
   
   
-  #notinfi-logo {
-      height: 90px;
-      width: 80px;
-  }
+/* ==========================================================================
+   Footer (barra inferior)
+   ========================================================================== */
   
-  #bdv-logo {
-      height: 80px;
-      width: 240px;
-  }
+.footer{
   
-  #bdv-logo:hover {
-      cursor: pointer;
-      
-  }
-
-  
-  
-  // Footer
-  
-  .footer{
-      width: 100%;
-      position: fixed;
-      bottom: 0;
-      left: 0;
-      z-index: 1000;
-
-  }
   .footer2{
-      width: 100%;
-      bottom: 0;
-      left: 0;
-      border-color: rgba(128, 128, 128, 0.377); 
-      color: gray;
-  }
-  
+    border-color: rgba(128, 128, 128, 0.377); 
+    color: gray;
+  } 
 
-  
-  
-  // Shapes from Footer
+/* ==========================================================================
+   Figuras decorativas del footer (shapes)
+   ========================================================================== */
+
   .shapes-container {
-      position: absolute;
-      bottom: 0;
-      left: 0;
-      width: 100%;
-      height: 109px;
-      overflow: hidden; 
-      opacity: 0.5;
+    height: 109px;
+    opacity: 0.5;
+    background-color: white;
+    z-index: 1;
   }
   
   .shape {
-  
-      position: absolute;
-      border-radius: 30px;
-      opacity: 1;
-      transform: rotate(106deg);  
-      box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.5);  
-      }
+    position: absolute;
+    border-radius: 30px;
+    opacity: 1;
+    transform: rotate(106deg);  
+    box-shadow: -5px -5px 10px rgba(0, 0, 0, 0.5);  
+  }
   
   .shape1 {
-  
-      width: 400px;
-      height: 300px;
-      background-color: #DB0032;
-      bottom: -297px;
-      left: -100px;
+    width: 400px;
+    height: 300px;
+    background-color: #DB0032;
+    bottom: -297px;
+    left: -100px;
+  }
       
-      }
-      
-      .shape2 {
-      
+  .shape2 {
       width: 400px;
       height: 300px;
       background-color: #E89600;
       bottom: -276px;
       left: -40px;
+  }
       
-      }
+  .shape3 {
+    width: 400px;
+    height: 300px;
+    background-color: #0067B1;
+    bottom: -305px;
+    left: 17px;
       
-      .shape3 {
-      
-      width: 400px;
-      height: 300px;
-      background-color: #0067B1;
-      bottom: -305px;
-      left: 17px;
-      
-      }
+  }
+}
+
 

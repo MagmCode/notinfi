@@ -1,59 +1,85 @@
-<!-- Loading Bar -->
+<!--
+  anulacion-intervencion.component.html
+  Vista principal para la gestión de la anulación de intervenciones.
+  Incluye formulario para carga de archivo Excel y acciones principales.
+  Estructura y comentarios inspirados en sustituciones-pendientes.component.html.
+-->
+
+<!-- Barra de carga superior (puede mostrar progreso de operaciones globales) -->
 <fuse-loading-bar></fuse-loading-bar>
 
-<!-- <main-layouts></main-layouts> -->
+<!-- Contenedor principal con menú lateral y rutas hijas -->
 <mat-sidenav-container>
+    <!-- Outlet para rutas hijas si aplica -->
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
-        <!-- Contenido -->
-        <div class="carga-container-intervencion-anulacion">
-            <div class="header-content-intervencion-anulacion">
+        <!-- Contenido principal centrado vertical y horizontalmente -->
+        <div
+            class="main-container bg-white flex flex-col justify-center items-center w-screen h-4/5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+
+            <!-- Cabecera de la tarjeta principal -->
+            <div class="header-container flex justify-between w-2/5 mb-10 text-7xl ">
                 <span>Anulación</span>
-                <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intervencion-anulacion"></mat-icon>
+                <div class="icon-container flex flex-col items-center mr-10">
+                    <!-- Icono representativo -->
+                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                    <span class="text-head mt-8">Intervención</span>
+                </div>
             </div>
-            <mat-card class="card-container-intervencion-anulacion">
-                <div class="title-intervencion-anulacion">
+
+            <!-- Tarjeta principal con el formulario de carga -->
+            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+                <!-- Título de la tarjeta -->
+                <div class="card-title">
                     <span>Seleccione Criterios</span>
                 </div>
-                <!-- Carga Form -->
-                <form class="card-form-intervencion-anulacion" #cargaaForm="ngForm" [formGroup]="anulacionInterForm">  
 
-                    <!-- file  -->
-                    <mat-form-field 
-                        class="w-full file-intervencion-anulacion"
-                        appearance="outline"
-                         [ngClass]="{'mat-form-field-valid': anulacionInterForm.controls['file'].valid && anulacionInterForm.controls['file'].value}">
+                <!-- Formulario reactivo para la carga de archivos -->
+                <form class="card-form" [formGroup]="anulacionForm">
+                    <!-- Campo de selección de archivo Excel -->
+                    <mat-form-field class="file-browse w-full" appearance="outline"
+                        [ngClass]="{'mat-form-field-valid': anulacionForm.controls['file'].valid && anulacionForm.controls['file'].value}">
                         <mat-label>Archivo</mat-label>
-                        <input
-                        id="file"
-                        matInput
-                        [formControlName]="'file'"  
-                        [value]="fileName"
-                        readonly>
-                        <mat-hint>Suba un archivo Excel</mat-hint>
-                        <mat-error *ngIf="anulacionInterForm.get('file').hasError('required') && anulacionInterForm.get('file').touched">
+                        <!-- Input de solo lectura que muestra el nombre del archivo seleccionado -->
+                        <input id="file" matInput [formControlName]="'file'" [value]="fileName" readonly>
+                        <!-- Mensaje de ayuda para el usuario -->
+                        <mat-hint class="mat-hint font-medium pt-2 pl-14">Suba un archivo Excel</mat-hint>
+                        <!-- Mensaje de error si no se selecciona archivo -->
+                        <mat-error
+                            *ngIf="anulacionForm.get('file').hasError('required') && anulacionForm.get('file').touched">
                             Debe seleccionar un archivo
-                          </mat-error>
-                          <mat-error *ngIf="anulacionInterForm.get('file').hasError('invalidFile')">
+                        </mat-error>
+                        <!-- Mensaje de error si el archivo no es válido -->
+                        <mat-error *ngIf="anulacionForm.get('file').hasError('invalidFile')">
                             Por favor, sube un archivo Excel válido
-                          </mat-error>
-                        <mat-icon (click)="fileInput.click()" class="icon-bdv-icon-file2-m file-icon-intervencion-anulacion"></mat-icon>
-                        <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
-                      </mat-form-field>
-                    
-                    
+                        </mat-error>
+                        <!-- Icono para abrir el selector de archivos -->
+                        <mat-icon (click)="fileInput.click()" class="icon-bdv-icon-file2-m file-icon"></mat-icon>
+                        <!-- Input real de tipo file, oculto, que dispara el evento de selección -->
+                        <input type="file" #fileInput (change)="onFileSelected($event)"
+                            accept=".xls,.xlsx,.xlsm,.xlsb,.xlt,.xltx,.xltm" hidden>
+                    </mat-form-field>
                 </form>
-                
-                <div class="buttons-intervencion-anulacion">
-                <div class="button-container-intervencion-anulacion">
-                    <button class="mat-raised-button" type="submit" form="cargaInterForm">Descargar plantilla de Anulacion</button>
-                </div>
 
-                <div class="button-container2-intervencion-anulacion">
-                    <button class="mat-raised-button" type="submit" form="cargaInterForm">Procesar</button>
-                    <button class="mat-raised-button" (click)="menuPrincipal()">Salir</button>
-                </div>
+                <!-- Botones de acción principales -->
+                <div class="buttons-container flex justify-between w-full">
+                    <div class="action-buttons1">
+                        <!-- Botón para descargar plantilla de anulación -->
+                        <button class="mat-raised-button" type="submit">
+                            Descargar plantilla de Anulacion
+                        </button>
+                    </div>
 
+                    <div class="action-buttons2">
+                        <!-- Botón para procesar el archivo cargado -->
+                        <button class="mat-raised-button mr-3" type="submit">
+                            Procesar
+                        </button>
+                        <!-- Botón para salir y regresar al menú principal -->
+                        <button class="mat-raised-button w-24" (click)="inicio()">
+                            Salir
+                        </button>
+                    </div>
                 </div>
             </mat-card>
         </div>

@@ -29,13 +29,15 @@
     width: 650px;
     height: 480px;
     color: #e89600;
-    border-radius: 25px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
+    // border-radius: 25px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%) !important;
 }
 
 /* Título de la tarjeta */
 .card-title {
     color: #e89600;
+    font-size: 1.3em; // Tamaño de fuente del título
+
 }
 
 /* Personalización del campo de entrada */

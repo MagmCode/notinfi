@@ -14,13 +14,16 @@
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
         <!-- Contenido principal centrado vertical y horizontalmente -->
-        <div class="main-container flex flex-col justify-center items-center w-screen h-4/5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+        <div class="main-container bg-white flex flex-col justify-center items-center w-screen h-4/5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
             
             <!-- Cabecera de la tarjeta principal -->
-            <div class="card-header w-1/2 flex justify-between mb-10 text-7xl">
+            <div class="header-container flex justify-between w-3/5 mb-10 text-7xl ">
                 <span>Sustitución de Operaciones</span>
-                <!-- Icono representativo de la sección -->
-                <mat-icon class="head-icon-container icon-size-10 icon-bdv-icon-usdbill-l"></mat-icon>
+                <div class="icon-container flex flex-col items-center mr-30">
+                    <!-- Icono representativo -->
+                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                    <span class="text-head mt-8">Intervención</span>
+                </div>
             </div>
 
             <!-- Tarjeta principal con el formulario de carga -->
