@@ -2,11 +2,8 @@
    Estilos generales del componente Jornada Intervención
    ========================================================================== */
 
-/* Centrado absoluto del contenedor principal */
-.main-container {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
+::ng-deep .mat-drawer-container {
+    background-color: white !important; // Fondo blanco para el contenedor del drawer
 }
 
 /* ==========================================================================
@@ -15,6 +12,7 @@
 .header-container {
     // font-size: 3.6em; // Comentado, usar Tailwind si es posible
     color: #e89600;
+    width: 50%; // Ancho de la cabecera
 }
 
 /* Icono principal de la cabecera */
