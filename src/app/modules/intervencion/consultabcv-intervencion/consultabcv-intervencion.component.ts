@@ -36,12 +36,10 @@ export class ConsultabcvIntervencionComponent implements OnInit {
   /**
    * Inicializa el formulario reactivo con validaciones.
    * - fecha: requerida, preseleccionada al día de hoy.
-   * - file: requerido.
    */
   ngOnInit(): void {
     this.consultaBCVInterForm = this._formBuilder.group({
       fecha: [this.today, [Validators.required]], // Preselecciona hoy
-      file: ['', [Validators.required]]
     });
   }
 

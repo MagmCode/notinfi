@@ -1,337 +1,132 @@
-// @import url("//src/assets/styles/icons-bdv.css");
+/* ==========================================================================
+   Estilos generales del componente Interbancario Intervención
+   ========================================================================== */
 
-* {
-    font-family: 'Nunito', sans-serif !important;
+/* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
+.header-container {
+    color: #e89600;         // Color corporativo para la cabecera
+    width: 50%;             // Ancho de la cabecera
 }
 
-// body {
-//     background-color: transparent !important;
-// }
-
-.operacionesIntervencion-container-interbancario {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow-y: auto;
-    height: 80vh;
-    width: 100vw;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-}
-
-.operaInter-header-content-interbancario {
-    width: 40%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    color: #e89600;
-    font-size: 3.6em;
-}
-
-.head-icon-intervencion-interbancario::before {
+/* Icono principal de la cabecera */
+.head-icon::before {
     color: #e89600;
     font-size: 2.9em;
-    opacity: 40%;
-    padding-top: 25px;
 }
 
-.card-container-operaInter-interbancario    {
+/* Texto debajo del icono en la cabecera */
+.text-head {
+    color: #e89600;
+    font-size: 0.4em;
+    opacity: 0.4;
+}
+
+/* ==========================================================================
+   Tarjeta principal y formulario de criterios
+   ========================================================================== */
+.card-container {
     width: 650px;
     height: 480px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%) !important;
+}
+
+/* Título de la tarjeta */
+.card-title {
     color: #e89600;
-    border-radius: 25px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
+    font-size: 1.3em; // Tamaño de fuente del título
 }
 
-
-.title-operaInter-interbancario {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 1.3em;
-}
-
-
-.card-form-operaInter-interbancario {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.field-container-intervencion-interbancario {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0px 23px;
-}
-
-.card-form-operaInter-interbancario .mat-form-field {
-    // flex: 1;
-    margin-right: 0px;
-
-}
-
-.campos-operaInter-interbancario .tipoDocumentoInter {
-    margin-right: 0 !important;
-}
-
-.cedula-intervencion-interbancario {
-    display: flex;
-}
-
-.campos-operaInter-interbancario {
-    display: flex;
-    gap: 50px;
-    width: 245px;
-}
-
-.campos-operaInter-interbancario .tipoDocumentoInter {
-    .mat-form-field-flex {
-        padding: 0 5px 0 6px !important;
+/* ==========================================================================
+   Personalización de campos Angular Material en el formulario de consulta
+   ========================================================================== */
+.field-form {
+    /* Icono de calendario */
+    .date-icon-inter-interbancario:before {
+        color: grey;
     }
-}
-
-.tipoDocumentoInter-interbancario .mat-select-value {
-    padding-left: 25px;
-}
-
-.campos-operaInter-interbancario .tipoDocumentoInter {
-    .mat-form-field-label {
-        width: 30px;
+    .date-icon-inter-interbancario:hover {
+        cursor: pointer;
     }
-}
+    mat-icon {
+        padding: 9px 7px 0px 0px !important;
+        justify-content: end;
+        width: 25%;
+    }
 
-.input-cedula-inter .mat-form-field-wrapper {
-    width: 165px;
-}
+    /* Ajustes de campos de formulario */
+    ::ng-deep .mat-form-field-infix {
+        display: flex !important;
+        padding: 0 !important;
+        width: 220px !important;
+    }
+    ::ng-deep input.mat-input-element {
+        margin: 0.7em 0em 0.9em 0em;
+        color: #1e293b;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+        max-width: 100%;
+    }
 
-.input-cedula-inter-interbancario {
-    color: #1e293b;
-
-    &.mat-focused {
-
+    /* Colores para campos válidos y enfocados */
+    ::ng-deep &.mat-form-field-valid.mat-form-field-valid {
         .mat-form-field-outline-thick,
         .mat-form-field-label {
             color: #e89600 !important;
         }
     }
-}
-
-
-.campos-operaInter-interbancario .documentoInter {
-    width: 80px;
-    /* Ancho fijo para el select */
-}
-
-
-.date-icon-inter-interbancario:before {
-    color: grey;
-}
-
-.date-icon-inter-interbancario:hover {
-    cursor: pointer;
-}
-
-
-.field-operInter-interbancario .mat-form-field-infix {
-    display: flex !important;
-    padding: 0 !important;
-    width: 220px !important;
-}
-
-.field-operInter-interbancario mat-icon {
-    padding: 9px 7px 0px 0px !important;
-    justify-content: end;
-    width: 25%;
-}
-
-.field-operInte-interbancario .mat-form-field-flex {
-    padding: 0 5px 0 20px !important;
-    margin-top: -0.25em !important;
-    position: relative !important;
-    opacity: 5 !important;
-}
-
-.field-operInter-interbancario mat-hint {
-    padding-left: 60px !important;
-    padding-top: 5px;
-    color: #e89600 !important;
-    font-size: 1.23em;
-    font-weight: 400;
-}
-
-.field-operInter-interbancario .mat-form-field-flex:hover,
-.field-operInter-interbancario .mat-form-field-outline-thick {
-    opacity: 1 !important;
-}
-
-.field-operInter-interbancario input.mat-input-element {
-    margin: 0.7em 0em 0.9em 0em;
-    color: #1e293b;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-}
-
-
-.tipoDocumentoInter-interbancario {
-    .mat-form-field-wrapper {
-
-        width: 80px !important;
-    }
-}
-
-.tipoDocumentoInter-interbancario .mat-form-field {
-    padding-left: 13px !important;
-    margin-right: 0px !important;
-}
-
-
-.field-operInter-interbancario .mat-form-field.mat-form-field-appearance-outline,
-.field-operInter-interbancario .mat-form-field-label-wrapper {
-    width: 50% !important;
-    top: -1px !important;
-    left: 1px !important;
-}
-
-
-.field-operInter-interbancario {
-    &.mat-form-field-invalid.mat-form-field-invalid {
-        .mat-form-field-outline-thick {
-            color: rgba(48, 48, 48, 0.247) !important;
-        }
-
-        .mat-form-field-label {
-            color: rgba(48, 48, 48, 0.616) !important;
-        }
-    }
-
-    &.mat-form-field-valid.mat-form-field-valid {
-
+    ::ng-deep &.mat-focused {
         .mat-form-field-outline-thick,
         .mat-form-field-label {
             color: #e89600 !important;
         }
     }
 
-    &.mat-focused {
-
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #e89600 !important;
+    /* Ajustes para el select de Angular Material */
+    ::ng-deep .mat-select {
+        .mat-select-trigger {
+            display: inline-flex;
+            align-items: center;
+            width: 100%;
+            height: 35px !important;
         }
     }
-}
-
-.buttons-operInter-interbancario {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-
-}
-
-.button-container-operInter-interbancario button {
-    white-space: normal;
-    overflow-wrap: break-word;
-    width: 70%;
-    padding: 0 20px !important;
-    border-radius: 50px !important;
-}
-
-.button-container2-operInter-interbancario {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-
-    button {
-        padding: 0 20px !important;
-        border-radius: 50px !important;
-        width: 100px;
-        // background-color: lightblue;
+    ::ng-deep .mat-form-field-flex {
+        height: 53px;
     }
 }
 
-.buttons-intervencion-interbancario {
-    display: flex;
-    justify-content: space-between;
-    width: 100%;
+/* ==========================================================================
+   Personalización de Angular Material fuera del formulario
+   ========================================================================== */
 
+/* Color de opción seleccionada en select */
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: #3f4853 !important;
 }
 
-.button-container-intervencion-interbancario button {
-    white-space: normal;
-    overflow-wrap: break-word;
-    width: 100px;
-    padding: 0 20px !important;
-    border-radius: 50px !important;
-}
-
-.button-container2-intervencion-interbancario {
-    display: flex;
-    justify-content: flex-end;
-    gap: 5px;
-
-    button {
-        padding: 0 20px !important;
-        border-radius: 50px !important;
-    }
-}
-
-
-.buttons-intervencion-interbancario .mat-raised-button {
-    color: #e89600 !important;
-    font-weight: 500;
-}
-
-.button-container-intervencion-interbancario .mat-raised-button,
-.button-container2-intervencion-interbancario .mat-raised-button {
-    transition: background-color 0s, color 0s;
-}
-
-.button-container-intervencion-interbancario .mat-raised-button:hover,
-.button-container2-intervencion-interbancario .mat-raised-button:hover {
-    background-color: #e89600;
-    color: white !important;
-}
-
-
-.field-operInter-interbancario .mat-select {
-
-    .mat-select-trigger {
-        display: inline-flex;
-        align-items: center;
-        width: 100%;
-        height: 35px !important;
-    }
-}
-
-.field-operInter-interbancario { 
- .mat-form-field-flex {
-    height: 53px;
-}
-}
-
-.mat-select-panel {
+/* Bordes redondeados para el panel de select */
+::ng-deep .mat-select-panel {
     border-radius: 15px !important;
 }
 
-.mat-calendar-body-selected{
+/* Estilo para el día seleccionado en el calendario Angular Material */
+::ng-deep .mat-calendar-body-selected {
     background-color: rgba(126, 126, 126, 0.651) !important;
     // color: var(--fuse-on-primary);
 }
 
-
-body.light .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
-    color: #3f4853 !important;
+/* ==========================================================================
+   Botones de acción principales
+   ========================================================================== */
+.buttons-container .mat-raised-button {
+    color: #e89600 !important; // Color corporativo por defecto
+    font-weight: 500;
+    &:hover {
+        background-color: #e89600; // Fondo corporativo al pasar el mouse
+        color: white !important;   // Texto blanco al pasar el mouse
+    }
 }
+

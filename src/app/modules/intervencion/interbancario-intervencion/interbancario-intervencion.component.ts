@@ -1,63 +1,67 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+/**
+ * interbancario-intervencion.component.ts
+ * Componente para la consulta interbancaria de intervención.
+ * Permite seleccionar una fecha (preseleccionada al día de hoy y sin permitir fechas futuras)
+ * y un valor de Envio BCV, validando ambos campos antes de enviar.
+ */
+
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { Router } from '@angular/router';
 
 
 @Component({
   selector: 'interbancario-intervencion',
   templateUrl: './interbancario-intervencion.component.html',
   styleUrls: ['./interbancario-intervencion.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class InterbancarioIntervencionComponent implements OnInit {
 
-  @ViewChild('interbancarioInterverForm') interbancarioInterverForm: NgForm;
-
+  /** Formulario reactivo para la consulta interbancaria de intervención */
   interbanInterForm: FormGroup;
-  fileName: string = '';
-  fileError: string = '';
 
+  /** Fecha de hoy para usar como valor por defecto y como máximo en el datepicker */
+  today: Date = new Date();
+
+  /**
+   * Constructor del componente.
+   * @param _formBuilder Servicio para construir formularios reactivos.
+   * @param _router Servicio de rutas de Angular.
+   */
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,    
   ) {}
 
+  /**
+   * Inicializa el formulario reactivo con validaciones.
+   * - fecha: requerida, preseleccionada al día de hoy.
+   */
   ngOnInit(): void {
     this.interbanInterForm = this._formBuilder.group({
-      file: ['', [Validators.required]]
+      fecha: [this.today, [Validators.required]], // Preselecciona hoy
+      // Puedes agregar aquí otros campos con sus validaciones si es necesario
     });
   }
 
-  onFileSelected(event: Event): void {
-    const input = event.target as HTMLInputElement;
-
-    if (input.files && input.files.length > 0) {
-      const file = input.files[0];
-      const fileName = file.name;
-      const fileExtension = fileName.split('.').pop()?.toLowerCase();
-
-      const allowedExtensions = ['xls', 'xlsx', 'xlsm', 'xlsb', 'xlt', 'xltx', 'xltm'];
-
-      if (allowedExtensions.includes(fileExtension)) {
-        this.fileName = fileName;
-        this.interbanInterForm.controls['file'].setValue(file);
-        this.fileError = '';
-      } else {
-        this.fileName = '';
-        this.fileError = 'Por favor, sube un archivo Excel válido';
-        this.interbanInterForm.controls['file'].setErrors({ invalidFile: true }); // Set custom error
-      }
-    } else {
-      this.fileError = 'Archivo inválido. Debe ser un archivo Excel';
-      this.interbanInterForm.controls['file'].setErrors({ required: true }); // Ensures it's marked as required
-    }
-  }
-
-  loadFile(): void {
+  /**
+   * Envía el formulario de consulta interbancaria.
+   * Si el formulario es inválido, no realiza ninguna acción.
+   * Aquí se debe implementar la lógica para el envío del formulario.
+   */
+  onSubmit(): void {
     if (this.interbanInterForm.invalid) {
       return;
     }
 
-    this._router.navigate(['success']);
+    // Aquí se maneja la lógica para el envío del formulario
+  }
+
+  /**
+   * Navega al menú principal.
+   */
+  inicio(): void {
+    this._router.navigate(['/menu-principal/'])
   }
 }

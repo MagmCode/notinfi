@@ -1,49 +1,63 @@
-<!-- Loading Bar -->
+<!--
+  interbancario-intervencion.component.html
+  Vista principal para la consulta interbancaria de intervención.
+  Permite seleccionar una fecha (preseleccionada al día de hoy y sin permitir fechas futuras)
+  y un valor de Envio BCV, validando ambos campos antes de enviar.
+-->
+
+<!-- Barra de carga superior (muestra progreso de operaciones globales) -->
 <fuse-loading-bar></fuse-loading-bar>
 
-<!-- <main-layouts></main-layouts> -->
 <mat-sidenav-container>
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
-        <!-- Contenido -->
-        <div class="operacionesIntervencion-container-interbancario">
-            <div class="operaInter-header-content-interbancario">
-                <span>Interbancario</span>
-                <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intervencion-interbancario"></mat-icon>
-            </div>
-            <mat-card class="card-container-operaInter-interbancario">
-                <div class="title-operaInter-interbancario">
-                    <span>Seleccione Criterios de Búsqueda</span>
-                </div>
-                <!-- Carga Form -->
-                <form class="card-form-operaInter-interbancario" #operacionesForm="ngForm" [formGroup]="interbanInterForm">
-                    <div class="field-container-intervencion-interbancario">
-                        <div class="campos-operaInter-interbancario">
-                            <mat-form-field class="w-full field-operInter-interbancario" appearance="outline">
-                                <mat-label>Fecha</mat-label>
-                                <input matInput [matDatepicker]="picker" readonly>
-                                <mat-icon (click)="picker.open()" class="icon-bdv-icon-scheduledit-m date-icon-inter-interbancario"></mat-icon>
-                                <mat-datepicker #picker></mat-datepicker>
-                            </mat-form-field>
+        <!-- Contenedor principal centrado -->
+        <div class="main-container flex flex-col justify-center items-center w-screen h-4/5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white">
 
-                            <mat-form-field class="w-full field-operInter-interbancario" appearance="outline">
-                                <mat-label>Envio BCV</mat-label>
-                                <mat-select>
-                                    <mat-option value="one">First option</mat-option>
-                                    <mat-option value="two">Second option</mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                        </div>
-                    </div>
+            <!-- Cabecera de la página -->
+            <div class="header-container flex justify-between mb-10 text-7xl ">
+                <span>Consulta BCV</span>
+                <div class="icon-container flex flex-col items-center mr-20">
+                    <!-- Icono representativo -->
+                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                    <span class="text-head mt-8">Intervención</span>
+                </div>
+            </div>
+
+            <!-- Tarjeta principal con el formulario -->
+            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+                <div class="card-title">
+                    <span>Seleccione Criterios</span>
+                </div>
+                <!-- Formulario reactivo para la consulta interbancaria -->
+                <form class="card-form flex items-center gap-10 " [formGroup]="interbanInterForm">
+                    <!-- Campo: Fecha (preseleccionada al día de hoy, no permite fechas futuras) -->
+                    <mat-form-field class="w-full field-form" appearance="outline">
+                        <mat-label>Fecha</mat-label>
+                        <input matInput [matDatepicker]="picker" readonly formControlName="fecha" [max]="today">
+                        <mat-icon (click)="picker.open()" class="icon-bdv-icon-scheduledit-m date-icon-inter-interbancario"></mat-icon>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+
+                    <!-- Campo: Envio BCV (selector de opciones) -->
+                    <mat-form-field class="w-full field-form" appearance="outline">
+                        <mat-label>Envio BCV</mat-label>
+                        <mat-select>
+                            <mat-option value="one">First option</mat-option>
+                            <mat-option value="two">Second option</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </form>
-                <div class="buttons-intervencion-interbancario">
-                    <div class="button-container-intervencion-interbancario">
-                        <button class="mat-raised-button" type="submit" form="cargaInterForm">Salir</button>
-                    </div>
-                    <div class="button-container2-intervencion-interbancario">
-                        <button class="mat-raised-button" type="submit" form="cargaInterForm">Consultar</button>
-                        <button class="mat-raised-button">Limpiar</button>
-                    </div>
+                <!-- Botones de acción -->
+                <div class="buttons-container flex justify-center gap-6">
+                    <!-- Botón para consultar -->
+                    <button class="mat-raised-button w-full  py-0" type="submit" (click)="onSubmit()">
+                        Consultar
+                    </button>
+                    <!-- Botón para salir y regresar al menú principal -->
+                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">
+                        Salir
+                    </button>
                 </div>
             </mat-card>
         </div>
