@@ -1,47 +1,56 @@
-<!-- Loading Bar -->
+<!--
+  consultabcv-intervencion.component.html
+  Vista principal para la consulta BCV de intervención.
+  Permite seleccionar una fecha (preseleccionada al día de hoy y sin permitir fechas futuras)
+  y cargar un archivo, validando ambos campos antes de enviar.
+-->
+
+<!-- Barra de carga superior (muestra progreso de operaciones globales) -->
 <fuse-loading-bar></fuse-loading-bar>
 
-<!-- <main-layouts></main-layouts> -->
 <mat-sidenav-container>
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
-        <!-- Contenido -->
-        <div class="operacionesIntervencion-container-consultaBCV">
-            <div class="operaInter-header-content-consultaBCV">
+        <!-- Contenedor principal centrado -->
+        <div class="main-container flex flex-col justify-center items-center w-screen h-4/5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white">
+
+            <!-- Cabecera de la página -->
+            <div class="header-container flex justify-between mb-10 text-7xl ">
                 <span>Consulta BCV</span>
-                <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intervencion-consultaBCV"></mat-icon>
-            </div>
-            <mat-card class="card-container-operaInter-consultaBCV">
-                <div class="title-operaInter-consultaBCV">
-                    <span>Seleccione Criterios de Búsqueda</span>
+                <div class="icon-container flex flex-col items-center mr-20">
+                    <!-- Icono representativo -->
+                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                    <span class="text-head mt-8">Intervención</span>
                 </div>
-                <!-- Carga Form -->
-                <form class="card-form-operaInter-consultaBCV" #operacionesForm="ngForm" [formGroup]="consultaBCVInterForm">
-
-                    <div class="field-container-intervencion-consultaBCV">
-                        <!-- file  -->
-
-
-                <div class="campos-operaInter-consultaBCV">
-
-
-                        <mat-form-field class="w-full field-operInter-consultaBCV" appearance="outline">
-                            <mat-label>Fecha</mat-label>
-                            <input matInput [matDatepicker]="picker" readonly>
-                            <mat-icon (click)="picker.open()" class="icon-bdv-icon-scheduledit-m date-icon-inter-consultaBCV"></mat-icon>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </mat-form-field>
-
-                    </div>
-
             </div>
-    </form>
 
-                <div class="buttons-operInter-consultaBCV">
-                    <div class="button-container2-operInter-consultaBCV">
-                        <button class="mat-raised-button" type="submit" form="cargaForm">Procesar</button>
-                        <button class="mat-raised-button" type="submit" form="cargaForm" (click)="menuPrincipal()">Salir</button>
-                    </div>
+            <!-- Tarjeta principal con el formulario -->
+            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+                <div class="card-title">
+                    <span>Seleccione Criterios</span>
+                </div>
+                <!-- Formulario reactivo para la consulta BCV -->
+                <form class="card-form" [formGroup]="consultaBCVInterForm">
+                    <!-- Campo: Fecha (preseleccionada al día de hoy, no permite fechas futuras) -->
+                    <mat-form-field class="consulta-input w-full" appearance="outline">
+                        <mat-label>Fecha</mat-label>
+                        <input matInput [matDatepicker]="picker" formControlName="fecha" [max]="today" readonly>
+                        <mat-icon (click)="picker.open()"
+                            class="icon-bdv-icon-scheduledit-m date-icon-inter-consultaBCV"></mat-icon>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>>
+                </form>
+
+                <!-- Botones de acción -->
+                <div class="buttons-container flex justify-center gap-6">
+                    <!-- Botón para procesar el archivo cargado -->
+                    <button class="mat-raised-button w-full px-7 py-0" type="submit" (click)="onSubmit()">
+                        Procesar
+                    </button>
+                    <!-- Botón para salir y regresar al menú principal -->
+                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">
+                        Salir
+                    </button>
                 </div>
             </mat-card>
         </div>

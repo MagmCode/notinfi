@@ -1,3 +1,11 @@
+/**
+ * intervencion.module.ts
+ * Módulo principal para las funcionalidades de intervención.
+ * Importa y declara todos los componentes, módulos y servicios necesarios para las operaciones de intervención.
+ * Configura Angular Material, adaptadores de fecha y formatos personalizados.
+ * Inspirado en la estructura y comentarios de sustituciones-pendientes.component.ts.
+ */
+
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
@@ -42,6 +50,11 @@ import { FuseLoadingBarModule } from '@fuse/components/loading-bar/loading-bar.m
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCardModule } from '@angular/material/card';
 
+// Configuración de formatos y adaptador de fecha para Angular Material Datepicker
+import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
+import { DateAdapter } from '@angular/material/core';
+import { MomentDateAdapter } from '@angular/material-moment-adapter';
+import { MY_DATE_FORMATS } from 'app/models/dateFormat';
 
 // Componentes de intervención
 import { CambioClaveIntervencionComponent } from './cambio-clave-intervencion/cambio-clave-intervencion.component';
@@ -56,9 +69,9 @@ import { SustitucionesPendientesComponent } from './sustituciones-pendientes/sus
 import { SustitucionOperacionesComponent } from './sustitucion-operaciones/sustitucion-operaciones.component';
 import { ConsultaDefinitivaBcvComponent } from './consulta-definitiva-bcv/consulta-definitiva-bcv.component';
 
-
 @NgModule({
   declarations: [
+    // Componentes principales de intervención
     CambioClaveIntervencionComponent,
     AnulacionIntervencionComponent,
     CargaIntervencionComponent,
@@ -76,6 +89,7 @@ import { ConsultaDefinitivaBcvComponent } from './consulta-definitiva-bcv/consul
     IntervencionRoutingModule,
     FormsModule,
     ReactiveFormsModule,
+    // Módulos de Angular Material y terceros
     MatButtonModule,
     MatButtonToggleModule,
     MatFormFieldModule,
@@ -113,6 +127,12 @@ import { ConsultaDefinitivaBcvComponent } from './consulta-definitiva-bcv/consul
     FuseLoadingBarModule,
     MatTreeModule,
     MatCardModule
+  ],
+  providers: [
+    // Configuración regional y de formato para el datepicker de Angular Material
+    { provide: MAT_DATE_LOCALE, useValue: 'es-VE' }, // Localización de fechas (Venezuela)
+    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] }, // Adaptador Moment.js
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS } // Formato personalizado DD/MM/YYYY
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

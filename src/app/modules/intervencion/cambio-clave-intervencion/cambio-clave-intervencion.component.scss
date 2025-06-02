@@ -80,15 +80,11 @@
 /* ==========================================================================
    Botones de acción principales
    ========================================================================== */
-.action-buttons {
-    .mat-raised-button {
-        color: #e89600 !important;
-        font-weight: 500;
-        width: 100px;
-
-        &:hover {
-            background-color: #e89600;
-            color: white !important;
-        }
+.buttons-container .mat-raised-button {
+    color: #e89600 !important; // Color corporativo por defecto
+    font-weight: 500;
+    &:hover {
+        background-color: #e89600; // Fondo corporativo al pasar el mouse
+        color: white !important;   // Texto blanco al pasar el mouse
     }
 }
