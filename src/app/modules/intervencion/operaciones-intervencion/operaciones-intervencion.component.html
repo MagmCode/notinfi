@@ -5,21 +5,31 @@
 <mat-sidenav-container>
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
-        <!-- Contenido -->
-        <mat-tab-group class="mat-tab-group-operaciones-intervencion" [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
-            <mat-tab label="Búsqueda">
+<!-- Contenedor principal con menú lateral y rutas hijas -->
+<mat-sidenav-container>
+    <!-- Outlet para rutas hijas si aplica -->
+    <router-outlet *ngIf="true"></router-outlet>
+    <mat-sidenav-content>
+        <!-- Grupo de pestañas para las operaciones de intervención -->
+        <mat-tab-group class="mat-tab-group flex flex-col w-full items-center fixed"
+            [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
 
-                <div class="operacionesIntervencion-container">
-                    <div class="operaInter-header-content">
+            <!-- Pestaña de Búsqueda de jornadas activas -->
+            <mat-tab label="Búsqueda">
+                <div class="main-container mt-5 flex flex-col items-center">
+                    <!-- Cabecera de la página -->
+                    <div class="header-container flex justify-between w-4/5 mb-10 text-7xl w-full">
                         <span>Operaciones</span>
-                        <div class="icon-container">
-                            <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intervencion"></mat-icon>
-                            <span class="text-head">Intervención</span>
+                        <div class="icon-container flex flex-col items-center ">
+                            <!-- Icono representativo -->
+                            <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                            <span class="text-head mt-8">Intervención</span>
                         </div>
                     </div>
-                    <mat-card class="card-container-operaInter">
-                        <div class="title-operaInter">
-                            <span>Seleccione Criterios de Búsqueda</span>
+                    <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+                        <!-- Título de la tarjeta -->
+                        <div class="card-title">
+                            <span>Seleccione Criterios</span>
                         </div>
                         <!-- Carga Form -->
                         <form class="card-form-operaInter" #operacionesInterverForm="ngForm"
@@ -183,7 +193,7 @@
 
 
                                             <ng-container matColumnDef="select">
-                                                <th mat-header-cell *matHeaderCellDef>
+                                                <th mat-header-cell *matHeaderCellDef class="pl-0">
                                                     <mat-checkbox (change)="selectAll()"
                                                         [checked]="isAllSelected()"
                                                         [indeterminate]="selection.hasValue() && !isAllSelected()"
@@ -278,7 +288,7 @@
                                                 <th mat-header-cell *matHeaderCellDef>Editar</th>
                                                 <td mat-cell *matCellDef="let row" style="text-align: center;">
                                                     <mat-icon
-                                                        class="mr-1 icon-size-5 text-green-500 icon-bdv-icon-edit-m editar"
+                                                        class="ml-5 icon-size-5 text-green-500 icon-bdv-icon-edit-m editar"
                                                         (click)="openEditDialog(row)"></mat-icon>
                                                 </td>
                                             </ng-container>

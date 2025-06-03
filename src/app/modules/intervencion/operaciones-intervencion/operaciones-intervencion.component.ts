@@ -22,7 +22,7 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   selector: 'operaciones-intervencion',
   templateUrl: './operaciones-intervencion.component.html',
   styleUrls: ['./operaciones-intervencion.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 
 export class OperacionesIntervencionComponent implements OnInit {
