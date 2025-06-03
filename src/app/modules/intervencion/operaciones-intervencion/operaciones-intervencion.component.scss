@@ -1,33 +1,4 @@
 
-// .mat-tab-group-operaciones-intervencion{
-//     display: flex;
-//     flex-direction: column;
-//     justify-content: center;
-//     align-items: center;
-//     // overflow-y: auto;
-//     height: 80vh;
-//     width: 100vw;
-//     position: fixed;
-//     top: 50%;
-//     left: 50%;
-//     transform: translate(-50%, -50%);
-// }
-// .operacionesIntervencion-container {
-//     display: flex;
-//     flex-direction: column;
-//     // justify-content: center;
-//     align-items: center;
-//     // // overflow-y: auto;
-//     // height: 80vh;
-//     width: 100vw;
-//     //     position: fixed;
-//     // top: 50%;
-//     // left: 50%;
-//     // transform: translate(-50%, -50%);
-//     // background-color: #fff;
-// }
-
-
 /* ==========================================================================
    Estilos generales del componente Jornada Intervención
    ========================================================================== */
@@ -88,24 +59,6 @@
     opacity: 0.4;
 }
 
-
-
-
-.table-operaciones {
-
-   ::ng-deep td.mat-cell {
-        padding: 10px !important;
-        text-align: center !important;
-    }
-    
-  ::ng-deep  th.mat-header-cell {
-        padding: 20px 10px!important;
-        justify-content: center !important;
-        text-align: center !important;
-    }
-}
- 
-
 /* ==========================================================================
    Contenedor principal de la tarjeta
    ========================================================================== */
@@ -122,267 +75,196 @@
     color: #e89600; 
 }
 
+/* ==========================================================================
+   Estilos para los campos de formulario
+   ========================================================================== */
 
-::ng-deep .mat-sort-header-container {
-    justify-content: center !important;
-}
-
-.mat-tab-group {
-    height: 74vh !important;
-}
-.mat-tab-group .mat-tab-body-content {
-    padding: 10px 263px;
-}
-
-.mat-tab-group .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
-    min-width: 0 !important;
-    height: 20px !important;
-    padding: 0 20px !important;
-    border-radius: 9999px !important;
-    --tw-text-opacity: 0.5;
-    color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity));
-}
-
-.mat-tab-group .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label.mat-tab-label-active {
-    --tw-bg-opacity: 1 !important;
-    background-color: rgba(51, 65, 85, 0.060) !important;
-}
-
-// .mat-tab-body-content {
-//     width: 1300px !important;
-// }
-    // .resultados-intervencion {
-    //     padding: 50px !important;
-    // }
-
-
-.operaInter-header-content {
-    width: 40%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    color: #e89600;
-    font-size: 3.6em;
-}
-
-.head-icon-intervencion::before {
-    color: #e89600;
-    font-size: 2.9em;
-    opacity: 40%;
-    padding-top: 25px;
-}
-
-
-.icon-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.text-head {
-    color: #e89600;
-    font-size: 0.4em;
-    opacity: 0.4;
-    margin-top: 30px;
-}
-
-.card-container-operaInter    {
-    width: 650px;
-    height: 480px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px;
-    color: #e89600;
-    border-radius: 25px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
-}
-
-
-.title-operaInter {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 1.3em;
-}
-
-
-.card-form-operaInter {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.field-container-intervencion {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0px 23px;
-}
-
-.card-form-operaInter .mat-form-field {
-    // flex: 1;
-    margin-right: 0px;
-
-}
-
-::ng-deep .campos-operaInter .tipoDocumentoInter {
-    margin-right: 0 !important;
-}
-
-.cedula-intervencion {
-    display: flex;
-}
-
-.campos-operaInter {
+.campos {
     display: flex;
     gap: 50px;
     width: 245px;
-}
 
-::ng-deep .campos-operaInter .tipoDocumentoInter {
-    .mat-form-field-flex {
-        padding: 0 5px 0 6px !important;
-    }
-}
+    .tipoDocumento ::ng-deep {
+        .mat-form-field-flex {
+            padding: 0 5px 0 6px !important;
+        }
 
-::ng-deep .tipoDocumentoInter .mat-select-value {
-    padding-left: 25px;
-}
+        .mat-select-value {
+            padding-left: 25px;
+        }
 
-::ng-deep .campos-operaInter .tipoDocumentoInter {
-    .mat-form-field-label {
-        width: 30px;
-    }
-}
+        .mat-form-field-wrapper {
 
-::ng-deep .input-cedula-inter .mat-form-field-wrapper {
-    width: 165px;
-}
+            width: 80px !important;
+        }
 
-.input-cedula-inter {
-    color: #1e293b;
-
-    ::ng-deep &.mat-focused {
-
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #e89600 !important;
+        .mat-form-field {
+            padding-left: 13px !important;
+            margin-right: 0px !important;
         }
     }
-}
+    .input-cedula {
+        color: #1e293b;
+        
+        input {
+            caret-color: #e89600;
 
-.input-filter-inter {
-    color: #1e293b;
+            &[type="number"]::-webkit-outer-spin-button,
+            &[type="number"]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
 
-    &.mat-focused {
-
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #e89600 !important;
+            &[type="number"] {
+                appearance: textfield;
+                -moz-appearance: textfield;
+            }
         }
+
+        ::ng-deep .mat-form-field-wrapper {
+            width: 165px;
+        }
+
+        ::ng-deep &.mat-focused {
+
+            .mat-form-field-outline-thick,
+            .mat-form-field-label {
+                color: #e89600 !important;
+            }
+        }
+
+
     }
-}
 
-
-
-.campos-operaInter .documentoInter {
-    width: 80px;
-    /* Ancho fijo para el select */
-}
-
-
-.date-icon-inter:before {
+    
+.date-icon:before {
     color: grey;
 }
 
-.date-icon-inter:hover {
+.date-icon:hover {
     cursor: pointer;
 }
 
-
-::ng-deep .field-operInter .mat-form-field-infix {
-    display: flex !important;
-    padding: 0 !important;
-    width: 220px !important;
-}
-
-.field-operInter mat-icon {
-    padding: 9px 7px 0px 0px !important;
-    justify-content: end;
-    width: 25%;
-}
-
-::ng-deep .field-operInter .mat-form-field-flex {
-    padding: 0 5px 0 20px !important;
-    margin-top: -0.25em !important;
-    position: relative !important;
-    opacity: 5 !important;
-}
-
-.field-operInter mat-hint {
-    padding-left: 60px !important;
-    padding-top: 5px;
-    color: #e89600 !important;
-    font-size: 1.23em;
-    font-weight: 400;
-}
-
-::ng-deep .field-operInter .mat-form-field-flex:hover,
-.field-operInter .mat-form-field-outline-thick {
-    opacity: 1 !important;
-}
-
-::ng-deep .field-operInter input.mat-input-element {
-    margin: 0.7em 0em 0.9em 0em;
-    color: #1e293b;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
 }
 
 
-::ng-deep .tipoDocumentoInter {
-    .mat-form-field-wrapper {
-
-        width: 80px !important;
-    }
-}
-
-::ng-deep .tipoDocumentoInter .mat-form-field {
-    padding-left: 13px !important;
-    margin-right: 0px !important;
-}
-
-
-::ng-deep .field-operInter .mat-form-field.mat-form-field-appearance-outline,
-.field-operInter .mat-form-field-label-wrapper {
-    width: 50% !important;
-    top: -1px !important;
-    left: 1px !important;
-}
-
-
-.field-operInter {
-    ::ng-deep &.mat-form-field-invalid.mat-form-field-invalid {
-        .mat-form-field-outline-thick {
-            color: rgba(48, 48, 48, 0.247) !important;
+.field-form  {
+    ::ng-deep {
+        .mat-form-field-infix {
+            display: flex !important;
+            padding: 0 !important;
+            width: 220px !important;
         }
-
-        .mat-form-field-label {
-            color: rgba(48, 48, 48, 0.616) !important;
+        .mat-form-field-flex {
+            padding: 0 5px 0 20px !important;
+            margin-top: -0.25em !important;
+            position: relative !important;
+            opacity: 5 !important;
+            align-items: normal;
         }
-    }
+        .mat-form-field-valid.mat-form-field-valid {
 
-    ::ng-deep &.mat-form-field-valid.mat-form-field-valid {
+            .mat-form-field-outline-thick,
+            .mat-form-field-label {
+                color: #e89600 !important;
+            }
+        }
+        .mat-select {
+
+            .mat-select-trigger {
+                display: inline-flex;
+                align-items: center;
+                width: 100%;
+                height: 35px !important;
+            }
+        }
+        .mat-form-field-flex {
+            height: 53px;
+        }
+        
+    }   
+    ::ng-deep &.mat-focused {
 
         .mat-form-field-outline-thick,
         .mat-form-field-label {
             color: #e89600 !important;
         }
+    }
+    mat-icon {
+        padding: 9px 7px 0px 0px !important;
+        justify-content: end;
+        width: 25%;
+    }
+    mat-hint {
+        padding-left: 60px !important;
+        padding-top: 5px;
+        color: #e89600 !important;
+        font-size: 1.23em;
+        font-weight: 400;
+    }
+    
+}
+
+
+/* ==========================================================================
+   Botones de acción
+   ========================================================================== */
+.buttons-container .mat-raised-button {
+    color: #e89600; // Color corporativo por defecto
+    font-weight: 500;
+    &:hover {
+        background-color: #e89600; // Fondo corporativo al pasar el mouse
+        color: white !important;   // Texto blanco al pasar el mouse
+    }
+}
+
+
+
+
+/* ==========================================================================
+   Tab de resultados y botones de acción
+   ========================================================================== */
+
+
+
+/* ==========================================================================
+   Tabla de datos (Angular Material)
+   ========================================================================== */
+.main-container2 {
+    width: 70vw;
+}
+
+.table-responsive {
+    overflow-x: auto; 
+
+    /* Celdas de la tabla */
+    .table-cell {
+        text-align: center !important;
+        font-size: 0.78rem;
+        border-bottom-width: 2px !important;
+        border-style: solid;
+        padding-left: 0;
+    }
+
+    /* Encabezados de la tabla */
+    .header-cell {
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+        padding-left: 20px;
+        justify-content: center !important;
+        font-size: 0.87rem;
+        border-bottom-width: 2px !important;
+        border-style: solid;
+        // min-width: 100px;
+    }
+}
+
+
+.input-filter-inter {
+    color: #1e293b;
+    input {
+
+        caret-color: #e89600;
     }
 
     ::ng-deep &.mat-focused {
@@ -394,63 +276,18 @@
     }
 }
 
-.buttons-operInter {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+.results {
+    .action-buttons {
+        .mat-raised-button {
+            font-weight: 500;
+            &:hover {
 
-}
+                background-color: #e89600 !important;
+                color: white !important;
+            }
 
-.button-container-operInter button {
-    white-space: normal;
-    overflow-wrap: break-word;
-    width: 70%;
-    padding: 0 20px !important;
-    border-radius: 50px !important;
-}
-
-.button-container2-operInter {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-
-    button {
-        padding: 0 20px !important;
-        border-radius: 50px !important;
-        width: 100px;
-        // background-color: lightblue;
+        }
     }
-}
-
-.buttons-operInter .mat-raised-button {
-    color: #e89600 !important;
-    font-weight: 500;
-}
-
-.button-container-operInter .mat-raised-button,
-.button-container2-operInter .mat-raised-button {
-    transition: background-color 0s, color 0s;
-}
-
-.button-container-operInter .mat-raised-button:hover,
-.button-container2-operInter .mat-raised-button:hover {
-    background-color: #e89600;
-    color: white !important;
-}
-
-
-.results .action-buttons .mat-raised-button {
-    // color: #e89600 !important;
-    font-weight: 500;
-}
-
-.results .action-buttons .mat-raised-button {
-    transition: background-color 0s, color 0s !important;
-}
-
-.results .action-buttons .mat-raised-button:hover {
-    background-color: #e89600 !important;
-    color: white !important;
 }
 
 
@@ -473,21 +310,7 @@
     border-top: 10px solid !important;
 }
 
-::ng-deep .field-operInter .mat-select {
 
-    .mat-select-trigger {
-        display: inline-flex;
-        align-items: center;
-        width: 100%;
-        height: 35px !important;
-    }
-}
-
-::ng-deep .field-operInter { 
- .mat-form-field-flex {
-    height: 53px;
-}
-}
 
 ::ng-deep .mat-select-panel {
     border-radius: 15px !important;
@@ -535,7 +358,7 @@
 }
 
 
+::ng-deep .mat-sort-header-container {
+    justify-content: center !important;
+}
 
-// body.light .mat-checkbox-checked.mat-accent .mat-checkbox-background, body .light .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, body .light .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-//     background-color: #0061ff;
-// }

@@ -17,8 +17,8 @@ import { ServiceService } from 'app/services/service.service';
   selector: 'app-cambio-clave-intervencion',
   templateUrl: './cambio-clave-intervencion.component.html',
   styleUrls: ['./cambio-clave-intervencion.component.scss'],
-  // encapsulation: ViewEncapsulation.None
 })
+
 export class CambioClaveIntervencionComponent implements OnInit {
 
   /** Formulario reactivo para el cambio de clave */

@@ -101,11 +101,10 @@ input, .mat-input-element {
    Botones de acción
    ========================================================================== */
 .buttons-container .mat-raised-button {
-    transition: background-color 0s, color 0s;
-    color: #e89600 !important;
+    color: #e89600 ;
     font-weight: 500;
     &:hover {
         background-color: #e89600;
-        color: white !important;
+        color: white;
     }
 }
