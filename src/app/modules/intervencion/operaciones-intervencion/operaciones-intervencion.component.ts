@@ -57,6 +57,8 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
 
   /** Fecha máxima permitida en el calendario (hoy) */
   today = new Date();
+  /** Permite ver la pestaña de operaciones */
+  canViewTab: boolean = false;
 
   //#region  tablas
 
@@ -174,8 +176,10 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
         this.dataSourceH = new MatTableDataSource(safeResultados);
         this.intervencion = safeResultados;
         this.selectedTabIndex = 1;
+        this.canViewTab = true;
       } else {
         this.dataSourceH = new MatTableDataSource([]);
+        this.canViewTab = false;
       }
 
       // Recupera cantidad, total y jornada
@@ -232,6 +236,7 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
         this.dataSourceH.paginator = this.paginator;
         this.dataSourceH.sort = this.sortH;
         this.selectedTabIndex = 1;
+        this.canViewTab = true;
         this.cantidad = resp.cantidad;
         this.total = resp.totales;
         this.jornada = resp.jornadasList;
@@ -358,6 +363,7 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
    */
   regresar(): void {
     this.selectedTabIndex = 0;
+    this.canViewTab = false;
     this.operaInterForm.reset();
     // Asigna la fecha del día nuevamente
     const today = new Date();

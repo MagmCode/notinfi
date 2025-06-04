@@ -114,12 +114,11 @@
             </mat-tab>
 
             <!-- Pestaña de Resultados -->
-            <mat-tab label="Resultado">
+            <mat-tab label="Resultado" *ngIf="canViewTab">
                 <ng-template matTabContent>
-                    <div
-                        class="main-container2 0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 resultados-intervencion ">
+                    <div class="main-container2 grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-6 w-full ">
                         <!-- Resumen de cantidad de operaciones -->
-                        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden ">
                             <div class="flex items-start justify-between">
                                 <div class="text-lg font-medium tracking-tight leading-6 truncate ">Cantidad de
                                     Operaciones: </div>
@@ -136,7 +135,7 @@
                             </div>
                             <div class="flex flex-col items-center mt-2">
                                 <div class="text-3xl  font-bold tracking-tight leading-none text-red-500">
-                                    $ {{total | number:'1.0-2':'es'}}</div>
+                                    {{ total ? ('$ ' + (total | number:'1.0-2':'es')) : '' }}</div>
                             </div>
                         </div>
 
@@ -159,6 +158,8 @@
                             </div>
                         </div>
 
+                        </div>
+                        <div class="main-container2">
                         <!-- Tabla de operaciones -->
                         <div
                             class="card-table sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
@@ -178,11 +179,12 @@
                                         <button class="mat-raised-button mr-5">Cerrar Lote</button>
                                         <button class="mat-raised-button mr-3" (click)="processSelectedRows()">Procesar</button>
                                         <button class="mat-raised-button mr-3" (click)="regresar()">Regresar</button>
+                                        <button class="mat-raised-button mr-3" (click)="inicio()">Salir</button>
                                         </div>
                                         
                                     </div>
                                     <div class="mat-elevation-z8 table-responsive">
-                                        <table mat-table [dataSource]="dataSourceH" matSort class="table-operaciones">
+                                        <table mat-table [dataSource]="dataSourceH" matSort class="table-operaciones w-full">
 
                                             <!-- Columnas de la tabla de operaciones -->
                                             <ng-container matColumnDef="select">
@@ -303,6 +305,7 @@
                                         <button class="mat-raised-button mr-5">Cerrar Lote</button>
                                         <button class="mat-raised-button mr-3" (click)="processSelectedRows()">Procesar</button>
                                         <button class="mat-raised-button mr-3" (click)="regresar()">Regresar</button>
+                                        <button class="mat-raised-button mr-3" (click)="inicio()">Salir</button>
                                         </div>
                                     </div>
                                     </div>

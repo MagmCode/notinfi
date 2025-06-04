@@ -19,7 +19,7 @@ import { IntencionVenta } from 'app/models/intencionVenta';
   selector: 'app-intencion-venta',
   templateUrl: './intencion-venta.component.html',
   styleUrls: ['./intencion-venta.component.scss'],
-  encapsulation: ViewEncapsulation.None
+  // encapsulation: ViewEncapsulation.None
 })
 export class IntencionVentaComponent implements OnInit {
  @ViewChild('intencionVentaForm') intencionVentaForm: NgForm;
@@ -38,6 +38,8 @@ export class IntencionVentaComponent implements OnInit {
   isLoading: boolean = false;
 
   selection = new SelectionModel<IntencionVenta>(true, []);
+
+  canViewTab: boolean = false;
  
 
   //#region  tablas
@@ -81,12 +83,6 @@ export class IntencionVentaComponent implements OnInit {
   }
 
 
-
-
-processForm() {
-  this.selectedTabIndex = 1;
-}
-
 ngAfterViewInit() {
   this.dataSourceH.paginator = this.paginatorH;
   this.dataSourceH.sort = this.sortH;
@@ -117,6 +113,7 @@ ngOnInit(): void {
           const safeResultados = Array.isArray(resultados) ? resultados : [];
           this.dataSourceH = new MatTableDataSource(safeResultados);
           this.selectedTabIndex = 1;
+          this.canViewTab = true;
       } else {
           this.dataSourceH = new MatTableDataSource([]); // Si no hay resultados, array vacío
       }
@@ -252,5 +249,7 @@ inicio(): void {
 
 regresar(): void {
   this.selectedTabIndex = 0; 
+  this.canViewTab = false; // Deshabilita la vista de resultados
+  
 }
 }
