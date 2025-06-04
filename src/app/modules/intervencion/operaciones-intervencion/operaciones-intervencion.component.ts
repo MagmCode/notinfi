@@ -1,4 +1,8 @@
-// #region Imports
+/**
+ * Componente para la gestión y consulta de operaciones de intervención.
+ * Permite filtrar operaciones por criterios, visualizar resultados, exportar, editar y procesar registros.
+ * Incluye manejo de paginación, selección múltiple y persistencia de filtros/resultados en localStorage.
+ */
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy } from '@angular/core';
 import { NgForm, FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -20,44 +24,73 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
   styleUrls: ['./operaciones-intervencion.component.scss'],
   // encapsulation: ViewEncapsulation.None
 })
-
 export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, OnDestroy {
-
-
   //#region Variables
+
+  /** Formulario reactivo para los criterios de búsqueda */
   operaInterForm: FormGroup;
+  /** Índice de la pestaña seleccionada */
   selectedTabIndex = 0; 
+  /** Mensaje de error para archivos */
   fileErrorInter: string = '';
+  /** Variables auxiliares para los filtros */
   nroCedRif: string = '';
   nacionalidad: string = '';
   estatus: string = '';
   codDivisas: string = '';
   fechOper: string = '';
+  /** Resumen de cantidad de operaciones */
   cantidad: string = '';
+  /** Resumen de monto total */
   total: string = '';
+  /** Lista de jornadas obtenidas */
   jornada: any[] = [];
 
+  /** IDs seleccionados en la tabla */
   selectedIds: Set<any> = new Set<any>();
 
+  /** Estado de carga para mostrar el loading bar */
   isLoading: boolean = false;
 
+  /** Modelo de selección múltiple para la tabla */
   selection = new SelectionModel<intervencion>(true, []);
 
+  /** Fecha máxima permitida en el calendario (hoy) */
   today = new Date();
 
   //#region  tablas
-  displayedColumns: string[] = ['select', 'IdOper','nacionalidad', 'nroCedRif', 'nomCliente', 'operacion', 'mtoDivisas', 'tasaCambio', 'codDivisas','ctaCliente','ctaClienteDivisas','estatus','edit'];
+
+  /** Columnas a mostrar en la tabla de operaciones */
+  displayedColumns: string[] = [
+    'select', 'IdOper', 'nacionalidad', 'nroCedRif', 'nomCliente', 'operacion',
+    'mtoDivisas', 'tasaCambio', 'codDivisas', 'ctaCliente', 'ctaClienteDivisas', 'estatus', 'edit'
+  ];
+  /** Opciones de posición para tooltips */
   positionOptions: TooltipPosition[] = ['below'];
   position = new FormControl(this.positionOptions[0]);
 
+  /** Fuente de datos para la tabla de operaciones */
   dataSourceH: MatTableDataSource<intervencion>;
+  /** Fuente de datos auxiliar (no usada en este contexto) */
   interven: MatTableDataSource<intervencion>;
+  /** Lista de operaciones de intervención */
   intervencion: any[] = [];
 
+  /** Referencia al componente de ordenamiento de Angular Material */
   @ViewChild(MatSort) sortH: MatSort = new MatSort;
+  /** Referencia al paginador de Angular Material */
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
-  // #region Constructor
+  //#endregion
+
+  /**
+   * Constructor del componente.
+   * @param _formBuilder Servicio para construir formularios reactivos.
+   * @param _router Servicio de rutas de Angular.
+   * @param _service Servicio para obtener datos de intervención.
+   * @param dialog Servicio para abrir diálogos modales.
+   * @param _snackBar Servicio para mostrar notificaciones.
+   */
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,    
@@ -69,6 +102,10 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     this.dataSourceH = new MatTableDataSource(this.intervencion); 
   }
 
+  /**
+   * Abre el diálogo de edición para una operación seleccionada.
+   * @param row Fila de la operación a editar.
+   */
   openEditDialog(row: any): void {
     const dialogRef = this.dialog.open(EditOperacionesIntervencionModalComponent, {
       width: '800px',
@@ -78,22 +115,24 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
 
     dialogRef.afterClosed().subscribe(result => {
       if (result) {
-        console.log("qqqq", result )
         this.consultarIntervencion();  
       }
     });
   }
 
-
+  /**
+   * Inicializa el paginador y el ordenamiento después de que la vista se inicializa.
+   */
   ngAfterViewInit() {
-    console.log('ngAfterViewInit - paginator:', this.paginator);
     this.dataSourceH.paginator = this.paginator;
     this.dataSourceH.sort = this.sortH;
-    console.log('ngAfterViewInit - dataSourceH.paginator:', this.dataSourceH.paginator);
   }
 
+  /**
+   * Maneja el cambio de pestaña, limpiando filtros y resultados si se regresa a la búsqueda.
+   * @param event Evento de cambio de pestaña.
+   */
   onTabChange(event: any): void {
-    // Si vuelve a la pestaña de búsqueda, limpia el localStorage y resultados
     if (event.index === 0) {
       localStorage.removeItem('operacionesIntervencionBusqueda');
       localStorage.removeItem('operacionesIntervencionResultados');
@@ -109,13 +148,13 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     if (event.index === 1) {
       this.dataSourceH.paginator = this.paginator;
       this.dataSourceH.sort = this.sortH;
-      console.log('onTabChange - paginator asignado:', this.dataSourceH.paginator);
     }
   }
 
-  // #region ngOnInit
+  /**
+   * Inicializa el componente y recupera filtros/resultados desde localStorage si existen.
+   */
   ngOnInit(): void {
-    // Recupera los criterios de búsqueda guardados
     const savedBusqueda = localStorage.getItem('operacionesIntervencionBusqueda');
     if (savedBusqueda) {
       const busqueda = JSON.parse(savedBusqueda);
@@ -153,56 +192,50 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
         this.jornada = JSON.parse(savedJornada);
       }
     } else {
-        const today = new Date();
-        this.operaInterForm = this._formBuilder.group({
-            nroCedRif: [''],
-            nacionalidad: [''],
-            estatus: [''],
-            codDivisas: [''],
-            fechOper: [today],
-        });
+      const today = new Date();
+      this.operaInterForm = this._formBuilder.group({
+        nroCedRif: [''],
+        nacionalidad: [''],
+        estatus: [''],
+        codDivisas: [''],
+        fechOper: [today, [Validators.required]],
+      });
 
       this.dataSourceH = new MatTableDataSource([]);
     }
   }
 
-  // #region Suscripcion
+  /**
+   * Consulta las operaciones de intervención según los filtros seleccionados.
+   * Guarda los resultados y filtros en localStorage.
+   */
   consultarIntervencion() {
     this.isLoading = true;
-
     const form = this.operaInterForm.value;
 
-    // Alert if fields are empty
-  if (this.operaInterForm.controls['fechOper'].invalid) {
-    this._snackBar.open('Por favor, completa todos los campos requeridos', 'Cerrar', {
-      duration: 4000,
-      horizontalPosition: 'center',
-      verticalPosition: 'bottom',
-      panelClass: ['custom-snackbar']
-    });
-    this.isLoading = false;
-    return;
-  }
+    // Solo la fecha es requerida
+    if (this.operaInterForm.controls['fechOper'].invalid) {
+      this._snackBar.open('Por favor, completa todos los campos requeridos', 'Cerrar', {
+        duration: 4000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        panelClass: ['custom-snackbar']
+      });
+      this.isLoading = false;
+      return;
+    }
 
-
-    console.log('Datos enviados al backend (consulta intervencion):', form);
     this._service.consultaIntervencion('intervencionFiltro',form).subscribe({
       next: (resp: respuestaIntervencion) => {
         this.intervencion = resp.respIntervencion;
         this.dataSourceH = new MatTableDataSource(this.intervencion);
-        console.log('Antes de asignar paginator - paginator:', this.paginator);
-        this.dataSourceH.paginator = this.paginator; // Asegura paginación después de asignar nuevos datos
+        this.dataSourceH.paginator = this.paginator;
         this.dataSourceH.sort = this.sortH;
-        console.log('Después de asignar paginator - dataSourceH.paginator:', this.dataSourceH.paginator);
-        console.log('Datos de la tabla:', this.intervencion);
         this.selectedTabIndex = 1;
         this.cantidad = resp.cantidad;
         this.total = resp.totales;
         this.jornada = resp.jornadasList;
-        console.log('respuesta (intervencion):', resp.respIntervencion);
-        console.log('respuesta2 (Total):', this.total);
-        console.log('respuesta3 (resp):', resp);
-        // 1. Guarda los criterios y resultados después de consultar
+        // Guarda los criterios y resultados después de consultar
         localStorage.setItem('operacionesIntervencionBusqueda', JSON.stringify(form));
         localStorage.setItem('operacionesIntervencionResultados', JSON.stringify(this.intervencion));
         localStorage.setItem('operacionesIntervencionCantidad', JSON.stringify(this.cantidad));
@@ -216,11 +249,13 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
       complete: () => {
         this.isLoading = false;
         this.dataSourceH.paginator = this.paginator;
-        console.log('Complete - dataSourceH.paginator:', this.dataSourceH.paginator);
       }
     });
   }
 
+  /**
+   * Selecciona o deselecciona todas las filas de la tabla.
+   */
   selectAll() {
     if (this.isAllSelected()) {
       this.selection.clear();
@@ -232,6 +267,9 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     }
   }
   
+  /**
+   * Verifica si todas las filas están seleccionadas.
+   */
   isAllSelected(): boolean {
     if (!this.dataSourceH || !this.dataSourceH.data) {
       return false;
@@ -241,11 +279,19 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     return numSelected === numRows;
   }
   
+  /**
+   * Obtiene los IDs seleccionados y los muestra en consola.
+   */
   obtenerIdsSeleccionados() {
     const selectedIdsArray = Array.from(this.selectedIds);
     console.log('IDs seleccionados:', selectedIdsArray);
   }
   
+  /**
+   * Maneja el cambio de selección de un checkbox individual.
+   * @param event Evento del checkbox.
+   * @param row Fila correspondiente.
+   */
   onCheckboxChange(event: MatCheckboxChange, row: intervencion) {
     if (event.checked) {
       this.selection.select(row);
@@ -257,13 +303,18 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     this.obtenerIdsSeleccionados();
   }
   
+  /**
+   * Procesa las filas seleccionadas (ejemplo: muestra un alert con los IDs).
+   */
   processSelectedRows() {
     const selectedIdsArray = Array.from(this.selectedIds);
     alert(`Selected IDs: ${selectedIdsArray.join(', ')}`);
   }
 
+  /**
+   * Exporta los resultados de la consulta a un archivo Excel.
+   */
   exportarExcel(): void {
-    // Toma los valores del formulario (todos los filtros)
     const filtros = this.operaInterForm.value;
     this._service.exportarIntervencion('intervencionFiltroExportar', filtros).subscribe({
       next: (blob: Blob) => {
@@ -281,6 +332,10 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     });
   }
 
+  /**
+   * Aplica un filtro de texto a la tabla de operaciones.
+   * @param event Evento de entrada del filtro.
+   */
   applyFilterH(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSourceH.filter = filterValue.trim().toLowerCase();
@@ -290,34 +345,43 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     }
   }
 
+  /**
+   * Navega al menú principal.
+   */
   inicio(): void {
     this._router.navigate(['/menu-principal/'])
   }
 
-regresar(): void {
-  this.selectedTabIndex = 0;
-  this.operaInterForm.reset();
-  // Asigna la fecha del día nuevamente
-  const today = new Date();
-  this.operaInterForm.get('fechOper')?.setValue(today);
+  /**
+   * Regresa a la pestaña de búsqueda y limpia los filtros/resultados.
+   * Restablece la fecha al día actual.
+   */
+  regresar(): void {
+    this.selectedTabIndex = 0;
+    this.operaInterForm.reset();
+    // Asigna la fecha del día nuevamente
+    const today = new Date();
+    this.operaInterForm.get('fechOper')?.setValue(today);
 
-  this.dataSourceH.data = [];
-  this.isLoading = false;
-  this.selectedIds.clear();
-  this.selection.clear();
-  this.fileErrorInter = '';
-  // Limpia localStorage al regresar a búsqueda
-  localStorage.removeItem('operacionesIntervencionBusqueda');
-  localStorage.removeItem('operacionesIntervencionResultados');
-  localStorage.removeItem('operacionesIntervencionCantidad');
-  localStorage.removeItem('operacionesIntervencionTotal');
-  localStorage.removeItem('operacionesIntervencionJornada');
-  this.cantidad = '';
-  this.total = '';
-  this.jornada = [];
-}
+    this.dataSourceH.data = [];
+    this.isLoading = false;
+    this.selectedIds.clear();
+    this.selection.clear();
+    this.fileErrorInter = '';
+    // Limpia localStorage al regresar a búsqueda
+    localStorage.removeItem('operacionesIntervencionBusqueda');
+    localStorage.removeItem('operacionesIntervencionResultados');
+    localStorage.removeItem('operacionesIntervencionCantidad');
+    localStorage.removeItem('operacionesIntervencionTotal');
+    localStorage.removeItem('operacionesIntervencionJornada');
+    this.cantidad = '';
+    this.total = '';
+    this.jornada = [];
+  }
 
-  // Limpia el localStorage si lo deseas (opcional)
+  /**
+   * Limpia el localStorage al destruir el componente.
+   */
   ngOnDestroy(): void {
     localStorage.removeItem('operacionesIntervencionBusqueda');
     localStorage.removeItem('operacionesIntervencionResultados');

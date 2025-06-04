@@ -1,48 +1,44 @@
-
 /* ==========================================================================
-   Estilos generales del componente Jornada Intervención
+   Estilos generales del componente Operaciones Intervención
    ========================================================================== */
 
+/* Fondo blanco para el contenedor principal */
 ::ng-deep .mat-drawer-container {
     background-color: white !important;
 }
 
-/*===========================================================================
-   Estilos para el contenedor de pestañas 
+/* ==========================================================================
+   Estilos para el contenedor de pestañas
    ========================================================================== */
-
 .mat-tab-group {
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
     height: 72vh !important;
 
-    
     ::ng-deep .mat-tab-body-content {
         padding: 10px 365px;
     }
-    
-    ::ng-deep  .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
-    min-width: 0 !important;
-    height: 20px !important;
-    padding: 0 20px !important;
-    border-radius: 9999px !important;
-    --tw-text-opacity: 0.5;
-    color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity));
+
+    ::ng-deep .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
+        min-width: 0 !important;
+        height: 20px !important;
+        padding: 0 20px !important;
+        border-radius: 9999px !important;
+        --tw-text-opacity: 0.5;
+        color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity));
     }
 
     ::ng-deep .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label.mat-tab-label-active {
         --tw-bg-opacity: 1 !important;
         background-color: rgba(51, 65, 85, 0.060) !important;
     }
-
 }
 
 /* ==========================================================================
    Cabecera de la página
    ========================================================================== */
 .header-container {
-    // font-size: 3.6em; // Comentado, usar Tailwind si es posible
     color: #e89600;
 }
 
@@ -63,22 +59,21 @@
    Contenedor principal de la tarjeta
    ========================================================================== */
 .card-container {
-    width: 650px; // Ancho fijo de la tarjeta
-    height: 480px; // Alto fijo de la tarjeta
-    color: #e89600; // Color de texto corporativo
-    box-shadow: 0 4px 8px rgb(0 0 0 / 26%) !important; // Sombra para resaltar la tarjeta
+    width: 650px;
+    height: 480px;
+    color: #e89600;
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%) !important;
 }
 
 /* Título de la tarjeta */
 .card-title {
-    font-size: 1.3em; // Tamaño de fuente del título
+    font-size: 1.3em;
     color: #e89600; 
 }
 
 /* ==========================================================================
    Estilos para los campos de formulario
    ========================================================================== */
-
 .campos {
     display: flex;
     gap: 50px;
@@ -88,16 +83,12 @@
         .mat-form-field-flex {
             padding: 0 5px 0 6px !important;
         }
-
         .mat-select-value {
             padding-left: 25px;
         }
-
         .mat-form-field-wrapper {
-
             width: 80px !important;
         }
-
         .mat-form-field {
             padding-left: 13px !important;
             margin-right: 0px !important;
@@ -105,48 +96,35 @@
     }
     .input-cedula {
         color: #1e293b;
-        
         input {
             caret-color: #e89600;
-
             &[type="number"]::-webkit-outer-spin-button,
             &[type="number"]::-webkit-inner-spin-button {
                 -webkit-appearance: none;
                 margin: 0;
             }
-
             &[type="number"] {
                 appearance: textfield;
                 -moz-appearance: textfield;
             }
         }
-
         ::ng-deep .mat-form-field-wrapper {
             width: 165px;
         }
-
         ::ng-deep &.mat-focused {
-
             .mat-form-field-outline-thick,
             .mat-form-field-label {
                 color: #e89600 !important;
             }
         }
-
-
     }
-
-    
-.date-icon:before {
-    color: grey;
+    .date-icon:before {
+        color: grey;
+    }
+    .date-icon:hover {
+        cursor: pointer;
+    }
 }
-
-.date-icon:hover {
-    cursor: pointer;
-}
-
-}
-
 
 .field-form  {
     ::ng-deep {
@@ -163,14 +141,12 @@
             align-items: normal;
         }
         .mat-form-field-valid.mat-form-field-valid {
-
             .mat-form-field-outline-thick,
             .mat-form-field-label {
                 color: #e89600 !important;
             }
         }
         .mat-select {
-
             .mat-select-trigger {
                 display: inline-flex;
                 align-items: center;
@@ -181,10 +157,8 @@
         .mat-form-field-flex {
             height: 53px;
         }
-        
     }   
     ::ng-deep &.mat-focused {
-
         .mat-form-field-outline-thick,
         .mat-form-field-label {
             color: #e89600 !important;
@@ -202,73 +176,58 @@
         font-size: 1.23em;
         font-weight: 400;
     }
-    
 }
-
 
 /* ==========================================================================
    Botones de acción
    ========================================================================== */
 .buttons-container .mat-raised-button {
-    color: #e89600; // Color corporativo por defecto
+    color: #e89600;
     font-weight: 500;
     &:hover {
-        background-color: #e89600; // Fondo corporativo al pasar el mouse
-        color: white !important;   // Texto blanco al pasar el mouse
+        background-color: #e89600;
+        color: white !important;
     }
 }
-
-
-
-
-/* ==========================================================================
-   Tab de resultados y botones de acción
-   ========================================================================== */
-
-
 
 /* ==========================================================================
    Tabla de datos (Angular Material)
    ========================================================================== */
 .main-container2 {
-    width: 70vw;
+    width: 73vw;
 }
 
 .table-responsive {
     overflow-x: auto; 
-
-    /* Celdas de la tabla */
     .table-cell {
         text-align: center !important;
         font-size: 0.78rem;
         border-bottom-width: 2px !important;
         border-style: solid;
         padding-left: 0;
+        padding: 0 10px;
     }
-
-    /* Encabezados de la tabla */
     .header-cell {
         padding-top: 15px !important;
         padding-bottom: 15px !important;
-        padding-left: 20px;
+        padding-left: 10px;
         justify-content: center !important;
         font-size: 0.87rem;
         border-bottom-width: 2px !important;
         border-style: solid;
-        // min-width: 100px;
     }
+
 }
 
-
+::ng-deep .mat-paginator .mat-paginator-container .mat-paginator-page-size .mat-paginator-page-size-select .mat-form-field-wrapper .mat-form-field-flex {
+    border-color: #e89600 !important;
+}
 .input-filter-inter {
     color: #1e293b;
     input {
-
         caret-color: #e89600;
     }
-
     ::ng-deep &.mat-focused {
-
         .mat-form-field-outline-thick,
         .mat-form-field-label {
             color: #e89600 !important;
@@ -276,26 +235,38 @@
     }
 }
 
+/* ==========================================================================
+   Resultados y personalización de checkboxes
+   ========================================================================== */
 .results {
     .action-buttons {
         .mat-raised-button {
             font-weight: 500;
             &:hover {
-
                 background-color: #e89600 !important;
                 color: white !important;
             }
-
         }
     }
 }
 
+::ng-deep .results .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+::ng-deep .results .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #e89700ce !important;
+}
 
+/* Centrado de los iconos de ordenamiento en las tablas */
+::ng-deep .mat-sort-header-container {
+    justify-content: center !important;
+}
+
+/* ==========================================================================
+   Otros estilos y personalizaciones de Angular Material
+   ========================================================================== */
 ::ng-deep .mat-select-panel {
     min-width: 112px !important;
     max-width: 450px !important;
     overflow: auto;
-    // -webkit-overflow-scrolling: touch;
     padding-top: 0;
     padding-bottom: 0;
     max-height: 256px;
@@ -310,55 +281,28 @@
     border-top: 10px solid !important;
 }
 
-
-
 ::ng-deep .mat-select-panel {
     border-radius: 15px !important;
 }
 
-
- ::ng-deep .mat-calendar-body-selected{
+::ng-deep .mat-calendar-body-selected{
     background-color: rgba(126, 126, 126, 0.651) !important;
-    // color: var(--fuse-on-primary);
 }
-
 
 ::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
     color: #3f4853 !important;
 }
 
-
 ::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
-    color: #3f48539d !important   ;
+    color: #3f48539d !important;
 }
-
 
 .editar::before {
     color: gray;
     cursor: pointer;
-  }
+}
 
-// Snack-bar 
-
-
+/* Snack-bar */
 ::ng-deep .mat-simple-snackbar-action {
     color: rgba(255, 255, 255, 0.664) !important;
 }
-
-::ng-deep .results .mat-checkbox-checked.mat-accent .mat-checkbox-background{
-
-    background-color: #e89700ce !important;
-
-}
-
-::ng-deep .results .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
-
-    background-color: #e89700ce !important;
-
-}
-
-
-::ng-deep .mat-sort-header-container {
-    justify-content: center !important;
-}
-

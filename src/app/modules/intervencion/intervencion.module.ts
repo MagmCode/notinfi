@@ -55,6 +55,8 @@ import { MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { DateAdapter } from '@angular/material/core';
 import { MomentDateAdapter } from '@angular/material-moment-adapter';
 import { MY_DATE_FORMATS } from 'app/models/dateFormat';
+import { LOCALE_ID } from '@angular/core';
+
 
 // Componentes de intervención
 import { CambioClaveIntervencionComponent } from './cambio-clave-intervencion/cambio-clave-intervencion.component';
@@ -132,7 +134,8 @@ import { ConsultaDefinitivaBcvComponent } from './consulta-definitiva-bcv/consul
     // Configuración regional y de formato para el datepicker de Angular Material
     { provide: MAT_DATE_LOCALE, useValue: 'es-VE' }, // Localización de fechas (Venezuela)
     { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] }, // Adaptador Moment.js
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS } // Formato personalizado DD/MM/YYYY
+    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }, // Formato personalizado DD/MM/YYYY
+     { provide: LOCALE_ID, useValue: 'es' }
   ],
   schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })

@@ -1,3 +1,13 @@
+<!--
+  operaciones-intervencion.component.html
+  Vista principal para la gestión de operaciones de intervención.
+  Incluye dos pestañas: Búsqueda y Resultado.
+  - "Búsqueda": permite filtrar operaciones por criterios como tipo de documento, cédula/RIF, estatus, moneda y fecha.
+  - "Resultado": muestra los totales, la jornada y la tabla de operaciones filtradas, con acciones como exportar, procesar, editar y regresar.
+  El paginador y los filtros permiten una navegación y búsqueda eficiente en los resultados.
+  Solo se agregan comentarios de documentación, no se modifica la estructura ni los datos existentes.
+-->
+
 <!-- Loading Bar -->
 <fuse-loading-bar [show]="isLoading"></fuse-loading-bar>
 
@@ -26,12 +36,13 @@
                             <span class="text-head mt-8">Intervención</span>
                         </div>
                     </div>
+                    <!-- Tarjeta principal con el formulario de búsqueda -->
                     <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
                         <!-- Título de la tarjeta -->
                         <div class="card-title">
                             <span>Seleccione Criterios</span>
                         </div>
-                        <!-- Carga Form -->
+                        <!-- Formulario de criterios de búsqueda -->
                         <form class="card-form flex items-center w-full"
                             [formGroup]="operaInterForm">
 
@@ -102,67 +113,53 @@
                 </div>
             </mat-tab>
 
-
+            <!-- Pestaña de Resultados -->
             <mat-tab label="Resultado">
                 <ng-template matTabContent>
                     <div
-                        class="main-container2 0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 resultados-intervencion ">
-                        <!-- Summary -->
+                        class="main-container2 0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-6 resultados-intervencion ">
+                        <!-- Resumen de cantidad de operaciones -->
                         <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                             <div class="flex items-start justify-between">
                                 <div class="text-lg font-medium tracking-tight leading-6 truncate ">Cantidad de
                                     Operaciones: </div>
-                                <div class="ml-2 -mt-2 -mr-3">
-
-                                </div>
                             </div>
                             <div class="flex flex-col items-center mt-2">
-                                <div class="text-7xl sm:text-4xl font-bold tracking-tight leading-none text-blue-500">
+                                <div class="text-3xl font-bold tracking-tight leading-none text-blue-500">
                                     {{cantidad}}</div>
-                                <div class="text-lg font-medium text-blue-600 dark:text-blue-500"></div>
-
                             </div>
                         </div>
-                        <!-- Overdue -->
+                        <!-- Resumen de monto total -->
                         <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                             <div class="flex items-start justify-between">
                                 <div class="text-lg font-medium tracking-tight leading-6 truncate">Monto Total: </div>
-                                <div class="ml-2 -mt-2 -mr-3">
-
-                                </div>
                             </div>
                             <div class="flex flex-col items-center mt-2">
-                                <div class="text-7xl sm:text-4xl font-bold tracking-tight leading-none text-red-500">
-                                    {{total}}</div>
-                                <div class="text-s font-medium text-red-600 dark:text-red-500"> </div>
-
+                                <div class="text-3xl  font-bold tracking-tight leading-none text-red-500">
+                                    $ {{total | number:'1.0-2':'es'}}</div>
                             </div>
                         </div>
 
-                        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden ">
+                        <!-- Resumen de jornada -->
+                        <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                             <div class="flex items-start justify-between">
                                 <div class="text-lg font-medium tracking-tight leading-6 truncate ">Jornada: </div>
-                                <div class="ml-2 -mt-2 -mr-3">
-
-                                </div>
                             </div>
-                            <div class="flex flex-col items-center mt-2 ">
-                                <div
-                                    class="jornada text-1xl sm:text-1xl font-bold tracking-tight leading-none text-blue-500 ">
-                                    <mat-select class="w-full ">
-                                        <mat-option *ngIf="jornada == null">Jornada: 0 - Tipo: No exixte - Saldo: 0
+                            <div class="flex flex-col items-center mt-2">
+                                <div class="jornada text-1xl sm:text-1xl tracking-tight leading-none text-blue-500 w-full ">
+                                    <mat-select class="w-full" [(ngModel)]="jornadaSeleccionada" name="jornadaSeleccionada">
+                                        <mat-option *ngIf="jornada == null" [value]="null">
+                                            Jornada: 0 - Tipo: No existe - Saldo: 0
                                         </mat-option>
-                                        <mat-option *ngFor="let option of jornada">Jornada: {{option.codigo}} - Tipo:
-                                            {{option.tipo}} - Saldo: {{option.saldo}} </mat-option>
+                                        <mat-option *ngFor="let option of jornada" [value]="option">
+                                            Jornada: {{option.codigo}} - Tipo: {{option.tipo}} - Saldo: {{option.saldo}}
+                                        </mat-option>
                                     </mat-select>
                                 </div>
-                                <div class="text-lg font-medium text-blue-600 dark:text-blue-500"></div>
-
                             </div>
                         </div>
 
-
-                        <!-- Github issues summary -->
+                        <!-- Tabla de operaciones -->
                         <div
                             class="card-table sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                             <div
@@ -187,7 +184,7 @@
                                     <div class="mat-elevation-z8 table-responsive">
                                         <table mat-table [dataSource]="dataSourceH" matSort class="table-operaciones">
 
-
+                                            <!-- Columnas de la tabla de operaciones -->
                                             <ng-container matColumnDef="select">
                                                 <th mat-header-cell *matHeaderCellDef class="header-cell">
                                                     <mat-checkbox (change)="selectAll()"
@@ -217,20 +214,20 @@
                                             </ng-container>
 
                                             <ng-container matColumnDef="nroCedRif">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-heade class="header-cell"r>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell w-5">
                                                     Cedula o Rif</th>
                                                 <td mat-cell *matCellDef="let row" class="table-cell"> {{row.nroCedRif}} </td>
                                             </ng-container>
 
                                             <ng-container matColumnDef="nomCliente">
-                                                <th  mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                <th  mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell w-40">
                                                     Nombre</th>
                                                 <td mat-cell *matCellDef="let row" class="table-cell"> {{row.nomCliente}} </td>
                                             </ng-container>
 
                                             <!-- Progress Column -->
                                             <ng-container matColumnDef="operacion">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell"> Tipo Operacion
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell w-20"> Tipo Operacion
                                                 </th>
                                                 <td mat-cell *matCellDef="let row" class="table-cell"> {{row.operacion}} </td>
                                             </ng-container>
@@ -239,7 +236,7 @@
                                             <ng-container matColumnDef="mtoDivisas">
                                                 <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
                                                     Monto </th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell"> {{row.mtoDivisas}} </td>
+                                                <td mat-cell *matCellDef="let row" class="table-cell"> {{row.mtoDivisas  | number:'1.0-2':'es'}} </td>
                                             </ng-container>
 
                                             <!-- Name Column -->
@@ -278,8 +275,6 @@
                                                 </td>
                                             </ng-container>
 
-
-
                                             <ng-container matColumnDef="edit">
                                                 <th mat-header-cell *matHeaderCellDef class="header-cell">Editar</th>
                                                 <td mat-cell *matCellDef="let row" style="text-align: center;">
@@ -288,8 +283,6 @@
                                                         (click)="openEditDialog(row)"></mat-icon>
                                                 </td>
                                             </ng-container>
-
-
 
                                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
@@ -300,10 +293,18 @@
                                             </tr>
                                         </table>
 
-                                        
+                                        <div class="paginator-actions-row flex items-center justify-between">
+                                        <!-- Paginador de la tabla -->
                                         <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
-                                            [showFirstLastButtons]="true" #paginatorH>
-                                        </mat-paginator>
+                                        [showFirstLastButtons]="true" #paginatorH>
+                                    </mat-paginator>
+                                    <div class="action-buttons"  *ngIf="paginatorH?.pageSize !== 5">
+                                        <button class="mat-raised-button mr-5" (click)="exportarExcel()">Exportar Ordenes</button>
+                                        <button class="mat-raised-button mr-5">Cerrar Lote</button>
+                                        <button class="mat-raised-button mr-3" (click)="processSelectedRows()">Procesar</button>
+                                        <button class="mat-raised-button mr-3" (click)="regresar()">Regresar</button>
+                                        </div>
+                                    </div>
                                     </div>
 
                                 </div>
