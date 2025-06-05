@@ -1,50 +1,54 @@
-<h2 mat-dialog-title>Editar Intervención</h2>
+<!--
+  edit-operaciones-intervencion-modal.component.html
+  Modal para la edición de operaciones de intervención.
+  Permite modificar los datos de una operación seleccionada, como ID, CI/RIF, nombre, fecha, monto, cuentas y moneda.
+  El formulario es reactivo y valida los campos antes de permitir guardar los cambios.
+  Incluye botones de acción para cancelar o guardar la edición.
+  Los estilos y la estructura están alineados con la identidad visual y experiencia de usuario del sistema.
+-->
+
+<h2 mat-dialog-title class="dialog-title">Editar Intervención</h2>
 
 <mat-dialog-content>
-  <div class="dialog-form-container">
+  <div class="dialog-form-container flex flex-col w-full ">
     <form [formGroup]="editForm">
-
-      <div class="campos-operaEdit">
-        <mat-form-field appearance = "outline" class="input-edit-inter">
+      <!-- Primera fila de campos: ID, CI/RIF, Nombre -->
+      <div class="campos-operaEdit flex">
+        <mat-form-field appearance="outline" class="input-edit">
           <mat-label>ID Operación</mat-label>
           <input matInput formControlName="idOper" readonly disabled>
         </mat-form-field>
-
-        <mat-form-field appearance = "outline" class="input-edit-inter" >
+        <mat-form-field appearance="outline" class="input-edit">
           <mat-label>CI o RIF </mat-label>
           <input matInput formControlName="nroCedRif">
         </mat-form-field>
-
-        <mat-form-field appearance = "outline" class="input-edit-inter">
+        <mat-form-field appearance="outline" class="input-edit">
           <mat-label>Nombre Cliente</mat-label>
           <input matInput formControlName="nomCliente">
         </mat-form-field>
       </div>
-      
-      <div class="campos-operaEdit">
-        <mat-form-field appearance = "outline" class="input-edit-inter">
+      <!-- Segunda fila de campos: Fecha, Monto, Cuenta Divisas -->
+      <div class="campos-operaEdit flex">
+        <mat-form-field appearance="outline" class="input-edit">
           <mat-label>Fecha</mat-label>
-          <input matInput formControlName="fechOper" >
+          <input matInput formControlName="fechOper">
         </mat-form-field>
-
-        <mat-form-field appearance = "outline" class="input-edit-inter">
+        <mat-form-field appearance="outline" class="input-edit">
           <mat-label>Monto</mat-label>
           <input matInput type="number" formControlName="mtoDivisas">
         </mat-form-field>
-
-        <mat-form-field appearance = "outline" class="input-edit-inter">
+        <mat-form-field appearance="outline" class="input-edit">
           <mat-label>Cuenta Divisas</mat-label>
           <input matInput formControlName="ctaClienteDivisas">
         </mat-form-field>
       </div>
-
-      <div class="campos-operaEdit">
-        <mat-form-field appearance = "outline" class="input-edit-inter">
+      <!-- Tercera fila de campos: Cuenta Bs, Código Moneda -->
+      <div class="campos-operaEdit flex">
+        <mat-form-field appearance="outline" class="input-edit">
           <mat-label>Cuenta Bs</mat-label>
           <input matInput formControlName="ctaCliente">
         </mat-form-field>
-
-        <mat-form-field appearance = "outline" class="input-edit-inter">
+        <mat-form-field appearance="outline" class="input-edit">
           <mat-label>Código Moneda</mat-label>
           <input matInput formControlName="codDivisas">
         </mat-form-field>
@@ -53,10 +57,11 @@
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions class="dialog-actions">
-  <div class="dialog-buttons">
-  <button class="mat-raised-button" (click)="onNoClick()">Cancelar</button>
-  <!-- <button mat-button [disabled]="!editForm.valid" (click)="onSave()">Guardar</button> -->
-  <button class="mat-raised-button" (click)="handleSave()" [disabled]="!editForm.valid">Guardar</button>
-</div>
+<!-- Botones de acción del modal -->
+<mat-dialog-actions class="dialog-actions flex justify-center w-full">
+  <div class="dialog-buttons flex gap-10">
+    <button class="mat-raised-button" (click)="onNoClick()">Cancelar</button>
+    <!-- Botón Guardar habilitado solo si el formulario es válido -->
+    <button class="mat-raised-button" (click)="handleSave()" [disabled]="!editForm.valid">Guardar</button>
+  </div>
 </mat-dialog-actions>

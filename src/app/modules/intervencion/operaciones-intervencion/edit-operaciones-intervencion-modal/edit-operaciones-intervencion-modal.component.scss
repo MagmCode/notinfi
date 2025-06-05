@@ -1,86 +1,70 @@
+/* ==========================================================================
+   Estilos del modal de edición de operaciones de intervención
+   ==========================================================================
+
+   Este archivo define los estilos personalizados para el modal de edición
+   de operaciones de intervención. Incluye estilos para el título, el formulario,
+   los campos de edición, los botones de acción y la personalización de los
+   componentes de Angular Material utilizados en el modal.
+
+   - .dialog-title: Estilo para el título del modal.
+   - .dialog-form-container: Espaciado y box-sizing para el contenedor del formulario.
+   - .campos-operaEdit: Espaciado entre los campos del formulario.
+   - .input-edit: Personalización de los campos de entrada, incluyendo el color
+     y el enfoque de los campos de Angular Material.
+   - Personalización de la posición y color de las etiquetas y bordes de los campos.
+   - .dialog-actions .mat-raised-button: Estilos para los botones de acción del modal,
+     incluyendo color corporativo y efecto hover.
+
+   Estos estilos aseguran la coherencia visual con la identidad corporativa y
+   mejoran la experiencia de usuario en la edición de operaciones.
+   ========================================================================== */
+
+.dialog-title {
+    color: #e89600 !important;
+}
+
 .dialog-form-container {
-    display: flex;
-    flex-direction: column; 
-    width: 100%;
     padding: 30px 20px 60px 13px;
     gap: 30px; 
     box-sizing: border-box;
 }
 
-
-
-    // .mat-form-field.mat-form-field-appearance-outline .mat-form-field-flex {
-    //     width: 250px !important;
-    // }
-
-
 .campos-operaEdit {
-    display: flex;
     gap: 30px;
-    // width: 245px;
 }
 
-h2 {
-    color: #e89600 !important;
-}
-
-.input-edit-inter, .mat-form-field-wrapper {
-    width: 220px !important;
-}
-
-.input-edit-inter {
+.input-edit {
     color: #1e293b !important;
-
-    &.mat-focused {
-
+    ::ng-deep {
+        .mat-form-field-wrapper {
+            width: 220px !important;
+        }
+    }
+    ::ng-deep &.mat-focused {
         .mat-form-field-outline-thick,
         .mat-form-field-label {
             color: #e89600 !important;
         }
     }
-    &.mat-form-field.mat-form-field-appearance-outline .mat-form-field-label-wrapper .mat-form-field-label {
-        position: absolute;
-        top: 10px;
-        margin-top: 0;
-        left: 5px;
-        }
-
-        &.mat-form-field-appearance-outline .mat-form-field-outline-start, .mat-form-field-appearance-outline .mat-form-field-outline-end {
-            min-width: 10px;
-        }
-    
 }
 
-
-
-.dialog-actions {
-    display: flex;
-    justify-content: center;
-    width: 100%;
+::ng-deep .mat-form-field.mat-form-field-appearance-outline .mat-form-field-label-wrapper .mat-form-field-label {
+    position: absolute;
+    top: 10px;
+    margin-top: 0;
+    left: 5px;
 }
 
-.dialog-buttons {
-    display: flex;
-    justify-content: flex-end;
-    gap: 35px;
-
-    button {
-        padding: 0 20px !important;
-        border-radius: 50px !important;
-        width: 100px;
-    }
+::ng-deep .mat-form-field-appearance-outline .mat-form-field-outline-start, .mat-form-field-appearance-outline .mat-form-field-outline-end {
+    min-width: 10px;
 }
 
 .dialog-actions .mat-raised-button {
     color: #e89600 !important;
     font-weight: 500;
-}
-
-.dialog-buttons .mat-raised-button {
-    transition: background-color 0s, color 0s;
-}
-
-.dialog-buttons .mat-raised-button:hover {
-    background-color: #e89600;
-    color: white !important;
+    &:hover {
+        background-color: #e89600;
+        color: white !important;
+    }
 }
