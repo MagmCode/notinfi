@@ -330,7 +330,8 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     this.showExportProgress = true;
 
     const steps = 14; // 7s / 0.5s
-    const progressSub: Subscription = interval(500).pipe(take(steps + 1)).subscribe(i => {
+    /** Simula el progreso de exportación cada 500ms */
+    const progressSub: Subscription = interval(100).pipe(take(steps + 1)).subscribe(i => {
       this.exportProgress = Math.round((i / steps) * 100);
       if (this.exportProgress === 100) {
         this.showExportProgress = false;
@@ -410,6 +411,77 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     //     }
     //   });
 }
+
+
+// exportarExcel(): void {
+//     this.exportProgress = 0;
+//     this.showExportProgress = true;
+
+//     // 1. Escuchar el progreso real por SSE (GET)
+//     const sseUrl = `${this._service['apiUrl']}api/bcv/intervencionFiltro/exportar`;
+//     const eventSource = new EventSource(sseUrl);
+
+//     eventSource.onmessage = (event) => {
+//         const data = event.data;
+//         if (!isNaN(Number(data))) {
+//             this.exportProgress = Number(data);
+//             if (this.exportProgress >= 100) {
+//                 this.showExportProgress = false;
+//                 eventSource.close();
+
+//                 // 2. Descargar el archivo Excel (POST)
+//                 this._service.exportarIntervencion('intervencionFiltroExportar', this.operaInterForm.value)
+//                   .subscribe({
+//                     next: (blob: Blob) => {
+//                       this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
+//                         duration: 4000,
+//                         horizontalPosition: 'center',
+//                         verticalPosition: 'bottom',
+//                         panelClass: ['custom-snackbar']
+//                       });
+//                       const url = window.URL.createObjectURL(blob);
+//                       const a = document.createElement('a');
+//                       a.href = url;
+//                       a.download = 'Intervenciones.xls';
+//                       a.click();
+//                       window.URL.revokeObjectURL(url);
+//                     },
+//                     error: (err) => {
+//                       this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
+//                         duration: 4000,
+//                         horizontalPosition: 'center',
+//                         verticalPosition: 'bottom',
+//                         panelClass: ['custom-snackbar']
+//                       });
+//                       console.error('Error al exportar:', err);
+//                     }
+//                   });
+//             }
+//         } else {
+//             // Mensaje de error o sin datos
+//             this.showExportProgress = false;
+//             eventSource.close();
+//             this._snackBar.open(data, 'Cerrar', {
+//                 duration: 4000,
+//                 horizontalPosition: 'center',
+//                 verticalPosition: 'bottom',
+//                 panelClass: ['custom-snackbar']
+//             });
+//         }
+//     };
+
+//     eventSource.onerror = (err) => {
+//         this.showExportProgress = false;
+//         eventSource.close();
+//         this._snackBar.open('Error en la exportación.', 'Cerrar', {
+//             duration: 4000,
+//             horizontalPosition: 'center',
+//             verticalPosition: 'bottom',
+//             panelClass: ['custom-snackbar']
+//         });
+//         console.error('SSE error:', err);
+//     };
+// }
   /**
    * Navega al menú principal.
    */
