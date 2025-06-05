@@ -11,10 +11,7 @@
    Estilos para el contenedor de pestañas
    ========================================================================== */
 .mat-tab-group {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 72vh !important;
+
 
     ::ng-deep .mat-tab-body-content {
         padding: 10px 251px;
