@@ -11,14 +11,14 @@
    ========================================================================== */
 
 .mat-tab-group {
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    height: 72vh !important;
+    // top: 50%;
+    // left: 50%;
+    // transform: translate(-50%, -50%);
+    // height: 72vh !important;
 
     
     ::ng-deep .mat-tab-body-content {
-        padding: 10px 219px;
+        padding: 10px 0;
     }
     
     ::ng-deep  .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {

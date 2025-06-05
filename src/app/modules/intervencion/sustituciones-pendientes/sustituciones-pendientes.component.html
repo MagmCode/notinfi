@@ -13,7 +13,7 @@
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
         <!-- Grupo de pestañas para las operaciones de intervención -->
-        <mat-tab-group class="mat-tab-group flex flex-col w-full items-center fixed"
+        <mat-tab-group class="mat-tab-group flex items-center w-screen"
             [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
 
             <!-- Pestaña de Selección de jornadas activas -->
@@ -29,8 +29,8 @@
                         </div>
                     </div>
                     <!-- Tarjeta principal con la tabla de jornadas -->
-                    <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                        <div class="flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl overflow-hidden">
+                    <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl ">
+                        <div class="flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl">
                             <!-- Tabla de resultados -->
                             <div class="results-table flex flex-col flex-auto mt-2 overflow-x-auto ">
                                 <!-- Botones de acción -->
