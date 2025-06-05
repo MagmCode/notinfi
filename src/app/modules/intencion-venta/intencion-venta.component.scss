@@ -1,25 +1,34 @@
 /* ==========================================================================
-   Estilos para el componente Operaciones Intervención
+   Estilos generales del componente Intención de Venta
+   ==========================================================================
+
+   Este archivo define los estilos personalizados para el módulo de Intención de Venta.
+   Incluye personalización para:
+   - Fondo y estructura general del contenedor principal.
+   - Apariencia y comportamiento de las pestañas (mat-tab-group).
+   - Cabecera de la página, iconos y títulos.
+   - Tarjeta principal del formulario de búsqueda.
+   - Campos de formulario y datepicker.
+   - Botones de acción y su efecto hover.
+   - Tabla de resultados: scroll horizontal, celdas, encabezados y paginador.
+   - Filtros y estilos de inputs.
+   - Personalización de los botones y paginador en la sección de resultados.
+
+   Los estilos buscan mantener la coherencia visual con la identidad corporativa
+   y asegurar una experiencia de usuario clara y responsiva.
    ========================================================================== */
 
-
-   /* Fondo blanco para el contenedor principal */
+/* Fondo blanco para el contenedor principal */
 ::ng-deep .mat-drawer-container {
     background-color: white !important;
 }
 
-/* ==========================================================================
-   Estilos para el contenedor de pestañas
+/* ========================================================================== 
+   Estilos para el contenedor de pestañas 
    ========================================================================== */
 .mat-tab-group {
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
-    // height: 72vh !important;
-
     ::ng-deep .mat-tab-body-content {
-        padding: 10px 0;
-        margin: 0 180px;
+        padding: 10px 0px;
     }
 
     ::ng-deep .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
@@ -37,8 +46,8 @@
     }
 }
 
-/* ==========================================================================
-   Cabecera de la página
+/* ========================================================================== 
+   Cabecera de la página 
    ========================================================================== */
 .header-container {
     color: #db0032;
@@ -57,8 +66,8 @@
     opacity: 0.4;
 }
 
-/* ==========================================================================
-   Contenedor principal de la tarjeta
+/* ========================================================================== 
+   Contenedor principal de la tarjeta 
    ========================================================================== */
 .card-container {
     width: 650px;
@@ -73,17 +82,16 @@
     color: #db0032; 
 }
 
-
+/* ========================================================================== 
+   Campos del formulario y datepicker 
+   ========================================================================== */
 .field-form  {
-    
     .date-icon-inter:before {
         color: grey;
     }
-
     .date-icon-inter:hover {
         cursor: pointer;
     }
-
     ::ng-deep {
         .mat-form-field-infix {
             display: flex !important;
@@ -98,26 +106,21 @@
             align-items: normal;
         }
         .mat-focused {
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #db0032 !important;
+            .mat-form-field-outline-thick,
+            .mat-form-field-label {
+                color: #db0032 !important;
+            }
         }
-    }
-  
         .mat-form-field-flex {
             height: 53px;
         }
     }   
-
-    
     mat-icon {
         padding: 9px 7px 0px 0px !important;
         justify-content: end;
         width: 25%;
     }
-
 }
-
 
 ::ng-deep .mat-calendar-body-selected{
     background-color: rgba(126, 126, 126, 0.651) !important;
@@ -128,8 +131,8 @@
     color: rgba(255, 255, 255, 0.664) !important;
 }
 
-/* ==========================================================================
-   Botones de acción
+/* ========================================================================== 
+   Botones de acción 
    ========================================================================== */
 .buttons-container .mat-raised-button {
     color: #db0032;
@@ -140,12 +143,9 @@
     }
 }
 
-
-
-/* ==========================================================================
-   Tabla de datos (Angular Material)
+/* ========================================================================== 
+   Tabla de datos (Angular Material) 
    ========================================================================== */
-
 .table-responsive {
     overflow-x: auto; 
     .table-cell {
@@ -163,10 +163,9 @@
         border-style: solid;
         text-align: center !important;
     }
-
 }
 
-
+/* Filtro de búsqueda */
 .input-filter {
     color: #1e293b;
     input {
@@ -180,8 +179,8 @@
     }
 }
 
-/* ==========================================================================
-   Resultados y personalización de checkboxes
+/* ========================================================================== 
+   Resultados y personalización de checkboxes 
    ========================================================================== */
 .results {
     .action-buttons {
@@ -197,12 +196,18 @@
 
 .paginator-actions-row {
     ::ng-deep .mat-paginator .mat-paginator-container .mat-paginator-page-size .mat-paginator-page-size-select .mat-form-field-wrapper .mat-form-field-flex {
-    border-color: #db0032 !important;
+        border-color: #db0032 !important;
+    }
+    ::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+        color: #64748b !important;
+    }
 }
+
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+    color: #1e293b !important;
 }
 
 /* Centrado de los iconos de ordenamiento en las tablas */
 ::ng-deep .mat-sort-header-container {
     justify-content: center !important;
 }
-
