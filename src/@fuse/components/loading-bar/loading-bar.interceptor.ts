@@ -32,8 +32,13 @@ export class FuseLoadingBarInterceptor implements HttpInterceptor
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>>
     {
         // If the Auto mode is turned off, do nothing
-        if ( !this.handleRequestsAutomatically )
+        if (!this.handleRequestsAutomatically)
         {
+            return next.handle(req);
+        }
+
+        // EXCLUSIÓN: Si la URL es de exportación, no mostrar el loading bar
+        if (req.url.includes('exportar')) {
             return next.handle(req);
         }
 

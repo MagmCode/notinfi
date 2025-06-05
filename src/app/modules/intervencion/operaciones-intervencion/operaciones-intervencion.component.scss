@@ -192,6 +192,15 @@
    ========================================================================== */
 .main-container2 {
     width: 73vw;
+    ::ng-deep mat-progress-bar {
+         .mat-progress-bar-fill::after {
+            background-color: #e89600;
+}
+    }
+}
+
+.info-cards {
+    color: #d88c00;
 }
 
 .table-responsive {
@@ -306,3 +315,112 @@
 ::ng-deep .mat-simple-snackbar-action {
     color: rgba(255, 255, 255, 0.664) !important;
 }
+
+
+
+/* ==========================================================================
+   Media queries para pantallas pequeñas (tablets y laptops)
+   ========================================================================== */
+
+/* Ajustes generales para pantallas <= 1024px */
+@media (max-width: 1024px) {
+
+    /* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
+    .header-container {
+        font-size: 2.6em !important;
+        width: 65% !important;
+    }
+
+    /* Icono principal de la cabecera */
+    .head-icon::before {
+        font-size: 2.3em;
+    }
+
+    /* Texto debajo del icono en la cabecera */
+    .text-head {
+        font-size: 0.4em;
+    }
+
+    /* ==========================================================================
+   Contenedor principal de la tarjeta
+   ========================================================================== */
+    .card-container {
+        width: 550px;
+        height: 440px;
+        margin-bottom: 150px;
+    }
+
+    /* Título de la tarjeta */
+    .card-title {
+        font-size: 1.0em;
+    }
+
+    /* ==========================================================================
+   Estilos para los campos de formulario
+   ========================================================================== */
+    .campos {
+        width: 200px;
+
+        .input-cedula {
+            ::ng-deep .mat-form-field-wrapper {
+                width: 120px;
+            }
+
+        }
+
+    }
+
+
+
+    /* ==========================================================================
+   Botones de acción
+   ========================================================================== */
+    .buttons-container .mat-raised-button {
+        width: 40% !important;
+        font-size: 0.8rem;
+    }
+
+    /* ==========================================================================
+   Tabla de datos (Angular Material)
+   ========================================================================== */
+    .main-container2 {
+        width: 90vw !important;
+    }
+
+    .info-cards {
+        font-size: 1.2rem !important;
+    }
+
+    .table-responsive {
+        overflow-x: auto;
+
+        .table-cell {
+            font-size: 0.74rem;
+            border-bottom-width: 1px !important;
+        }
+
+        .header-cell {
+            padding-top: 5px !important;
+            padding-bottom: 5px !important;
+            font-size: 0.84rem;
+        }
+
+    }
+
+    .results {
+        .action-buttons {
+            .mat-raised-button {
+                font-size: 0.8rem;
+            }
+        }
+    }
+
+    ::ng-deep .mat-select-panel {
+        font-size: small !important;
+
+    }
+}
+
+/* Fin de media queries responsivos */
