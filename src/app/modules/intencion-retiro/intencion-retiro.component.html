@@ -1,37 +1,47 @@
-<!-- Loading Bar -->
+<!--
+  intencion-retiro.component.html
+  Vista principal para la gestión y consulta de Intención de Retiro.
+  Incluye:
+    - Formulario de búsqueda con filtros por cédula/RIF, agencia, fechas y estatus.
+    - Tabla de resultados con paginación, ordenamiento y filtrado.
+    - Botones de acción para procesar, exportar, regresar y salir.
+    - Documentado para facilitar el mantenimiento y futuras modificaciones.
+-->
+
+<!-- Barra de carga global -->
 <fuse-loading-bar [show]="isLoading"></fuse-loading-bar>
 
-<!-- <main-layouts></main-layouts> -->
 <mat-sidenav-container>
     <router-outlet></router-outlet>
     <mat-sidenav-content>
-        <!-- Contenido -->
-        <mat-tab-group class="mat-tab-group-intencionRetiro" [(selectedIndex)]="selectedTabIndex"
+        <!-- Tabs principales: Búsqueda y Resultados -->
+        <mat-tab-group class="mat-tab-group flex flex-col w-full items-center fixed"
+            [(selectedIndex)]="selectedTabIndex"
             (selectedTabChange)="onTabChange($event)">
+            
+            <!-- TAB DE BÚSQUEDA -->
             <mat-tab label="Búsqueda">
-
-                <div class="intencionRetiro-container">
-                    <div class="intencionRetiro-header-content">
+                <div class="main-container mt-5 flex flex-col w-screen items-center">
+                    <!-- Cabecera con título e icono -->
+                    <div class="header-container flex justify-between w-2/5 mb-5 text-7xl">
                         <span>Intención Retiro</span>
-                        <div class="icon-container">
-                            <mat-icon class="icon-size-10 icon-bdv-icon-usdbill-l head-icon-intencionRetiro"></mat-icon>
-                            <span class="text-head-retiro">Retiro</span>
+                        <div class="icon-container flex flex-col items-center ">
+                            <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                            <span class="text-head mt-8">Retiro</span>
                         </div>
                     </div>
-                    <mat-card class="card-container-intencionRetiro">
-                        <div class="title-intencionRetiro">
-                            <span>Seleccione Criterios de Búsqueda</span>
+                    <!-- Tarjeta principal con el formulario de búsqueda -->
+                    <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+                        <div class="card-title">
+                            <span>Seleccione Criterios</span>
                         </div>
-                        <!-- Carga Form -->
-                        <form class="card-form-intencionRetiro" #intencionRetiroForm="ngForm"
-                            [formGroup]="intencionRetiroFb">
-
-                            <div class="field-container-intencionRetiro">
-                                <div class="campos-intencionRetiro">
-
-                                    <div class="cedula-intencionRetiro">
-                                        <mat-form-field appearance="outline"
-                                            class="field-intencionRetiro tipoDocumentoInter">
+                        <!-- Formulario de criterios de búsqueda -->
+                        <form class="card-form w-full" [formGroup]="intencionRetiroFb">
+                            <div class="field-container flex flex-col pl-6">
+                                <div class="campos flex">
+                                    <!-- Filtro por tipo de documento y número -->
+                                    <div class="cedula flex">
+                                        <mat-form-field appearance="outline" class="field-form tipoDocumento">
                                             <mat-label>Tipo</mat-label>
                                             <mat-select [formControlName]="'nacionalidad'">
                                                 <mat-option value="V">V</mat-option>
@@ -40,15 +50,13 @@
                                                 <mat-option value="J">J</mat-option>
                                             </mat-select>
                                         </mat-form-field>
-
-                                        <mat-form-field appearance="outline" class="flex-grow-1 input-cedula-inter">
+                                        <mat-form-field appearance="outline" class="flex-grow-1 input-cedula">
                                             <mat-label>Cédula o RIF</mat-label>
-                                            <input type="number" matInput [formControlName]="'documento'" matInput>
+                                            <input type="number" matInput [formControlName]="'documento'">
                                         </mat-form-field>
                                     </div>
-
-                                    <mat-form-field class="w-full field-intencionRetiro sucursalesField"
-                                        appearance="outline">
+                                    <!-- Filtro por agencia/oficina -->
+                                    <mat-form-field class="field-form sucursalesField" appearance="outline">
                                         <mat-label>Oficinas</mat-label>
                                         <mat-select [formControlName]="'agencia'">
                                             <mat-option value="TODAS">Todas</mat-option>
@@ -57,35 +65,29 @@
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>
-
                                 </div>
-
-                                <div class="campos-intencionRetiro">
-
-                                    <mat-form-field class="w-full field-intencionRetiro" appearance="outline">
+                                <div class="campos flex">
+                                    <!-- Filtro por fecha desde -->
+                                    <mat-form-field class="field-form" appearance="outline">
                                         <mat-label>Fecha Desde</mat-label>
                                         <input matInput formControlName="fechaDesde" [max]="today"
                                             [matDatepicker]="pickerDesde" readonly>
-                                        <mat-icon (click)="pickerDesde.open()"
-                                            class="icon-bdv-icon-scheduledit-m date-icon-inter"></mat-icon>
+                                        <mat-icon (click)="pickerDesde.open()" class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
                                         <mat-datepicker #pickerDesde></mat-datepicker>
                                     </mat-form-field>
-
-                                    <mat-form-field class="w-full field-intencionRetiro" appearance="outline">
+                                    <!-- Filtro por fecha hasta -->
+                                    <mat-form-field class="field-form" appearance="outline">
                                         <mat-label>Fecha Hasta</mat-label>
                                         <input matInput formControlName="fechaHasta" [max]="today"
                                             [min]="intencionRetiroFb.get('fechaDesde')?.value"
                                             [matDatepicker]="pickerHasta" readonly>
-                                        <mat-icon (click)="pickerHasta.open()"
-                                            class="icon-bdv-icon-scheduledit-m date-icon-inter"></mat-icon>
+                                        <mat-icon (click)="pickerHasta.open()" class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
                                         <mat-datepicker #pickerHasta></mat-datepicker>
                                     </mat-form-field>
-
                                 </div>
-
-                                <div class="campos-intencionRetiro">
-                                    <mat-form-field class="w-full field-intencionRetiro sucursalesField"
-                                        appearance="outline">
+                                <div class="campos flex">
+                                    <!-- Filtro por estatus -->
+                                    <mat-form-field class="w-full field-form sucursalesField" appearance="outline">
                                         <mat-label>Estatus</mat-label>
                                         <mat-select [formControlName]="'estatus'">
                                             <mat-option value="TODAS">Todas</mat-option>
@@ -95,206 +97,106 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-
                             </div>
                         </form>
-
-                        <div class="buttons-intencionRetiro">
-                            <div class="button-container2-intencionRetiro">
-                                <button class="mat-raised-button" type="submit" (click)="consultarIntencionRetiro()"
-                                    form="cargaForm">Procesar</button>
-                                <button class="mat-raised-button" type="submit" form="cargaForm"
-                                    (click)="inicio()">Salir</button>
-                            </div>
+                        <!-- Botones de acción para procesar, salir -->
+                        <div class="buttons-container flex justify-center gap-6">
+                            <button class="mat-raised-button w-full px-7 py-0" type="submit" (click)="consultarIntencionRetiro()">Procesar</button>
+                            <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
                         </div>
                     </mat-card>
                 </div>
             </mat-tab>
 
-
-
-
-
-
-
-
-
-
-
-
+            <!-- TAB DE RESULTADOS -->
             <mat-tab label="Resultado">
                 <ng-template matTabContent>
-                    <div
-                        class="w-full p-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0 resultados-intervencion ">
-                        <!-- Summary -->
-
-                        <!-- Overdue -->
-
-
-
-
-                        <!-- Github issues summary -->
-                        <div
-                            class="sm:col-span-12 md:col-span-12 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden ">
-                            <div
-                                class="sm:col-span-16 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
-                                <!-- <div class="text-lg font-medium tracking-tight leading-6 truncate">Buscar</div> -->
-
+                    <div class="w-full p-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6 w-full min-w-0 resultados-intervencion ">
+                        <div class="sm:col-span-12 md:col-span-12 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden ">
+                            <div class="sm:col-span-16 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <!-- Filtro de texto y botones de acción -->
                                 <div class="flex flex-col flex-auto mt-2 overflow-x-auto results">
                                     <div class="flex items-start justify-between">
-                                        <mat-form-field appearance="outline" class="input-filter-intencionRetiro">
+                                        <mat-form-field appearance="outline" class="input-filter">
                                             <mat-label>Filtro</mat-label>
                                             <input matInput (keyup)="applyFilterH($event)" placeholder="" #input>
                                         </mat-form-field>
-
                                         <div class="action-buttons">
-                                            <button class="mat-raised-button mr-5" (click)="exportarExcel()">Exportar
-                                                Ordenes</button>
-                                            <button class="mat-raised-button mr-5"
-                                                    (click)="regresar()">Regresar</button>
-                                            <button class="mat-raised-button mr-5"
-                                                (click)="inicio()">Salir</button>
+                                            <button class="mat-raised-button mr-5" (click)="exportarExcel()">Exportar Ordenes</button>
+                                            <button class="mat-raised-button mr-5" (click)="regresar()">Regresar</button>
+                                            <button class="mat-raised-button mr-5" (click)="inicio()">Salir</button>
                                         </div>
-
                                     </div>
+                                    <!-- Tabla de resultados -->
                                     <div class="mat-elevation-z8 table-responsive-retiro">
-                                        <table mat-table [dataSource]="dataSourceH" matSort
-                                            class="table-intencionRetiro">
-                                            <!-- Tipo Intervención Column -->
+                                        <table mat-table [dataSource]="dataSourceH" matSort class="table-intencionRetiro">
+                                            <!-- Definición de columnas -->
                                             <ng-container matColumnDef="rif">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header >
-                                                    Rif
-                                                </th>
-                                                <td mat-cell *matCellDef="let row">
-                                                    {{ row.rif }}
-                                                </td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Rif</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.rif }}</td>
                                             </ng-container>
-
-                                            <!-- coVentaBCV Column -->
                                             <ng-container matColumnDef="nombreEmpresa">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-50 pl-10">
-                                                    Nombre
-                                                </th>
-                                                <td mat-cell *matCellDef="let row" class="pl-6">
-                                                    {{ row.nombreEmpresa }}
-                                                </td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Nombre</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.nombreEmpresa }}</td>
                                             </ng-container>
-
-
-                                            <!-- Fecha Inicio Column -->
                                             <ng-container matColumnDef="moneda">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-0 pl-5">
-                                                    Moneda
-                                                </th>
-                                                <td mat-cell *matCellDef="let row">
-                                                    {{ row.moneda }}
-                                                </td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Moneda</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.moneda }}</td>
                                             </ng-container>
-                                            <!-- Fecha Inicio Column -->
                                             <ng-container matColumnDef="montoDivisa">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-0 pl-5">
-                                                    Monto Divisas
-                                                </th>
-                                                <td mat-cell *matCellDef="let row" class="pl-0">
-                                                    {{ row.montoDivisa }}
-                                                </td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Monto Divisas</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.montoDivisa }}</td>
                                             </ng-container>
-
-                                            <!-- Fecha Fin Column -->
                                             <ng-container matColumnDef="numeroCuentaOrigen">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-40">
-                                                    Cuenta Divisa
-                                                </th>
-                                                <td mat-cell *matCellDef="let row">
-                                                    {{ row.numeroCuentaOrigen }}</td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Cuenta Divisa</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.numeroCuentaOrigen }}</td>
                                             </ng-container>
-
-                                            <!-- Fecha Valor Column -->
                                             <ng-container matColumnDef="porcentajeComision">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                    % Comisión
-                                                </th>
-                                                <td mat-cell *matCellDef="let row">
-                                                    {{ row.porcentajeComision }}
-                                                </td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">% Comisión</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.porcentajeComision }}</td>
                                             </ng-container>
-
-                                            <!-- Tipo Cambio Column -->
                                             <ng-container matColumnDef="montoComision">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-0">
-                                                    Monto Comisión
-                                                </th>
-                                                <td mat-cell *matCellDef="let row">
-                                                    {{ row.montoComision}}
-                                                </td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Monto Comisión</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.montoComision}}</td>
                                             </ng-container>
-
-                                            <!-- Moneda Column -->
                                             <ng-container matColumnDef="agencia">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-40">
-                                                    Agencia
-                                                </th>
-                                                <td mat-cell *matCellDef="let row">
-                                                    {{ row.agencia}}
-                                                </td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Agencia</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.agencia}}</td>
                                             </ng-container>
-
-                                            <!-- Saldo Disponible Column -->
                                             <ng-container matColumnDef="estatus">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                                    Estatus
-                                                </th>
-                                                <td mat-cell *matCellDef="let row">
-                                                    {{ row.estatus }}
-                                                </td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Estatus</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.estatus }}</td>
                                             </ng-container>
-
-                                            <!-- Semana Column -->
                                             <ng-container matColumnDef="fechaHoraOperacion">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="w-40">
-                                                    Fecha de Operación
-                                                </th>
-                                                <td mat-cell *matCellDef="let row">
-                                                    {{ row.fechaHoraOperacion }}
-                                                </td>
+                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Fecha de Operación</th>
+                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.fechaHoraOperacion }}</td>
                                             </ng-container>
-
+                                            <!-- Filas de encabezado y datos -->
                                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                             <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-
-                                            <!-- Row shown when there is no matching data. -->
+                                            <!-- Mensaje cuando no hay datos -->
                                             <tr class="mat-row" *matNoDataRow>
-                                                <td class="mat-cell" colspan="10">No Existe Resultado</td>
+                                                <td class="mat-cell text-center" colspan="10">No Existe Resultado</td>
                                             </tr>
                                         </table>
-
+                                        <!-- Paginador y botones de acción secundarios -->
                                         <div class="paginator-actions-row">
                                             <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
                                                 [showFirstLastButtons]="true" #paginatorH>
                                             </mat-paginator>
                                             <div class="action-buttons" *ngIf="paginatorH?.pageSize !== 5">
-                                                <button class="mat-raised-button mr-5"
-                                                    (click)="exportarExcel()">Exportar Ordenes</button>
-                                                <button class="mat-raised-button mr-5"
-                                                    (click)="regresar()">Regresar</button>
-                                                <button class="mat-raised-button mr-5"
-                                                    (click)="inicio()">Salir</button>
+                                                <button class="mat-raised-button mr-5" (click)="exportarExcel()">Exportar Ordenes</button>
+                                                <button class="mat-raised-button mr-5" (click)="regresar()">Regresar</button>
+                                                <button class="mat-raised-button mr-5" (click)="inicio()">Salir</button>
                                             </div>
                                         </div>
-
-
                                     </div>
-
                                 </div>
                             </div>
-
                         </div>
-
                     </div>
                 </ng-template>
             </mat-tab>
-
-
         </mat-tab-group>
     </mat-sidenav-content>
 </mat-sidenav-container>

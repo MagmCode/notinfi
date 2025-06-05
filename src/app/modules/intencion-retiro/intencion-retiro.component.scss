@@ -1,487 +1,278 @@
-// @import url("//src/assets/styles/icons-bdv.css");
-// @import url("//src/assets/styles/splash-screen.css");
+/* ==========================================================================
+   intencion-retiro.component.scss
+   Estilos personalizados para el módulo de Intención de Retiro.
+   Incluye personalización de Angular Material, colores corporativos y mejoras visuales.
+   Documentado para facilitar el mantenimiento y futuras modificaciones.
+   ========================================================================== */
 
-* {
-    font-family: 'Nunito', sans-serif !important;
+/* ==========================================================================
+   Fondo blanco para el contenedor principal
+   ========================================================================== */
+::ng-deep .mat-drawer-container {
+    background-color: white !important;
 }
 
-// body {
-//     background-color: transparent !important;
-// }
-
-.mat-tab-group-intencionRetiro{
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    // overflow-y: auto;
-    height: 80vh;
-    width: 100vw;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-}
-.intencionRetiro-container {
-    display: flex;
-    flex-direction: column;
-    // justify-content: center;
-    align-items: center;
-    // // overflow-y: auto;
-    // height: 80vh;
-    width: 100vw;
-    //     position: fixed;
-    // top: 50%;
-    // left: 50%;
-    // transform: translate(-50%, -50%);
-    // background-color: #fff;
-}
-
-// .table-intencionRetiro {
-
-//     td.mat-cell {
-//         padding: 20px 20px !important;
-//         text-align: center !important;
-//     }
-    
-//     th.mat-header-cell {
-//         padding: 20px !important;
-//         justify-content: center !important;
-//         // text-align: center !important;
-//     }
-// }
-
-
-
-.table-responsive-retiro {
-    width: 100%;
-    overflow-x: auto;
-
-
-    td.mat-cell {
-    // padding: auto!important;
-    text-align: center!important;
-    font-size: 0.78rem;
-    border-bottom-width: 2px !important;
-    border-style: solid;
-    // min-width: 120px;
-}
-
-th.mat-header-cell {
-    padding-top: 15px   !important;
-    padding-bottom: 15px   !important;
-    justify-content: center !important;
-    font-size: 0.87rem;
-    border-bottom-width: 2px !important;
-    // border-width: 0px 0px 0px 0px !important;
-    border-style: solid;
-    min-width: 100px;
-    // white-space: nowrap; /* Evita salto de línea */
-    // text-align: center !important;
-}
-}
-
-.table-responsive-retiro .mat-paginator {
-    min-width: 600px;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 8px;
-
-    &.mat-paginator .mat-paginator-container .mat-paginator-page-size .mat-paginator-page-size-select .mat-form-field-wrapper .mat-form-field-flex {
-    min-height: 32px;
-    padding: 0 10px;
-    border-color: #db0032 !important;
-}
-
-}
-
-.paginator-actions-row {
-    display: flex;
-    align-items: center;
-    justify-content: space-between; // o flex-end si quieres los botones a la derecha
-    margin-top: 8px;
-    gap: 16px;
-}
-
-.paginator-actions-row .action-buttons {
-    display: flex;
-    gap: 8px;
-}
-
-// Cambia el color del borde del select del paginator (outline y fill)
-// ::ng-deep .mat-paginator .mat-form-field-appearance-outline .mat-form-field-outline {
-//     stroke: #850000 !important;
-// }
-// ::ng-deep .mat-paginator .mat-form-field-appearance-fill .mat-form-field-flex {
-//     border-color: #850000 !important;
-//     box-shadow: 0 0 0 1.5px #850000 !important;
-// }
-
-// ::ng-deep .mat-paginator .mat-select-trigger {
-//     border: 1.5px solid #850000 !important; /* Cambia el color aquí */
-//     border-radius: 8px !important;
-//     padding: 2px 8px !important;
-// }
-
-
-.mat-sort-header-container {
-    justify-content: center !important;
-}
-
+/* ==========================================================================
+   Estilos para el grupo de pestañas (mat-tab-group)
+   ========================================================================== */
 .mat-tab-group {
-    height: 74vh !important;
-}
-.mat-tab-group .mat-tab-body-content {
-    padding: 10px 219px;
-}
-
-.mat-tab-group .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
-    min-width: 0 !important;
-    height: 20px !important;
-    padding: 0 20px !important;
-    border-radius: 9999px !important;
-    --tw-text-opacity: 0.5;
-    color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity));
-}
-
-.mat-tab-group .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label.mat-tab-label-active {
-    --tw-bg-opacity: 1 !important;
-    background-color: rgba(51, 65, 85, 0.060) !important;
+    ::ng-deep .mat-tab-body-content {
+        padding: 10px 251px;
+    }
+    ::ng-deep .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
+        min-width: 0 !important;
+        height: 20px !important;
+        padding: 0 20px !important;
+        border-radius: 9999px !important;
+        --tw-text-opacity: 0.5;
+        color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity));
+    }
+    ::ng-deep .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label.mat-tab-label-active {
+        --tw-bg-opacity: 1 !important;
+        background-color: rgba(51, 65, 85, 0.060) !important;
+    }
 }
 
-
-// .mat-tab-body-content {
-//     width: 1300px !important;
-// }
-    // .resultados-intervencion {
-    //     padding: 50px !important;
-    // }
-
-
-.intencionRetiro-header-content {
-    width: 40%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
-    color: #db0032;
-    font-size: 3.6em;
+/* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
+.header-container {
+    color: #db0032; // Color corporativo para títulos principales
 }
 
-.head-icon-intencionRetiro::before {
+/* Icono principal de la cabecera */
+.head-icon::before {
     color: #db0032;
     font-size: 2.9em;
-    opacity: 40%;
-    padding-top: 25px;
-    font-family: icomoon;
 }
 
-
-.icon-container {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-}
-
-.text-head-retiro {
+/* Texto debajo del icono en la cabecera */
+.text-head {
     color: #db0032;
     font-size: 0.4em;
     opacity: 0.4;
-    margin-top: 35px;
 }
 
-.card-container-intencionRetiro    {
+/* ==========================================================================
+   Tarjeta principal y título
+   ========================================================================== */
+.card-container {
     width: 650px;
     height: 480px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px;
     color: #db0032;
-    border-radius: 25px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%) !important;
 }
 
-
-.title-intencionRetiro {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
+.card-title {
     font-size: 1.3em;
-    color: #db0032;
+    color: #db0032; 
 }
 
-
-.card-form-intencionRetiro {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
-
-.field-container-intencionRetiro {
-    display: flex;
-    flex-direction: column;
-    width: 100%;
-    padding: 0px 23px;
-}
-
-.card-form-intencionRetiro .mat-form-field {
-    // flex: 1;
-    margin-right: 0px;
-
-}
-
-.campos-intencionRetiro .tipoDocumentoInter {
-    margin-right: 0 !important;
-}
-
-.cedula-intencionRetiro {
-    display: flex;
-}
-
-.campos-intencionRetiro {
-    display: flex;
+/* ==========================================================================
+   Campos de formulario y personalización de Angular Material
+   ========================================================================== */
+.campos {
     gap: 50px;
     width: 245px;
-}
 
-.campos-intencionRetiro .tipoDocumentoInter {
-    .mat-form-field-flex {
-        padding: 0 5px 0 6px !important;
+    .tipoDocumento ::ng-deep {
+        .mat-form-field-flex {
+            padding: 0 5px 0 6px !important;
+        }
+        .mat-select-value {
+            padding-left: 25px;
+        }
+        .mat-form-field-wrapper {
+            width: 80px !important;
+        }
+        .mat-form-field {
+            padding-left: 13px !important;
+            margin-right: 0px !important;
+        }
+    }
+    .input-cedula {
+        color: #1e293b;
+        input {
+            caret-color: #db0032;
+            &[type="number"]::-webkit-outer-spin-button,
+            &[type="number"]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            &[type="number"] {
+                appearance: textfield;
+                -moz-appearance: textfield;
+            }
+        }
+        ::ng-deep .mat-form-field-wrapper {
+            width: 165px;
+        }
+        ::ng-deep &.mat-focused {
+            .mat-form-field-outline-thick,
+            .mat-form-field-label {
+                color: #db0032 !important;
+            }
+        }
+    }
+    .date-icon:before {
+        color: grey;
+    }
+    .date-icon:hover {
+        cursor: pointer;
     }
 }
 
-.tipoDocumentoInter .mat-select-value {
-    padding-left: 25px;
-    // padding-bottom: 27px;
-
-}
-
-
-.campos-intencionRetiro .tipoDocumentoInter {
-    .mat-form-field-label {
-        width: 30px;
-    }
-}
-
-.input-cedula-inter .mat-form-field-wrapper {
-    width: 165px;
-}
-
-.mat-select .mat-select-arrow-wrapper .mat-select-arrow {
-    margin: 0 4px 4px 2px;
-}
-
-
-.input-cedula-inter {
-    color: #1e293b;
-
-    &.mat-focused {
-
+.field-form  {
+    ::ng-deep {
+        .mat-form-field-infix {
+            display: flex !important;
+            padding: 0 !important;
+            width: 220px !important;
+        }
+        .mat-form-field-flex {
+            padding: 0 5px 0 20px !important;
+            margin-top: -0.25em !important;
+            position: relative !important;
+            opacity: 5 !important;
+            align-items: normal;
+        }
+        .mat-form-field-valid.mat-form-field-valid {
+            .mat-form-field-outline-thick,
+            .mat-form-field-label {
+                color: #db0032 !important;
+            }
+        }
+        .mat-select {
+            .mat-select-trigger {
+                display: inline-flex;
+                align-items: center;
+                width: 100%;
+                height: 35px !important;
+            }
+        }
+        .mat-form-field-flex {
+            height: 53px;
+        }
+    }   
+    ::ng-deep &.mat-focused {
         .mat-form-field-outline-thick,
         .mat-form-field-label {
             color: #db0032 !important;
         }
-        .mat-input-element {
-            caret-color: #db0032 !important;
-        }
     }
-    
-
-   
+    mat-icon {
+        padding: 9px 7px 0px 0px !important;
+        justify-content: end;
+        width: 25%;
+    }
+    mat-hint {
+        padding-left: 60px !important;
+        padding-top: 5px;
+        color: #db0032 !important;
+        font-size: 1.23em;
+        font-weight: 400;
+    }
 }
 
-.input-filter-intencionRetiro {
+/* ==========================================================================
+   Botones de acción principales
+   ========================================================================== */
+.buttons-container .mat-raised-button {
+    color: #db0032;
+    font-weight: 500;
+    &:hover {
+        background-color: #db0032;
+        color: white !important;
+    }
+}
+
+/* ==========================================================================
+   Tabla de datos (Angular Material)
+   ========================================================================== */
+.main-container2 {
+    width: 73vw;
+}
+
+.table-responsive {
+    overflow-x: auto; 
+    .table-cell {
+        text-align: center !important;
+        font-size: 0.78rem;
+        border-bottom-width: 2px !important;
+        border-style: solid;
+        padding-left: 0;
+        padding: 0 10px;
+    }
+    .header-cell {
+        padding-top: 15px !important;
+        padding-bottom: 15px !important;
+        padding-left: 10px;
+        justify-content: center !important;
+        font-size: 0.87rem;
+        border-bottom-width: 2px !important;
+        border-style: solid;
+    }
+}
+
+/* ==========================================================================
+   Personalización del paginador y filtros
+   ========================================================================== */
+.paginator-actions-row {
+    ::ng-deep .mat-paginator .mat-paginator-container .mat-paginator-page-size .mat-paginator-page-size-select .mat-form-field-wrapper .mat-form-field-flex {
+        border-color: #db0032 !important;
+    }
+}
+
+.input-filter {
     color: #1e293b;
-
-    &.mat-focused {
-
+    input {
+        caret-color: #db0032;
+    }
+    ::ng-deep &.mat-focused {
         .mat-form-field-outline-thick,
         .mat-form-field-label {
             color: #db0032 !important;
         }
+    }
+}
 
-        .mat-input-element {
-            caret-color: #db0032 !important;
+/* ==========================================================================
+   Resultados y personalización de checkboxes
+   ========================================================================== */
+.results {
+    .action-buttons {
+        .mat-raised-button {
+            font-weight: 500;
+            &:hover {
+                background-color: #db0032 !important;
+                color: white !important;
+            }
         }
     }
 }
 
-
-
-.campos-intencionRetiro .documentoInter {
-    width: 80px;
-    /* Ancho fijo para el select */
-}
-
-
-.date-icon-inter:before {
-    color: grey;
-    font-family: icomoon;
-}
-
-.date-icon-inter:hover {
+.editar::before {
+    color: gray;
     cursor: pointer;
 }
 
-
-.field-intencionRetiro .mat-form-field-infix {
-    display: flex !important;
-    padding: 0 !important;
-    width: 220px !important;
-}
-
-.field-intencionRetiro mat-icon {
-    padding: 9px 7px 0px 0px !important;
-    justify-content: end;
-    width: 25%;
-}
-
-.field-intencionRetiro .mat-form-field-flex {
-    padding: 0 5px 0 20px !important;
-    margin-top: -0.25em !important;
-    position: relative !important;
-    opacity: 5 !important;
-}
-
-.field-intencionRetiro mat-hint {
-    padding-left: 60px !important;
-    padding-top: 5px;
-    color: #db0032 !important;
-    font-size: 1.23em;
-    font-weight: 400;
-}
-
-.field-intencionRetiro .mat-form-field-flex:hover,
-.field-intencionRetiro .mat-form-field-outline-thick {
-    opacity: 1 !important;
-}
-
-.field-intencionRetiro input.mat-input-element {
-    margin: 0.7em 0em 0.9em 0em;
-    color: #1e293b;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-}
-
-
-.tipoDocumentoInter {
-    .mat-form-field-wrapper {
-
-        width: 80px !important;
-    }
-}
-
-.tipoDocumentoInter .mat-form-field {
-    padding-left: 13px !important;
-    margin-right: 0px !important;
-}
-
-
-.field-intencionRetiro .mat-form-field.mat-form-field-appearance-outline,
-.field-intencionRetiro .mat-form-field-label-wrapper {
-    width: 50% !important;
-    top: -1px !important;
-    left: 1px !important;
-}
-
-
-.field-intencionRetiro {
-    &.mat-form-field-invalid.mat-form-field-invalid {
-        .mat-form-field-outline-thick {
-            color: rgba(48, 48, 48, 0.247) !important;
-        }
-
-        .mat-form-field-label {
-            color: rgba(48, 48, 48, 0.616) !important;
-        }
-    }
-
-    &.mat-form-field-valid.mat-form-field-valid {
-
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #db0032 !important;
-        }
-    }
-
-    &.mat-focused {
-
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #db0032 !important;
-        }
-    }
-}
-
-.buttons-intencionRetiro {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-
-}
-
-.button-container-intencionRetiro button {
-    white-space: normal;
-    overflow-wrap: break-word;
-    width: 70%;
-    padding: 0 20px !important;
-    border-radius: 50px !important;
-}
-
-.button-container2-intencionRetiro {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-
-    button {
-        padding: 0 20px !important;
-        border-radius: 50px !important;
-        width: 100px;
-        // background-color: lightblue;
-    }
-}
-
-.buttons-intencionRetiro .mat-raised-button {
-    color: #db0032 !important;
-    font-weight: 500;
-}
-
-.button-container-intencionRetiro .mat-raised-button,
-.button-container2-intencionRetiro .mat-raised-button {
-    transition: background-color 0s, color 0s;
-}
-
-.button-container-intencionRetiro .mat-raised-button:hover,
-.button-container2-intencionRetiro .mat-raised-button:hover {
-    background-color: #db0032;
-    color: white !important;
-}
-
-
-.results .action-buttons .mat-raised-button {
-    // color: #db0032 !important;
-    font-weight: 500;
-}
-
-.results .action-buttons .mat-raised-button {
-    transition: background-color 0s, color 0s !important;
-}
-
-.results .action-buttons .mat-raised-button:hover {
+::ng-deep .results .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+::ng-deep .results .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
     background-color: #db0032 !important;
-    color: white !important;
 }
 
+/* Centrado de los iconos de ordenamiento en las tablas */
+::ng-deep .mat-sort-header-container {
+    justify-content: center !important;
+}
 
-.mat-select-panel {
+/* ==========================================================================
+   Otros estilos y personalizaciones de Angular Material
+   ========================================================================== */
+::ng-deep .mat-select-panel {
     min-width: 112px !important;
     max-width: 450px !important;
     overflow: auto;
-    // -webkit-overflow-scrolling: touch;
     padding-top: 0;
     padding-bottom: 0;
     max-height: 256px;
@@ -490,75 +281,35 @@ th.mat-header-cell {
     outline: 0;
 }
 
-.jornada .mat-select-arrow {
+::ng-deep .jornada .mat-select-arrow {
     border-left: 8px solid transparent !important;
     border-right: 8px solid transparent !important;
     border-top: 10px solid !important;
 }
 
-.field-intencionRetiro .mat-select {
-
-    .mat-select-trigger {
-        display: inline-flex;
-        align-items: center;
-        width: 100%;
-        height: 40px !important;
-    }
-}
-
-.field-operInter { 
- .mat-form-field-flex {
-    height: 53px;
-}
-}
-
-.mat-select-panel {
+::ng-deep .mat-select-panel {
     border-radius: 15px !important;
 }
 
-
- .mat-calendar-body-selected{
+::ng-deep .mat-calendar-body-selected{
     background-color: rgba(126, 126, 126, 0.651) !important;
-    // color: var(--fuse-on-primary);
 }
 
-
-.mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
+::ng-deep .mat-primary .mat-option.mat-selected:not(.mat-option-disabled) {
     color: #3f4853 !important;
 }
 
-
-.mat-form-field.mat-focused.mat-primary .mat-select-arrow {
-    color: #3f48539d !important   ;
+::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+    color: #3f48539d !important;
 }
 
-
-.editar::before {
-    color: gray;
-    cursor: pointer;
-  }
-
-// Snack-bar 
-
-
- .mat-simple-snackbar-action {
+/* Snack-bar */
+::ng-deep .mat-simple-snackbar-action {
     color: rgba(255, 255, 255, 0.664) !important;
 }
 
-.results .mat-checkbox-checked.mat-accent .mat-checkbox-background{
-
-    background-color: #db0033b6 !important;
-
-}
-
-.results .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background{
-
-    background-color: #db0033b6 !important;
-
-}
 
 
 
-// body.light .mat-checkbox-checked.mat-accent .mat-checkbox-background, body .light .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, body .light .mat-checkbox-checked.mat-accent .mat-checkbox-background {
-//     background-color: #0061ff;
-// }
+
+
