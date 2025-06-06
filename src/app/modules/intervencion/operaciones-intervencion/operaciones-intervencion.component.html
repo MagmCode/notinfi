@@ -13,10 +13,6 @@
 
 <!-- <main-layouts></main-layouts> -->
 <mat-sidenav-container>
-    <router-outlet *ngIf="true"></router-outlet>
-    <mat-sidenav-content>
-        <!-- Contenedor principal con menú lateral y rutas hijas -->
-        <mat-sidenav-container>
             <!-- Outlet para rutas hijas si aplica -->
             <router-outlet *ngIf="true"></router-outlet>
             <mat-sidenav-content>
