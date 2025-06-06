@@ -91,7 +91,7 @@ export class LoginService {
    */
   validarUsuario(codUsuario: string, clave: string): Observable<any> {
     const url = `${this.urlEndPoint}api/auth/login`;
-    const usuario = { codUsuario, clave };
+    const usuario = { codUsuario};
   
     return this.http.post<any>(url, usuario).pipe(
       tap((response: any) => {
