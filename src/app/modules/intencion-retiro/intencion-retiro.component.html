@@ -38,10 +38,10 @@
                         <!-- Formulario de criterios de búsqueda -->
                         <form class="card-form w-full" [formGroup]="intencionRetiroFb">
                             <div class="field-container flex flex-col pl-6">
-                                <div class="campos flex">
+                                <div class="campos-rojos flex">
                                     <!-- Filtro por tipo de documento y número -->
                                     <div class="cedula flex">
-                                        <mat-form-field appearance="outline" class="field-form tipoDocumento">
+                                        <mat-form-field appearance="outline" class="field-form-rojos tipoDocumento">
                                             <mat-label>Tipo</mat-label>
                                             <mat-select [formControlName]="'nacionalidad'">
                                                 <mat-option value="V">V</mat-option>
@@ -56,7 +56,7 @@
                                         </mat-form-field>
                                     </div>
                                     <!-- Filtro por agencia/oficina -->
-                                    <mat-form-field class="field-form sucursalesField" appearance="outline">
+                                    <mat-form-field class="field-form-rojos sucursalesField" appearance="outline">
                                         <mat-label>Oficinas</mat-label>
                                         <mat-select [formControlName]="'agencia'">
                                             <mat-option value="TODAS">Todas</mat-option>
@@ -66,9 +66,9 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                                <div class="campos flex">
+                                <div class="campos-rojos flex">
                                     <!-- Filtro por fecha desde -->
-                                    <mat-form-field class="field-form" appearance="outline">
+                                    <mat-form-field class="field-form-rojos" appearance="outline">
                                         <mat-label>Fecha Desde</mat-label>
                                         <input matInput formControlName="fechaDesde" [max]="today"
                                             [matDatepicker]="pickerDesde" readonly>
@@ -76,7 +76,7 @@
                                         <mat-datepicker #pickerDesde></mat-datepicker>
                                     </mat-form-field>
                                     <!-- Filtro por fecha hasta -->
-                                    <mat-form-field class="field-form" appearance="outline">
+                                    <mat-form-field class="field-form-rojos" appearance="outline">
                                         <mat-label>Fecha Hasta</mat-label>
                                         <input matInput formControlName="fechaHasta" [max]="today"
                                             [min]="intencionRetiroFb.get('fechaDesde')?.value"
@@ -85,9 +85,9 @@
                                         <mat-datepicker #pickerHasta></mat-datepicker>
                                     </mat-form-field>
                                 </div>
-                                <div class="campos flex">
+                                <div class="campos-rojos flex">
                                     <!-- Filtro por estatus -->
-                                    <mat-form-field class="w-full field-form sucursalesField" appearance="outline">
+                                    <mat-form-field class="w-full field-form-rojos sucursalesField" appearance="outline">
                                         <mat-label>Estatus</mat-label>
                                         <mat-select [formControlName]="'estatus'">
                                             <mat-option value="TODAS">Todas</mat-option>
