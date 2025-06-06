@@ -128,13 +128,6 @@
         justify-content: end;
         width: 25%;
     }
-    mat-hint {
-        padding-left: 60px !important;
-        padding-top: 5px;
-        color: #e89600 !important;
-        font-size: 1.23em;
-        font-weight: 400;
-    }
 }
 
 /* ==========================================================================
@@ -159,10 +152,6 @@
             background-color: #e89600;
 }
     }
-}
-
-.info-cards {
-    color: #d88c00;
 }
 
 .table-responsive {
@@ -208,18 +197,6 @@
     }
 }
 
-.input-filter-inter {
-    color: #1e293b;
-    input {
-        caret-color: #e89600;
-    }
-    ::ng-deep &.mat-focused {
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #e89600 !important;
-        }
-    }
-}
 
 /* ==========================================================================
    Resultados y personalización de checkboxes
@@ -236,7 +213,7 @@
     }
 }
 
-.editar::before {
+.download::before {
     color: gray;
     cursor: pointer;
 }
@@ -254,27 +231,6 @@
 /* ==========================================================================
    Otros estilos y personalizaciones de Angular Material
    ========================================================================== */
-::ng-deep .mat-select-panel {
-    min-width: 112px !important;
-    max-width: 450px !important;
-    overflow: auto;
-    padding-top: 0;
-    padding-bottom: 0;
-    max-height: 256px;
-    min-width: 100%;
-    border-radius: 4px;
-    outline: 0;
-}
-
-::ng-deep .jornada .mat-select-arrow {
-    border-left: 8px solid transparent !important;
-    border-right: 8px solid transparent !important;
-    border-top: 10px solid !important;
-}
-
-::ng-deep .mat-select-panel {
-    border-radius: 15px !important;
-}
 
 ::ng-deep .mat-calendar-body-selected{
     background-color: rgba(126, 126, 126, 0.651) !important;
@@ -334,21 +290,6 @@
         font-size: 1.0em;
     }
 
-    /* ==========================================================================
-   Estilos para los campos de formulario
-   ========================================================================== */
-    .campos {
-        width: 200px;
-
-        .input-cedula {
-            ::ng-deep .mat-form-field-wrapper {
-                width: 120px;
-            }
-
-        }
-
-    }
-
 
 
     /* ==========================================================================
@@ -364,10 +305,6 @@
    ========================================================================== */
     .main-container2 {
         width: 90vw !important;
-    }
-
-    .info-cards {
-        font-size: 1.2rem !important;
     }
 
     .table-responsive {
@@ -394,10 +331,6 @@
         }
     }
 
-    ::ng-deep .mat-select-panel {
-        font-size: small !important;
-
-    }
 }
 
 /* Fin de media queries responsivos */
