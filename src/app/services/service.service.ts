@@ -115,9 +115,31 @@ exportarIntervencion( metodo: string, dataBusqueda: any): Observable<Blob> {
 // ----------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------
 
+// #region Consulta de BCV
+// Consulta de intervenciones del BCV
+// 
+
+consultaBCVIntervencion(data: { fecha: string }): Observable<any[]> {
+  console.log("Data a enviar:", data);
+  return this.http.post<{ code: number; message: string; data: any[] }>(
+    `${this.apiUrl}api/bcv/intervencion/consultaBCV`,
+    data
+  ).pipe(
+    map(response => {
+      console.log("Respuesta del servicio:", response);
+      return response.data;
+    })
+  );
+}
 
 
-  
+exportarConstultaBcv( metodo: string, dataBusqueda: any): Observable<Blob> {
+  return this.http.post(
+    `${this.apiUrl}api/bcv/consultaFiltro/exportar`, dataBusqueda,
+    { responseType: 'blob' }
+  );
+}
+
 // ----------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------

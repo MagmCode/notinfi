@@ -1,58 +1,205 @@
 <!--
-  consultabcv-intervencion.component.html
-  Vista principal para la consulta BCV de intervención.
-  Permite seleccionar una fecha (preseleccionada al día de hoy y sin permitir fechas futuras)
-  y cargar un archivo, validando ambos campos antes de enviar.
+  operaciones-intervencion.component.html
+  Vista principal para la gestión de operaciones de intervención.
+  Incluye dos pestañas: Búsqueda y Resultado.
+  - "Búsqueda": permite filtrar operaciones por criterios como tipo de documento, cédula/RIF, estatus, moneda y fecha.
+  - "Resultado": muestra los totales, la jornada y la tabla de operaciones filtradas, con acciones como exportar, procesar, editar y regresar.
+  El paginador y los filtros permiten una navegación y búsqueda eficiente en los resultados.
+  Solo se agregan comentarios de documentación, no se modifica la estructura ni los datos existentes.
 -->
 
-<!-- Barra de carga superior (muestra progreso de operaciones globales) -->
+<!-- Loading Bar -->
 <fuse-loading-bar></fuse-loading-bar>
 
+<!-- <main-layouts></main-layouts> -->
 <mat-sidenav-container>
-    <router-outlet *ngIf="true"></router-outlet>
-    <mat-sidenav-content>
-        <!-- Contenedor principal centrado -->
-        <div class="main-container flex flex-col justify-center items-center w-screen h-4/5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white">
+            <!-- Outlet para rutas hijas si aplica -->
+            <router-outlet *ngIf="true"></router-outlet>
+            <mat-sidenav-content>
+                <!-- Grupo de pestañas para las operaciones de intervención -->
+                <mat-tab-group class="mat-tab-group flex items-center w-screen" [(selectedIndex)]="selectedTabIndex"
+                    (selectedTabChange)="onTabChange($event)">
 
-            <!-- Cabecera de la página -->
-            <div class="header-container flex justify-between mb-10 text-7xl ">
-                <span>Consulta BCV</span>
-                <div class="icon-container flex flex-col items-center mr-20">
-                    <!-- Icono representativo -->
-                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
-                    <span class="text-head mt-8">Intervención</span>
-                </div>
-            </div>
+                    <!-- Pestaña de Búsqueda de jornadas activas -->
+                    <mat-tab label="Búsqueda">
+                        <div class="main-container mt-5 flex flex-col w-full md:w-screen items-center px-2 md:px-0">
+                            <!-- Cabecera de la página -->
+                            <div class="header-container flex justify-between w-2/5 mb-5 text-7xl">
+                                <span>Consulta BCV</span>
+                                <div class="icon-container flex flex-col items-center ">
+                                    <!-- Icono representativo -->
+                                    <mat-icon
+                                        class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                                    <span class="text-head mt-8">Intervención</span>
+                                </div>
+                            </div>
+                            <!-- Tarjeta principal con el formulario de búsqueda -->
+                            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+                                <!-- Título de la tarjeta -->
+                                <div class="card-title">
+                                    <span>Seleccione Criterios</span>
+                                </div>
+                                <!-- Formulario de criterios de búsqueda -->
+                                <form class="card-form flex items-center " [formGroup]="consultaForm">
 
-            <!-- Tarjeta principal con el formulario -->
-            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
-                <div class="card-title">
-                    <span>Seleccione Criterios</span>
-                </div>
-                <!-- Formulario reactivo para la consulta BCV -->
-                <form class="card-form" [formGroup]="consultaBCVInterForm">
-                    <!-- Campo: Fecha (preseleccionada al día de hoy, no permite fechas futuras) -->
-                    <mat-form-field class="consulta-input w-full" appearance="outline">
-                        <mat-label>Fecha</mat-label>
-                        <input matInput [matDatepicker]="picker" formControlName="fecha" [max]="today" readonly>
-                        <mat-icon (click)="picker.open()"
-                            class="icon-bdv-icon-scheduledit-m date-icon-inter-consultaBCV"></mat-icon>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </form>
+                                    <div class="field-container px-6">
+                                        <!-- <div class="campos"> -->
 
-                <!-- Botones de acción -->
-                <div class="buttons-container flex justify-center gap-6">
-                    <!-- Botón para procesar el archivo cargado -->
-                    <button class="mat-raised-button w-full px-7 py-0" type="submit" (click)="onSubmit()">
-                        Procesar
-                    </button>
-                    <!-- Botón para salir y regresar al menú principal -->
-                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">
-                        Salir
-                    </button>
+                                            <!-- <div class="cedula flex">
+                                                <mat-form-field appearance="outline" class="field-form tipoDocumento">
+                                                    <mat-label>Tipo</mat-label>
+                                                    <mat-select [formControlName]="'nacionalidad'">
+                                                        <mat-option value="V">V</mat-option>
+                                                        <mat-option value="E">E</mat-option>
+                                                        <mat-option value="P">P</mat-option>
+                                                        <mat-option value="J">J</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+
+                                                <mat-form-field appearance="outline" class="flex-grow-1 input-cedula">
+                                                    <mat-label>Cédula o RIF</mat-label>
+                                                    <input type="number" matInput [formControlName]="'nroCedRif'"
+                                                        matInput>
+                                                </mat-form-field>
+                                            </div> -->
+<!-- 
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Envio BCV</mat-label>
+                                                <mat-select [formControlName]="'estatus'">
+                                                    <mat-option value="TODAS">Todas</mat-option>
+                                                    <mat-option value="1">Enviadas</mat-option>
+                                                    <mat-option value="2">Lote Cerrado</mat-option>
+                                                    <mat-option value="3">Anuladas</mat-option>
+                                                    <mat-option value="0">No Enviadas</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div> -->
+
+                                        <div class="campos items-center">
+
+                                            <mat-form-field class=" field-form" appearance="outline">
+                                                <mat-label>Fecha</mat-label>
+                                                <input matInput [formControlName]="'fechOper'" [matDatepicker]="picker"
+                                                    [max]="today" readonly>
+                                                <mat-icon (click)="picker.open()"
+                                                    class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!-- Botones de acción -->
+                                <div class="buttons-container flex justify-center gap-6">
+                                    <!-- Botón para procesar el archivo cargado -->
+                                    <button class="mat-raised-button w-full px-7 py-0" type="submit"
+                                        (click)="consultarBCVIntervencion()">Procesar</button>
+                                    <!-- Botón para salir y regresar al menú principal -->
+                                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </mat-tab>
+
+                    <!-- Pestaña de Resultados -->
+                    <mat-tab label="Resultado" *ngIf="canViewTab">
+                         <div class="main-container2 mt-18 flex flex-col items-center">
+                    <!-- Tarjeta principal con la tabla de pendientes -->
+                    <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden w-4/5">
+                        <div class="flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl overflow-hidden">
+                            <!-- Tabla de resultados -->
+                            <div class="results flex flex-col flex-auto mt-2 overflow-x-auto ">
+                                <!-- Botones de acción -->
+                                <div class="buttons-table flex items-end justify-end">
+                                    <div class="action-buttons font-medium mb-5">
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="exportarSustituciones()">
+                                            Exportar
+                                        </button>
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="regresar()">
+                                            Regresar
+                                        </button>
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="inicio()">
+                                            Salir
+                                        </button>
+                                    </div>
+                                </div>
+                                <!-- Tabla de datos de pendientes -->
+                                <div class="mat-elevation-z8 table-responsive">
+                                    <table class="w-full" mat-table [dataSource]="dataSourceH" matSort #sortPendientes="matSort">
+                                        <!-- Numero de venta -->
+                                        <ng-container matColumnDef="nuVenta">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Numero Venta</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.nuVenta }}</td>
+                                        </ng-container>
+                                        <!-- Fecha -->
+                                        <ng-container matColumnDef="fechaRegistro">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Fecha</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.fechaRegistro }}</td>
+                                        </ng-container>
+                                        <!-- Estatus -->
+                                        <ng-container matColumnDef="estatusArchivo">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Estatus</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                {{ row.estatusArchivo }}
+                                                <span class="dot-status" [ngClass]="{
+                                              'dot-green': row.estatusArchivo === 'Procesado',
+                                              'dot-red': row.estatusArchivo !== 'Procesado'
+                                            }">
+                                                </span>
+                                            </td>
+                                        </ng-container>
+                                        <!-- Observación -->
+                                        <ng-container matColumnDef="observacion">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                                Observación</th>
+                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.observacion }}</td>
+                                        </ng-container>
+                                        <!-- Accion: descargar -->
+                                        <ng-container matColumnDef="download">
+                                            <th mat-header-cell *matHeaderCellDef class="header-cell pr-0">Descargar
+                                            </th>
+                                            <td mat-cell *matCellDef="let row" style="text-align: center;">
+                                                <mat-icon class="ml-5 icon-size-5 text-green-500 icon-bdv-icon-downloads-m editar"
+                                                    (click)="openEditDialog(row)"></mat-icon>
+                                            </td>
+                                        </ng-container>
+                                       
+                                        <!-- Filas de encabezado y datos -->
+                                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                        <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
+                                        <!-- Mensaje cuando no hay datos -->
+                                        <tr class="mat-row" *matNoDataRow>
+                                            <td class="mat-cell text-center" colspan="11">
+                                                No existen sustituciones pendientes
+                                            </td>
+                                        </tr>
+                                    </table>
+                                    <!-- Paginador y botones de acción adicionales -->
+                                    <div class="paginator-actions-row flex items-center justify-between">
+                                        <mat-paginator *ngIf="dataSourceH?.data?.length > 5" #paginatorPendientes [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
+                                        <div class="action-buttons font-medium mb-5" *ngIf="paginator?.pageSize !== 5 && dataSourceH?.data?.length > 5">
+                                            <button class="button mat-raised-button mr-3 w-26" (click)="exportarSustituciones()">
+                                                Exportar
+                                            </button>
+                                            <button class="button mat-raised-button mr-3 w-26" (click)="regresar()">
+                                                Regresar
+                                            </button>
+                                            <button class="button mat-raised-button mr-3 w-26" (click)="inicio()">
+                                                Salir
+                                            </button>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                 </div>
-            </mat-card>
-        </div>
+            </mat-tab>
+        </mat-tab-group>
     </mat-sidenav-content>
 </mat-sidenav-container>
