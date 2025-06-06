@@ -114,7 +114,7 @@
                                 <!-- Botones de acción -->
                                 <div class="buttons-table flex items-end justify-end">
                                     <div class="action-buttons font-medium mb-5">
-                                        <button class="button mat-raised-button mr-3 w-26" (click)="exportarSustituciones()">
+                                        <button class="button mat-raised-button mr-3 w-26" (click)="exportarExcelLocal()">
                                             Exportar
                                         </button>
                                         <button class="button mat-raised-button mr-3 w-26" (click)="regresar()">
@@ -125,6 +125,15 @@
                                         </button>
                                     </div>
                                 </div>
+                                <div *ngIf="showExportProgress" class="text-center mb-2 text-sm text-gray-700">
+                                            Generando archivo: {{exportProgress}}%
+                                            </div>
+                                            <mat-progress-bar
+                                             *ngIf="showExportProgress"
+                                             mode="determinate"
+                                             [value]="exportProgress"
+                                             style="margin-bottom: 16px;">
+                                             </mat-progress-bar>
                                 <!-- Tabla de datos de pendientes -->
                                 <div class="mat-elevation-z8 table-responsive">
                                     <table class="w-full" mat-table [dataSource]="dataSourceH" matSort #sortPendientes="matSort">
@@ -155,9 +164,9 @@
                                         </ng-container>
                                         <!-- Observación -->
                                         <ng-container matColumnDef="observacion">
-                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">
+                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell pr-10">
                                                 Observación</th>
-                                            <td mat-cell *matCellDef="let row" class="table-cell">{{ row.observacion }}</td>
+                                            <td mat-cell *matCellDef="let row" class="table-cell pr-10">{{ row.observacion || 'Sin observación' }}</td>
                                         </ng-container>
                                         <!-- Accion: descargar -->
                                         <ng-container matColumnDef="download">
@@ -183,7 +192,7 @@
                                     <div class="paginator-actions-row flex items-center justify-between">
                                         <mat-paginator *ngIf="dataSourceH?.data?.length > 5" #paginatorPendientes [pageSize]="5" [pageSizeOptions]="[5, 10, 20]" [showFirstLastButtons]="true"></mat-paginator>
                                         <div class="action-buttons font-medium mb-5" *ngIf="paginator?.pageSize !== 5 && dataSourceH?.data?.length > 5">
-                                            <button class="button mat-raised-button mr-3 w-26" (click)="exportarSustituciones()">
+                                            <button class="button mat-raised-button mr-3 w-26" (click)="exportarExcelLocal()">
                                                 Exportar
                                             </button>
                                             <button class="button mat-raised-button mr-3 w-26" (click)="regresar()">
