@@ -129,6 +129,10 @@ ngOnInit(): void {
     fechOper: [this.today, [Validators.required]],
   });
 
+  // Limpia el tab guardado al entrar
+  localStorage.removeItem('consultaBCVIntervencionTab');
+
+
   // Verifica si hay datos guardados
   const savedBusqueda = localStorage.getItem('consultaBCVIntervencion');
   const savedResultados = localStorage.getItem('consultaBCVIntervencionResultados');

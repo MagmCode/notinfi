@@ -39,11 +39,6 @@
    Cabecera de la página
    ========================================================================== */
 
-   .main-container{
-        width: 100vw;
-        height: 90vh;
-   }
-
 .header-container {
     color: #e89600;
 }
@@ -201,7 +196,7 @@
    ========================================================================== */
 .main-container2 {
     width: 100vw;
-    height: 90vh;
+    // height: 90vh;
     ::ng-deep mat-progress-bar {
          .mat-progress-bar-fill::after {
             background-color: #e89600;
