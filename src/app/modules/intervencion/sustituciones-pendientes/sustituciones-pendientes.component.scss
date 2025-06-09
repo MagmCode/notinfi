@@ -21,11 +21,12 @@
         padding: 10px 0;
     }
     
-    ::ng-deep  .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
+ ::ng-deep  .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
     min-width: 0 !important;
     height: 20px !important;
-    padding: 0 20px !important;
+    padding: 15px 20px !important;
     border-radius: 9999px !important;
+    margin-top: 8px;
     --tw-text-opacity: 0.5;
     color: rgba(var(--fuse-text-secondary-rgb), var(--tw-text-opacity));
     }
@@ -40,7 +41,7 @@
 /* ==========================================================================
    Cabecera de la página
    ========================================================================== */
-.header-container {
+.header-container, .header-container-tab2 {
     // font-size: 3.6em; // Comentado, usar Tailwind si es posible
     color: #e89600;
 }
@@ -152,6 +153,69 @@
     }
 }
 
+
+
+/* Media query global para pantallas <= 1366px */
+@media (max-width: 1700px) {
+.main-container {
+    margin-top: 10px !important;
+}
+
+  .header-container {
+    font-size: 2.2em !important;
+    width: 80% !important;
+  }
+  .head-icon::before {
+    font-size: 2.0em !important;
+  }
+  .text-head {
+    font-size: 0.5em;
+    margin-top: 17px !important;
+  }
+
+     ::ng-deep  .mat-tab-header .mat-tab-label-container .mat-tab-list .mat-tab-labels .mat-tab-label {
+    font-size: 0.7rem;
+    }
+
+    
+/* ==========================================================================
+   Tabla de datos (Angular Material)
+   ========================================================================== */
+.header-container-tab2 {
+    padding: 0 10rem !important;
+    font-size: 2.6em !important;
+}
+
+
+.table-responsive {
+    overflow-x: auto; 
+    width: 100%;
+    max-width: 80vw;
+
+    /* Celdas de la tabla */
+    .table-cell {
+        font-size: 0.58rem;
+    }
+
+    /* Encabezados de la tabla */
+    .header-cell {
+        font-size: 0.67rem;
+    }
+    .mat-cell {
+        font-size: 0.77rem;
+    }
+
+}
+
+.results-table {
+    .action-buttons {
+        .button {
+            font-size: 11px;
+            width: 80px !important;
+            }
+        }
+    }
+}
 
 
 

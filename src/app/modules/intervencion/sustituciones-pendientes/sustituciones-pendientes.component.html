@@ -20,7 +20,7 @@
             <mat-tab label="Selección">
                 <div class="main-container mt-18 flex flex-col items-center">
                     <!-- Cabecera de la página -->
-                    <div class="header-container flex justify-between w-3/5 mb-10 text-7xl w-full">
+                    <div class="header-container flex justify-between mb-10 text-7xl w-full">
                         <span>Sustituciones Pendientes</span>
                         <div class="icon-container flex flex-col items-center mr-30">
                             <!-- Icono representativo -->
@@ -29,7 +29,7 @@
                         </div>
                     </div>
                     <!-- Tarjeta principal con la tabla de jornadas -->
-                    <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl ">
+                    <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl mb-30">
                         <div class="flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl">
                             <!-- Tabla de resultados -->
                             <div class="results-table flex flex-col flex-auto mt-2 overflow-x-auto ">
@@ -158,8 +158,18 @@
             </mat-tab>
 
             <!-- Pestaña de Pendientes -->
-            <mat-tab label="Pendientes" [disabled]="!canViewTab" *ngIf="canViewTab">
-                <div class="main-container mt-18 flex flex-col items-center">
+            <mat-tab label="Pendientes" *ngIf="canViewTab">
+                <div class="main-container2 h-screen w-screen">
+                    <div class="header-container-tab2 flex justify-between px-96 mt-1 text-7xl">
+                            <span>Registros Pendientes</span>
+                            <div class="icon-container flex flex-col items-center ">
+                                <!-- Icono representativo -->
+                                <mat-icon
+                                    class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                                <span class="text-head mt-8">Intervención</span>
+                            </div>
+                        </div>
+                <div class="mt-18 flex flex-col items-center ">
                     <!-- Tarjeta principal con la tabla de pendientes -->
                     <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                         <div class="flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl overflow-hidden">
@@ -277,6 +287,7 @@
                             </div>
                         </div>
                     </div>
+                </div>
                 </div>
             </mat-tab>
         </mat-tab-group>
