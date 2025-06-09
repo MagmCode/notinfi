@@ -40,6 +40,7 @@
 
 /* Personalización del campo de entrada */
 .consulta-input {
+
     /* Ajuste del campo de Angular Material */
     ::ng-deep .mat-form-field-infix {
         display: flex !important;
@@ -55,20 +56,23 @@
     }
 
     /* Estilo para el input y el cursor */
-input, .mat-input-element {
+    input,
+    .mat-input-element {
         caret-color: #e89600;
         margin: 0.7em 0em 0.9em 0em;
         max-width: 80%;
         color: #646464;
-    }    
+    }
 
     /* Oculta flechas en inputs numéricos */
     input {
+
         &[type="number"]::-webkit-outer-spin-button,
         &[type="number"]::-webkit-inner-spin-button {
             -webkit-appearance: none;
             margin: 0;
         }
+
         &[type="number"] {
             appearance: textfield;
             -moz-appearance: textfield;
@@ -101,10 +105,91 @@ input, .mat-input-element {
    Botones de acción
    ========================================================================== */
 .buttons-container .mat-raised-button {
-    color: #e89600 ;
+    color: #e89600;
     font-weight: 500;
+
     &:hover {
         background-color: #e89600;
         color: white;
     }
+}
+
+
+/* ==========================================================================
+   Media queries para pantallas pequeñas (tablets y laptops)
+   ========================================================================== */
+
+/* Ajustes generales para pantallas <= 1024px */
+@media (max-width: 1400px) {
+
+    /* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
+
+    .header-container {
+        font-size: 2.6em !important;
+        width: 70vw !important;
+    }
+
+    /* Icono principal de la cabecera */
+    .head-icon::before {
+        font-size: 2.3em;
+    }
+
+    /* Texto debajo del icono en la cabecera */
+    .text-head {
+        font-size: 0.4em;
+    }
+
+    /* ==========================================================================
+   Contenedor principal de la tarjeta
+   ========================================================================== */
+    .card-container {
+        width: 506px;
+        height: 375px;
+        margin-bottom: 70px;
+    }
+
+    .card-form {
+        width: 200px !important;
+    }
+
+    /* Título de la tarjeta */
+    .card-title {
+        font-size: 1.0em;
+    }
+
+    /* ==========================================================================
+   Estilos para los campos de formulario
+   ========================================================================== */
+
+    .consulta-input {
+        ::ng-deep {
+            .mat-form-field-infix {
+                font-size: 0.76rem !important;
+            }
+
+            .mat-form-field-flex {
+                height: 46px !important;
+            }
+        }
+
+        mat-hint {
+            font-size: 0.9em;
+        }
+
+    }
+
+
+    /* ==========================================================================
+   Botones de acción
+   ========================================================================== */
+    .buttons-container {
+        .mat-raised-button {
+            // width: 40% !important;
+            font-size: 0.7rem;
+        }
+
+    }
+
 }
