@@ -15,10 +15,9 @@
     <router-outlet></router-outlet>
     <mat-sidenav-content>
         <!-- Tabs principales: Búsqueda y Resultados -->
-        <mat-tab-group class="mat-tab-group flex items-center w-screen"
-            [(selectedIndex)]="selectedTabIndex"
+        <mat-tab-group class="mat-tab-group flex items-center w-screen" [(selectedIndex)]="selectedTabIndex"
             (selectedTabChange)="onTabChange($event)">
-            
+
             <!-- TAB DE BÚSQUEDA -->
             <mat-tab label="Búsqueda">
                 <div class="main-container mt-5 flex flex-col w-screen items-center ">
@@ -31,7 +30,7 @@
                         </div>
                     </div>
                     <!-- Tarjeta principal con el formulario de búsqueda -->
-                    <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+                    <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-20">
                         <div class="card-title">
                             <span>Seleccione Criterios</span>
                         </div>
@@ -72,7 +71,8 @@
                                         <mat-label>Fecha Desde</mat-label>
                                         <input matInput formControlName="fechaDesde" [max]="today"
                                             [matDatepicker]="pickerDesde" readonly>
-                                        <mat-icon (click)="pickerDesde.open()" class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
+                                        <mat-icon (click)="pickerDesde.open()"
+                                            class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
                                         <mat-datepicker #pickerDesde></mat-datepicker>
                                     </mat-form-field>
                                     <!-- Filtro por fecha hasta -->
@@ -81,13 +81,15 @@
                                         <input matInput formControlName="fechaHasta" [max]="today"
                                             [min]="intencionRetiroFb.get('fechaDesde')?.value"
                                             [matDatepicker]="pickerHasta" readonly>
-                                        <mat-icon (click)="pickerHasta.open()" class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
+                                        <mat-icon (click)="pickerHasta.open()"
+                                            class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
                                         <mat-datepicker #pickerHasta></mat-datepicker>
                                     </mat-form-field>
                                 </div>
                                 <div class="campos-rojos flex">
                                     <!-- Filtro por estatus -->
-                                    <mat-form-field class="w-full field-form-rojos sucursalesField" appearance="outline">
+                                    <mat-form-field class="w-full field-form-rojos sucursalesField"
+                                        appearance="outline">
                                         <mat-label>Estatus</mat-label>
                                         <mat-select [formControlName]="'estatus'">
                                             <mat-option value="TODAS">Todas</mat-option>
@@ -101,7 +103,8 @@
                         </form>
                         <!-- Botones de acción para procesar, salir -->
                         <div class="buttons-container flex justify-center gap-6">
-                            <button class="mat-raised-button w-full px-7 py-0" type="submit" (click)="consultarIntencionRetiro()">Procesar</button>
+                            <button class="mat-raised-button w-full px-7 py-0" type="submit"
+                                (click)="consultarIntencionRetiro()">Procesar</button>
                             <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
                         </div>
                     </mat-card>
@@ -114,84 +117,124 @@
             <!-- TAB DE RESULTADOS -->
             <mat-tab label="Resultado">
                 <ng-template matTabContent>
-                    <div class="w-full p-0 grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-6  resultados-intervencion  ">
-                        <div class="sm:col-span-12  flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-x-auto mb-30 mx-20 ">
-                            <div class="sm:col-span-16 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl min-w-min ">
+                    <div class="main-container2 h-screen w-screen">
+                        <div class="header-container-tab2 flex justify-between px-96 mt-1 text-7xl">
+                            <span>Registros</span>
+                            <div class="icon-container flex flex-col items-center ">
+                                <!-- Icono representativo -->
+                                <mat-icon
+                                    class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                                <span class="text-head mt-8">Retiro</span>
+                            </div>
+                        </div>
+                        <div class="w-full px-50 mt-10 table-main-container">
+                            <div
+                                class="sm:col-span-12  flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-x-auto mb-10 mx-20 ">
+                                <div
+                                    class="sm:col-span-16 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl min-w-min ">
 
-                                <!-- Filtro de texto y botones de acción -->
-                                <div class="flex flex-col mt-2 results">
-                                    <div class="flex items-start justify-between">
-                                        <mat-form-field appearance="outline" class="input-filter">
-                                            <mat-label>Filtro</mat-label>
-                                            <input matInput (keyup)="applyFilterH($event)" placeholder="" #input>
-                                        </mat-form-field>
-                                        <div class="action-buttons">
-                                            <button class="mat-raised-button mr-5" (click)="exportarExcel()">Exportar Ordenes</button>
-                                            <button class="mat-raised-button mr-5" (click)="regresar()">Regresar</button>
-                                            <button class="mat-raised-button mr-5" (click)="inicio()">Salir</button>
-                                        </div>
-                                    </div>
-                                    <!-- Tabla de resultados -->
-                                    <div class="table-responsive">
-                                        <table mat-table [dataSource]="dataSourceH" matSort class="table-intencionRetiro">
-                                            <!-- Definición de columnas -->
-                                            <ng-container matColumnDef="rif">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Rif</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.rif }}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="nombreEmpresa">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Nombre</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.nombreEmpresa }}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="moneda">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Moneda</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.moneda }}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="montoDivisa">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Monto Divisas</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.montoDivisa | number: '1.2' }}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="numeroCuentaOrigen">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Cuenta Divisa</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.numeroCuentaOrigen }}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="porcentajeComision">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">% Comisión</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.porcentajeComision }}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="montoComision">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell w-10">Monto Comisión</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.montoComision}}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="agencia">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Agencia</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.agencia}}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="estatus">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">Estatus</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.estatus }}</td>
-                                            </ng-container>
-                                            <ng-container matColumnDef="fechaHoraOperacion">
-                                                <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell pr-0 w-10">Fecha de Operación</th>
-                                                <td mat-cell *matCellDef="let row" class="table-cell">{{ row.fechaHoraOperacion }}</td>
-                                            </ng-container>
-                                            <!-- Filas de encabezado y datos -->
-                                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                            <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-                                            <!-- Mensaje cuando no hay datos -->
-                                            <tr class="mat-row" *matNoDataRow>
-                                                <td class="mat-cell text-center" colspan="10">No Existe Resultado</td>
-                                            </tr>
-                                        </table>
-                                        <!-- Paginador y botones de acción secundarios -->
-                                        <div class="paginator-actions-row flex items-center justify-between">
-                                            <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
-                                                [showFirstLastButtons]="true" #paginatorH>
-                                            </mat-paginator>
-                                            <div class="action-buttons" *ngIf="paginatorH?.pageSize !== 5">
-                                                <button class="mat-raised-button mr-5" (click)="exportarExcel()">Exportar Ordenes</button>
-                                                <button class="mat-raised-button mr-5" (click)="regresar()">Regresar</button>
+                                    <!-- Filtro de texto y botones de acción -->
+                                    <div class="flex flex-col mt-2 results">
+                                        <div class="flex items-start justify-between">
+                                            <mat-form-field appearance="outline" class="input-filter">
+                                                <mat-label>Filtro</mat-label>
+                                                <input matInput (keyup)="applyFilterH($event)" placeholder="" #input>
+                                            </mat-form-field>
+                                            <div class="action-buttons">
+                                                <button class="mat-raised-button mr-5"
+                                                    (click)="exportarExcel()">Exportar Ordenes</button>
+                                                <button class="mat-raised-button mr-5"
+                                                    (click)="regresar()">Regresar</button>
                                                 <button class="mat-raised-button mr-5" (click)="inicio()">Salir</button>
+                                            </div>
+                                        </div>
+                                        <!-- Tabla de resultados -->
+                                        <div class="table-responsive">
+                                            <table mat-table [dataSource]="dataSourceH" matSort
+                                                class="table-intencionRetiro w-full">
+                                                <!-- Definición de columnas -->
+                                                <ng-container matColumnDef="rif">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell">Rif</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{ row.rif }}
+                                                    </td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="nombreEmpresa">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell">Nombre</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{
+                                                        row.nombreEmpresa }}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="moneda">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell">Moneda</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{ row.moneda
+                                                        }}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="montoDivisa">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell">Monto Divisas</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{
+                                                        row.montoDivisa | number: '1.2' }}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="numeroCuentaOrigen">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell">Cuenta Divisa</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{
+                                                        row.numeroCuentaOrigen }}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="porcentajeComision">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell">% Comisión</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{
+                                                        row.porcentajeComision }}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="montoComision">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell w-10">Monto Comisión</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{
+                                                        row.montoComision}}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="agencia">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell">Agencia</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{
+                                                        row.agencia}}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="estatus">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell">Estatus</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{ row.estatus
+                                                        }}</td>
+                                                </ng-container>
+                                                <ng-container matColumnDef="fechaHoraOperacion">
+                                                    <th mat-header-cell *matHeaderCellDef mat-sort-header
+                                                        class="header-cell pr-0 w-10">Fecha de Operación</th>
+                                                    <td mat-cell *matCellDef="let row" class="table-cell">{{
+                                                        row.fechaHoraOperacion }}</td>
+                                                </ng-container>
+                                                <!-- Filas de encabezado y datos -->
+                                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                <!-- Mensaje cuando no hay datos -->
+                                                <tr class="mat-row" *matNoDataRow>
+                                                    <td class="mat-cell text-center" colspan="10">No Existe Resultado
+                                                    </td>
+                                                </tr>
+                                            </table>
+                                            <!-- Paginador y botones de acción secundarios -->
+                                            <div class="paginator-actions-row flex items-center justify-between">
+                                                <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                                                    [showFirstLastButtons]="true" #paginatorH>
+                                                </mat-paginator>
+                                                <div class="action-buttons" *ngIf="paginatorH?.pageSize !== 5">
+                                                    <button class="mat-raised-button mr-5"
+                                                        (click)="exportarExcel()">Exportar Ordenes</button>
+                                                    <button class="mat-raised-button mr-5"
+                                                        (click)="regresar()">Regresar</button>
+                                                    <button class="mat-raised-button mr-5"
+                                                        (click)="inicio()">Salir</button>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
