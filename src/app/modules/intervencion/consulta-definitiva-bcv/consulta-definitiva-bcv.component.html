@@ -12,7 +12,7 @@
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
         <!-- Contenedor principal de la vista -->
-        <div class="main-container bg-white flex flex-col w-full h-full md:w-screen items-center px-2 md:px-0" >
+        <div class="main-container bg-white flex flex-col w-full h-full md:w-screen md:h-screen items-center px-2 md:px-0" >
             <!-- Cabecera de la página -->
             <div class="header-container flex justify-between w-3/5 my-10 text-7xl ">
                 <span>Consulta BCV Definitiva</span>
@@ -23,7 +23,7 @@
                 </div>
             </div>
             <!-- Tarjeta principal con el formulario de criterios -->
-            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-30">
+            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl ">
                 <div class="card-title">
                     <span>Seleccione Criterios</span>
                 </div>
@@ -45,7 +45,12 @@
                     <button class="mat-raised-button w-full px-8 py-0" type="submit" (click)="exportarJornada()">Exportar</button>
                     <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
                 </div>
-            </mat-card>
+                <div *ngIf="showExportProgress" class="text-center text-sm text-gray-700 progress">
+                    Generando archivo: {{exportProgress}}%
+                </div>
+                <mat-progress-bar *ngIf="showExportProgress" mode="determinate" [value]="exportProgress"></mat-progress-bar>
+                </mat-card>
+
         </div>
     </mat-sidenav-content>
 </mat-sidenav-container>

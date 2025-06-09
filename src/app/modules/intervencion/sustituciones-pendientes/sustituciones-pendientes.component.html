@@ -13,12 +13,12 @@
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
         <!-- Grupo de pestañas para las operaciones de intervención -->
-        <mat-tab-group class="mat-tab-group flex items-center w-screen h-full"
+        <mat-tab-group class="mat-tab-group flex items-center w-screen "
             [(selectedIndex)]="selectedTabIndex" (selectedTabChange)="onTabChange($event)">
 
             <!-- Pestaña de Selección de jornadas activas -->
             <mat-tab label="Selección">
-                <div class="main-container mt-18 flex flex-col items-center">
+                <div class="main-container mt-5 flex flex-col items-center">
                     <!-- Cabecera de la página -->
                     <div class="header-container flex justify-between mb-10 text-7xl w-full">
                         <span>Sustituciones Pendientes</span>
@@ -159,7 +159,7 @@
 
             <!-- Pestaña de Pendientes -->
             <mat-tab label="Pendientes" *ngIf="canViewTab">
-                <div class="main-container2  w-screen">
+                <div class="main-container2  w-screen h-screen">
                     <div class="header-container-tab2 flex justify-between px-96 mt-1 text-7xl">
                             <span>Registros Pendientes</span>
                             <div class="icon-container flex flex-col items-center ">

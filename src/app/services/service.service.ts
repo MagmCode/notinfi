@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpEvent, HttpRequest } from '@angular/common/http';
 import { BehaviorSubject, Observable } from 'rxjs';
 import { update } from 'lodash';
 import { map } from 'rxjs/operators';
@@ -7,6 +7,7 @@ import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { IntencionRetiro } from 'app/models/intencionRetiro';
 import { IntencionVenta } from 'app/models/intencionVenta';
+
 
 @Injectable({
   providedIn: 'root'
@@ -61,11 +62,15 @@ sustitucionesPendientes$ = this.sustitucionesPendientesSource.asObservable();
 
 
   
-exportarIntervencion( metodo: string, dataBusqueda: any): Observable<Blob> {
-  return this.http.post(
+exportarIntervencion( metodo: string, dataBusqueda: any): Observable<HttpEvent<Blob>> {
+  const req = new HttpRequest(
+    'POST',
     `${this.apiUrl}api/bcv/intervencionFiltro/exportar`, dataBusqueda,
-    { responseType: 'blob' }
+    { responseType: 'blob',
+      reportProgress: true,
+     }
   );
+  return this.http.request(req);
 }
 
 
@@ -133,6 +138,46 @@ exportarConstultaBcv( metodo: string, dataBusqueda: any): Observable<Blob> {
   );
 }
 
+
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+
+// #region Sustituciones Pendientes 
+// CONSULTAR SUSTITUCIONES DE OPERACIONES
+
+
+consultarSustituciones(data: { fechaFiltro: string }): Observable<any[]> {
+  console.log("Data a enviar:", data);
+  return this.http.post<any[]>(
+    `${this.apiUrl}api/bcv/consultaSustitucionesPendientes`,
+    data
+  );
+}
+
+
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+
+// #region Consulta definitiva BCV 
+// CONSULTAR OPERACIONES POR INTERVENCION
+
+
+exportarConsultaDefinitiva(data: { fechaFiltro: string }):Observable<HttpEvent<Blob>> {
+  const req = new HttpRequest(
+    'POST',
+    `${this.apiUrl}api/bcv/consultarOperaciones/exportar`,
+    data,
+    { responseType: 'blob',
+      reportProgress: true,
+     }
+  );
+  return this.http.request(req);
+}
+
+
+
 // ----------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------
@@ -154,12 +199,16 @@ consultaIntencionRetiro(data: { fechaDesde: string; fechaHasta: string }): Obser
 }
 
 
-exportarIntencionRetiro(data: { fechaDesde: string; fechaHasta: string }): Observable<Blob> {
-  return this.http.post(
+exportarIntencionRetiro(data: { fechaDesde: string; fechaHasta: string }): Observable<HttpEvent<Blob>> {
+  const req = new HttpRequest(
+    'POST',
     `${this.apiUrl}api/rest/intencionretiro/exportar`,
     data,
-    { responseType: 'blob' }
+    { responseType: 'blob',
+      reportProgress: true,
+     }
   );
+  return this.http.request(req);
 }
 // #region Intencion Venta-Compra
 // 
@@ -179,12 +228,16 @@ consultaIntencionVenta(data: { fechaDesde: string; fechaHasta: string }): Observ
 }
 
 
-exportarIntencionVenta(data: { fechaDesde: string; fechaHasta: string }): Observable<Blob> {
-  return this.http.post(
+exportarIntencionVenta(data: { fechaDesde: string; fechaHasta: string }): Observable<HttpEvent<Blob>> {
+  const req = new HttpRequest(
+    'POST',
     `${this.apiUrl}api/rest/intencioncompra/exportar`,
     data,
-    { responseType: 'blob' }
+    { responseType: 'blob',
+      reportProgress: true,
+     }
   );
+  return this.http.request(req);
 }
 
 // ----------------------------------------------------------------------------------------------------------------

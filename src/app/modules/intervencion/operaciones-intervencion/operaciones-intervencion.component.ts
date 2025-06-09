@@ -19,6 +19,7 @@ import {MatSnackBar} from '@angular/material/snack-bar';
 import { MatCheckboxChange } from '@angular/material/checkbox';
 import { interval, of, Subscription } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
+import { HttpEventType } from '@angular/common/http';
 
 @Component({
   selector: 'operaciones-intervencion',
@@ -322,95 +323,61 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     alert(`Selected IDs: ${selectedIdsArray.join(', ')}`);
   }
 
-  /**
-   * Exporta los resultados de la consulta a un archivo Excel.
-   */
- exportarExcel(): void {
-    this.exportProgress = 0;
-    this.showExportProgress = true;
 
-    const steps = 14; // 7s / 0.5s
-    /** Simula el progreso de exportación cada 500ms */
-    const progressSub: Subscription = interval(100).pipe(take(steps + 1)).subscribe(i => {
-      this.exportProgress = Math.round((i / steps) * 100);
-      if (this.exportProgress === 100) {
-        this.showExportProgress = false;
-      }
-    });
 
-    /** Seguimiento del progreso de exportación mediante WebSocket*/
-    // this.exportService.getExportProgress().subscribe(progress => {
-    //   this.exportProgress = progress;
-    //   if (progress === 100) {
-    //     this.showExportProgress = false;
-    //   }
-    // });
+exportarExcel(): void {
+  this.exportProgress = 0;
+  this.showExportProgress = true;
 
-    // Llama al servicio real para exportar el archivo
-    this._service.exportarIntervencion('intervencionFiltroExportar', this.operaInterForm.value)
-      .subscribe({
-        next: (blob: Blob) => {
-          progressSub.unsubscribe();
+  this._service.exportarIntervencion('intervencionFiltroExportar', this.operaInterForm.value)
+    .subscribe({
+      next: (event) => {
+        if (event.type === HttpEventType.DownloadProgress) {
+          if (event.total) {
+            this.exportProgress = Math.round(100 * event.loaded / event.total);
+          }
+        } else if (event.type === HttpEventType.Response) {
+          let fileName = 'Intervenciones.xls'; // Valor por defecto
+          const contentDisposition = event.headers?.get('Content-Disposition');
+          if (contentDisposition) {
+            const matches = /filename="?([^"]+)"?/.exec(contentDisposition);
+            if (matches && matches[1]) {
+              fileName = matches[1];
+            }
+          }
+          this.exportProgress = 100;
           this.showExportProgress = false;
+          this.descargarArchivo(event.body as Blob, fileName);
           this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
             duration: 4000,
             horizontalPosition: 'center',
             verticalPosition: 'bottom',
             panelClass: ['custom-snackbar']
           });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'Intervenciones.xls';
-          a.click();
-          window.URL.revokeObjectURL(url);
-        },
-        error: (err) => {
-          progressSub.unsubscribe();
-          this.showExportProgress = false;
-          this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
-            duration: 4000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-            panelClass: ['custom-snackbar']
-          });
-          console.error('Error al exportar:', err);
         }
-      });
-
-    // --- Simulación de retraso para pruebas ---
-    // of(new Blob(['Simulación de archivo grande'], { type: 'application/vnd.ms-excel' }))
-    //   .pipe(delay(7000))
-    //   .subscribe({
-    //     next: (blob: Blob) => {
-    //       progressSub.unsubscribe();
-    //       this.showExportProgress = false;
-    //       this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
-    //         duration: 4000,
-    //         horizontalPosition: 'center',
-    //         verticalPosition: 'bottom',
-    //         panelClass: ['custom-snackbar']
-    //       });
-    //       const url = window.URL.createObjectURL(blob);
-    //       const a = document.createElement('a');
-    //       a.href = url;
-    //       a.download = 'Intervenciones.xls';
-    //       a.click();
-    //       window.URL.revokeObjectURL(url);
-    //     },
-    //     error: (err) => {
-    //       progressSub.unsubscribe();
-    //       this.showExportProgress = false;
-    //       this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
-    //         duration: 4000,
-    //         horizontalPosition: 'center',
-    //         verticalPosition: 'bottom',
-    //         panelClass: ['custom-snackbar']
-    //       });
-    //       console.error('Error al exportar:', err);
-    //     }
-    //   });
+      },
+      error: (err) => {
+        this.showExportProgress = false;
+        this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
+          duration: 4000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          panelClass: ['custom-snackbar']
+        });
+        console.error('Error al exportar:', err);
+      }
+    });
 }
+
+private descargarArchivo(blob: Blob, nombre: string) {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = nombre;
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
+
   /**
    * Navega al menú principal.
    */

@@ -19,6 +19,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SelectionModel } from '@angular/cdk/collections';
 import {MatSnackBar} from '@angular/material/snack-bar';
 import { IntencionRetiro } from 'app/models/intencionRetiro';
+import { HttpEventType } from '@angular/common/http';
 
 interface TableFilter {
   text: string;
@@ -65,6 +66,10 @@ export class IntencionRetiroComponent implements OnInit {
 
   /** Selección múltiple para la tabla */
   selection = new SelectionModel<IntencionRetiro>(true, []);
+
+  
+   exportProgress = 0;
+  showExportProgress = false;
 
   //#region Tablas
 
@@ -366,32 +371,92 @@ onTabChange(event: any): void {
 
 // #region Exportar a Excel
 
+// exportarExcel(): void {
+//   if (!this.lastBusqueda) {
+//     alert('Primero realice una consulta válida.');
+//     return;
+//   }
+//   // Solo enviar fechaDesde y fechaHasta al backend
+//   const requestData = {
+//     fechaDesde: this.lastBusqueda.fechaDesde,
+//     fechaHasta: this.lastBusqueda.fechaHasta
+//   };
+//   this._service.exportarIntencionRetiro(requestData).subscribe({
+//     next: (blob: Blob) => {
+//       const url = window.URL.createObjectURL(blob);
+//       const a = document.createElement('a');
+//       a.href = url;
+//       a.download = 'Retiro.xls';
+//       a.click();
+//       window.URL.revokeObjectURL(url);
+//     },
+//     error: (err) => {
+//       console.error('Error al exportar:', err);
+//       alert('Ocurrió un error al exportar el archivo.');
+//     }
+//   });
+// }
+
 exportarExcel(): void {
   if (!this.lastBusqueda) {
     alert('Primero realice una consulta válida.');
     return;
   }
-  // Solo enviar fechaDesde y fechaHasta al backend
+  this.exportProgress = 0;
+  this.showExportProgress = true;
+
   const requestData = {
     fechaDesde: this.lastBusqueda.fechaDesde,
     fechaHasta: this.lastBusqueda.fechaHasta
   };
+
   this._service.exportarIntencionRetiro(requestData).subscribe({
-    next: (blob: Blob) => {
-      const url = window.URL.createObjectURL(blob);
-      const a = document.createElement('a');
-      a.href = url;
-      a.download = 'Retiro.xls';
-      a.click();
-      window.URL.revokeObjectURL(url);
+    next: (event) => {
+      if (event.type === HttpEventType.DownloadProgress) {
+        if (event.total) {
+          this.exportProgress = Math.round(100 * event.loaded / event.total);
+        }
+      } else if (event.type === HttpEventType.Response) {
+        let fileName = 'Retiro.xls'; // Valor por defecto
+        const contentDisposition = event.headers?.get('Content-Disposition');
+        if (contentDisposition) {
+          const matches = /filename="?([^"]+)"?/.exec(contentDisposition);
+          if (matches && matches[1]) {
+            fileName = matches[1];
+          }
+        }
+        this.exportProgress = 100;
+        this.showExportProgress = false;
+        this.descargarArchivo(event.body as Blob, fileName);
+        this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
+          duration: 4000,
+          horizontalPosition: 'center',
+          verticalPosition: 'bottom',
+          panelClass: ['custom-snackbar']
+        });
+      }
     },
     error: (err) => {
+      this.showExportProgress = false;
+      this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
+        duration: 4000,
+        horizontalPosition: 'center',
+        verticalPosition: 'bottom',
+        panelClass: ['custom-snackbar']
+      });
       console.error('Error al exportar:', err);
-      alert('Ocurrió un error al exportar el archivo.');
     }
   });
 }
 
+private descargarArchivo(blob: Blob, nombre: string) {
+  const url = window.URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = nombre;
+  a.click();
+  window.URL.revokeObjectURL(url);
+}
   // #region Aplicar filtro de búsqueda
 
 
