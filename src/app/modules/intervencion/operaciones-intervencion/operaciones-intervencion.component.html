@@ -34,7 +34,7 @@
                                 </div>
                             </div>
                             <!-- Tarjeta principal con el formulario de búsqueda -->
-                            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+                            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-10">
                                 <!-- Título de la tarjeta -->
                                 <div class="card-title">
                                     <span>Seleccione Criterios</span>
@@ -114,7 +114,8 @@
                     <!-- Pestaña de Resultados -->
                     <mat-tab label="Resultado" *ngIf="canViewTab">
                         <ng-template matTabContent>
-                            <div class="main-container2 grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-6 px-6 ">
+                            <div class="main-container2-info ">
+                                <div class="info-cards-container grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-6 px-6 px-50 mt-5">
                                 <!-- Resumen de cantidad de operaciones -->
                                 <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden ">
                                     <div class="flex items-start justify-between">
@@ -162,12 +163,13 @@
                                         </div>
                                     </div>
                                 </div>
+                            </div>
 
                             </div>
-                            <div class="main-container2">
+                            <div class="main-container2 px-50">
                                 <!-- Tabla de operaciones -->
                                 <div
-                                    class="card-table sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-x-auto mb-30">
+                                    class="card-table sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-x-auto mb-10">
                                     <div
                                         class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl min-w-min">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Operaciones
@@ -187,7 +189,7 @@
                                                     <button class="mat-raised-button mr-3"
                                                         (click)="processSelectedRows()">Procesar</button>
                                                     <button class="mat-raised-button mr-5">Cerrar Lote</button>
-                                                    <button class="mat-raised-button mr-5"
+                                                    <button class="mat-raised-button mr-5 exportar-button"
                                                         (click)="exportarExcel()">Exportar Ordenes</button>
                                                     <button class="mat-raised-button mr-3"
                                                         (click)="regresar()">Regresar</button>
@@ -350,7 +352,7 @@
                                                         <button class="mat-raised-button mr-3"
                                                             (click)="processSelectedRows()">Procesar</button>
                                                         <button class="mat-raised-button mr-5">Cerrar Lote</button>
-                                                        <button class="mat-raised-button mr-5"
+                                                        <button class="mat-raised-button mr-5 exportar-button"
                                                             (click)="exportarExcel()">Exportar Ordenes</button>
                                                         <button class="mat-raised-button mr-3"
                                                             (click)="regresar()">Regresar</button>
