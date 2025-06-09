@@ -285,3 +285,120 @@ mat-tree-node {
 }
 
 
+// ...existing code...
+
+@media (max-width: 1700px) {
+  mat-sidenav {
+    width: 200px;
+  }
+
+  .red-bg {
+    height: 140px;
+  }
+
+  .profile::before {
+    font-size: 3.7rem;
+  }
+  .profile-container {
+    margin-top: -21px;
+  }
+
+  .user {
+    font-size: 1em;
+    margin-top: 0 !important;
+  }
+  .perfil {
+    padding-top: 0;
+  }
+
+  .menu-items ul > li:not(.tree-node) .item {
+    font-size: 0.95rem;
+  }
+
+  .mat-tree {
+    width: 100%;
+  }
+
+  .icon-item::before {
+    font-size: 20px;
+  }
+
+  .menu-icon::before {
+    font-size: 15px;
+    height: 15px;
+    width: 15px;
+    margin-right: 6px;
+  }
+
+  .logout-icon::before {
+    font-size: 22px;
+    height: 15px;
+    width: 15px;
+  }
+
+  .header {
+    height: 70px;
+  }
+
+  .button-menu {
+    margin: 0 10px 0 10px;
+  }
+  .back::before {
+  font-size: 1.3rem;
+}
+  
+  .icon-bdv-icon-menu3-l:before {
+    font-size: 1.5rem;
+  }
+
+  .text {
+    margin-right: 1rem !important;
+    margin-top: 12px !important;
+  }
+  .text1 {
+    margin-bottom: 3px !important;
+    font-size: 1.2rem;
+  }
+
+  .fecha {
+    font-size: 10px;
+  }
+
+  #notinfi-logo {
+    height: 60px;
+    width: 55px;
+  }
+  #bdv-logo {
+    height: 55px;
+    width: 160px;
+  }
+
+  .footer {
+    .footer2 {
+      font-size: 0.95em;
+    }
+    .shapes-container {
+      height: 52px;
+    }
+    .shape1,
+    .shape2,
+    .shape3 {
+      width: 250px;
+      height: 200px;
+    }
+    .shape1 {
+      bottom: -183px;
+      left: -50px;
+    }
+    .shape2 {
+      bottom: -169px;
+      left: -10px;
+    }
+    .shape3 {
+      bottom: -196px;
+      left: 20px;
+    }
+  }
+}
+
+// ...existing code...
