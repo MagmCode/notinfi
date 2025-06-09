@@ -88,3 +88,80 @@
         color: white ;   // Texto blanco al pasar el mouse
     }
 }
+
+
+/* ==========================================================================
+   Media queries para pantallas pequeñas (tablets y laptops)
+   ========================================================================== */
+
+/* Ajustes generales para pantallas <= 1024px */
+@media (max-width: 1400px) {
+
+    /* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
+    .header-container {
+        font-size: 2.6em !important;
+        width: 40vw !important;
+    }
+
+    /* Icono principal de la cabecera */
+    .head-icon::before {
+        font-size: 2.3em;
+    }
+
+    /* Texto debajo del icono en la cabecera */
+    .text-head {
+        font-size: 0.4em;
+    }
+
+    /* ==========================================================================
+   Contenedor principal de la tarjeta
+   ========================================================================== */
+    .card-container {
+       width: 506px;
+        height: 375px;
+        margin-bottom: 70px;
+    }
+
+    .card-form {
+        width: 350px !important;
+    }
+
+    /* Título de la tarjeta */
+    .card-title {
+        font-size: 1.0em;
+    }
+
+        .field-form {
+    ::ng-deep {
+        .mat-form-field-infix {
+            font-size: 0.76rem !important;
+        }
+
+        .mat-form-field-flex {
+            height: 46px !important ;
+        }
+    }   
+}
+
+
+    .eye-icon::before {
+        font-size: 0.8em;
+    }
+
+
+   .icon-bdv-icon-file2-m::before {
+        font-size: 0.8em;
+    }
+
+    /* ==========================================================================
+   Botones de acción
+   ========================================================================== */
+    .buttons-container { 
+        .mat-raised-button {
+            font-size: 0.7rem;
+        }
+    }
+
+}
