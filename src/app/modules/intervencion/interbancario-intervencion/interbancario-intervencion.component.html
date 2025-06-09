@@ -12,10 +12,10 @@
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
         <!-- Contenedor principal centrado -->
-        <div class="main-container flex flex-col justify-center items-center w-screen h-4/5 fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white">
+        <div class="main-container bg-white flex flex-col w-full h-full md:w-screen items-center px-2 md:px-0" >
 
             <!-- Cabecera de la página -->
-            <div class="header-container flex justify-between mb-10 text-7xl ">
+            <div class="header-container flex justify-between my-10 text-7xl ">
                 <span>Interbancario</span>
                 <div class="icon-container flex flex-col items-center mr-20">
                     <!-- Icono representativo -->
@@ -25,12 +25,12 @@
             </div>
 
             <!-- Tarjeta principal con el formulario -->
-            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl">
+            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-30">
                 <div class="card-title">
                     <span>Seleccione Criterios</span>
                 </div>
                 <!-- Formulario reactivo para la consulta interbancaria -->
-                <form class="card-form flex items-center gap-10 " [formGroup]="interbanInterForm">
+                <form class="card-form flex items-center gap-10  " [formGroup]="interbanInterForm">
                     <!-- Campo: Fecha (preseleccionada al día de hoy, no permite fechas futuras) -->
                     <mat-form-field class="w-full field-form" appearance="outline">
                         <mat-label>Fecha</mat-label>
