@@ -238,6 +238,7 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
 
     this._service.consultaIntervencion('intervencionFiltro',form).subscribe({
       next: (resp: respuestaIntervencion) => {
+        console.log("formulario enviado:", form);
         this.intervencion = resp.respIntervencion;
         this.dataSourceH = new MatTableDataSource(this.intervencion);
         this.dataSourceH.paginator = this.paginator;
@@ -337,7 +338,7 @@ exportarExcel(): void {
             this.exportProgress = Math.round(100 * event.loaded / event.total);
           }
         } else if (event.type === HttpEventType.Response) {
-          let fileName = 'Intervenciones.xls'; // Valor por defecto
+          let fileName = 'intervenciones_filtradas.xls'; // Valor por defecto
           const contentDisposition = event.headers?.get('Content-Disposition');
           if (contentDisposition) {
             const matches = /filename="?([^"]+)"?/.exec(contentDisposition);
@@ -347,6 +348,8 @@ exportarExcel(): void {
           }
           this.exportProgress = 100;
           this.showExportProgress = false;
+          console.log('Content-Disposition:', contentDisposition);
+console.log('Nombre de archivo detectado:', fileName);
           this.descargarArchivo(event.body as Blob, fileName);
           this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
             duration: 4000,
@@ -376,6 +379,15 @@ private descargarArchivo(blob: Blob, nombre: string) {
   a.download = nombre;
   a.click();
   window.URL.revokeObjectURL(url);
+}
+
+applyFilterH(event: Event) {
+  const filterValue = (event.target as HTMLInputElement).value;
+  this.dataSourceH.filter = filterValue.trim().toLowerCase();
+
+  if (this.dataSourceH.paginator) {
+    this.dataSourceH.paginator.firstPage();
+  }
 }
 
   /**
