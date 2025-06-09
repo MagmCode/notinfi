@@ -371,31 +371,6 @@ onTabChange(event: any): void {
 
 // #region Exportar a Excel
 
-// exportarExcel(): void {
-//   if (!this.lastBusqueda) {
-//     alert('Primero realice una consulta válida.');
-//     return;
-//   }
-//   // Solo enviar fechaDesde y fechaHasta al backend
-//   const requestData = {
-//     fechaDesde: this.lastBusqueda.fechaDesde,
-//     fechaHasta: this.lastBusqueda.fechaHasta
-//   };
-//   this._service.exportarIntencionRetiro(requestData).subscribe({
-//     next: (blob: Blob) => {
-//       const url = window.URL.createObjectURL(blob);
-//       const a = document.createElement('a');
-//       a.href = url;
-//       a.download = 'Retiro.xls';
-//       a.click();
-//       window.URL.revokeObjectURL(url);
-//     },
-//     error: (err) => {
-//       console.error('Error al exportar:', err);
-//       alert('Ocurrió un error al exportar el archivo.');
-//     }
-//   });
-// }
 
 exportarExcel(): void {
   if (!this.lastBusqueda) {
