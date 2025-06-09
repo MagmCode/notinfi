@@ -48,7 +48,7 @@ export class ConsultabcvIntervencionComponent implements OnInit {
   /** Fecha máxima permitida en el calendario (hoy) */
   today = new Date();
   /** Permite ver la pestaña de operaciones */
-  canViewTab: boolean = true;
+  canViewTab: boolean = false;
 
 
    exportProgress = 0;
