@@ -62,3 +62,5 @@ import 'zone.js';  // Included with Angular CLI.
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */
+// Agrega este polyfill para evitar el error "global is not defined"
+(window as any).global = window;
