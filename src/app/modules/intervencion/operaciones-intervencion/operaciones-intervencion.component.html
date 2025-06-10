@@ -17,12 +17,12 @@
             <router-outlet *ngIf="true"></router-outlet>
             <mat-sidenav-content>
                 <!-- Grupo de pestañas para las operaciones de intervención -->
-                <mat-tab-group class="mat-tab-group flex items-center w-screen h-screen" [(selectedIndex)]="selectedTabIndex"
+                <mat-tab-group class="mat-tab-group flex items-center w-screen" [(selectedIndex)]="selectedTabIndex"
                     (selectedTabChange)="onTabChange($event)">
 
                     <!-- Pestaña de Búsqueda de jornadas activas -->
                     <mat-tab label="Búsqueda">
-                        <div class="main-container mt-5 flex flex-col md:w-screen items-center px-2 md:px-0">
+                      <div class="main-container mt-5 flex flex-col w-full items-center ">
                             <!-- Cabecera de la página -->
                             <div class="header-container flex justify-between w-2/5 mb-5 text-7xl">
                                 <span>Operaciones</span>
@@ -114,10 +114,11 @@
                     <!-- Pestaña de Resultados -->
                     <mat-tab label="Resultado" *ngIf="canViewTab">
                         <ng-template matTabContent>
-                            <div class="main-container2-info">
+                            <div class="main-container3 w-screen">
+                            <div class="main-container2-info ">
                                 <div class="info-cards-container grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-6 px-6 px-50 mt-5">
                                 <!-- Resumen de cantidad de operaciones -->
-                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden ">
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl  ">
                                     <div class="flex items-start justify-between">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate  ">Cantidad de
                                             Operaciones: </div>
@@ -129,7 +130,7 @@
                                     </div>
                                 </div>
                                 <!-- Resumen de monto total -->
-                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl ">
                                     <div class="flex items-start justify-between">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Monto Total:
                                         </div>
@@ -142,7 +143,7 @@
                                 </div>
 
                                 <!-- Resumen de jornada -->
-                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl ">
                                     <div class="flex items-start justify-between">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate ">Jornada:
                                         </div>
@@ -166,7 +167,7 @@
                             </div>
 
                             </div>
-                            <div class="main-container2 px-50 h-screen ">
+                            <div class="main-container2 px-50 ">
                                 <!-- Tabla de operaciones -->
                                 <div
                                     class="card-table sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-x-auto mb-30">
@@ -377,6 +378,7 @@
 
                                 </div>
 
+                            </div>
                             </div>
                         </ng-template>
                     </mat-tab>

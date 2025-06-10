@@ -338,7 +338,7 @@ exportarExcel(): void {
             this.exportProgress = Math.round(100 * event.loaded / event.total);
           }
         } else if (event.type === HttpEventType.Response) {
-          let fileName = 'intervenciones_filtradas.xls'; // Valor por defecto
+          let fileName = 'intervenciones_filtradas.xlsx'; // Valor por defecto
           const contentDisposition = event.headers?.get('Content-Disposition');
           if (contentDisposition) {
             const matches = /filename="?([^"]+)"?/.exec(contentDisposition);
