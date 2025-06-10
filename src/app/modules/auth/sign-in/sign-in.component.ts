@@ -1,42 +1,72 @@
+/**
+ * Componente de inicio de sesión (Sign In) para la aplicación.
+ * 
+ * Este componente gestiona el formulario de autenticación de usuarios,
+ * mostrando mensajes de error personalizados según la respuesta del backend,
+ * y maneja la navegación tras un login exitoso.
+ * 
+ * Funcionalidades principales:
+ * - Renderiza y valida el formulario de login.
+ * - Envía las credenciales al backend y procesa la respuesta.
+ * - Muestra mensajes de error amigables y específicos según el caso.
+ * - Aplica estilos personalizados al fondo de la página de login.
+ * 
+ * Dependencias:
+ * - Angular Forms y Router para la gestión de formularios y navegación.
+ * - Servicios de autenticación y login.
+ * - Fuse para animaciones y alertas visuales.
+ */
 import { Component, OnInit, Renderer2, ViewChild, ViewEncapsulation, NgZone } from '@angular/core';
 import { FormBuilder, FormGroup, NgForm, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
 import { fuseAnimations } from '@fuse/animations';
 import { FuseAlertType } from '@fuse/components/alert';
 import { AuthService } from 'app/core/auth/auth.service';
-import { loginLdap } from 'app/models/login';
 import { LoginService } from 'app/services/login.service';
-import { HttpErrorResponse } from '@angular/common/http';
-import { Observable, throwError } from 'rxjs';
-import { catchError, tap } from 'rxjs/operators';
+
+/**
+ * Lista de mensajes que identifican errores de credenciales inválidas.
+ * Si el mensaje de error recibido contiene alguno de estos textos,
+ * se mostrará un mensaje genérico de "Credenciales incorrectas".
+ */
+const ERRORES_CREDENCIALES: string[] = [
+    'Usuario no encontrado en SEPA',
+    'Credenciales inválidas',
+    'Usuario o contraseña incorrectos',
+    'Invalid credentials',
+    'Usuario no está activo en SEPA'
+];
+
+/**
+ * Diccionario de mensajes de error específicos enviados por el backend,
+ * mapeados a mensajes amigables para mostrar al usuario.
+ * La clave es una parte del mensaje recibido y el valor es el mensaje a mostrar.
+ */
+const MENSAJES_ESPECIFICOS: Record<string, string> = {
+    '(FWRK-SEC-0001)': 'El Usuario ya se encuentra autenticado en otra sesión.',
+    'Usuario no tiene roles asignados para la aplicación INFI': 'No tienes permisos para acceder al sistema.'
+};
 
 @Component({
     selector: 'auth-sign-in',
     templateUrl: './sign-in.component.html',
     styleUrls: ['./sign-in.component.scss'],
-    encapsulation: ViewEncapsulation.None,
     animations: fuseAnimations
 })
 export class AuthSignInComponent implements OnInit {
     @ViewChild('signInNgForm') signInNgForm: NgForm;
 
-    alert: { type: FuseAlertType; message: string } = {
-        type: 'success',
-        message: ''
-    };
+    alert: { type: FuseAlertType; message: string } = { type: 'success', message: '' };
     signInForm: FormGroup;
-    showAlert: boolean = false;
+    showAlert = false;
 
     constructor(
-        private _activatedRoute: ActivatedRoute,
-        private _authService: AuthService,
         private _formBuilder: FormBuilder,
         private _router: Router,
-        private renderer: Renderer2,
         private loginService: LoginService,
-        private ngZone: NgZone,
+        private renderer: Renderer2,
     ) {
-        // Configura el estilo del fondo
+        // Configura el estilo del fondo de la página de login
         renderer.setStyle(document.body, 'overflow', 'hidden');
         renderer.setStyle(document.body, 'background', '#ededed');
         renderer.setStyle(document.body, 'background-image', 'url(assets/images/login/fondo_inicio.webp)');
@@ -46,8 +76,10 @@ export class AuthSignInComponent implements OnInit {
         renderer.setStyle(document.body, 'height', '100vh');
     }
 
+    /**
+     * Inicializa el formulario reactivo de login.
+     */
     ngOnInit(): void {
-        // Crea el formulario reactivo
         this.signInForm = this._formBuilder.group({
             usuario: ['', [Validators.required]],
             password: ['', Validators.required],
@@ -55,57 +87,60 @@ export class AuthSignInComponent implements OnInit {
         });
     }
 
+    /**
+     * Maneja el envío del formulario de login.
+     * @param event Evento de envío del formulario
+     */
     signIn(event: Event): void {
-        if (this.signInForm.invalid) {
-            return;
-        }
-    
+        if (this.signInForm.invalid) return;
+
         this.signInForm.disable();
         this.showAlert = false;
-    
+
         const { usuario: codUsuario, password: clave } = this.signInForm.value;
-    
+
         this.loginService.validarUsuario(codUsuario, clave).subscribe({
-            // next: (response: loginLdap) => {
-            //     if (response?.estatus?.toUpperCase() === 'SUCCESS') {
             next: (response: any) => {
-                // Ahora la respuesta exitosa tiene un token
                 if (response && response.token) {
                     this._router.navigateByUrl('/menu-principal');
                 } else {
-                    // Mensaje genérico para cualquier fallo de autenticación
                     this.mostrarError('Credenciales incorrectas');
                     this.signInForm.enable();
                 }
             },
             error: (error: any) => {
+                // Desempaqueta recursivamente si el error es función
+                while (typeof error === 'function') {
+                    error = error();
+                }
                 let errorMessage = this.extraerMensajeError(error);
-                
-                // Mapear todos los errores relacionados con credenciales a un mensaje genérico
+
                 if (this.esErrorDeCredenciales(errorMessage)) {
                     errorMessage = 'Credenciales incorrectas';
                 } else {
                     errorMessage = this.mapearMensajesError(errorMessage);
                 }
-                
+
                 this.mostrarError(errorMessage);
                 this.signInForm.enable();
             }
         });
     }
-    
+
+    /**
+     * Determina si el mensaje corresponde a un error de credenciales.
+     * @param mensaje Mensaje de error recibido
+     * @returns true si es un error de credenciales, false en caso contrario
+     */
     private esErrorDeCredenciales(mensaje: string): boolean {
-        const erroresCredenciales = [
-            'Usuario no encontrado en SEPA',
-            'Credenciales inválidas',
-            'Usuario o contraseña incorrectos',
-            'Invalid credentials',
-            'Usuario no está activo en SEPA'
-        ];
-    
-        return erroresCredenciales.some(error => mensaje.includes(error));
+        return ERRORES_CREDENCIALES.some(error => mensaje.includes(error));
     }
-    
+
+    /**
+     * Extrae el mensaje de error relevante del objeto de error recibido.
+     * @param error Objeto de error recibido
+     * @returns Mensaje de error extraído
+     */
     private extraerMensajeError(error: any): string {
         if (typeof error === 'string') return error;
         if (error?.error?.mensaje) return error.error.mensaje;
@@ -113,39 +148,42 @@ export class AuthSignInComponent implements OnInit {
         if (typeof error?.error === 'string') return error.error;
         return 'Error en el servidor';
     }
-    
+
+    /**
+     * Mapea mensajes de error específicos a mensajes amigables para el usuario.
+     * @param mensaje Mensaje de error recibido
+     * @returns Mensaje amigable para mostrar al usuario
+     */
     private mapearMensajesError(mensaje: string): string {
-        // Mantener solo mensajes que NO sean de credenciales
-        const mensajesEspecificos = {
-            '(FWRK-SEC-0001)': 'El usuario ya tiene una sesión activa.',
-            'Usuario no tiene roles asignados para la aplicación INFI': 'No tienes permisos para acceder al sistema.'
-        };
-    
-        for (const [key, value] of Object.entries(mensajesEspecificos)) {
+        for (const [key, value] of Object.entries(MENSAJES_ESPECIFICOS)) {
             if (mensaje.includes(key)) {
                 return value;
             }
         }
-    
-        return 'Error en el servidor';
+        return mensaje || 'Error en el servidor';
     }
-  
-  private mostrarError(mensaje: string): void {
-    //   console.log('Mostrando error:', mensaje); // Para depuración   
-      this.alert = {
-          type: 'error',
-          message: mensaje
-      };
-      this.showAlert = true;
-      
-      setTimeout(() => {
-          const alertElement = document.querySelector('fuse-alert');
-          if (alertElement) {
-              alertElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
-          }
-      }, 100);
-  }
+
+    /**
+     * Muestra un mensaje de error en la alerta de la UI.
+     * @param mensaje Mensaje a mostrar
+     */
+    private mostrarError(mensaje: string): void {
+        this.alert = { type: 'error', message: mensaje };
+        this.showAlert = true;
+
+        setTimeout(() => {
+            const alertElement = document.querySelector('fuse-alert');
+            if (alertElement) {
+                alertElement.scrollIntoView({ behavior: 'smooth', block: 'center' });
+            }
+        }, 100);
+    }
+
+    /**
+     * Indica si el formulario es válido y tiene valores.
+     */
     get isValid() {
         return this.signInForm.valid && this.signInForm.value;
     }
+    
 }

@@ -95,7 +95,7 @@ export class LoginService {
   
     return this.http.post<any>(url, usuario).pipe(
       tap((response: any) => {
-        console.log('Respuesta completa del backend:', response);
+        // console.log('Respuesta completa del backend:', response);
         if (response.token) {
           localStorage.setItem('token', response.token);
           // Ahora los datos vienen directamente en el response
@@ -106,19 +106,19 @@ export class LoginService {
             roleName: response.roleName,
             roleId: response.roleId,
           }));
-          console.log('Usuario almacenado en localStorage:', {
-            codUsuario: response.codUsuario,
-            userId: response.codUsuario,
-            fullName: response.nombreCompleto,
-            roleName: response.roleName,
-            roleId: response.roleId,
-          });
+          // console.log('Usuario almacenado en localStorage:', {
+          //   codUsuario: response.codUsuario,
+          //   userId: response.codUsuario,
+          //   fullName: response.nombreCompleto,
+          //   roleName: response.roleName,
+          //   roleId: response.roleId,
+          // });
         }
       }),
       catchError((error: HttpErrorResponse) => {
-        const errorMessage = error.error?.mensaje || error.message || 'Error desconocido';
-        return throwError(errorMessage);
-      })
+        // console.log('LoginService - error recibido:', error);
+         return throwError(() => error); // Lanza el error completo, no solo el mensaje
+    })
     );
   }
 

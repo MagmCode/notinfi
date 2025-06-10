@@ -1,4 +1,4 @@
-import { Component, OnDestroy, OnInit, ViewEncapsulation } from "@angular/core";
+import { Component, OnDestroy, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { Subject } from "rxjs";
 import { ServiceService } from "app/services/service.service";
@@ -12,7 +12,6 @@ import { ServiceService } from "app/services/service.service";
   selector: "menu-principal",
   templateUrl: "./menu-principal.component.html",
   styleUrls: ["./menu-principal.component.scss"],
-  encapsulation: ViewEncapsulation.None,
 })
 export class MenuPrincipalComponent implements OnInit, OnDestroy {
 
@@ -110,20 +109,20 @@ export class MenuPrincipalComponent implements OnInit, OnDestroy {
           // Si no hay tasas precargadas, consulta al backend
           this._service.consultarTasas().subscribe({
             next: (tasas) => {
-              console.log("Tasas obtenidas:", tasas);
+              // console.log("Tasas obtenidas:", tasas);
               this.tasas = tasas;
               setTimeout(() => {
                 this.isLoading = false;
               }, 500); // Pequeño delay para mejor UX
             },
             error: (err) => {
-              console.error("Error al obtener tasas:", err);
+              // console.error("Error al obtener tasas:", err);
               this.isLoading = false;
             },
           });
         } else {
           // Si ya hay tasas en memoria, las usa directamente
-          console.log("Tasas precargadas:", tasas);
+          // console.log("Tasas precargadas:", tasas);
           this.tasas = tasas;
           setTimeout(() => {
             this.isLoading = false;
@@ -131,7 +130,7 @@ export class MenuPrincipalComponent implements OnInit, OnDestroy {
         }
       },
       error: (err) => {
-        console.error("Error al cargar tasas:", err);
+        // console.error("Error al cargar tasas:", err);
         this.isLoading = false;
       },
     });
