@@ -7,6 +7,8 @@ import { interval, Subscription } from 'rxjs';
 import { take } from 'rxjs/operators';
 import { ServiceService } from 'app/services/service.service';
 import { HttpEventType } from '@angular/common/http';
+import { WebSocketService } from 'app/services/websocket.service';
+import { MatSnackBar } from '@angular/material/snack-bar';
 
 
 /**
@@ -28,6 +30,9 @@ export class ConsultaDefinitivaBcvComponent implements OnInit {
   /** Variable para controlar la visibilidad del progreso de exportación */
 showExportProgress = false;
 
+private wsSubscription: Subscription;
+descargandoArchivo = false;
+
   /**
    * Constructor del componente.
    * @param _formBuilder Servicio para construir formularios reactivos.
@@ -36,17 +41,66 @@ showExportProgress = false;
   constructor(
     private _formBuilder: FormBuilder,
     private _router: Router,
-    private _service: ServiceService
+    private _service: ServiceService,
+    private websocketService: WebSocketService,
+    private _snackBar: MatSnackBar
+
   ) {}
 
   /**
    * Inicializa el formulario reactivo con validación requerida para el código de jornada.
    */
-  ngOnInit(): void {
-    this.consultaForm = this._formBuilder.group({
-      cod: ['', Validators.required]
-    });
+ngOnInit(): void {
+  this.consultaForm = this._formBuilder.group({
+    cod: ['', Validators.required]
+  });
+
+  // Suscripción al WebSocket para progreso de exportación
+  if (this.wsSubscription) {
+    this.wsSubscription.unsubscribe();
   }
+  this.wsSubscription = this.websocketService.progress$.subscribe(data => {
+    if (!data) return;
+    if ((data.status === 'progress' || data.status === 'start') && this.showExportProgress) {
+      this.exportProgress = data.progress || 0;
+    }
+    if (
+      data.status === 'complete' &&
+      data.fileName &&
+      this.showExportProgress &&
+      !this.descargandoArchivo
+    ) {
+      this.exportProgress = 100;
+      this.showExportProgress = false;
+      this.descargandoArchivo = true;
+
+      const codigoJornada = this.consultaForm.value.cod;
+      this._service.exportarConsultaDefinitiva({ fechaFiltro: codigoJornada }).subscribe({
+        next: (event) => {
+          if (event.type === HttpEventType.Response) {
+            let fileName = data.fileName;
+            if (!fileName.endsWith('.xlsx') && !fileName.endsWith('.xls')) {
+              fileName += '.xlsx';
+            }
+            this.descargarArchivo(event.body as Blob, fileName);
+            // Opcional: notificación
+            this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
+            this.descargandoArchivo = false;
+          }
+        },
+        error: () => {
+          this.descargandoArchivo = false;
+        }
+      });
+    }
+  });
+}
+
+ngOnDestroy(): void {
+  if (this.wsSubscription) {
+    this.wsSubscription.unsubscribe();
+  }
+}
 
   /**
    * Lógica para exportar la jornada.
@@ -103,37 +157,15 @@ exportarJornada(): void {
   if (this.consultaForm.invalid) {
     return;
   }
-
   this.exportProgress = 0;
   this.showExportProgress = true;
+  this.descargandoArchivo = false;
 
   const codigoJornada = this.consultaForm.value.cod;
   this._service.exportarConsultaDefinitiva({ fechaFiltro: codigoJornada }).subscribe({
-    next: (event) => {
-      if (event.type === HttpEventType.DownloadProgress) {
-        if (event.total) {
-          this.exportProgress = Math.round(100 * event.loaded / event.total);
-        }
-      } else if (event.type === HttpEventType.Response) {
-        let fileName = `ConsultaDefinitiva_${codigoJornada}.xls`; // Valor por defecto
-        const contentDisposition = event.headers?.get('Content-Disposition');
-        if (contentDisposition) {
-          const matches = /filename="?([^"]+)"?/.exec(contentDisposition);
-          if (matches && matches[1]) {
-            fileName = matches[1];
-          }
-        }
-        this.exportProgress = 100;
-        this.showExportProgress = false;
-        this.descargarArchivo(event.body as Blob, fileName);
-        // Opcional: notificación
-        // this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
-      }
-    },
     error: (err) => {
       this.showExportProgress = false;
-      // Opcional: notificación de error
-      // this._snackBar.open('Error al exportar el archivo.', 'Cerrar', { duration: 4000 });
+      this._snackBar.open('Error al exportar el archivo.', 'Cerrar', { duration: 4000 });
       console.error('Error al exportar:', err);
     }
   });

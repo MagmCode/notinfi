@@ -111,6 +111,11 @@
     color: #eb3333 !important; // o el color que prefieras para error
 }
 
+/* Snack-bar */
+::ng-deep .mat-simple-snackbar-action {
+    color: rgba(255, 255, 255, 0.664) !important;
+}
+
 /* ==========================================================================
    Botones de acción
    ========================================================================== */
