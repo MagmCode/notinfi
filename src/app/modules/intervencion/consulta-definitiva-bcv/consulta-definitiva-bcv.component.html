@@ -42,13 +42,24 @@
                 </form>
                 <!-- Botones de acción: Exportar y Salir -->
                 <div class="buttons-container flex justify-center gap-6">
-                    <button class="mat-raised-button w-full px-8 py-0" type="submit" (click)="exportarJornada()">Exportar</button>
-                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
+                    <button mat-raised-button class=" w-full px-8 py-0" type="submit" (click)="exportarJornada()" [disabled]="showExportProgress || showExportStart || generandoArchivo">Exportar</ button>
+                    <button mat-raised-button class=" w-full px-8 py-0" (click)="inicio()">Salir</button>
                 </div>
                 <div *ngIf="showExportProgress" class="text-center text-sm text-gray-700 progress">
-                    Generando archivo: {{exportProgress}}%
+                    <ng-container *ngIf="!generandoArchivo; else preparandoDescarga">
+                        Generando archivo: {{exportProgress}}%
+                    </ng-container>
+                    <ng-template #preparandoDescarga>
+                        {{mensajePreparandoDescarga}}
+                    </ng-template>
+                </div>
+                <div *ngIf="showExportStart" class="text-center text-sm text-gray-700 progress">
+                    <ng-container>{{mensajeConexionActual}}</ng-container> 
                 </div>
                 <mat-progress-bar *ngIf="showExportProgress" mode="determinate" [value]="exportProgress"></mat-progress-bar>
+                <mat-progress-bar *ngIf="showExportStart" mode="indeterminate">
+                                      
+                </mat-progress-bar>
                 </mat-card>
 
         </div>

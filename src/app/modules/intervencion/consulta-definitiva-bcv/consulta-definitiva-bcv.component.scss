@@ -122,9 +122,10 @@
 .buttons-container .mat-raised-button {
     color: #e89600;
     font-weight: 500;
+    background-color: #ffffff;
 
-    &:hover {
-        background-color: #e89600;
+     &:hover:not([disabled]) {
+        background-color: #ffa600 !important;
         color: white;
     }
 }

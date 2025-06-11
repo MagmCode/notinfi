@@ -29,9 +29,28 @@ export class ConsultaDefinitivaBcvComponent implements OnInit {
   exportProgress = 0;
   /** Variable para controlar la visibilidad del progreso de exportación */
 showExportProgress = false;
+showExportStart = false;
 
 private wsSubscription: Subscription;
-descargandoArchivo = false;
+generandoArchivo = false;
+
+mensajeDescarga: string[] = [
+  'Preparando archivo para la descarga...',
+  'Espere, por favor...',
+  'Ya casi está listo...'
+];
+mensajePreparandoDescarga = this.mensajeDescarga[0];
+intervaloMensajeDescarga: any = null;
+mensajeDescargaIndex = 0;
+
+mensajeConexion: string[] = [
+  'Estableciendo conexión...',
+  'Espere un momento, por favor...'
+]
+
+mensajeConexionActual = this.mensajeConexion[0];
+intervaloMensajeConexion: any = null;
+mensajeConexionIndex = 0;
 
   /**
    * Constructor del componente.
@@ -55,24 +74,47 @@ ngOnInit(): void {
     cod: ['', Validators.required]
   });
 
+
   // Suscripción al WebSocket para progreso de exportación
   if (this.wsSubscription) {
     this.wsSubscription.unsubscribe();
   }
   this.wsSubscription = this.websocketService.progress$.subscribe(data => {
     if (!data) return;
-    if ((data.status === 'progress' || data.status === 'start') && this.showExportProgress) {
-      this.exportProgress = data.progress || 0;
+
+    if ((data.status === 'progress')) {
+      this.showExportStart = false;
+      this.showExportProgress = true;
+      this.exportProgress = data.progress;
+        if (this.intervaloMensajeConexion) {
+        clearInterval(this.intervaloMensajeConexion);
+      }
     }
+
+    // Cuando el backend notifica que el archivo está listo
     if (
       data.status === 'complete' &&
       data.fileName &&
       this.showExportProgress &&
-      !this.descargandoArchivo
+      !this.generandoArchivo
     ) {
-      this.exportProgress = 100;
-      this.showExportProgress = false;
-      this.descargandoArchivo = true;
+      this.exportProgress = 0;
+      this.generandoArchivo = true;
+
+      // Inicia el ciclo de mensajes alternantes
+      this.mensajeDescargaIndex = 0;
+      this.mensajePreparandoDescarga = this.mensajeDescarga[0];
+      this.intervaloMensajeDescarga = setInterval(() => {
+        this.mensajeDescargaIndex = (this.mensajeDescargaIndex + 1) % this.mensajeDescarga.length;
+        this.mensajePreparandoDescarga = this.mensajeDescarga[this.mensajeDescargaIndex];
+      }, 5000);
+
+         // Avanza la barra manualmente mientras se descarga
+    const intervaloBarra = setInterval(() => {
+      if (this.exportProgress < 95) {
+        this.exportProgress += 5;
+      }
+    }, 300);
 
       const codigoJornada = this.consultaForm.value.cod;
       this._service.exportarConsultaDefinitiva({ fechaFiltro: codigoJornada }).subscribe({
@@ -83,13 +125,21 @@ ngOnInit(): void {
               fileName += '.xlsx';
             }
             this.descargarArchivo(event.body as Blob, fileName);
-            // Opcional: notificación
             this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
-            this.descargandoArchivo = false;
+            this.showExportProgress = false;
+            this.generandoArchivo = false;
+            if (this.intervaloMensajeDescarga) {
+              clearInterval(this.intervaloMensajeDescarga);
+            }
           }
         },
         error: () => {
-          this.descargandoArchivo = false;
+          this.showExportProgress = false;
+          this.generandoArchivo = false;
+          if (this.intervaloMensajeDescarga) {
+            clearInterval(this.intervaloMensajeDescarga);
+          }
+          clearInterval(intervaloBarra)
         }
       });
     }
@@ -104,67 +154,34 @@ ngOnDestroy(): void {
 
   /**
    * Lógica para exportar la jornada.
-   * (Implementar según los requerimientos del sistema)
    */
-//   exportarJornada(): void {
-//     if (this.consultaForm.invalid) {
-//       return;
-//     }
 
-//     this.exportProgress = 0;
-//     this.showExportProgress = true;
-
-//     const steps = 14;
-//       const progressSub: Subscription = interval(100).pipe(take(steps + 1)).subscribe(i => {
-//     this.exportProgress = Math.round((i / steps) * 100);
-//   });
-
-//   const codigoJornada = this.consultaForm.value.cod;
-//   this._service.exportarConsultaDefinitiva({fechaFiltro: codigoJornada}).subscribe ({
-//     next: (data) => {
-//       const datos = (data || []).map(row => ({
-//         'Código Cliente': row.codigoCliente,
-//         'Nombre Cliente': row.nombreCliente,
-//         'Fecha Valor': row.fechaValor,
-//         'Tipo Operación': row.codigoTipoOperacion,
-//         'Monto Divisa': row.montoDivisa,
-//         'Tipo Cambio': row.tipoCambio,
-//         'Cuenta Divisa': row.codigoCuentaDivisa,
-//         'Cuenta Bs': row.codigoCuentaBs,
-//         'ISO Divisa': row.codigoIsoDivisa,
-//         'Código Venta BCV': row.codigoVentaBCV
-//     }));
-//     const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datos);
-//       const workbook: XLSX.WorkBook = { Sheets: { 'ConsultaDefinitiva': worksheet }, SheetNames: ['ConsultaDefinitiva'] };
-//       const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-//       const blob: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-
-//       setTimeout(() => {
-//         saveAs(blob, `ConsultaDefinitiva_${codigoJornada}.xlsx`);
-//         this.showExportProgress = false;
-//         progressSub.unsubscribe();
-//       }, 1500); // Espera un poco para que el progress bar llegue a 100%
-//     },
-//     error: (err) => {
-//       this.showExportProgress = false;
-//       progressSub.unsubscribe();
-//       // Muestra mensaje de error si lo deseas
-//     }
-//   });
-// }
 
 exportarJornada(): void {
   if (this.consultaForm.invalid) {
     return;
   }
   this.exportProgress = 0;
-  this.showExportProgress = true;
-  this.descargandoArchivo = false;
+  this.showExportStart = true;
+  this.generandoArchivo = false;
+
+  // Inicia el ciclo de mensajes de conexión
+  this.mensajeConexionIndex = 0;
+  this.mensajeConexionActual = this.mensajeConexion[0];
+  this.intervaloMensajeConexion = setInterval(() => {
+    this.mensajeConexionIndex = (this.mensajeConexionIndex + 1) % this.mensajeConexion.length;
+    this.mensajeConexionActual = this.mensajeConexion[this.mensajeConexionIndex];
+  }, 5000);
+
 
   const codigoJornada = this.consultaForm.value.cod;
   this._service.exportarConsultaDefinitiva({ fechaFiltro: codigoJornada }).subscribe({
     error: (err) => {
       this.showExportProgress = false;
+      this.showExportStart = false;
+      if(this.intervaloMensajeConexion) {
+        clearInterval(this.intervaloMensajeConexion)
+      }
       this._snackBar.open('Error al exportar el archivo.', 'Cerrar', { duration: 4000 });
       console.error('Error al exportar:', err);
     }
