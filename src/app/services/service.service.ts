@@ -7,6 +7,7 @@ import { environment } from 'environments/environment';
 import { AuthService } from 'app/core/auth/auth.service';
 import { IntencionRetiro } from 'app/models/intencionRetiro';
 import { IntencionVenta } from 'app/models/intencionVenta';
+import { SustitucionesPendientesResponse } from 'app/models/sustituciones';
 
 
 @Injectable({
@@ -73,6 +74,16 @@ exportarIntervencion( metodo: string, dataBusqueda: any): Observable<HttpEvent<B
   return this.http.request(req);
 }
 
+cerrarLotesOperaciones(data: { idsOper: any[], fechOper: string }): Observable<any> {
+  return this.http.post(`${this.apiUrl}api/bcv/cerrarLoteIntervencion`, data);
+}
+
+procesarOperaciones(data: { ids: any[], codigoJornada: string }): Observable<any> {
+  return this.http.post(`${this.apiUrl}api/bcv/enviarOperaciones`, data);
+}
+
+
+
 
 
 // -------------------------------------------------------------------------------------------------------------
@@ -114,6 +125,28 @@ exportarIntervencion( metodo: string, dataBusqueda: any): Observable<HttpEvent<B
     );
   }
 
+sustitucionesPendientesConsultas(data: { fechaFiltro: string }): Observable<SustitucionesPendientesResponse> {
+  return this.http.post<SustitucionesPendientesResponse>(
+    `${this.apiUrl}api/bcv/consultaSustitucionesPendientes`, data
+  ).pipe(
+    map((response: SustitucionesPendientesResponse) => {
+      this.sustitucionesPendientesSource.next(response.sustituciones); // Solo el array para el BehaviorSubject
+      return response;
+    })
+  );
+}
+
+exportarSustitucionesPendientes( data: { fechaFiltro: string }): Observable<HttpEvent<Blob>> {
+  const req = new HttpRequest(
+    'POST',
+    `${this.apiUrl}api/bcv/consultaSustitucionesPendientes/exportar`, data,
+    { responseType: 'blob',
+      reportProgress: true,
+     }
+  );
+  return this.http.request(req);
+}
+
 
   
 // ----------------------------------------------------------------------------------------------------------------
@@ -131,11 +164,26 @@ consultaBCVIntervencion(data: { fechaFiltro: string }): Observable<any[]> {
     data
   );
 }
-exportarConstultaBcv( metodo: string, dataBusqueda: any): Observable<Blob> {
-  return this.http.post(
-    `${this.apiUrl}api/bcv/consultaFiltro/exportar`, dataBusqueda,
-    { responseType: 'blob' }
+exportarConstultaBcv(data: { fechaFiltro: string }): Observable<HttpEvent<Blob>> {
+   const req = new HttpRequest(
+    'POST',
+ `${this.apiUrl}api/bcv/listarArchivos/exportar`, data,
+    { responseType: 'blob',
+      reportProgress: true,
+     }
   );
+  return this.http.request(req);
+}
+
+descargaArchivoBcv(data: { nuVenta: string }):Observable<HttpEvent<Blob>> {
+  const req = new HttpRequest(
+    'POST',
+ `${this.apiUrl}api/bcv/listarOperaciones/exportar`, data,
+    { responseType: 'blob',
+      reportProgress: true,
+     }
+  );
+  return this.http.request(req);
 }
 
 
