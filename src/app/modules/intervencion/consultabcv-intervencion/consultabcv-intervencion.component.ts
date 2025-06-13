@@ -25,6 +25,7 @@ import { delay, take } from 'rxjs/operators';
 import { consultabcv } from 'app/models/consultas';
 import * as XLSX from 'xlsx';
 import { saveAs } from 'file-saver';
+import { ExportProgressService } from 'app/services/export-progress.service';
 
 
 @Component({
@@ -90,7 +91,8 @@ export class ConsultabcvIntervencionComponent implements OnInit {
     private _router: Router,    
     private _service: ServiceService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,               
+    private _snackBar: MatSnackBar,   
+    private exportProgressService: ExportProgressService
   ) 
   {
     this.dataSourceH = new MatTableDataSource(); 
@@ -226,126 +228,28 @@ consultarBCVIntervencion() {
    * Exporta los resultados de la consulta a un archivo Excel.
    */
  exportarExcel(): void {
-    this.exportProgress = 0;
-    this.showExportProgress = true;
-
-    const steps = 14; // 7s / 0.5s
-    /** Simula el progreso de exportación cada 500ms */
-    const progressSub: Subscription = interval(100).pipe(take(steps + 1)).subscribe(i => {
-      this.exportProgress = Math.round((i / steps) * 100);
-      if (this.exportProgress === 100) {
-        this.showExportProgress = false;
-      }
+  const fechaFiltro = this.formatearFechaFiltro(this.consultaForm.value.fechOper);
+  this.exportProgressService.iniciarProgreso((blob: Blob, fileName: string) => {
+    this.exportProgressService.descargarArchivo(blob, fileName);
+    this._snackBar.open("Archivo listo. La descarga comenzará en breve.", "Cerrar", {
+      duration: 4000
     });
+  },
+  () => this._service.exportarConstultaBcv({ fechaFiltro })
+  );
+ }
 
-    /** Seguimiento del progreso de exportación mediante WebSocket*/
-    // this.exportService.getExportProgress().subscribe(progress => {
-    //   this.exportProgress = progress;
-    //   if (progress === 100) {
-    //     this.showExportProgress = false;
-    //   }
-    // });
-
-    // Llama al servicio real para exportar el archivo
-    this._service.exportarConstultaBcv('intervencionFiltroExportar', this.consultaForm.value)
-      .subscribe({
-        next: (blob: Blob) => {
-          progressSub.unsubscribe();
-          this.showExportProgress = false;
-          this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
-            duration: 4000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-            panelClass: ['custom-snackbar']
-          });
-          const url = window.URL.createObjectURL(blob);
-          const a = document.createElement('a');
-          a.href = url;
-          a.download = 'Intervenciones.xls';
-          a.click();
-          window.URL.revokeObjectURL(url);
-        },
-        error: (err) => {
-          progressSub.unsubscribe();
-          this.showExportProgress = false;
-          this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
-            duration: 4000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-            panelClass: ['custom-snackbar']
-          });
-          console.error('Error al exportar:', err);
-        }
-      });
-
-    // --- Simulación de retraso para pruebas ---
-    // of(new Blob(['Simulación de archivo grande'], { type: 'application/vnd.ms-excel' }))
-    //   .pipe(delay(7000))
-    //   .subscribe({
-    //     next: (blob: Blob) => {
-    //       progressSub.unsubscribe();
-    //       this.showExportProgress = false;
-    //       this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
-    //         duration: 4000,
-    //         horizontalPosition: 'center',
-    //         verticalPosition: 'bottom',
-    //         panelClass: ['custom-snackbar']
-    //       });
-    //       const url = window.URL.createObjectURL(blob);
-    //       const a = document.createElement('a');
-    //       a.href = url;
-    //       a.download = 'Intervenciones.xls';
-    //       a.click();
-    //       window.URL.revokeObjectURL(url);
-    //     },
-    //     error: (err) => {
-    //       progressSub.unsubscribe();
-    //       this.showExportProgress = false;
-    //       this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
-    //         duration: 4000,
-    //         horizontalPosition: 'center',
-    //         verticalPosition: 'bottom',
-    //         panelClass: ['custom-snackbar']
-    //       });
-    //       console.error('Error al exportar:', err);
-    //     }
-    //   });
+ archivoBcv(nuVenta: string):void {
+   console.log('Descargando archivo para nuVenta:', nuVenta);
+  this.exportProgressService.iniciarProgreso((blob: Blob, fileName: string) => {
+    this.exportProgressService.descargarArchivo(blob, fileName);
+    this._snackBar.open("Archivo listo. La descarga comenzará en breve.", "Cerrar", {
+      duration: 4000
+    });
+  },
+  () => this._service.descargaArchivoBcv({nuVenta})
+  );
 }
-
-exportarExcelLocal(): void {
-  this.exportProgress = 0;
-  this.showExportProgress = true;
-
-  const steps = 14; // 7s / 0.5s (ajusta según lo que desees)
-  const progressSub: Subscription = interval(100).pipe(take(steps + 1)).subscribe(i => {
-    this.exportProgress = Math.round((i / steps) * 100);
-    if (this.exportProgress === 100) {
-      // Cuando termina el "proceso", genera y descarga el archivo
-      const datos = this.dataSourceH.data.map(row => ({
-        'Numero Venta': row.nuVenta,
-        'Fecha': row.fechaRegistro,
-        'Estatus': row.estatusArchivo,
-        'Observación': row.observacion || 'Sin observación'
-      }));
-
-      const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(datos);
-      const workbook: XLSX.WorkBook = { Sheets: { 'ConsultasBCV': worksheet }, SheetNames: ['ConsultasBCV'] };
-      const excelBuffer: any = XLSX.write(workbook, { bookType: 'xlsx', type: 'array' });
-      const blob: Blob = new Blob([excelBuffer], { type: 'application/octet-stream' });
-
-      saveAs(blob, 'ConsultasBCV.xlsx');
-      this.showExportProgress = false;
-      progressSub.unsubscribe();
-      this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
-        duration: 4000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        panelClass: ['custom-snackbar']
-      });
-    }
-  });
-}
-
 
 
 private formatearFechaFiltro(date: any): string {
