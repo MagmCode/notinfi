@@ -28,7 +28,7 @@
                         <div class="icon-container flex flex-col items-center ">
                             <!-- Icono representativo -->
                             <mat-icon class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
-                            <span class="text-head mt-8">Venta</span>
+                            <span class="text-head mt-8">Intercambio</span>
                         </div>
                     </div>
                     <!-- Tarjeta principal con el formulario de búsqueda -->
@@ -88,13 +88,13 @@
             <mat-tab label="Resultado" *ngIf="canViewTab">
                 <ng-template matTabContent>
                     <div class="main-container2 w-screen h-screen">
-                        <div class="header-container-tab2 flex justify-between px-96 mt-1 text-7xl">
-                            <span>Registros</span>
+                        <div class="header-container-tab2 flex justify-between px-60 mt-1 text-6xl">
+                            <span>Consultas / Intención Venta</span>
                             <div class="icon-container flex flex-col items-center ">
                                 <!-- Icono representativo -->
                                 <mat-icon
                                     class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
-                                <span class="text-head mt-8">Venta</span>
+                                <span class="text-head mt-8">Intercambio</span>
                             </div>
                         </div>
                         <div class="w-full px-50 mt-10 table-main-container">
@@ -121,15 +121,17 @@
                                                 <button class="mat-raised-button mr-5" (click)="inicio()">Salir</button>
                                             </div>
                                         </div>
-                                         <div *ngIf="showExportProgress && paginatorH?.pageSize == 5" class="text-center mb-2 text-sm text-gray-700">
-                                            Generando archivo: {{exportProgress}}%
-                                            </div>
-                                            <mat-progress-bar
-                                             *ngIf="showExportProgress && paginatorH?.pageSize == 5"
-                                             mode="determinate"
-                                             [value]="exportProgress"
-                                             style="margin-bottom: 16px;">
-                                             </mat-progress-bar>
+                                        <ng-container
+                                            *ngIf="(exportProgressService.showExportProgress$ | async) || (exportProgressService.showExportStart$ | async)">
+                                            <app-export-progress class="w-full mt-10"
+                                                [showExportProgress]="exportProgressService.showExportProgress$ | async"
+                                                [exportProgress]="exportProgressService.exportProgress$ | async"
+                                                [generandoArchivo]="exportProgressService.generandoArchivo$ | async"
+                                                [mensajePreparandoDescarga]="exportProgressService.mensajePreparandoDescarga$ | async"
+                                                [showExportStart]="exportProgressService.showExportStart$ | async"
+                                                [mensajeConexionActual]="exportProgressService.mensajeConexionActual$ | async">
+                                            </app-export-progress>
+                                        </ng-container>
 
                                         <!-- Tabla de resultados con scroll horizontal -->
                                         <div class="table-responsive">
@@ -316,15 +318,7 @@
                                                         (click)="inicio()">Salir</button>
                                                 </div>
                                             </div>
-                                            <mat-progress-bar
-                                                        *ngIf="showExportProgress && paginatorH?.pageSize !== 5"
-                                                        mode="determinate"
-                                                        [value]="exportProgress"
-                                                        style="margin-bottom: 16px;">
-                                                        </mat-progress-bar>
-                                                        <div *ngIf="showExportProgress && paginatorH?.pageSize !== 5" class="text-center mb-2 text-sm text-gray-700">
-                                                        Generando archivo: {{exportProgress}}%
-                                                        </div>
+
                                         </div>
                                     </div>
                                 </div>

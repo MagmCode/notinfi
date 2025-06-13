@@ -21,7 +21,8 @@ import { MatTabGroup } from '@angular/material/tabs';
 import { SelectionModel } from '@angular/cdk/collections';
 import { MatSnackBar } from '@angular/material/snack-bar';
 import { IntencionVenta } from 'app/models/intencionVenta'; 
-import { HttpEventType } from '@angular/common/http';
+import { Subscription } from 'rxjs';
+import { ExportProgressService } from 'app/services/export-progress.service';
 
 @Component({
   selector: 'app-intencion-venta',
@@ -87,6 +88,7 @@ export class IntencionVentaComponent implements OnInit {
   /** Arreglo auxiliar para intervenciones (no utilizado en este fragmento) */
   intervencion: any[] = [];
 
+
   /** Referencia al componente de ordenamiento de Angular Material */
   @ViewChild(MatSort) sortH: MatSort;
   /** Referencia al paginador de Angular Material */
@@ -106,7 +108,9 @@ export class IntencionVentaComponent implements OnInit {
     private _router: Router,    
     private _service: ServiceService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,               
+    private _snackBar: MatSnackBar,         
+    private exportProgressService: ExportProgressService
+      
   ) 
   {
     this.dataSourceH = new MatTableDataSource([]); // Siempre inicializar con array vacío
@@ -157,7 +161,7 @@ export class IntencionVentaComponent implements OnInit {
         }, { validators: this.fechaHastaMayorQueFechaDesde }); 
         this.dataSourceH = new MatTableDataSource([]); // Siempre array vacío
     }
-  }
+}
 
   /**
    * Validador personalizado para asegurar que la fecha hasta no sea menor que la fecha desde.
@@ -223,52 +227,20 @@ export class IntencionVentaComponent implements OnInit {
   /**
    * Exporta los resultados de la consulta a un archivo Excel.
    */
-  exportarExcel(): void {
+exportarExcel(): void {
   if (!this.lastBusqueda) {
     alert('Primero realice una consulta válida.');
     return;
   }
 
-  this.exportProgress = 0;
-  this.showExportProgress = true;
+  this.exportProgressService.iniciarProgreso(
+      (blob: Blob, fileName: string) => {
+        this.descargarArchivo(blob, fileName);
+        this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
+      },
+      () =>  this._service.exportarIntencionVenta(this.lastBusqueda)
+    );
 
-  this._service.exportarIntencionVenta(this.lastBusqueda).subscribe({
-    next: (event) => {
-      if (event.type === HttpEventType.DownloadProgress) {
-        if (event.total) {
-          this.exportProgress = Math.round(100 * event.loaded / event.total);
-        }
-      } else if (event.type === HttpEventType.Response) {
-        let fileName = 'intencion_venta.xls'; // Valor por defecto
-        const contentDisposition = event.headers?.get('Content-Disposition');
-        if (contentDisposition) {
-          const matches = /filename="?([^"]+)"?/.exec(contentDisposition);
-          if (matches && matches[1]) {
-            fileName = matches[1];
-          }
-        }
-        this.exportProgress = 100;
-        this.showExportProgress = false;
-        this.descargarArchivo(event.body as Blob, fileName);
-        this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
-          duration: 4000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-          panelClass: ['custom-snackbar']
-        });
-      }
-    },
-    error: (err) => {
-      this.showExportProgress = false;
-      this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
-        duration: 4000,
-        horizontalPosition: 'center',
-        verticalPosition: 'bottom',
-        panelClass: ['custom-snackbar']
-      });
-      console.error('Error al exportar:', err);
-    }
-  });
 }
 
 private descargarArchivo(blob: Blob, nombre: string) {
@@ -334,6 +306,10 @@ private descargarArchivo(blob: Blob, nombre: string) {
         localStorage.removeItem('intencionVentaResultados');
     }
   }
+
+
+
+
 
   /**
    * Navega al menú principal.
