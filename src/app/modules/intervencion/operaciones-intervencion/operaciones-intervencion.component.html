@@ -22,7 +22,7 @@
 
                     <!-- Pestaña de Búsqueda de jornadas activas -->
                     <mat-tab label="Búsqueda">
-                      <div class="main-container mt-5 flex flex-col w-full items-center ">
+                        <div class="main-container mt-5 flex flex-col md:w-screen items-center px-2 md:px-0">
                             <!-- Cabecera de la página -->
                             <div class="header-container flex justify-between w-2/5 mb-5 text-7xl">
                                 <span>Operaciones</span>
@@ -114,11 +114,19 @@
                     <!-- Pestaña de Resultados -->
                     <mat-tab label="Resultado" *ngIf="canViewTab">
                         <ng-template matTabContent>
-                            <div class="main-container3 w-screen">
-                            <div class="main-container2-info ">
+                            <div class="main-container2-info">
+                               <div class="header-container flex justify-between px-80 mt-1 text-6xl">
+                                <span>Envio BCV / Operaciones</span>
+                                <div class="icon-container flex flex-col items-center ">
+                                    <!-- Icono representativo -->
+                                    <mat-icon
+                                        class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                                    <span class="text-head mt-8">Intervención</span>
+                                </div>
+                            </div>
                                 <div class="info-cards-container grid grid-cols-3 sm:grid-cols-3 md:grid-cols-3 gap-6 px-6 px-50 mt-5">
                                 <!-- Resumen de cantidad de operaciones -->
-                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl  ">
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden ">
                                     <div class="flex items-start justify-between">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate  ">Cantidad de
                                             Operaciones: </div>
@@ -130,7 +138,7 @@
                                     </div>
                                 </div>
                                 <!-- Resumen de monto total -->
-                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl ">
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                     <div class="flex items-start justify-between">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate">Monto Total:
                                         </div>
@@ -143,7 +151,7 @@
                                 </div>
 
                                 <!-- Resumen de jornada -->
-                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl ">
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
                                     <div class="flex items-start justify-between">
                                         <div class="text-lg font-medium tracking-tight leading-6 truncate ">Jornada:
                                         </div>
@@ -167,7 +175,7 @@
                             </div>
 
                             </div>
-                            <div class="main-container2 px-50 ">
+                            <div class="main-container2 px-50  ">
                                 <!-- Tabla de operaciones -->
                                 <div
                                     class="card-table sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-x-auto mb-30">
@@ -189,7 +197,7 @@
                                                 <div class="action-buttons">
                                                     <button class="mat-raised-button mr-3"
                                                         (click)="processSelectedRows()">Procesar</button>
-                                                    <button class="mat-raised-button mr-5">Cerrar Lote</button>
+                                                    <button class="mat-raised-button mr-5" (click)="cerrarLote()">Cerrar Lote</button>
                                                     <button class="mat-raised-button mr-5 exportar-button"
                                                         (click)="exportarExcel()">Exportar Ordenes</button>
                                                     <button class="mat-raised-button mr-3"
@@ -200,15 +208,17 @@
 
                                             </div>
 
-                                            <div *ngIf="showExportProgress && paginatorH?.pageSize == 5" class="text-center mb-2 text-sm text-gray-700">
-                                            Generando archivo: {{exportProgress}}%
-                                            </div>
-                                            <mat-progress-bar
-                                             *ngIf="showExportProgress && paginatorH?.pageSize == 5"
-                                             mode="determinate"
-                                             [value]="exportProgress"
-                                             style="margin-bottom: 16px;">
-                                             </mat-progress-bar>
+                                            <ng-container
+                                            *ngIf="(exportProgressService.showExportProgress$ | async) || (exportProgressService.showExportStart$ | async)">
+                                            <app-export-progress class="w-full mt-10"
+                                                [showExportProgress]="exportProgressService.showExportProgress$ | async"
+                                                [exportProgress]="exportProgressService.exportProgress$ | async"
+                                                [generandoArchivo]="exportProgressService.generandoArchivo$ | async"
+                                                [mensajePreparandoDescarga]="exportProgressService.mensajePreparandoDescarga$ | async"
+                                                [showExportStart]="exportProgressService.showExportStart$ | async"
+                                                [mensajeConexionActual]="exportProgressService.mensajeConexionActual$ | async">
+                                            </app-export-progress>
+                                        </ng-container>
                                             <div class="mat-elevation-z8 table-responsive">
                                                 <table mat-table [dataSource]="dataSourceH" matSort
                                                     class="table-operaciones w-full">
@@ -318,9 +328,9 @@
                                                             class="header-cell">Estatus </th>
                                                         <td mat-cell *matCellDef="let row" class="table-cell">
                                                             <span *ngIf="row.estatus == 0 ">No Enviado</span>
-                                                            <span *ngIf="row.estatus == 1 ">Enviado</span>
-                                                            <span *ngIf="row.estatus == 2 ">Lote Cerrado</span>
-                                                            <span *ngIf="row.estatus == 3 ">Anuladas</span>
+                                                            <span *ngIf="row.estatus == 3 ">Enviado</span>
+                                                            <span *ngIf="row.estatus == 1 ">Lote Cerrado</span>
+                                                            <span *ngIf="row.estatus == 2 ">Anuladas</span>
                                                         </td>
                                                     </ng-container>
 
@@ -378,7 +388,6 @@
 
                                 </div>
 
-                            </div>
                             </div>
                         </ng-template>
                     </mat-tab>

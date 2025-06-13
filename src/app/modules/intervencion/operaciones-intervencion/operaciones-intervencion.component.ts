@@ -20,6 +20,8 @@ import { MatCheckboxChange } from '@angular/material/checkbox';
 import { interval, of, Subscription } from 'rxjs';
 import { delay, take } from 'rxjs/operators';
 import { HttpEventType } from '@angular/common/http';
+import * as moment from 'moment';
+import { ExportProgressService } from 'app/services/export-progress.service';
 
 @Component({
   selector: 'operaciones-intervencion',
@@ -51,6 +53,9 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
 
   /** IDs seleccionados en la tabla */
   selectedIds: Set<any> = new Set<any>();
+
+  jornadaSeleccionada: any = null;
+
 
   /** Estado de carga para mostrar el loading bar */
   isLoading: boolean = false;
@@ -105,7 +110,8 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
     private _router: Router,    
     private _service: ServiceService,
     public dialog: MatDialog,
-    private _snackBar: MatSnackBar,               
+    private _snackBar: MatSnackBar,     
+    private exportProgressService: ExportProgressService       
   ) 
   {
     this.dataSourceH = new MatTableDataSource(this.intervencion); 
@@ -297,7 +303,13 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
    */
   obtenerIdsSeleccionados() {
     const selectedIdsArray = Array.from(this.selectedIds);
+    const codigoJornada = this.jornadaSeleccionada?.codigo
+    const payload = {
+      ids: selectedIdsArray,
+      codigoJornada: codigoJornada
+    }
     console.log('IDs seleccionados:', selectedIdsArray);
+    console.log('Código de jornada seleccionada:', codigoJornada);
   }
   
   /**
@@ -319,66 +331,143 @@ export class OperacionesIntervencionComponent implements OnInit, AfterViewInit, 
   /**
    * Procesa las filas seleccionadas (ejemplo: muestra un alert con los IDs).
    */
-  processSelectedRows() {
-    const selectedIdsArray = Array.from(this.selectedIds);
-    alert(`Selected IDs: ${selectedIdsArray.join(', ')}`);
+processSelectedRows() {
+  const selectedIdsArray = Array.from(this.selectedIds);
+  const codigoJornada = this.jornadaSeleccionada?.codigo;
+
+  if (!selectedIdsArray.length && !codigoJornada) {
+    this._snackBar.open('Debe seleccionar una jornada y al menos una operación.', 'Cerrar', { duration: 3000 });
+    return;
+  }
+  if (!selectedIdsArray.length) {
+    this._snackBar.open('Debe seleccionar las operaciones a procesar.', 'Cerrar', { duration: 3000 });
+    return;
+  }
+  if (!codigoJornada) {
+    this._snackBar.open('Debe seleccionar una jornada.', 'Cerrar', { duration: 3000 });
+    return;
   }
 
+  // Detectar si todas las filas están seleccionadas
+  const todasSeleccionadas = this.dataSourceH.data.length > 0 && selectedIdsArray.length === this.dataSourceH.data.length;
 
+  let payload: any;
+  if (todasSeleccionadas) {
+    payload = { todos: true, codigoJornada: codigoJornada };
+  } else {
+    // Filtrar operaciones seleccionadas
+    const operacionesSeleccionadas = this.dataSourceH.data.filter(row => selectedIdsArray.includes(row.idOper));
+    // Filtrar operaciones ya cerradas (estatus numérico: 2)
+    const yaCerradas = operacionesSeleccionadas.filter(op => Number(op.estatus) === 1);
+    const idsValidos = operacionesSeleccionadas.filter(op => Number(op.estatus) !== 1).map(op => op.idOper);
 
-exportarExcel(): void {
-  this.exportProgress = 0;
-  this.showExportProgress = true;
+    if (yaCerradas.length === selectedIdsArray.length) {
+      this._snackBar.open('No hay operaciones válidas para procesar (todas ya están en "lote cerrado").', 'Cerrar', { duration: 4000 });
+      return;
+    }
+    if (yaCerradas.length > 0) {
+      this._snackBar.open(
+        `Algunas operaciones ya están en "lote cerrado" y serán omitidas: ${yaCerradas.map(op => op.idOper).join(', ')}`,
+        'Cerrar',
+        { duration: 5000 }
+      );
+    }
 
-  this._service.exportarIntervencion('intervencionFiltroExportar', this.operaInterForm.value)
-    .subscribe({
-      next: (event) => {
-        if (event.type === HttpEventType.DownloadProgress) {
-          if (event.total) {
-            this.exportProgress = Math.round(100 * event.loaded / event.total);
-          }
-        } else if (event.type === HttpEventType.Response) {
-          let fileName = 'intervenciones_filtradas.xlsx'; // Valor por defecto
-          const contentDisposition = event.headers?.get('Content-Disposition');
-          if (contentDisposition) {
-            const matches = /filename="?([^"]+)"?/.exec(contentDisposition);
-            if (matches && matches[1]) {
-              fileName = matches[1];
-            }
-          }
-          this.exportProgress = 100;
-          this.showExportProgress = false;
-          console.log('Content-Disposition:', contentDisposition);
-console.log('Nombre de archivo detectado:', fileName);
-          this.descargarArchivo(event.body as Blob, fileName);
-          this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
-            duration: 4000,
-            horizontalPosition: 'center',
-            verticalPosition: 'bottom',
-            panelClass: ['custom-snackbar']
-          });
-        }
-      },
-      error: (err) => {
-        this.showExportProgress = false;
-        this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
-          duration: 4000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-          panelClass: ['custom-snackbar']
-        });
-        console.error('Error al exportar:', err);
-      }
-    });
+    payload = { ids: idsValidos, codigoJornada: codigoJornada };
+  }
+
+  // Log para ver cómo le llega al backend
+  console.log('Payload enviado al backend:', payload);
+
+  // Llama al servicio y muestra el mensaje solo si responde correctamente
+  this._service.procesarOperaciones(payload).subscribe({
+    next: (resp) => {
+      this._snackBar.open('Operaciones enviadas con éxito.', 'Cerrar', { duration: 4000 });
+      // Aquí puedes actualizar la tabla si lo necesitas
+    },
+    error: () => {
+      this._snackBar.open('Error al enviar las operaciones.', 'Cerrar', { duration: 4000 });
+    }
+  });
 }
 
-private descargarArchivo(blob: Blob, nombre: string) {
-  const url = window.URL.createObjectURL(blob);
-  const a = document.createElement('a');
-  a.href = url;
-  a.download = nombre;
-  a.click();
-  window.URL.revokeObjectURL(url);
+cerrarLote() {
+  const selectedIdsArray = Array.from(this.selectedIds);
+
+  // Obtén la fecha del formulario y formateala
+  const formFecha = this.operaInterForm.get('fechOper')?.value;
+  const fechOper = formFecha ? this.formatFecha(formFecha) : undefined;
+
+  if (!selectedIdsArray.length) {
+    this._snackBar.open('Debe seleccionar las operaciones a las que desea cambiar el status.', 'Cerrar', { duration: 3000 });
+    return;
+  }
+
+  // Detectar si todas las filas están seleccionadas
+  const todasSeleccionadas = this.dataSourceH.data.length > 0 && selectedIdsArray.length === this.dataSourceH.data.length;
+
+  let idsValidos: any[] = [];
+  if (todasSeleccionadas) {
+    // Enviar todos los ids cuyo estatus no sea 2 ni 3
+    idsValidos = this.dataSourceH.data
+      .filter(row => Number(row.estatus) !== 1 && Number(row.estatus) !== 2)
+      .map(row => row.idOper);
+  } else {
+    // Solo los seleccionados y que no sean 2 ni 3
+    const operacionesSeleccionadas = this.dataSourceH.data.filter(row => selectedIdsArray.includes(row.idOper));
+    idsValidos = operacionesSeleccionadas
+      .filter(op => Number(op.estatus) != 1 && Number(op.estatus) !== 2)
+      .map(op => op.idOper);
+
+    const yaCerradasOAnuladas = operacionesSeleccionadas.filter(op => Number(op.estatus) === 1 || Number(op.estatus) === 2);
+    if (yaCerradasOAnuladas.length === selectedIdsArray.length) {
+      this._snackBar.open('No hay operaciones válidas para procesar (todas ya están en "lote cerrado" o "anulada").', 'Cerrar', { duration: 4000 });
+      return;
+    }
+    if (yaCerradasOAnuladas.length > 0) {
+      this._snackBar.open(
+        `Algunas operaciones ya están en "lote cerrado" o "anulada" y serán omitidas: ${yaCerradasOAnuladas.map(op => op.idOper).join(', ')}`,
+        'Cerrar',
+        { duration: 5000 }
+      );
+    }
+  }
+
+  const payload = {
+    idsOper: idsValidos,
+    fechOper: fechOper
+  };
+
+  console.log('Payload enviado al backend:', payload);
+
+  this._service.cerrarLotesOperaciones(payload).subscribe({
+    next: (resp) => {
+      this._snackBar.open('Operaciones procesadas correctamente.', 'Cerrar', { duration: 3000 });
+      // Actualiza la tabla si es necesario
+    },
+    error: () => {
+      this._snackBar.open('Error al procesar las operaciones.', 'Cerrar', { duration: 3000 });
+    }
+  });
+}
+
+private formatFecha(fecha: Date | string): string {
+  const date = new Date(fecha);
+  const day = String(date.getDate()).padStart(2, '0');
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const year = date.getFullYear();
+  return `${day}/${month}/${year}`;
+}
+
+exportarExcel(): void {
+
+    this.exportProgressService.iniciarProgreso(
+      (blob: Blob, fileName: string) => {
+        this.exportProgressService.descargarArchivo(blob, fileName);
+        this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
+      },
+      () =>  this._service.exportarIntervencion('intervencionFiltroExportar', this.operaInterForm.value)
+    );
 }
 
 applyFilterH(event: Event) {
@@ -425,6 +514,7 @@ applyFilterH(event: Event) {
     this.jornada = [];
   }
 
+  
   /**
    * Limpia el localStorage al destruir el componente.
    */
