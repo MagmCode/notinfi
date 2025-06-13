@@ -7,6 +7,8 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { MatSnackBar } from '@angular/material/snack-bar';
+import { SustitucionPendiente } from 'app/models/sustituciones';
+import { ExportProgressService } from 'app/services/export-progress.service';
 // #endregion
 
 /**
@@ -47,24 +49,24 @@ export class SustitucionesPendientesComponent implements OnInit, AfterViewInit {
   ];
 
   displayedColumnsPendientes: string[] = [
-    "codBCV",
-    "cliente",
+    "coMovIntervencion",
+    "codigoCliente",
     "nombreCliente",
     "fechaValor",
-    "tipoOperacion",
-    "monto",
+    "codigoTipoOperacion",
+    "montoDivisa",
     "tipoCambio",
-    "cuentaDivisa",
-    "cuentaBs",
-    "moneda",
-    "jornada",
+    "codigoCuentaDivisa",
+    "codigoCuentaBs",
+    "codigoIsoDivisa",
+    "codigoVentaBCV",
   ];
 
   /** Fuente de datos para la tabla de jornadas */
   dataSourceH: MatTableDataSource<jornadaActiva> = new MatTableDataSource([]);
 
   // Fuente de datos para la tabla de pendientes
-  dataSourcePendientes = new MatTableDataSource<SustitucionesPendientes>([]);
+  dataSourcePendientes = new MatTableDataSource<SustitucionPendiente>([]);
 
   /** Referencia al componente de ordenamiento de Angular Material */
   @ViewChild('sortPendientes') sortPendientes: MatSort;
@@ -85,7 +87,8 @@ export class SustitucionesPendientesComponent implements OnInit, AfterViewInit {
   constructor(
     private _router: Router,
     private _service: ServiceService,
-    private _snackBar: MatSnackBar
+    private _snackBar: MatSnackBar,
+    private exportProgressService: ExportProgressService
   ) {}
 
   //#region Métodos principales
@@ -97,6 +100,14 @@ export class SustitucionesPendientesComponent implements OnInit, AfterViewInit {
   ngOnInit(): void {
     this.isLoading = true;
     const LOCAL_KEY = "sustitucionesPendientesCache";
+    const LOCAL_KEY_PENDIENTES = "sustitucionesPendientesData";
+  const pendientesCache = localStorage.getItem(LOCAL_KEY_PENDIENTES);
+  if (pendientesCache) {
+    this.dataSourcePendientes.data = JSON.parse(pendientesCache);
+    this.canViewTab = true;
+    this.selectedTabIndex = 1;
+    this.isLoading = false;
+  }
     this._service.sustitucionesPendientes$.subscribe({
       next: (jornadasSustitucion) => {
         if (jornadasSustitucion.length === 0) {
@@ -126,140 +137,6 @@ export class SustitucionesPendientesComponent implements OnInit, AfterViewInit {
       },
     });
 
-/** Datos de ejemplo para la tabla de pendientes. Borrar cuando se tenga la API lista */
-
-//       this.dataSourcePendientes.data = [
-//     {
-//       codBCV: '001',
-//       cliente: 'V12345678',
-//       nombreCliente: 'Juan Pérez',
-//       fechaValor: '2024-06-01',
-//       tipoOperacion: 'Compra',
-//       monto: 1000,
-//       tipoCambio: 36.5,
-//       cuentaDivisa: '0123-4567-89',
-//       cuentaBs: '0102-3456-78',
-//       moneda: 'USD',
-//       jornada: 'J-001'
-//     },
-//     {
-//       codBCV: '002',
-//       cliente: 'V87654321',
-//       nombreCliente: 'María Gómez',
-//       fechaValor: '2024-06-02',
-//       tipoOperacion: 'Venta',
-//       monto: 2500,
-//       tipoCambio: 37.1,
-//       cuentaDivisa: '0123-9876-54',
-//       cuentaBs: '0102-8765-43',
-//       moneda: 'EUR',
-//       jornada: 'J-002'
-//     },
-//     {
-//       codBCV: '003',
-//       cliente: 'J12345678',
-//       nombreCliente: 'Empresa ABC',
-//       fechaValor: '2024-06-03',
-//       tipoOperacion: 'Compra',
-//       monto: 5000,
-//       tipoCambio: 36.8,
-//       cuentaDivisa: '0123-1111-22',
-//       cuentaBs: '0102-2222-33',
-//       moneda: 'USD',
-//       jornada: 'J-003'
-//     },
-//     {
-//       codBCV: '004',
-//       cliente: 'V11223344',
-//       nombreCliente: 'Carlos Ruiz',
-//       fechaValor: '2024-06-04',
-//       tipoOperacion: 'Venta',
-//       monto: 1500,
-//       tipoCambio: 37.0,
-//       cuentaDivisa: '0123-3333-44',
-//       cuentaBs: '0102-4444-55',
-//       moneda: 'USD',
-//       jornada: 'J-004'
-//     },
-//     {
-//       codBCV: '005',
-//       cliente: 'J87654321',
-//       nombreCliente: 'Empresa XYZ',
-//       fechaValor: '2024-06-05',
-//       tipoOperacion: 'Compra',
-//       monto: 8000,
-//       tipoCambio: 36.9,
-//       cuentaDivisa: '0123-5555-66',
-//       cuentaBs: '0102-6666-77',
-//       moneda: 'EUR',
-//       jornada: 'J-005'
-//     },
-//     {
-//       codBCV: '006',
-//       cliente: 'V55667788',
-//       nombreCliente: 'Ana Torres',
-//       fechaValor: '2024-06-06',
-//       tipoOperacion: 'Venta',
-//       monto: 1200,
-//       tipoCambio: 37.2,
-//       cuentaDivisa: '0123-7777-88',
-//       cuentaBs: '0102-8888-99',
-//       moneda: 'USD',
-//       jornada: 'J-006'
-//     },
-//     {
-//       codBCV: '007',
-//       cliente: 'V99887766',
-//       nombreCliente: 'Luis Fernández',
-//       fechaValor: '2024-06-07',
-//       tipoOperacion: 'Compra',
-//       monto: 3000,
-//       tipoCambio: 36.7,
-//       cuentaDivisa: '0123-9999-00',
-//       cuentaBs: '0102-0000-11',
-//       moneda: 'USD',
-//       jornada: 'J-007'
-//     },
-//     {
-//       codBCV: '008',
-//       cliente: 'J33445566',
-//       nombreCliente: 'Servicios 123',
-//       fechaValor: '2024-06-08',
-//       tipoOperacion: 'Venta',
-//       monto: 4000,
-//       tipoCambio: 37.3,
-//       cuentaDivisa: '0123-2222-33',
-//       cuentaBs: '0102-3333-44',
-//       moneda: 'EUR',
-//       jornada: 'J-008'
-//     },
-//     {
-//       codBCV: '009',
-//       cliente: 'V22334455',
-//       nombreCliente: 'Pedro López',
-//       fechaValor: '2024-06-09',
-//       tipoOperacion: 'Compra',
-//       monto: 600,
-//       tipoCambio: 36.6,
-//       cuentaDivisa: '0123-4444-55',
-//       cuentaBs: '0102-5555-66',
-//       moneda: 'USD',
-//       jornada: 'J-009'
-//     },
-//     {
-//       codBCV: '010',
-//       cliente: 'J44556677',
-//       nombreCliente: 'Comercializadora QW',
-//       fechaValor: '2024-06-10',
-//       tipoOperacion: 'Venta',
-//       monto: 7000,
-//       tipoCambio: 37.4,
-//       cuentaDivisa: '0123-6666-77',
-//       cuentaBs: '0102-7777-88',
-//       moneda: 'EUR',
-//       jornada: 'J-010'
-//     }
-//   ];
   }
 
   /**
@@ -272,21 +149,23 @@ export class SustitucionesPendientesComponent implements OnInit, AfterViewInit {
 }
 
 consultar(): void {
+  const LOCAL_KEY_PENDIENTES = "sustitucionesPendientesData";
   if (this.selectedCodigo) {
     this.canViewTab = true;
     this.selectedTabIndex = 1;
     this.isLoading = true;
 
-    // Llama al servicio con el código seleccionado
-    this._service.consultarSustituciones({ fechaFiltro: this.selectedCodigo }).subscribe({
-      next: (sustituciones) => {
-        console.log("Cod Jornada seleccionada:", this.selectedCodigo);
-        this.dataSourcePendientes.data = Array.isArray(sustituciones) ? sustituciones : [];
+    this._service.sustitucionesPendientesConsultas({ fechaFiltro: this.selectedCodigo }).subscribe({
+      next: (resp) => {
+        const data = Array.isArray(resp.sustituciones) ? resp.sustituciones : [];
+        this.dataSourcePendientes.data = data;
+        // Guarda en localStorage
+        localStorage.setItem(LOCAL_KEY_PENDIENTES, JSON.stringify(data));
         this.isLoading = false;
       },
       error: (err) => {
-        // Si hay error, muestra la tabla vacía (mensaje por defecto en HTML)
         this.dataSourcePendientes.data = [];
+        localStorage.removeItem(LOCAL_KEY_PENDIENTES);
         this.isLoading = false;
       }
     });
@@ -297,7 +176,17 @@ consultar(): void {
 
   exportarSustituciones(): void {
     // Lógica para exportar las sustituciones
+    this.exportProgressService.iniciarProgreso(
+      (blob: Blob, fileName: string) => {
+        this.exportProgressService.descargarArchivo(blob, fileName);
+        this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
+          duration: 4000
+        });
+      },
+      () => this._service.exportarSustitucionesPendientes({fechaFiltro: this.selectedCodigo})
+    );
   }
+
 
   onTabChange(event: any): void {
     // Índice del tab de resultados (ajusta si cambia el orden de los tabs)
