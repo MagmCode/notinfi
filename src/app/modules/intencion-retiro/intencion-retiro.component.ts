@@ -19,6 +19,7 @@ import { IntencionRetiro, TableFilter, BusquedaCriterios } from 'app/models/inte
 import { HttpEventType } from '@angular/common/http';
 import { WebSocketService } from 'app/services/websocket.service';
 import { Subscription } from 'rxjs';
+import { ExportProgressService } from 'app/services/export-progress.service';
 
 @Component({
   selector: 'app-intencion-retiro',
@@ -67,7 +68,7 @@ export class IntencionRetiroComponent implements OnInit, AfterViewInit, OnDestro
     private _service: ServiceService,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private websocketService: WebSocketService
+    public exportProgressService: ExportProgressService,
   ) {
     this.dataSourceH = new MatTableDataSource(this.intervencion);
   }
@@ -88,7 +89,7 @@ export class IntencionRetiroComponent implements OnInit, AfterViewInit, OnDestro
   ngOnInit(): void {
     this.cargarAgencias();
     this.restaurarBusquedaGuardada();
-    this.suscribirWebSocketExport();
+    // this.suscribirWebSocketExport();
   }
 
   /**
@@ -172,27 +173,21 @@ export class IntencionRetiroComponent implements OnInit, AfterViewInit, OnDestro
       alert('Primero realice una consulta válida.');
       return;
     }
-    this.exportProgress = 0;
-    this.showExportProgress = true;
-    this.descargandoArchivo = false;
 
     const requestData = {
       fechaDesde: this.lastBusqueda.fechaDesde,
       fechaHasta: this.lastBusqueda.fechaHasta
     };
 
-    this._service.exportarIntencionRetiro(requestData).subscribe({
-      error: (err) => {
-        this.showExportProgress = false;
-        this._snackBar.open('Error al exportar el archivo.', 'Cerrar', {
-          duration: 4000,
-          horizontalPosition: 'center',
-          verticalPosition: 'bottom',
-          panelClass: ['custom-snackbar']
-        });
-        console.error('Error al exportar:', err);
-      }
-    });
+    this.exportProgressService.iniciarProgreso(
+      (blob: Blob, fileName: string) => {
+        this.descargarArchivo(blob, fileName);
+        this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
+      },
+      () =>  this._service.exportarIntencionRetiro(requestData)
+    );
+
+  
   }
 
   /**
@@ -337,58 +332,6 @@ export class IntencionRetiroComponent implements OnInit, AfterViewInit, OnDestro
         (row.fechaHoraOperacion && row.fechaHoraOperacion.toLowerCase().includes(search));
       return matchNacionalidad && matchDocumento && matchAgencia && matchEstatus && matchSearch;
     };
-  }
-
-  /**
-   * Suscribe al WebSocket para mostrar el progreso y descargar el archivo cuando esté listo.
-   */
-  private suscribirWebSocketExport() {
-    if (this.wsSubscription) {
-      this.wsSubscription.unsubscribe();
-    }
-    this.wsSubscription = this.websocketService.progress$.subscribe(data => {
-      if (!data) return;
-      if ((data.status === 'progress' || data.status === 'start') && this.showExportProgress) {
-        this.exportProgress = data.progress || 0;
-      }
-      if (
-        data.status === 'complete' &&
-        data.fileName &&
-        this.showExportProgress &&
-        !this.descargandoArchivo
-      ) {
-        this.exportProgress = 100;
-        this.showExportProgress = false;
-        this.descargandoArchivo = true;
-        if (this.lastBusqueda) {
-          const requestData = {
-            fechaDesde: this.lastBusqueda.fechaDesde,
-            fechaHasta: this.lastBusqueda.fechaHasta
-          };
-          this._service.exportarIntencionRetiro(requestData).subscribe({
-            next: (event) => {
-              if (event.type === HttpEventType.Response) {
-                let nombre = data.fileName;
-                if (!nombre.endsWith('.xlsx') && !nombre.endsWith('.xls')) {
-                  nombre += '.xlsx';
-                }
-                this.descargarArchivo(event.body as Blob, nombre);
-                this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', {
-                  duration: 4000,
-                  horizontalPosition: 'center',
-                  verticalPosition: 'bottom',
-                  panelClass: ['custom-snackbar']
-                });
-                this.descargandoArchivo = false;
-              }
-            },
-            error: () => {
-              this.descargandoArchivo = false;
-            }
-          });
-        }
-      }
-    });
   }
 
   /**
