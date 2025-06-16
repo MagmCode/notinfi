@@ -186,6 +186,69 @@ descargaArchivoBcv(data: { nuVenta: string }):Observable<HttpEvent<Blob>> {
   return this.http.request(req);
 }
 
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+
+// #region Carga De archivo Intervencion 
+// 
+
+
+planillaNotificarOperaciones(): Observable<Blob> {
+  return this.http.get(
+    `${this.apiUrl}api/bcv/planillaNotificarOperaciones/exportar`,
+    { responseType: 'blob' }
+  );
+}
+
+notificarOperaciones(file: File): Observable<any> {
+  const formData = new FormData();
+  formData.append('arcVentas', file);
+  console.log('[notificarOperaciones] Archivo a enviar:', file);
+  return this.http.post(`${this.apiUrl}api/bcv/notificarOperaciones`, formData);
+}
+
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+
+// #region Anulacion De Intervencion 
+// 
+
+
+planillaAnulacionIntervencion(): Observable<Blob> {
+  return this.http.get(
+    `${this.apiUrl}api/bcv/planillaAnulacionIntervencion/exportar`,
+    {
+      responseType: 'blob',
+    }
+  );
+}
+
+anularOperaciones(file: File): Observable<any> {
+  const formData = new FormData();
+  formData.append('arcVentas', file);
+  console.log('[anularOperaciones] Archivo a enviar:', file);
+  return this.http.post(`${this.apiUrl}api/bcv/anularOperaciones`, formData);
+}
+
+
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+// ----------------------------------------------------------------------------------------------------------------
+
+// #region Sustitucione de Operaciones 
+// SUSTITUCIONES DE OPERACIONES
+
+modificarOperaciones(file: File, fecha: string): Observable<any> {
+  const formData = new FormData();
+  formData.append('fecha', fecha);  
+  formData.append('arcOperaciones', file);
+  console.log('[modificarOperaciones] Archivo a enviar:', file);
+  console.log('[modificarOperaciones] Fecha a enviar:', fecha);
+  return this.http.post(`${this.apiUrl}api/bcv/modificarOperacion`, formData);
+}
+
 
 // ----------------------------------------------------------------------------------------------------------------
 // ----------------------------------------------------------------------------------------------------------------

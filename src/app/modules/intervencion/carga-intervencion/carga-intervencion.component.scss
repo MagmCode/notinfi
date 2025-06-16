@@ -30,6 +30,11 @@
     height: 480px; // Alto fijo de la tarjeta
     color: #e89600; // Color de texto corporativo
     box-shadow: 0 4px 8px rgb(0 0 0 / 26%) !important; // Sombra para resaltar la tarjeta
+    ::ng-deep mat-progress-bar {
+         .mat-progress-bar-fill::after {
+            background-color: #e89600;
+}
+    }
 }
 
 /* Título de la tarjeta */
@@ -101,6 +106,12 @@
     color: #f44336 !important; // Color de error (rojo)
 }
 
+/* Snack-bar */
+::ng-deep .mat-simple-snackbar-action {
+    color: rgba(255, 255, 255, 0.664) !important;
+}
+
+
 /* ==========================================================================
    Botones de acción
    ========================================================================== */
@@ -139,6 +150,10 @@
     /* ==========================================================================
    Cabecera de la página
    ========================================================================== */
+    .main-container {
+        height: 100vh !important;
+    }
+
     .header-container {
         font-size: 2.6em !important;
         width: 40vw !important;

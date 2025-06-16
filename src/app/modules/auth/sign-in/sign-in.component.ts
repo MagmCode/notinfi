@@ -118,12 +118,23 @@ export class AuthSignInComponent implements OnInit {
                 if (this.esErrorDeCredenciales(errorMessage)) {
                     errorMessage = 'Credenciales incorrectas';
                 } else {
-                    errorMessage = this.mapearMensajesError(errorMessage);
+                let encontrado = false;
+                for (const [key, value] of Object.entries(MENSAJES_ESPECIFICOS)) {
+                    if (errorMessage.includes(key)) {
+                        errorMessage = value;
+                        encontrado = true;
+                        break;
+                    }
                 }
-
-                this.mostrarError(errorMessage);
-                this.signInForm.enable();
+                // Si no es ninguno de los predeterminados, mensaje genérico
+                if (!encontrado) {
+                    errorMessage = 'Error en el servidor';
+                }
             }
+
+    this.mostrarError(errorMessage);
+    this.signInForm.enable();
+}
         });
     }
 

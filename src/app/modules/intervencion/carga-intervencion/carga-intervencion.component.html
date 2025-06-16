@@ -64,14 +64,14 @@
                 <div class="buttons-container flex justify-between w-full">
                     <div class="action-buttons1">
                         <!-- Botón para descargar plantilla de anulación -->
-                        <button class="mat-raised-button plantilla" type="submit">
+                        <button class="mat-raised-button plantilla" type="submit" (click)="descargarPlantilla()">
                             Descargar plantilla de Intervención
                         </button>
                     </div>
 
                     <div class="action-buttons2">
                         <!-- Botón para procesar el archivo cargado -->
-                        <button class="mat-raised-button mr-3" type="submit">
+                        <button class="mat-raised-button mr-3" type="submit" (click)="procesar()">
                             Procesar
                         </button>
                         <!-- Botón para salir y regresar al menú principal -->

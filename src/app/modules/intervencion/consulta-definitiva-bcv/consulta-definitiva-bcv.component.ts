@@ -41,26 +41,13 @@ export class ConsultaDefinitivaBcvComponent implements OnInit, OnDestroy {
 
     this.exportProgressService.iniciarProgreso(
       (blob: Blob, fileName: string) => {
-        this.descargarArchivo(blob, fileName);
+        this.exportProgressService.descargarArchivo(blob, fileName);
         this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
       },
       () => this._service.exportarConsultaDefinitiva({ fechaFiltro: this.consultaForm.value.cod })
     );
   }
 
-  /**
-   * Descarga el archivo recibido del backend en el navegador.
-   * @param blob Archivo en formato Blob.
-   * @param nombre Nombre sugerido para el archivo.
-   */
-  private descargarArchivo(blob: Blob, nombre: string) {
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
-    a.download = nombre;
-    a.click();
-    window.URL.revokeObjectURL(url);
-  }
 
   /**
    * Navega al menú principal de la aplicación.

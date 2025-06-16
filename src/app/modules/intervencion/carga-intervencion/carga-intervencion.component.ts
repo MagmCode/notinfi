@@ -1,6 +1,9 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ExportProgressService } from 'app/services/export-progress.service';
+import { ServiceService } from 'app/services/service.service';
 
 @Component({
   selector: 'carga-intervencion',
@@ -33,7 +36,10 @@ export class CargaIntervencionComponent implements OnInit {
    */
   constructor(
     private _formBuilder: FormBuilder,
-    private _router: Router
+    private _router: Router,
+    public exportProgressService: ExportProgressService,
+    private _service: ServiceService,
+    private _snackBar: MatSnackBar
   ) {}
 
   /**
@@ -94,9 +100,45 @@ export class CargaIntervencionComponent implements OnInit {
    * Procesa el archivo cargado.
    * Aquí se debe implementar la lógica de procesamiento.
    */
-  procesar() {
-    // Lógica para procesar el archivo
+procesar() {
+  const file: File = this.anulacionForm.get('file')?.value;
+  console.log('[procesar] Archivo seleccionado:', file);
+
+  if (!file) {
+    this._snackBar.open('Debe seleccionar un archivo para procesar.', 'Cerrar', { duration: 3000 });
+    console.warn('[procesar] No se seleccionó archivo.');
+    return;
   }
+
+  this._service.notificarOperaciones(file).subscribe({
+    next: (resp) => {
+      console.log('[procesar] Respuesta del backend:', resp);
+      this._snackBar.open('Archivo enviado correctamente.', 'Cerrar', { duration: 4000 });
+      // Aquí puedes limpiar el formulario o actualizar la vista
+    },
+    error: (err) => {
+      console.error('[procesar] Error al enviar el archivo:', err);
+      this._snackBar.open('Error al enviar el archivo.', 'Cerrar', { duration: 4000 });
+    }
+  });
+}
+
+descargarPlantilla() {
+  this._service.planillaNotificarOperaciones().subscribe({
+    next: (blob: Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Plantilla_INTERVENCION.xls';
+      a.click();
+      window.URL.revokeObjectURL(url);
+      this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
+    },
+    error: () => {
+      this._snackBar.open('No se pudo descargar la plantilla. Intente más tarde.', 'Cerrar', { duration: 4000 });
+    }
+  });
+}
 
   /**
    * Navega al menú principal.

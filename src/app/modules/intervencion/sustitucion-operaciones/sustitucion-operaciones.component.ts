@@ -1,7 +1,9 @@
 //#region Imports
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import { ServiceService } from 'app/services/service.service';
 //#endregion
 
 /**
@@ -38,7 +40,9 @@ export class SustitucionOperacionesComponent implements OnInit {
    */
   constructor(
     private _formBuilder: FormBuilder,
-    private _router: Router
+    private _router: Router,
+    private _service: ServiceService,
+    private _snackBar: MatSnackBar
   ) {}
 
   /**
@@ -99,9 +103,28 @@ export class SustitucionOperacionesComponent implements OnInit {
    * Procesa el archivo cargado.
    * Aquí se debe implementar la lógica de procesamiento.
    */
-  procesar() {
-    // Lógica para procesar el archivo
+procesar() {
+  const file: File = this.cargaForm.get('file')?.value;
+  console.log('[procesar] Archivo seleccionado:', file);
+
+  if (!file) {
+    this._snackBar.open('Debe seleccionar un archivo para procesar.', 'Cerrar', { duration: 3000 });
+    console.warn('[procesar] No se seleccionó archivo.');
+    return;
   }
+
+  this._service.modificarOperaciones(file, '20250602').subscribe({
+    next: (resp) => {
+      console.log('[procesar] Respuesta del backend:', resp);
+      this._snackBar.open('Archivo enviado correctamente.', 'Cerrar', { duration: 4000 });
+      // Aquí puedes limpiar el formulario o actualizar la vista
+    },
+    error: (err) => {
+      console.error('[procesar] Error al enviar el archivo:', err);
+      this._snackBar.open('Error al enviar el archivo.', 'Cerrar', { duration: 4000 });
+    }
+  });
+}
 
   /**
    * Navega al menú principal.
