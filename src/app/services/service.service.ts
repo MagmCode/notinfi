@@ -240,12 +240,10 @@ anularOperaciones(file: File): Observable<any> {
 // #region Sustitucione de Operaciones 
 // SUSTITUCIONES DE OPERACIONES
 
-modificarOperaciones(file: File, fecha: string): Observable<any> {
+modificarOperaciones(file: File): Observable<any> {
   const formData = new FormData();
-  formData.append('fecha', fecha);  
   formData.append('arcOperaciones', file);
   console.log('[modificarOperaciones] Archivo a enviar:', file);
-  console.log('[modificarOperaciones] Fecha a enviar:', fecha);
   return this.http.post(`${this.apiUrl}api/bcv/modificarOperacion`, formData);
 }
 

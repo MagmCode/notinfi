@@ -148,6 +148,13 @@ export class SustitucionesPendientesComponent implements OnInit, AfterViewInit {
   this.dataSourcePendientes.sort = this.sortPendientes;
 }
 
+ngOnDestroy(): void {
+    // Claves usadas en este componente
+    localStorage.removeItem("sustitucionesPendientesCache");
+    localStorage.removeItem("sustitucionesPendientesData");
+    console.log('[ngOnDestroy] LocalStorage limpiado al salir de SustitucionesPendientesComponent');
+  }
+
 consultar(): void {
   const LOCAL_KEY_PENDIENTES = "sustitucionesPendientesData";
   if (this.selectedCodigo) {

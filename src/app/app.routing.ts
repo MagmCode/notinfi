@@ -21,6 +21,7 @@ import { InterbancarioMesaCambioComponent } from './modules/mesaDeCambio/interba
 import { DemandaMesaCambioComponent } from './modules/mesaDeCambio/demanda-mesa-cambio/demanda-mesa-cambio.component';
 import { ConsultaIntercambioMesaCambioComponent } from './modules/mesaDeCambio/consulta-intercambio-mesa-cambio/consulta-intercambio-mesa-cambio.component';
 import { OfertaMesaCambioComponent } from './modules/mesaDeCambio/oferta-mesa-cambio/oferta-mesa-cambio.component';
+import { ControlProcesosComponent } from './modules/control-procesos/control-procesos.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -87,8 +88,8 @@ export const appRoutes: Route[] = [
     //#region Rutas principales de la aplicación (menú, módulos, etc.)
     {
         path: '',
-        canActivate: [NoAuthGuard],
-        canActivateChild: [NoAuthGuard],
+        canActivate: [AuthGuard],
+        canActivateChild: [AuthGuard],
         component: LayoutComponent,
         data: { layout: 'classy' },
         children: [
@@ -140,6 +141,12 @@ export const appRoutes: Route[] = [
                 path: 'venta',
                 loadChildren: () => import('./modules/intencion-venta/intencion-venta.module').then(m => m.IntencionVentaModule)
             },
+
+            {
+                path: 'utilitarios', children: [
+                    {path: 'consulta-de-procesos', component: ControlProcesosComponent}
+                ]
+            }
         ]
     },
     //#endregion

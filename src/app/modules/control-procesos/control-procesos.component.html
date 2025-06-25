@@ -1,0 +1,99 @@
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+            <!-- Outlet para rutas hijas si aplica -->
+            <router-outlet *ngIf="true"></router-outlet>
+            <mat-sidenav-content>
+                <!-- Grupo de pestañas para las operaciones de Utilitarios -->
+                <mat-tab-group class="mat-tab-group flex items-center w-screen" [(selectedIndex)]="selectedTabIndex"
+                    (selectedTabChange)="onTabChange($event)">
+
+                    <!-- Pestaña de Búsqueda de jornadas activas -->
+                    <mat-tab label="Búsqueda">
+                        <div class="main-container mt-5 flex flex-col md:w-screen items-center px-2 md:px-0">
+                            <!-- Cabecera de la página -->
+                            <div class="header-container flex justify-between w-3/5 mb-5 text-7xl">
+                                <span>Consulta de Procesos</span>
+                                <div class="icon-container flex flex-col items-center ">
+                                    <!-- Icono representativo -->
+                                    <mat-icon
+                                        class="head-icon icon-size-10 icon-bdv-icon-usdbill-l opacity-40 pt-5"></mat-icon>
+                                    <span class="text-head mt-8">Utilitarios</span>
+                                </div>
+                            </div>
+                            <!-- Tarjeta principal con el formulario de búsqueda -->
+                            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-10">
+                                <!-- Título de la tarjeta -->
+                                <div class="card-title">
+                                    <span>Seleccione Criterios</span>
+                                </div>
+                                <!-- Formulario de criterios de búsqueda -->
+                                <form class="card-form flex items-center w-full" [formGroup]="procesosForm">
+
+                                    <div class="field-container px-6">
+                                        <div class="campos">
+
+                                            <div class="usuario">
+                                                <mat-form-field appearance="outline" class=" input-usuario">
+                                                    <mat-label>Usuario (NM)</mat-label>
+                                                    <input type="number" matInput [formControlName]="'nroCedRif'"
+                                                        matInput>
+                                                </mat-form-field>
+                                            </div>
+
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Envio BCV</mat-label>
+                                                <mat-select [formControlName]="'estatus'">
+                                                    <mat-option value="TODAS">Todas</mat-option>
+                                                    <mat-option value="1">Enviadas</mat-option>
+                                                    <mat-option value="2">Lote Cerrado</mat-option>
+                                                    <mat-option value="3">Anuladas</mat-option>
+                                                    <mat-option value="0">No Enviadas</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div>
+
+                                        <div class="campos">
+                                             <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Fecha Desde</mat-label>
+                                        <input matInput formControlName="fechaDesde" [max]="today"
+                                            [matDatepicker]="pickerDesde" readonly>
+                                        <mat-icon (click)="pickerDesde.open()"
+                                            class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
+                                        <mat-datepicker #pickerDesde></mat-datepicker>
+                                    </mat-form-field>
+
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Fecha Hasta</mat-label>
+                                        <input matInput formControlName="fechaHasta" [max]="today"
+                                            [min]="procesosForm.get('fechaDesde')?.value"
+                                            [matDatepicker]="pickerHasta" readonly>
+                                        <mat-icon (click)="pickerHasta.open()"
+                                            class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
+                                        <mat-datepicker #pickerHasta></mat-datepicker>
+                                    </mat-form-field>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!-- Botones de acción -->
+                                <div class="buttons-container flex justify-center gap-6">
+                                    <!-- Botón para procesar el archivo cargado -->
+                                    <button class="mat-raised-button w-full px-7 py-0" type="submit"
+                                        (click)="consultar()">Procesar</button>
+                                    <!-- Botón para salir y regresar al menú principal -->
+                                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </mat-tab>
+
+                    <!-- Pestaña de Resultados -->
+                    <mat-tab label="Resultado" *ngIf="canViewTab">
+                        
+                    </mat-tab>
+
+                </mat-tab-group>
+            </mat-sidenav-content>
+        </mat-sidenav-container>

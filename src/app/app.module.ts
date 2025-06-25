@@ -92,6 +92,7 @@ import { getSpanishPaginatorIntl } from './shared/mat-paginator-intl';
 import { IntervencionModule } from './modules/intervencion/intervencion.module';
 import { IntencionRetiroModule } from './modules/intencion-retiro/intencion-retiro.module';
 import { IntencionVentaModule } from './modules/intencion-venta/intencion-venta.module';
+import { ControlProcesosComponent } from './modules/control-procesos/control-procesos.component';
 
 
 const routerConfig: ExtraOptions = {
@@ -134,6 +135,7 @@ const routerConfig: ExtraOptions = {
         DemandaMesaCambioComponent,
         ConsultaIntercambioMesaCambioComponent,
         OfertaMesaCambioComponent,
+        ControlProcesosComponent,
         // EditOperacionesIntervencionModalComponent,
         // JornadaIntervencionComponent,
         // IntencionRetiroComponent,

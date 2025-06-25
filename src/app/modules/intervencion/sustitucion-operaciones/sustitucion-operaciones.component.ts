@@ -113,7 +113,7 @@ procesar() {
     return;
   }
 
-  this._service.modificarOperaciones(file, '20250602').subscribe({
+  this._service.modificarOperaciones(file).subscribe({
     next: (resp) => {
       console.log('[procesar] Respuesta del backend:', resp);
       this._snackBar.open('Archivo enviado correctamente.', 'Cerrar', { duration: 4000 });
