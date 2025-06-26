@@ -93,6 +93,7 @@ import { IntervencionModule } from './modules/intervencion/intervencion.module';
 import { IntencionRetiroModule } from './modules/intencion-retiro/intencion-retiro.module';
 import { IntencionVentaModule } from './modules/intencion-venta/intencion-venta.module';
 import { ControlProcesosComponent } from './modules/control-procesos/control-procesos.component';
+import { ProgramadorTareasComponent } from './modules/programador-tareas/programador-tareas.component';
 
 
 const routerConfig: ExtraOptions = {
@@ -136,6 +137,7 @@ const routerConfig: ExtraOptions = {
         ConsultaIntercambioMesaCambioComponent,
         OfertaMesaCambioComponent,
         ControlProcesosComponent,
+        ProgramadorTareasComponent,
         // EditOperacionesIntervencionModalComponent,
         // JornadaIntervencionComponent,
         // IntencionRetiroComponent,

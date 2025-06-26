@@ -144,7 +144,8 @@ export const appRoutes: Route[] = [
 
             {
                 path: 'utilitarios', children: [
-                    {path: 'consulta-de-procesos', component: ControlProcesosComponent}
+                    {path: 'consulta-de-procesos', component: ControlProcesosComponent},
+                    {path: 'programador-de-tareas', component: ProgramadorTareasComponent}
                 ]
             }
         ]
