@@ -39,14 +39,14 @@
    Cabecera de la página
    ========================================================================== */
 
-.header-container {
+.header-container, .header-container-tab2 {
     color: #db0032;
 }
 
 /* Icono principal de la cabecera */
 .head-icon::before {
     color: #db0032;
-    font-size: 2.9em;
+    font-size: 1.8em;
 }
 
 /* Texto debajo del icono en la cabecera */
@@ -206,35 +206,89 @@
     color: #d88c00;
 }
 
-.table-responsive {
-    overflow-x: auto; 
-    .table-cell {
-        text-align: center !important;
-        font-size: 0.78rem;
-        border-bottom-width: 2px !important;
-        border-style: solid;
-        padding-left: 0;
-        padding: 0 10px;
-    }
-    .header-cell {
-        padding-top: 15px !important;
-        padding-bottom: 15px !important;
-        padding-left: 10px;
-        justify-content: center !important;
-        font-size: 0.87rem;
-        border-bottom-width: 2px !important;
-        border-style: solid;
-    }
+/* ========================================================================== */
+/* Tabla de datos (Angular Material) - Estilo similar a retiro                */
+/* ========================================================================== */
 
+.table-responsive {
+    overflow-x: auto;
+    width: 100%;
+    max-width: 100vw;
+
+    .table-procesos {
+        border-collapse: separate;
+        border-spacing: 0;
+        width: 100%;
+        background: white;
+
+        .header-cell {
+            background-color: #db0032 !important; // Rojo corporativo
+            color: #fff !important;
+            font-weight: 600;
+            font-size: 0.95rem;
+            text-align: center;
+            // border-bottom: 3px solid #db0032 !important;
+            padding: 14px 8px;
+            letter-spacing: 0.5px;
+        }
+
+        .table-cell {
+            color: #1e293b;
+            font-size: 0.85rem;
+            text-align: center;
+            padding: 10px 8px;
+            border-bottom: 1.5px solid #e5e7eb;
+            background: #fff;
+        }
+
+        tr.mat-row:hover {
+            background-color: #fbe9eb !important; // Suave rojo claro al pasar el mouse
+        }
+
+        tr.mat-header-row {
+            height: 48px;
+        }
+        tr.mat-row {
+            height: 40px;
+        }
+    }
 }
 
+/* Centrado de los iconos de ordenamiento en las tablas */
+::ng-deep .mat-sort-header-container {
+    justify-content: center !important;
+}
+
+/* Paginador */
 .paginator-actions-row {
-        ::ng-deep .mat-paginator .mat-paginator-container .mat-paginator-page-size .mat-paginator-page-size-select .mat-form-field-wrapper .mat-form-field-flex {
+    ::ng-deep .mat-paginator .mat-paginator-container {
+        font-size: 0.9rem !important;
+        // color: #db0032 !important;
+    }
+
+       ::ng-deep .mat-paginator .mat-paginator-container .mat-paginator-page-size .mat-paginator-page-size-select .mat-form-field-wrapper .mat-form-field-flex {
         border-color: #db0032 !important;
     }
+    ::ng-deep .mat-form-field.mat-focused.mat-primary .mat-select-arrow {
+        color: #64748b !important;
+    }
+    // ::ng-deep .mat-paginator .mat-paginator-range-label {
+    //     color: #db0032 !important;
+    // }
+    // ::ng-deep .mat-paginator .mat-paginator-icon {
+    //     color: #db0032 !important;
+    // }
 }
 
-.input-filter-inter {
+// /* Botón de acción en la tabla */
+// .table-procesos .mat-icon-button {
+//     color: #db0032 !important;
+//     &:hover {
+//         background: #fbe9eb !important;
+//     }
+// }
+
+.input-filter {
     color: #1e293b;
     input {
         caret-color: #db0032;
@@ -245,6 +299,12 @@
             color: #db0032 !important;
         }
     }
+}
+
+// Cambia el color de los campos de fecha a azul, por ejemplo
+.field-form input[formcontrolname="fechaDesde"],
+.field-form input[formcontrolname="fechaHasta"] {
+    color: #1e293b !important; // O el color que prefieras
 }
 
 /* ==========================================================================
@@ -277,6 +337,16 @@
     justify-content: center !important;
 }
 
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-background,
+::ng-deep .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
+    background-color: #db0032 !important;
+}
+::ng-deep .mat-checkbox-checked.mat-accent .mat-checkbox-frame {
+    border-color: #db0032 !important;
+}
+::ng-deep .mat-checkbox.mat-accent .mat-checkbox-ripple .mat-ripple-element {
+    background-color: #db0032 !important;
+}
 /* ==========================================================================
    Otros estilos y personalizaciones de Angular Material
    ========================================================================== */
