@@ -22,6 +22,7 @@ import { DemandaMesaCambioComponent } from './modules/mesaDeCambio/demanda-mesa-
 import { ConsultaIntercambioMesaCambioComponent } from './modules/mesaDeCambio/consulta-intercambio-mesa-cambio/consulta-intercambio-mesa-cambio.component';
 import { OfertaMesaCambioComponent } from './modules/mesaDeCambio/oferta-mesa-cambio/oferta-mesa-cambio.component';
 import { ControlProcesosComponent } from './modules/control-procesos/control-procesos.component';
+import { ProgramadorTareasComponent } from './modules/programador-tareas/programador-tareas.component';
 
 // @formatter:off
 /* eslint-disable max-len */
