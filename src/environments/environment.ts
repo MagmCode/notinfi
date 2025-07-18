@@ -6,8 +6,8 @@ export const environment = {
     production: false,
     // urlEndPoint: 'http://localhost:8085/', // URL }base de tu backend Spring Boot
     // urlEndPoint: 'http://localhost:8083/', // URL base de tu backend Spring Boot
-    urlEndPoint: 'http://localhost:9090/', // URL base de tu backend Spring Boot
-    // urlEndPoint: 'http://180.183.67.228:8080/', // URL base de tu backend Spring Boot
+    // urlEndPoint: 'http://localhost:9090/', // URL base de tu backend Spring Boot
+    urlEndPoint: 'http://180.183.67.228:8080/', // URL base de tu backend Spring Boot
     baseUrl: '/',
 };
 // export const environment = {

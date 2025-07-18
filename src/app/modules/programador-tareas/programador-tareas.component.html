@@ -26,58 +26,58 @@
                 <th class="header-cell">Activo</th>
               </tr>
               <tr *ngFor="let sistema of sistemasPaginados">
-                <td class="header-cell">{{ sistema.nombre }}</td>
-                <td>
-                  <mat-form-field appearance="fill" class="w-32 select">
-                    <mat-select [(ngModel)]="sistema.dia">
-                      <mat-option *ngFor="let d of diasSemana" [value]="d">{{ d }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field appearance="fill" class="w-24 select">
-                    <mat-select [(ngModel)]="sistema.hora">
-                      <mat-option *ngFor="let h of horas" [value]="h">{{ h }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field appearance="fill" class="w-24 select">
-                    <mat-select [(ngModel)]="sistema.minuto">
-                      <mat-option *ngFor="let m of minutos" [value]="m">{{ m }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field appearance="fill" class="w-24 select">
-                    <mat-select [(ngModel)]="sistema.horaDesde">
-                      <mat-option *ngFor="let h of horas" [value]="h">{{ h }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field appearance="fill" class="w-24 select">
-                    <mat-select [(ngModel)]="sistema.horaHasta">
-                      <mat-option *ngFor="let h of horas" [value]="h">{{ h }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field appearance="fill" class="w-24 select">
-                    <mat-select [(ngModel)]="sistema.cadaMin">
-                      <mat-option *ngFor="let c of cadaMin" [value]="c">{{ c }}</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-                <td>
-                  <mat-form-field appearance="fill" class="w-24 select">
-                    <mat-select [(ngModel)]="sistema.activo">
-                      <mat-option [value]="true">Sí</mat-option>
-                      <mat-option [value]="false">No</mat-option>
-                    </mat-select>
-                  </mat-form-field>
-                </td>
-              </tr>
+  <td class="header-cell">{{ sistema.nombre }}</td>
+  <td>
+    <mat-form-field *ngIf="sistema.dia || (sistema.dia === '' && sistema.hora === '' && sistema.minuto === '' && sistema.horaDesde === '0' && sistema.horaHasta === '0' && sistema.cadaMin === '0')" appearance="fill" class="w-32 select">
+      <mat-select [(ngModel)]="sistema.dia">
+        <mat-option *ngFor="let d of diasSemana" [value]="d">{{ d }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </td>
+  <td>
+    <mat-form-field *ngIf="sistema.hora || (sistema.dia === '' && sistema.hora === '' && sistema.minuto === '' && sistema.horaDesde === '0' && sistema.horaHasta === '0' && sistema.cadaMin === '0')" appearance="fill" class="w-24 select">
+      <mat-select [(ngModel)]="sistema.hora">
+        <mat-option *ngFor="let h of horas" [value]="h">{{ h }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </td>
+  <td>
+    <mat-form-field *ngIf="sistema.minuto || (sistema.dia === '' && sistema.hora === '' && sistema.minuto === '' && sistema.horaDesde === '0' && sistema.horaHasta === '0' && sistema.cadaMin === '0')" appearance="fill" class="w-24 select">
+      <mat-select [(ngModel)]="sistema.minuto">
+        <mat-option *ngFor="let m of minutos" [value]="m">{{ m }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </td>
+  <td>
+    <mat-form-field *ngIf="sistema.horaDesde !== '0' || (sistema.dia === '' && sistema.hora === '' && sistema.minuto === '' && sistema.horaDesde === '0' && sistema.horaHasta === '0' && sistema.cadaMin === '0')" appearance="fill" class="w-24 select">
+      <mat-select [(ngModel)]="sistema.horaDesde">
+        <mat-option *ngFor="let h of horas" [value]="h">{{ h }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </td>
+  <td>
+    <mat-form-field *ngIf="sistema.horaHasta !== '0' || (sistema.dia === '' && sistema.hora === '' && sistema.minuto === '' && sistema.horaDesde === '0' && sistema.horaHasta === '0' && sistema.cadaMin === '0')" appearance="fill" class="w-24 select">
+      <mat-select [(ngModel)]="sistema.horaHasta">
+        <mat-option *ngFor="let h of horas" [value]="h">{{ h }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </td>
+  <td>
+    <mat-form-field *ngIf="sistema.cadaMin !== '0' || (sistema.dia === '' && sistema.hora === '' && sistema.minuto === '' && sistema.horaDesde === '0' && sistema.horaHasta === '0' && sistema.cadaMin === '0')" appearance="fill" class="w-24 select">
+      <mat-select [(ngModel)]="sistema.cadaMin">
+        <mat-option *ngFor="let c of cadaMin" [value]="c">{{ c }}</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </td>
+  <td>
+    <mat-form-field appearance="fill" class="w-24 select">
+      <mat-select [(ngModel)]="sistema.activo">
+        <mat-option [value]="true">Sí</mat-option>
+        <mat-option [value]="false">No</mat-option>
+      </mat-select>
+    </mat-form-field>
+  </td>
+</tr>
             </table>
             <div class="paginator-actions-row flex items-center justify-between">
             <mat-paginator [length]="sistemas.length"

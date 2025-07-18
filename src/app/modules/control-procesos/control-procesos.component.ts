@@ -4,7 +4,9 @@ import { Router } from '@angular/router';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
-import { ExportProgressService } from 'app/services/export-progress.service'; // Ajusta la ruta si es necesario
+import { ExportProgressService } from 'app/services/export-progress.service';
+import { ServiceService } from 'app/services/service.service';
+
 
 
 @Component({
@@ -31,7 +33,10 @@ export class ControlProcesosComponent implements OnInit, AfterViewInit {
   constructor(
     private _router: Router,
     private _formBuilder: FormBuilder,
-    public exportProgressService: ExportProgressService 
+    public exportProgressService: ExportProgressService,
+    private serviceService: ServiceService 
+
+
 
   ) { }
 
@@ -42,11 +47,6 @@ export class ControlProcesosComponent implements OnInit, AfterViewInit {
       nroCedRif: [''],
       enProceso: [false]
     });
-
-    // Datos de prueba
-    this.dataSourceProcesos.data = [
-      { id: 1, transaccion: 'TX01', fechaInicio: '2024-06-01', fechaFin: '2024-06-02', error: '', usuario: 'admin', accion: '' }
-    ];
   }
 
   ngAfterViewInit() {
@@ -70,7 +70,36 @@ export class ControlProcesosComponent implements OnInit, AfterViewInit {
   }
 
   consultar(): void {
-    this.selectedTabIndex = 1;
-    this.canViewTab = true;
+    const formValue = this.procesosForm.value;
+    const payload = {
+      fechaDesde: this.formatDate(formValue.fechaDesde),
+      fechaHasta: this.formatDate(formValue.fechaHasta),
+      enEjecucion: formValue.enProceso ? 1 : 0,
+      userId: formValue.nroCedRif || ''
+    };
+
+    this.serviceService.consultaProcesos(payload).subscribe((res: any[]) => {
+      // Adapta los datos para la tabla
+      this.dataSourceProcesos.data = res.map(item => ({
+        id: item.ejecucionId,
+        transaccion: item.transaId,
+        fechaInicio: item.fechaInicio,
+        fechaFin: item.fechaFin,
+        error: item.descError,
+        usuario: item.userId,
+        accion: ''
+      }));
+      this.selectedTabIndex = 1;
+      this.canViewTab = true;
+    });
+  }
+
+    private formatDate(date: Date): string {
+    // Formatea la fecha a dd-MM-yyyy
+    const d = new Date(date);
+    const day = String(d.getDate()).padStart(2, '0');
+    const month = String(d.getMonth() + 1).padStart(2, '0');
+    const year = d.getFullYear();
+    return `${day}-${month}-${year}`;
   }
 }
