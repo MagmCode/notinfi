@@ -12,6 +12,10 @@
       <!-- Tarjeta principal -->
       <div class="flex flex-col p-6 bg-card shadow rounded-2xl mb-30">
         <div class="flex flex-col flex-auto p-6 pt-2 bg-card shadow rounded-2xl">
+          <div class="buttons-container flex flex-row justify-end gap-6 mb-4">
+            <button class="mat-raised-button px-7 py-0" (click)="procesarTareas()">Procesar</button>
+            <button class="mat-raised-button px-8 py-0" (click)="inicio()">Salir</button>
+          </div>
           <!-- Tabla horizontal (sistemas a la izquierda) -->
           <div class="table-responsive">
             <table class="vertical-table w-full">

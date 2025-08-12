@@ -86,7 +86,7 @@ export class AuthSignInComponent implements OnInit {
             rememberMe: ['']
         });
     }
-
+me
     /**
      * Maneja el envío del formulario de login.
      * @param event Evento de envío del formulario
@@ -99,7 +99,13 @@ export class AuthSignInComponent implements OnInit {
 
         const { usuario: codUsuario, password: clave } = this.signInForm.value;
 
-        this.loginService.validarUsuario(codUsuario, clave).subscribe({
+        const loginPayload = {
+            codUsuario,
+            // clave,
+            siglasApplic: 'NOTINFI' 
+        }
+
+        this.loginService.validarUsuario(loginPayload).subscribe({
             next: (response: any) => {
                 if (response && response.token) {
                     this._router.navigateByUrl('/menu-principal');

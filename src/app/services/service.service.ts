@@ -22,8 +22,8 @@ export class ServiceService {
     jornadaActivaSource = new BehaviorSubject<any[]>([]);
     jornadaActiva$ = this.jornadaActivaSource.asObservable();
     // Para sustituciones pendientes
-sustitucionesPendientesSource = new BehaviorSubject<any[]>([]);
-sustitucionesPendientes$ = this.sustitucionesPendientesSource.asObservable();
+  sustitucionesPendientesSource = new BehaviorSubject<any[]>([]);
+  sustitucionesPendientes$ = this.sustitucionesPendientesSource.asObservable();
 
     tasasSource = new BehaviorSubject<{
         compraUsd: string, 
@@ -411,6 +411,15 @@ consultaProcesos(data: { fechaDesde: string; fechaHasta: string; enEjecucion: nu
     })
   );
 }
+
+actualizarProcesos(data: any[]): Observable<any> {
+  return this.http.post(`${this.apiUrl}api/tareas/actualizarTareas`, data).pipe(
+    map((response: any) => {
+      return response;
+    })
+  );
+}
+
 
 programadorTareas(): Observable<any> {
     return this.http.get(`${this.apiUrl}api/tareas/listar`).pipe(

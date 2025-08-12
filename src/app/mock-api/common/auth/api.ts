@@ -71,11 +71,14 @@ export class AuthMockApi
         this._fuseMockApiService
             .onPost('api/auth/sign-in', 1500)
             .reply(({request}) => {
-                // llamar al servicio de login
-                this._routerLogin.validarUsuario(request.body.email, request.body.password)
+                // Extrae los datos del body
+                const { codUsuario, clave, siglasApplic } = request.body;
+
+                // Llama al servicio de login con el objeto esperado
+                this._routerLogin.validarUsuario({ codUsuario, siglasApplic })
                 .subscribe(
-                    (data) =>{
-                        if(data.estatus == 'success'){
+                    (data) => {
+                        if (data.estatus == 'success') {
                             return [
                                 200,
                                 {
@@ -84,24 +87,21 @@ export class AuthMockApi
                                     tokenType  : 'bearer'
                                 }
                             ];
-                        }
-                        else{
+                        } else {
                             return [
                                 404,
                                 false
                             ];
                         }
                     }
-                )
-              
+                );
 
-                // Invalid credentials
-                return [
-                    404,
-                    false
-                ];
-            });
-
+        // Invalid credentials (por defecto)
+        return [
+            404,
+            false
+        ];
+    });
         // -----------------------------------------------------------------------------------------------------
         // @ Verify and refresh the access token - POST
         // -----------------------------------------------------------------------------------------------------
