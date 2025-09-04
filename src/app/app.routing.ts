@@ -4,7 +4,6 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { MenuPrincipalComponent } from './modules/menu-principal/menu-principal.component';
-import { CargaMesaCambioComponent } from './modules/mesaDeCambio/carga/carga.component';
 import { OperacionesMesaCambioComponent } from './modules/mesaDeCambio/operaciones/operaciones.component';
 import { CargaMenudeoComponent } from './modules/menudeo/carga-menudeo/carga-menudeo.component';
 import { OperacionesMenudeoComponent } from './modules/menudeo/operaciones-menudeo/operaciones-menudeo.component';
@@ -19,7 +18,6 @@ import { AnulacionMasivaMesaCambioComponent } from './modules/mesaDeCambio/anula
 import { CambioClaveMesaCambioComponent } from './modules/mesaDeCambio/cambio-clave-mesa-cambio/cambio-clave-mesa-cambio.component';
 import { InterbancarioMesaCambioComponent } from './modules/mesaDeCambio/interbancario-mesa-cambio/interbancario-mesa-cambio.component';
 import { DemandaMesaCambioComponent } from './modules/mesaDeCambio/demanda-mesa-cambio/demanda-mesa-cambio.component';
-import { ConsultaIntercambioMesaCambioComponent } from './modules/mesaDeCambio/consulta-intercambio-mesa-cambio/consulta-intercambio-mesa-cambio.component';
 import { OfertaMesaCambioComponent } from './modules/mesaDeCambio/oferta-mesa-cambio/oferta-mesa-cambio.component';
 import { ControlProcesosComponent } from './modules/control-procesos/control-procesos.component';
 import { ProgramadorTareasComponent } from './modules/programador-tareas/programador-tareas.component';
@@ -102,16 +100,14 @@ export const appRoutes: Route[] = [
             },
             // Mesa de Cambio
             {
-                path: 'mesa-de-cambio', children: [
-                    { path: 'carga', component: CargaMesaCambioComponent },
+                path: 'mesa-cambio', children: [
                     { path: 'operaciones', component: OperacionesMesaCambioComponent },
                     { path: 'consultaBCV', component: ConsultabcvMesaCambioComponent },
                     { path: 'anulacion-masiva', component: AnulacionMasivaMesaCambioComponent },
                     { path: 'cambio-de-clave', component: CambioClaveMesaCambioComponent },
                     { path: 'interbancario', component: InterbancarioMesaCambioComponent },
                     { path: 'demanda', component: DemandaMesaCambioComponent },
-                    { path: 'consulta-intercambio', component: ConsultaIntercambioMesaCambioComponent },
-                    { path: 'oferta', component: OfertaMesaCambioComponent },
+                    // { path: 'oferta', component: OfertaInterbancariaMesaCambioComponent },
                 ]
             },
             // Intervención (Lazy loading)

@@ -22,8 +22,41 @@ export class LoginService {
    * @param clave - Contraseña del usuario.
    * @returns Observable<loginLdap> con la respuesta del backend.
    */
-  // validarUsuario(data: { codUsuario: string, clave: string, siglasApplic: string }): Observable<any> {
-  validarUsuario(data: { codUsuario: string, siglasApplic: string }): Observable<any> {
+
+  //Descomentar para trabajar en gateway
+  // 
+  // validarUsuario(data: { codUsuario: string, siglasApplic: string }): Observable<any> {
+  
+  //   return this.http.post<any>(`${this.urlEndPoint}api/auth/login`, data).pipe(
+  //     tap((response: any) => {
+  //       // console.log('Respuesta completa del backend:', response);
+  //       if (response.token) {
+  //         localStorage.setItem('token', response.token);
+  //         // Ahora los datos vienen directamente en el response
+  //         localStorage.setItem('user', JSON.stringify({
+  //           codUsuario: response.codUsuario, 
+  //           userId: response.codUsuario, // No hay userId, se usa codUsuario
+  //           fullName: response.nombreCompleto, // Cambió el nombre del campo
+  //           roleName: response.roleName,
+  //           roleId: response.roleId,
+  //         }));
+  //         // console.log('Usuario almacenado en localStorage:', {
+  //         //   codUsuario: response.codUsuario,
+  //         //   userId: response.codUsuario,
+  //         //   fullName: response.nombreCompleto,
+  //         //   roleName: response.roleName,
+  //         //   roleId: response.roleId,
+  //         // });
+  //       }
+  //     }),
+  //     catchError((error: HttpErrorResponse) => {
+  //       // console.log('LoginService - error recibido:', error);
+  //        return throwError(() => error); // Lanza el error completo, no solo el mensaje
+  //   })
+  //   );
+  // }
+
+    validarUsuario(data: { codUsuario: string}): Observable<any> {
   
     return this.http.post<any>(`${this.urlEndPoint}api/auth/login`, data).pipe(
       tap((response: any) => {
@@ -53,5 +86,6 @@ export class LoginService {
     })
     );
   }
+
 
 }

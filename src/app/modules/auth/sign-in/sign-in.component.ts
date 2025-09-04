@@ -102,7 +102,7 @@ me
         const loginPayload = {
             codUsuario,
             // clave,
-            siglasApplic: 'NOTINFI' 
+            // siglasApplic: 'NOTINFI' //Descomentar para trabajar en gateway
         }
 
         this.loginService.validarUsuario(loginPayload).subscribe({

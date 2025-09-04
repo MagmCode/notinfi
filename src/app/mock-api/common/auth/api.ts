@@ -75,7 +75,8 @@ export class AuthMockApi
                 const { codUsuario, clave, siglasApplic } = request.body;
 
                 // Llama al servicio de login con el objeto esperado
-                this._routerLogin.validarUsuario({ codUsuario, siglasApplic })
+                // this._routerLogin.validarUsuario({ codUsuario, siglasApplic }) //Descomentar para trabajar en gateway
+                this._routerLogin.validarUsuario({ codUsuario})
                 .subscribe(
                     (data) => {
                         if (data.estatus == 'success') {
