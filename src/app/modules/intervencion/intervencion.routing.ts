@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
+
 import { CargaIntervencionComponent } from './carga-intervencion/carga-intervencion.component';
 import { OperacionesIntervencionComponent } from './operaciones-intervencion/operaciones-intervencion.component';
 import { InterbancarioIntervencionComponent } from './interbancario-intervencion/interbancario-intervencion.component';

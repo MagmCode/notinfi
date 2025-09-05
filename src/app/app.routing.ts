@@ -4,7 +4,6 @@ import { AuthGuard } from 'app/core/auth/guards/auth.guard';
 import { NoAuthGuard } from 'app/core/auth/guards/noAuth.guard';
 import { LayoutComponent } from 'app/layout/layout.component';
 import { MenuPrincipalComponent } from './modules/menu-principal/menu-principal.component';
-import { OperacionesMesaCambioComponent } from './modules/mesaDeCambio/operaciones/operaciones.component';
 import { CargaMenudeoComponent } from './modules/menudeo/carga-menudeo/carga-menudeo.component';
 import { OperacionesMenudeoComponent } from './modules/menudeo/operaciones-menudeo/operaciones-menudeo.component';
 import { ConsultaTasasbcvMenudeoComponent } from './modules/menudeo/consulta-tasasbcv-menudeo/consulta-tasasbcv-menudeo.component';
@@ -16,11 +15,17 @@ import { ConsultaConciliacionMenudeoComponent } from './modules/menudeo/consulta
 import { ConsultabcvMesaCambioComponent } from './modules/mesaDeCambio/consultabcv-mesa-cambio/consultabcv-mesa-cambio.component';
 import { AnulacionMasivaMesaCambioComponent } from './modules/mesaDeCambio/anulacion-masiva-mesa-cambio/anulacion-masiva-mesa-cambio.component';
 import { CambioClaveMesaCambioComponent } from './modules/mesaDeCambio/cambio-clave-mesa-cambio/cambio-clave-mesa-cambio.component';
-import { InterbancarioMesaCambioComponent } from './modules/mesaDeCambio/interbancario-mesa-cambio/interbancario-mesa-cambio.component';
-import { DemandaMesaCambioComponent } from './modules/mesaDeCambio/demanda-mesa-cambio/demanda-mesa-cambio.component';
-import { OfertaMesaCambioComponent } from './modules/mesaDeCambio/oferta-mesa-cambio/oferta-mesa-cambio.component';
 import { ControlProcesosComponent } from './modules/control-procesos/control-procesos.component';
 import { ProgramadorTareasComponent } from './modules/programador-tareas/programador-tareas.component';
+import { DemandaInterbancariaMesaCambioComponent } from './modules/mesaDeCambio/interbancaria/demanda-interbancaria-mesa-cambio/demanda-interbancaria-mesa-cambio.component';
+import { OfertaInterbancariaMesaCambioComponent } from './modules/mesaDeCambio/interbancaria/oferta-interbancaria-mesa-cambio/oferta-interbancaria-mesa-cambio.component';
+import { CargaPactoDirectoMesaCambioComponent } from './modules/mesaDeCambio/oper_pactoDirecto/carga-pacto-directo-mesa-cambio/carga-pacto-directo-mesa-cambio.component';
+import { ConsultarDirectoMesaCambioComponent } from './modules/mesaDeCambio/oper_pactoDirecto/consultar-directo-mesa-cambio/consultar-directo-mesa-cambio.component';
+import { PactoInterbanInterbancariaMesaCambioComponent } from './modules/mesaDeCambio/interbancaria/pacto-interban-interbancaria-mesa-cambio/pacto-interban-interbancaria-mesa-cambio.component';
+import { ConsultaInterbancariaMesaCambioComponent } from './modules/mesaDeCambio/interbancaria/consulta-interbancaria-mesa-cambio/consulta-interbancaria-mesa-cambio.component';
+import { CrearOperacionCanjeMesaCambioComponent } from './modules/mesaDeCambio/canje/crear-operacion-canje-mesa-cambio/crear-operacion-canje-mesa-cambio.component';
+import { ConsultaCanjeMesaCambioComponent } from './modules/mesaDeCambio/canje/consulta-canje-mesa-cambio/consulta-canje-mesa-cambio.component';
+import { AnulacionMasivaBdvMesaCambioComponent } from './modules/mesaDeCambio/anulacion-masiva-bdv-mesa-cambio/anulacion-masiva-bdv-mesa-cambio.component';
 
 // @formatter:off
 /* eslint-disable max-len */
@@ -98,18 +103,33 @@ export const appRoutes: Route[] = [
                     { path: '', component: MenuPrincipalComponent },
                 ]
             },
+
             // Mesa de Cambio
-            {
-                path: 'mesa-cambio', children: [
-                    { path: 'operaciones', component: OperacionesMesaCambioComponent },
-                    { path: 'consultaBCV', component: ConsultabcvMesaCambioComponent },
-                    { path: 'anulacion-masiva', component: AnulacionMasivaMesaCambioComponent },
-                    { path: 'cambio-de-clave', component: CambioClaveMesaCambioComponent },
-                    { path: 'interbancario', component: InterbancarioMesaCambioComponent },
-                    { path: 'demanda', component: DemandaMesaCambioComponent },
-                    // { path: 'oferta', component: OfertaInterbancariaMesaCambioComponent },
-                ]
+              {
+                path: 'mesa-cambio',
+                loadChildren: () => import('./modules/mesaDeCambio/mesa-cambio.module').then(m => m.MesaCambioModule)
             },
+            // {
+            //     path: 'mesa-cambio', children: [
+            //         { path: 'oper-pacto-directo/carga', component: CargaPactoDirectoMesaCambioComponent },
+            //         { path: 'oper-pacto-directo/consultar', component: ConsultarDirectoMesaCambioComponent },
+                    
+            //         { path: 'interbancaria/consultar', component: ConsultarDirectoMesaCambioComponent },
+            //         { path: 'interbancaria/oferta', component: OfertaInterbancariaMesaCambioComponent },
+            //         { path: 'interbancaria/demanda', component: DemandaInterbancariaMesaCambioComponent },
+            //         { path: 'interbancaria/pacto-interbancario', component: PactoInterbanInterbancariaMesaCambioComponent },
+            //         { path: 'interbancaria/consulta', component: ConsultaInterbancariaMesaCambioComponent },
+                    
+
+            //         { path: 'canje/creacion-operaciones', component: CrearOperacionCanjeMesaCambioComponent },
+            //         { path: 'canje/consulta', component: ConsultaCanjeMesaCambioComponent },
+                    
+            //         { path: 'consultaBCV', component: ConsultabcvMesaCambioComponent },
+            //         { path: 'cambio-de-clave', component: CambioClaveMesaCambioComponent },
+            //         { path: 'anulacion-masiva-bcv', component: AnulacionMasivaMesaCambioComponent },
+            //         { path: 'anulacion-masiva-bdv', component: AnulacionMasivaBdvMesaCambioComponent },
+            //     ]
+            // },
             // Intervención (Lazy loading)
             {
                 path: 'intervencion',

@@ -4,12 +4,15 @@
  * Importa y declara todos los componentes, módulos y servicios necesarios para las operaciones de intervención.
  * Configura Angular Material, adaptadores de fecha y formatos personalizados.
  * Inspirado en la estructura y comentarios de sustituciones-pendientes.component.ts.
- */
+*/
 
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
+import { IntervencionRoutingModule } from './intervencion.routing';
+import { SharedModule } from 'app/shared/shared.module';
+import { UserModule } from 'app/layout/common/user/user.module';
+
 import { CommonModule } from '@angular/common';
 
-import { IntervencionRoutingModule } from './intervencion.routing';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 // Angular Material
@@ -34,7 +37,6 @@ import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { MatRippleModule, MatNativeDateModule } from '@angular/material/core';
 import { TranslocoModule } from '@ngneat/transloco';
 import { NgApexchartsModule } from 'ng-apexcharts';
-import { SharedModule } from 'app/shared/shared.module';
 import { MatRadioModule } from '@angular/material/radio';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
@@ -45,7 +47,6 @@ import { MatChipsModule, MAT_CHIPS_DEFAULT_OPTIONS } from '@angular/material/chi
 import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
-import { UserModule } from 'app/layout/common/user/user.module';
 import { FuseLoadingBarModule } from '@fuse/components/loading-bar/loading-bar.module';
 import { MatTreeModule } from '@angular/material/tree';
 import { MatCardModule } from '@angular/material/card';
@@ -87,56 +88,56 @@ import { ConsultaDefinitivaBcvComponent } from './consulta-definitiva-bcv/consul
     ConsultaDefinitivaBcvComponent
   ],
   imports: [
-    CommonModule,
+    // CommonModule,
     IntervencionRoutingModule,
-    FormsModule,
-    ReactiveFormsModule,
-    // Módulos de Angular Material y terceros
-    MatButtonModule,
-    MatButtonToggleModule,
-    MatFormFieldModule,
-    MatIconModule,
-    MatInputModule,
-    MatMenuModule,
-    MatSnackBarModule,
-    MatSelectModule,
-    NgxMatSelectSearchModule,
-    MatSidenavModule,
-    MatSortModule,
-    MatTableModule,
-    MatTabsModule,
-    ToastrModule.forRoot(),
-    NgxSpinnerModule,
-    MatDividerModule,
-    MatProgressBarModule,
-    MatRippleModule,
-    TranslocoModule,
-    NgApexchartsModule,
     SharedModule,
-    MatRadioModule,
-    MatCheckboxModule,
-    MatPaginatorModule,
-    MatSlideToggleModule,
-    MatTooltipModule,
-    MatDialogModule,
-    ScrollingModule,
-    MatChipsModule,
-    MatAutocompleteModule,
-    MatDatepickerModule,
-    MatNativeDateModule,
-    MatMomentDateModule,
     UserModule,
-    FuseLoadingBarModule,
-    MatTreeModule,
-    MatCardModule
-  ],
-  providers: [
-    // Configuración regional y de formato para el datepicker de Angular Material
-    { provide: MAT_DATE_LOCALE, useValue: 'es-VE' }, // Localización de fechas (Venezuela)
-    { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] }, // Adaptador Moment.js
-    { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }, // Formato personalizado DD/MM/YYYY
-     { provide: LOCALE_ID, useValue: 'es' }
-  ],
-  schemas: [CUSTOM_ELEMENTS_SCHEMA]
+    // FormsModule,
+    // ReactiveFormsModule,
+    // Módulos de Angular Material y terceros
+    // MatButtonModule,
+    // MatButtonToggleModule,
+    // MatFormFieldModule,
+    // MatIconModule,
+    // MatInputModule,
+    // MatMenuModule,
+    // MatSnackBarModule,
+    // MatSelectModule,
+    // NgxMatSelectSearchModule,
+    // MatSidenavModule,
+    // MatSortModule,
+    // MatTableModule,
+    // MatTabsModule,
+    // ToastrModule.forRoot(),
+    // NgxSpinnerModule,
+    // MatDividerModule,
+    // MatProgressBarModule,
+    // MatRippleModule,
+    // TranslocoModule,
+    // NgApexchartsModule,
+    // MatRadioModule,
+    // MatCheckboxModule,
+    // MatPaginatorModule,
+    // MatSlideToggleModule,
+    // MatTooltipModule,
+    // MatDialogModule,
+    // ScrollingModule,
+    // MatChipsModule,
+    // MatAutocompleteModule,
+    // MatDatepickerModule,
+    // MatNativeDateModule,
+    // MatMomentDateModule,
+    // FuseLoadingBarModule,
+    // MatTreeModule,
+    // MatCardModule
+  ]
+  // providers: [
+  //   // Configuración regional y de formato para el datepicker de Angular Material
+  //   { provide: MAT_DATE_LOCALE, useValue: 'es-VE' }, // Localización de fechas (Venezuela)
+  //   { provide: DateAdapter, useClass: MomentDateAdapter, deps: [MAT_DATE_LOCALE] }, // Adaptador Moment.js
+  //   { provide: MAT_DATE_FORMATS, useValue: MY_DATE_FORMATS }, // Formato personalizado DD/MM/YYYY
+  //    { provide: LOCALE_ID, useValue: 'es' }
+  // ],
+  // schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IntervencionModule { }

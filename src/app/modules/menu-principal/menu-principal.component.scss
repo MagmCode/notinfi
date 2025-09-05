@@ -41,7 +41,7 @@
     display: flex;
     flex-direction: column;
     padding: 30px;
-    background-color: #0067b1 ;
+    background-color: #0067b1 !important;
     border-radius: 25px;
     box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
     overflow: hidden; /* Evita que el contenido se salga */
@@ -91,7 +91,7 @@
   Incluye color de texto, altura de tarjeta y comportamiento de botones.
 */
 .tasas {
-    color: #fff  ;
+    color: #fff  !important;
 
     .card-header{
         margin-bottom: 2rem;

@@ -52,16 +52,11 @@ import { ReasignarSolicitudinvComponent } from './modules/admin/dashboards/inven
 import { ModalReasignarComponent } from './modules/admin/dashboards/inventario/modal-reasignar/modal-reasignar.component';
 import {MatDatepickerModule} from '@angular/material/datepicker';
 import { MatMomentDateModule } from '@angular/material-moment-adapter';
+
+
 import { MenuPrincipalComponent } from './modules/menu-principal/menu-principal.component';
 import { UserModule } from "./layout/common/user/user.module";
 import { MainLayoutsComponent } from './modules/main-layouts/main-layouts.component';
-import { OperacionesMesaCambioComponent } from './modules/mesaDeCambio/operaciones/operaciones.component';
-// import { OperacionesIntervencionComponent } from './modules/intervencion/operaciones-intervencion/operaciones-intervencion.component';
-// import { CargaIntervencionComponent } from './modules/intervencion/carga-intervencion/carga-intervencion.component';
-// import { InterbancarioIntervencionComponent } from './modules/intervencion/interbancario-intervencion/interbancario-intervencion.component';
-// import { CambioClaveIntervencionComponent } from './modules/intervencion/cambio-clave-intervencion/cambio-clave-intervencion.component';
-// import { AnulacionIntervencionComponent } from './modules/intervencion/anulacion-intervencion/anulacion-intervencion.component';
-// import { ConsultabcvIntervencionComponent } from './modules/intervencion/consultabcv-intervencion/consultabcv-intervencion.component';
 import { ConsultabcvMenudeoComponent } from './modules/menudeo/consultabcv-menudeo/consultabcv-menudeo.component';
 import { OperacionesMenudeoComponent } from './modules/menudeo/operaciones-menudeo/operaciones-menudeo.component';
 import { DemandaMenudeoComponent } from './modules/menudeo/demanda-menudeo/demanda-menudeo.component';
@@ -73,18 +68,11 @@ import { CambioClaveMenudeoComponent } from './modules/menudeo/cambio-clave-menu
 import { ConsultabcvMesaCambioComponent } from './modules/mesaDeCambio/consultabcv-mesa-cambio/consultabcv-mesa-cambio.component';
 import { AnulacionMasivaMesaCambioComponent } from './modules/mesaDeCambio/anulacion-masiva-mesa-cambio/anulacion-masiva-mesa-cambio.component';
 import { CambioClaveMesaCambioComponent } from './modules/mesaDeCambio/cambio-clave-mesa-cambio/cambio-clave-mesa-cambio.component';
-import { InterbancarioMesaCambioComponent } from './modules/mesaDeCambio/interbancario-mesa-cambio/interbancario-mesa-cambio.component';
-import { DemandaMesaCambioComponent } from './modules/mesaDeCambio/demanda-mesa-cambio/demanda-mesa-cambio.component';
-import { OfertaMesaCambioComponent } from './modules/mesaDeCambio/oferta-mesa-cambio/oferta-mesa-cambio.component';
-// import { EditOperacionesIntervencionModalComponent } from './modules/intervencion/operaciones-intervencion/edit-operaciones-intervencion-modal/edit-operaciones-intervencion-modal.component';
 import { FuseLoadingBarModule } from "../@fuse/components/loading-bar/loading-bar.module";
-// import { JornadaIntervencionComponent } from './modules/intervencion/jornada-intervencion/jornada-intervencion.component';
 import { HttpClientModule } from '@angular/common/http';
 import { MatTreeModule } from '@angular/material/tree';
-// import { IntencionRetiroComponent } from './modules/intencion-retiro/intencion-retiro.component';
 import { MAT_DATE_FORMATS } from '@angular/material/core';
 import { MY_DATE_FORMATS } from 'app/models/dateFormat';
-// import { IntencionVentaComponent } from './modules/intencion-venta/intencion-venta.component';
 import { MatPaginatorIntl } from '@angular/material/paginator';
 import { getSpanishPaginatorIntl } from './shared/mat-paginator-intl';
 import { IntervencionModule } from './modules/intervencion/intervencion.module';
@@ -120,13 +108,6 @@ const routerConfig: ExtraOptions = {
         ModalReasignarComponent,
         MenuPrincipalComponent,
         MainLayoutsComponent,
-        OperacionesMesaCambioComponent,
-        // OperacionesIntervencionComponent,
-        // CargaIntervencionComponent,
-        // InterbancarioIntervencionComponent,
-        // CambioClaveIntervencionComponent,
-        // AnulacionIntervencionComponent,
-        // ConsultabcvIntervencionComponent,
         ConsultabcvMenudeoComponent,
         OperacionesMenudeoComponent,
         DemandaMenudeoComponent,
@@ -138,24 +119,17 @@ const routerConfig: ExtraOptions = {
         ConsultabcvMesaCambioComponent,
         AnulacionMasivaMesaCambioComponent,
         CambioClaveMesaCambioComponent,
-        InterbancarioMesaCambioComponent,
-        DemandaMesaCambioComponent,
-        OfertaMesaCambioComponent,
         ControlProcesosComponent,
         ProgramadorTareasComponent,
-        CrearOperacionCanjeMesaCambioComponent,
-        ConsultaCanjeMesaCambioComponent,
-        OfertaInterbancariaMesaCambioComponent,
-        DemandaInterbancariaMesaCambioComponent,
-        PactoInterbanInterbancariaMesaCambioComponent,
-        ConsultaInterbancariaMesaCambioComponent,
-        CargaPactoDirectoMesaCambioComponent,
-        ConsultarDirectoMesaCambioComponent,
-        AnulacionMasivaBdvMesaCambioComponent,
-        // EditOperacionesIntervencionModalComponent,
-        // JornadaIntervencionComponent,
-        // IntencionRetiroComponent,
-        // IntencionVentaComponent,
+        // CrearOperacionCanjeMesaCambioComponent,
+        // ConsultaCanjeMesaCambioComponent,
+        // OfertaInterbancariaMesaCambioComponent,
+        // DemandaInterbancariaMesaCambioComponent,
+        // PactoInterbanInterbancariaMesaCambioComponent,
+        // ConsultaInterbancariaMesaCambioComponent,
+        // CargaPactoDirectoMesaCambioComponent,
+        // ConsultarDirectoMesaCambioComponent,
+        // AnulacionMasivaBdvMesaCambioComponent,
 
         
 
