@@ -1,60 +1,83 @@
+<!--
+  anulacion-mesa-cambio.component.html
+  Vista principal para la gestión de la anulación masiva de BCV.
+  Incluye formulario para carga de archivo Excel y acciones principales.
+-->
 
-<!-- Loading Bar -->
+<!-- Barra de carga superior (puede mostrar progreso de operaciones globales) -->
 <fuse-loading-bar></fuse-loading-bar>
 
-<!-- <main-layouts></main-layouts> -->
+<!-- Contenedor principal con menú lateral y rutas hijas -->
 <mat-sidenav-container>
+    <!-- Outlet para rutas hijas si aplica -->
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
-        <!-- Contenido -->
-        <div class="anulacionMasiva-container-MesaCambio">
-            <div class="header-content-MesaCambio">
-                <span>Anulación Masiva</span>
-                <mat-icon class="icon-size-10 icon-bdv-icon-bs-l head-icon-anulacion-MesaCambio"></mat-icon>
+        <!-- Contenido principal centrado vertical y horizontalmente -->
+        <div class="main-container bg-white flex flex-col w-full h-full md:w-screen items-center px-2 md:px-0" >
+
+            <!-- Cabecera de la tarjeta principal -->
+            <div class="header-container flex justify-between w-3/5 my-10 text-6xl ">
+                <span>Anulación Masiva BCV </span>
+                <div class="icon-container flex flex-col items-center mr-10">
+                    <!-- Icono representativo -->
+                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-bs-l opacity-40 pt-5"></mat-icon>
+                    <span class="text-head mt-10">Mesa de Cambio</span>
+                </div>
             </div>
-            <mat-card class="card-container">
-                <div class="title">
+
+            <!-- Tarjeta principal con el formulario de carga -->
+            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-30">
+                <!-- Título de la tarjeta -->
+                <div class="card-title">
                     <span>Seleccione Criterios</span>
                 </div>
-                <!-- Carga Form -->
-                <form class="card-form" #cargaaForm="ngForm" [formGroup]="anulacionMasivaMesaCambioForm">  
 
-                    <!-- file  -->
-                    <mat-form-field 
-                        class="w-full file"
-                        appearance="outline"
-                         [ngClass]="{'mat-form-field-valid': anulacionMasivaMesaCambioForm.controls['file'].valid && anulacionMasivaMesaCambioForm.controls['file'].value}">
+                <!-- Formulario reactivo para la carga de archivos -->
+                <form class="card-form" [formGroup]="anulacionForm">
+                    <!-- Campo de selección de archivo Excel -->
+                    <mat-form-field class="file-browse w-full" appearance="outline"
+                        [ngClass]="{'mat-form-field-valid': anulacionForm.controls['file'].valid && anulacionForm.controls['file'].value}">
                         <mat-label>Archivo</mat-label>
-                        <input
-                        id="file"
-                        matInput
-                        [formControlName]="'file'"  
-                        [value]="fileName"
-                        readonly>
-                        <mat-hint>Suba un archivo Excel</mat-hint>
-                        <mat-error *ngIf="anulacionMasivaMesaCambioForm.get('file').hasError('required') && anulacionMasivaMesaCambioForm.get('file').touched">
+                        <!-- Input de solo lectura que muestra el nombre del archivo seleccionado -->
+                        <input id="file" matInput [formControlName]="'file'" [value]="fileName" readonly>
+                        <!-- Mensaje de ayuda para el usuario -->
+                        <mat-hint class="mat-hint font-medium pt-2 pl-14">Suba un archivo Excel</mat-hint>
+                        <!-- Mensaje de error si no se selecciona archivo -->
+                        <mat-error
+                            *ngIf="anulacionForm.get('file').hasError('required') && anulacionForm.get('file').touched">
                             Debe seleccionar un archivo
-                          </mat-error>
-                          <mat-error *ngIf="anulacionMasivaMesaCambioForm.get('file').hasError('invalidFile')">
+                        </mat-error>
+                        <!-- Mensaje de error si el archivo no es válido -->
+                        <mat-error *ngIf="anulacionForm.get('file').hasError('invalidFile')">
                             Por favor, sube un archivo Excel válido
-                          </mat-error>
+                        </mat-error>
+                        <!-- Icono para abrir el selector de archivos -->
                         <mat-icon (click)="fileInput.click()" class="icon-bdv-icon-file2-m file-icon"></mat-icon>
-                        <input type="file" #fileInput (change)="onFileSelected($event)" hidden>
-                      </mat-form-field>
-                    
-                    
+                        <!-- Input real de tipo file, oculto, que dispara el evento de selección -->
+                        <input type="file" #fileInput (change)="onFileSelected($event)"
+                            accept=".xls,.xlsx,.xlsm,.xlsb,.xlt,.xltx,.xltm" hidden>
+                    </mat-form-field>
                 </form>
-                
-                <div class="buttons">
-                <div class="button-container">
-                    <button class="mat-raised-button" type="submit" form="anulacionMasivaMesaCambioForm">Descargar plantilla de Anulación</button>
-                </div>
 
-                <div class="button-container2">
-                    <button class="mat-raised-button" type="submit" form="anulacionMasivaMesaCambioForm">Procesar</button>
-                    <button class="mat-raised-button" (click)="menuPrincipal()">Salir</button>
-                </div>
+                <!-- Botones de acción principales -->
+                <div class="buttons-container flex justify-between w-full">
+                    <div class="action-buttons1">
+                        <!-- Botón para descargar plantilla de anulación -->
+                        <button class="mat-raised-button plantilla" type="submit" (click)="descargarPlantilla()">
+                            Descargar plantilla Anulación Mesa de Cambio
+                        </button>
+                    </div>
 
+                    <div class="action-buttons2">
+                        <!-- Botón para procesar el archivo cargado -->
+                        <button class="mat-raised-button mr-3" type="submit" (click)="procesar()">
+                            Procesar
+                        </button>
+                        <!-- Botón para salir y regresar al menú principal -->
+                        <button class="mat-raised-button w-24" (click)="inicio()">
+                            Salir
+                        </button>
+                    </div>
                 </div>
             </mat-card>
         </div>

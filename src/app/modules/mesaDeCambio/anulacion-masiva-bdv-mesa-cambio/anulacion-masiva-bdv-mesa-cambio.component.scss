@@ -1,0 +1,227 @@
+/* ==========================================================================
+   Estilos generales del componente Carga de Intervención
+   ========================================================================== */
+
+/* ==========================================================================
+   Cabecera de la tarjeta principal
+   ========================================================================== */
+.header-container {
+    color: #78ba49;
+}
+
+/* Icono principal de la cabecera */
+.head-icon::before {
+    color: #78ba49;
+    font-size: 2.2em;
+}
+
+/* Texto debajo del icono en la cabecera */
+.text-head {
+    color: #78ba49;
+    font-size: 0.4em;
+    opacity: 0.4;
+}
+
+/* ==========================================================================
+   Contenedor principal de la tarjeta
+   ========================================================================== */
+.card-container {
+    width: 650px; // Ancho fijo de la tarjeta
+    height: 480px; // Alto fijo de la tarjeta
+    color: #78ba49; // Color de texto corporativo
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%) !important; // Sombra para resaltar la tarjeta
+    ::ng-deep mat-progress-bar {
+         .mat-progress-bar-fill::after {
+            background-color: #78ba49;
+}
+    }
+}
+
+/* Título de la tarjeta */
+.card-title {
+    font-size: 1.3em; // Tamaño de fuente del título
+    color: #78ba49; 
+}
+
+/* ==========================================================================
+   Estilos para el campo de carga de archivos
+   ========================================================================== */
+.file-browse {
+    // Personalización del campo de formulario de Angular Material
+    ::ng-deep .mat-form-field-infix {
+        display: flex !important;
+        padding: 0 !important;
+        width: 235px !important;
+        justify-content: space-between;
+    }
+
+    // Estilo para el texto de ayuda
+    mat-hint {
+        color: #78ba49 !important;
+        font-size: 1.23em;
+    }
+
+    // Espaciado para el icono de archivo
+    mat-icon {
+        padding: 9px 7px 0px 0px !important;
+    }
+
+    // Estilo para el input de archivos
+    .mat-input-element {
+        margin: 0.7em 0em 0.9em 0em;
+        max-width: 80%;
+        color: #646464;
+    }
+    
+    // Icono personalizado para archivos
+    .icon-bdv-icon-file2-m::before {
+        color: grey;
+        font-family: icomoon;
+    }
+
+    // Efecto hover para el icono de archivo
+    .file-icon:hover {
+        cursor: pointer;
+    }
+}
+
+/* ==========================================================================
+   Personalización de campos de Angular Material (colores de enfoque y validación)
+   ========================================================================== */
+
+// Amarillo cuando el campo está enfocado o es válido
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-outline-thick {
+    color: #78ba49 !important;
+}
+
+::ng-deep .mat-form-field-appearance-outline.mat-focused .mat-form-field-label,
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-label {
+    color: #78ba49 !important;
+}
+
+// Rojo cuando el campo es inválido
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-outline-thick,
+::ng-deep .mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-label {
+    color: #f44336 !important; // Color de error (rojo)
+}
+
+/* Snack-bar */
+::ng-deep .mat-simple-snackbar-action {
+    color: rgba(255, 255, 255, 0.664) !important;
+}
+
+
+/* ==========================================================================
+   Botones de acción
+   ========================================================================== */
+
+.buttons-container {
+    .mat-raised-button {
+        font-weight: 500;
+    }
+    .action-buttons1 button {
+        white-space: normal;
+        overflow-wrap: break-word;
+        width: 70%;
+        color: white !important;
+        background-color: #78ba49;
+        &:hover {
+            background-color: #68a83a;
+        }
+    }
+    .action-buttons2 button {
+        color: #78ba49 !important;
+            &:hover {
+                background-color: #78ba49;
+                color: white !important;
+            }
+    }
+}
+
+
+/* ==========================================================================
+   Media queries para pantallas pequeñas (tablets y laptops)
+   ========================================================================== */
+
+/* Ajustes generales para pantallas <= 1024px */
+@media (max-width: 1400px) {
+
+    /* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
+    .main-container {
+        height: 100vh !important;
+    }
+
+    .header-container {
+        font-size: 2.6em !important;
+        width: 40vw !important;
+    }
+
+    /* Icono principal de la cabecera */
+    .head-icon::before {
+        font-size: 2.3em;
+    }
+
+    /* Texto debajo del icono en la cabecera */
+    .text-head {
+        font-size: 0.4em;
+    }
+
+    /* ==========================================================================
+   Contenedor principal de la tarjeta
+   ========================================================================== */
+    .card-container {
+       width: 506px;
+        height: 375px;
+        margin-bottom: 70px;
+    }
+
+    .card-form {
+        width: 200px !important;
+    }
+
+    /* Título de la tarjeta */
+    .card-title {
+        font-size: 1.0em;
+    }
+
+    /* ==========================================================================
+   Estilos para los campos de formulario
+   ========================================================================== */
+
+    .file-browse {
+    ::ng-deep {
+        .mat-form-field-infix {
+            font-size: 0.76rem !important;
+        }
+
+        .mat-form-field-flex {
+            height: 46px !important ;
+        }
+    }   
+
+        mat-hint {
+        font-size: 0.9em;
+    }
+}
+
+   .icon-bdv-icon-file2-m::before {
+        font-size: 0.8em;
+    }
+
+    /* ==========================================================================
+   Botones de acción
+   ========================================================================== */
+    .buttons-container { 
+        .mat-raised-button {
+            // width: 40% !important;
+            font-size: 0.7rem;
+        }
+        .plantilla {
+            width: 70% !important;
+        }
+    }
+
+}

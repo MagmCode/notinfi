@@ -1,68 +1,148 @@
-import { Component, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
-import { NgForm, FormBuilder, FormGroup, Validators } from '@angular/forms';
-import { ActivatedRoute, Router } from '@angular/router';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { Router } from '@angular/router';
+import { ExportProgressService } from 'app/services/export-progress.service';
+import { ServiceService } from 'app/services/service.service';
 
 
 @Component({
   selector: 'anulacion-masiva-mesa-cambio',
   templateUrl: './anulacion-masiva-mesa-cambio.component.html',
   styleUrls: ['./anulacion-masiva-mesa-cambio.component.scss'],
-  encapsulation: ViewEncapsulation.None
 })
 export class AnulacionMasivaMesaCambioComponent implements OnInit {
+//#region Variables
 
+  /** Formulario reactivo para la carga de archivos */
+  anulacionForm: FormGroup;
 
-  @ViewChild('anulacionMesaCambioForm') anulacionMesaCambioForm: NgForm;
+  /** Nombre del archivo seleccionado */
+  fileName = '';
 
-  anulacionMasivaMesaCambioForm: FormGroup;
-  fileName: string = '';
-  fileError: string = '';
+  /** Mensaje de error para la carga de archivos */
+  fileError = '';
 
+  /** Extensiones de archivo permitidas para la carga */
+  private allowedExtensions = ['xls', 'xlsx', 'xlsm', 'xlsb', 'xlt', 'xltx', 'xltm'];
+
+  //#endregion
+
+  /**
+   * Constructor del componente.
+   * @param _formBuilder Servicio para construir formularios reactivos.
+   * @param _router Servicio de rutas de Angular.
+   */
   constructor(
     private _formBuilder: FormBuilder,
-    private _router: Router,    
+    private _router: Router,
+    public exportProgressService: ExportProgressService,
+    private _service: ServiceService,
+    private _snackBar: MatSnackBar
   ) {}
 
+  /**
+   * Inicializa el formulario de carga al iniciar el componente.
+   */
   ngOnInit(): void {
-    this.anulacionMasivaMesaCambioForm = this._formBuilder.group({
-      file: ['', [Validators.required]]
+    this.anulacionForm = this._formBuilder.group({
+      file: ['', Validators.required]
     });
   }
 
+  /**
+   * Maneja el evento de selección de archivo.
+   * Valida la extensión y actualiza el formulario.
+   * @param event Evento de selección de archivo.
+   */
   onFileSelected(event: Event): void {
     const input = event.target as HTMLInputElement;
-
     if (input.files && input.files.length > 0) {
       const file = input.files[0];
-      const fileName = file.name;
-      const fileExtension = fileName.split('.').pop()?.toLowerCase();
-
-      const allowedExtensions = ['xls', 'xlsx', 'xlsm', 'xlsb', 'xlt', 'xltx', 'xltm'];
-
-      if (allowedExtensions.includes(fileExtension)) {
-        this.fileName = fileName;
-        this.anulacionMasivaMesaCambioForm.controls['file'].setValue(file);
+      const fileExtension = file.name.split('.').pop()?.toLowerCase() || '';
+      if (this.allowedExtensions.includes(fileExtension)) {
+        this.fileName = file.name;
+        this.anulacionForm.controls['file'].setValue(file);
         this.fileError = '';
       } else {
-        this.fileName = '';
-        this.fileError = 'Por favor, sube un archivo Excel válido';
-        this.anulacionMasivaMesaCambioForm.controls['file'].setErrors({ invalidFile: true }); 
+        this.resetFile('Por favor, sube un archivo Excel válido', { invalidFile: true });
       }
     } else {
-      this.fileError = 'Archivo inválido. Debe ser un archivo Excel';
-      this.anulacionMasivaMesaCambioForm.controls['file'].setErrors({ required: true }); 
+      if (!this.anulacionForm.controls['file'].value) {
+        this.resetFile('Archivo inválido. Debe ser un archivo Excel', { required: true });
+      }
     }
   }
 
+  /**
+   * Resetea el campo de archivo y muestra un mensaje de error.
+   * @param errorMsg Mensaje de error a mostrar.
+   * @param errorObj Objeto de error para el control del formulario.
+   */
+  private resetFile(errorMsg: string, errorObj: any): void {
+    this.fileName = '';
+    this.fileError = errorMsg;
+    this.anulacionForm.controls['file'].setErrors(errorObj);
+  }
+
+  /**
+   * Navega a la página de éxito si el formulario es válido.
+   */
   loadFile(): void {
-    if (this.anulacionMasivaMesaCambioForm.invalid) {
+    if (this.anulacionForm.invalid) {
       return;
     }
-
     this._router.navigate(['success']);
   }
 
-  menuPrincipal(): void {
-    this._router.navigate(['/menu-principal/'])
+  /**
+   * Procesa el archivo cargado.
+   * Aquí se debe implementar la lógica de procesamiento.
+   */
+procesar() {
+  const file: File = this.anulacionForm.get('file')?.value;
+  console.log('[procesar] Archivo seleccionado:', file);
+
+  if (!file) {
+    this._snackBar.open('Debe seleccionar un archivo para procesar.', 'Cerrar', { duration: 3000 });
+    console.warn('[procesar] No se seleccionó archivo.');
+    return;
+  }
+
+  this._service.notificarOperaciones(file).subscribe({
+    next: (resp) => {
+      console.log('[procesar] Respuesta del backend:', resp);
+      this._snackBar.open('Archivo enviado correctamente.', 'Cerrar', { duration: 4000 });
+      // Aquí puedes limpiar el formulario o actualizar la vista
+    },
+    error: (err) => {
+      console.error('[procesar] Error al enviar el archivo:', err);
+      this._snackBar.open('Error al enviar el archivo.', 'Cerrar', { duration: 4000 });
+    }
+  });
+}
+
+descargarPlantilla() {
+  this._service.planillaNotificarOperaciones().subscribe({
+    next: (blob: Blob) => {
+      const url = window.URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url;
+      a.download = 'Plantilla_PACTO_DIRECTO.xls';
+      a.click();
+      window.URL.revokeObjectURL(url);
+      this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
+    },
+    error: () => {
+      this._snackBar.open('No se pudo descargar la plantilla. Intente más tarde.', 'Cerrar', { duration: 4000 });
+    }
+  });
+}
+
+  /**
+   * Navega al menú principal.
+   */
+  inicio(): void {
+    this._router.navigate(['/menu-principal/']);
   }
 }

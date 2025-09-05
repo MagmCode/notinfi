@@ -104,32 +104,12 @@ export const appRoutes: Route[] = [
                 ]
             },
 
-            // Mesa de Cambio
-              {
+            // Mesa de Cambio (Lazy loading)
+            {
                 path: 'mesa-cambio',
                 loadChildren: () => import('./modules/mesaDeCambio/mesa-cambio.module').then(m => m.MesaCambioModule)
             },
-            // {
-            //     path: 'mesa-cambio', children: [
-            //         { path: 'oper-pacto-directo/carga', component: CargaPactoDirectoMesaCambioComponent },
-            //         { path: 'oper-pacto-directo/consultar', component: ConsultarDirectoMesaCambioComponent },
-                    
-            //         { path: 'interbancaria/consultar', component: ConsultarDirectoMesaCambioComponent },
-            //         { path: 'interbancaria/oferta', component: OfertaInterbancariaMesaCambioComponent },
-            //         { path: 'interbancaria/demanda', component: DemandaInterbancariaMesaCambioComponent },
-            //         { path: 'interbancaria/pacto-interbancario', component: PactoInterbanInterbancariaMesaCambioComponent },
-            //         { path: 'interbancaria/consulta', component: ConsultaInterbancariaMesaCambioComponent },
-                    
 
-            //         { path: 'canje/creacion-operaciones', component: CrearOperacionCanjeMesaCambioComponent },
-            //         { path: 'canje/consulta', component: ConsultaCanjeMesaCambioComponent },
-                    
-            //         { path: 'consultaBCV', component: ConsultabcvMesaCambioComponent },
-            //         { path: 'cambio-de-clave', component: CambioClaveMesaCambioComponent },
-            //         { path: 'anulacion-masiva-bcv', component: AnulacionMasivaMesaCambioComponent },
-            //         { path: 'anulacion-masiva-bdv', component: AnulacionMasivaBdvMesaCambioComponent },
-            //     ]
-            // },
             // Intervención (Lazy loading)
             {
                 path: 'intervencion',
@@ -137,6 +117,9 @@ export const appRoutes: Route[] = [
             },
             // Menudeo
             {
+                // path: 'menudeo',
+                // loadChildren: () => import('./modules/menudeo/menudeo.module').then(m => m.MenudeoModule)
+
                 path: 'menudeo', children: [
                     { path: 'carga', component: CargaMenudeoComponent },
                     { path: 'operaciones', component: OperacionesMenudeoComponent },
