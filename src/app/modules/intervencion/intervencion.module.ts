@@ -5,7 +5,7 @@
  * Configura Angular Material, adaptadores de fecha y formatos personalizados.
 */
 
-import { NgModule } from '@angular/core';
+import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { IntervencionRoutingModule } from './intervencion.routing';
 import { SharedModule } from 'app/shared/shared.module';
 import { UserModule } from 'app/layout/common/user/user.module';
@@ -41,7 +41,8 @@ import { ConsultaDefinitivaBcvComponent } from './consulta-definitiva-bcv/consul
   imports: [
     IntervencionRoutingModule,
     SharedModule,
-    UserModule,
-  ]
+    UserModule
+  ],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA]
 })
 export class IntervencionModule { }
