@@ -21,7 +21,7 @@ const routes: Routes = [
   {
     path: 'pacto-directo', children: [
     {path: 'carga', component: CargaPactoDirectoMesaCambioComponent},
-    {path: 'consultar', component: ConsultaCanjeMesaCambioComponent},
+    {path: 'consultar', component: ConsultarDirectoMesaCambioComponent},
   ]
 },
 {

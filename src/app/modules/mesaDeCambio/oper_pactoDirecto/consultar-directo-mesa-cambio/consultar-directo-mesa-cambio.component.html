@@ -1,1 +1,404 @@
-<p>consultar-directo-mesa-cambio works!</p>
+<!--
+  consultar-directo-mesa-cambio.component.html
+  Vista principal para la gestión de operaciones de pacto directo.
+  Incluye dos pestañas: Búsqueda y Resultado.
+  - "Búsqueda": permite filtrar operaciones por criterios como tipo de documento, cédula/RIF, estatus, moneda y fecha.
+  - "Resultado": muestra los totales, la jornada y la tabla de operaciones filtradas, con acciones como exportar, procesar, editar y regresar.
+  El paginador y los filtros permiten una navegación y búsqueda eficiente en los resultados.
+  Solo se agregan comentarios de documentación, no se modifica la estructura ni los datos existentes.
+-->
+
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+            <!-- Outlet para rutas hijas si aplica -->
+            <router-outlet *ngIf="true"></router-outlet>
+            <mat-sidenav-content>
+                <!-- Grupo de pestañas para las operaciones de intervención -->
+                <mat-tab-group class="mat-tab-group flex items-center w-screen" [(selectedIndex)]="selectedTabIndex"
+                    (selectedTabChange)="onTabChange($event)">
+
+                    <!-- Pestaña de Búsqueda de jornadas activas -->
+                    <mat-tab label="Búsqueda">
+                        <div class="main-container mt-5 flex flex-col md:w-screen items-center px-2 md:px-0">
+                            <!-- Cabecera de la página -->
+                            <div class="header-container flex justify-between w-3/5 mb-5 text-6xl">
+                                <span>Pacto Directo / Consulta</span>
+                                <div class="icon-container flex flex-col items-center ">
+                                    <!-- Icono representativo -->
+                                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-bs-l opacity-40 pt-5"></mat-icon>
+                                    <span class="text-head mt-10">Mesa de Cambio</span>
+                                </div>
+                            </div>
+                            <!-- Tarjeta principal con el formulario de búsqueda -->
+                            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-10">
+                                <!-- Título de la tarjeta -->
+                                <div class="card-title">
+                                    <span>Seleccione Criterios</span>
+                                </div>
+                                <!-- Formulario de criterios de búsqueda -->
+                                <form class="card-form flex items-center w-full" [formGroup]="operaInterForm">
+
+                                    <div class="field-container px-6">
+                                        
+                                        <div class="campos">
+                                        
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Movimiento</mat-label>
+                                                <mat-select [formControlName]="'estatus'">
+                                                    <mat-option value="TODAS">Todas</mat-option>
+                                                    <mat-option value="1">Compra</mat-option>
+                                                    <mat-option value="2">Venta</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                                                                     <div class="cedula flex">
+                                                <mat-form-field appearance="outline" class="field-form tipoDocumento">
+                                                    <mat-label>Tipo</mat-label>
+                                                    <mat-select [formControlName]="'nacionalidad'">
+                                                        <mat-option value="V">V</mat-option>
+                                                        <mat-option value="E">E</mat-option>
+                                                        <mat-option value="P">P</mat-option>
+                                                        <mat-option value="J">J</mat-option>
+                                                    </mat-select>
+                                                </mat-form-field>
+
+                                                <mat-form-field appearance="outline" class="flex-grow-1 input-cedula">
+                                                    <mat-label>Cédula o RIF</mat-label>
+                                                    <input type="number" matInput [formControlName]="'nroCedRif'"
+                                                        matInput>
+                                                </mat-form-field>
+                                            </div>
+                                            
+                                        </div>
+
+
+                                        <div class="campos">
+   
+
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Envio BCV</mat-label>
+                                                <mat-select [formControlName]="'estatus'">
+                                                    <mat-option value="TODAS">Todas</mat-option>
+                                                    <mat-option value="1">Enviadas</mat-option>
+                                                    <mat-option value="2">Rechazada</mat-option>
+                                                    <mat-option value="3">Anuladas</mat-option>
+                                                    <mat-option value="0">No Enviadas</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Tipo de Mesa</mat-label>
+                                                <mat-select [formControlName]="'codDivisas'">
+                                                    <mat-option value="1111">Todas</mat-option>
+                                                    <mat-option value="codigo">codigo - descripcion</mat-option>
+                                                    <mat-option value="codigo">codigo - descripcion</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                        </div>
+
+                                        <div class="campos">
+                                            
+
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Fecha</mat-label>
+                                                <input matInput [formControlName]="'fechOper'" [matDatepicker]="picker"
+                                                    [max]="today" readonly>
+                                                <mat-icon (click)="picker.open()"
+                                                    class="icon-bdv-icon-scheduledit-m date-icon"></mat-icon>
+                                                <mat-datepicker #picker></mat-datepicker>
+                                            </mat-form-field>
+
+                                        </div>
+
+                                    </div>
+                                </form>
+                                <!-- Botones de acción -->
+                                <div class="buttons-container flex justify-center gap-6">
+                                    <!-- Botón para procesar el archivo cargado -->
+                                    <button class="mat-raised-button w-full px-7 py-0" type="submit"
+                                        (click)="consultarIntervencion()">Procesar</button>
+                                    <!-- Botón para salir y regresar al menú principal -->
+                                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </mat-tab>
+
+                    <!-- Pestaña de Resultados -->
+                    <mat-tab label="Resultado" *ngIf="canViewTab">
+                        <ng-template matTabContent>
+                            <div class="main-container2-info">
+                               <div class="header-container flex justify-between px-80 mt-1 text-6xl">
+                                <span> Pacto Directo / OperacionesBCV</span>
+                                <div class="icon-container flex flex-col items-center ">
+                                    <!-- Icono representativo -->
+                                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-bs-l opacity-40 pt-5"></mat-icon>
+                                    <span class="text-head mt-10">Mesa de Cambio</span>
+                                </div>
+                            </div>
+                                <div class="info-cards-container grid grid-cols-4 sm:grid-cols-4 md:grid-cols-4 gap-6 px-6 px-50 mt-5">
+                                <!-- Resumen de cantidad de operaciones -->
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden ">
+                                    <div class="flex items-start justify-between">
+                                        <div class="text-lg font-medium tracking-tight leading-6 truncate  ">Cantidad de
+                                            Operaciones: </div>
+                                    </div>
+                                    <div class="flex flex-col items-center mt-2">
+                                        <div
+                                            class="text-2xl font-bold tracking-tight leading-none info-cards ">
+                                            {{cantidad}}</div>
+                                    </div>
+                                </div>
+                                <!-- Resumen de monto total -->
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                    <div class="flex items-start justify-between">
+                                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Jornada:
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center mt-2">
+                                        <div
+                                            class="text-2xl  font-bold tracking-tight leading-none info-cards">
+                                            {{ jornada }}</div>
+                                    </div>
+                                </div>
+
+                                <!-- Resumen de monto total -->
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                    <div class="flex items-start justify-between">
+                                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Estatus:
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center mt-2">
+                                        <div
+                                            class="text-2xl  font-bold tracking-tight leading-none info-cards">
+                                            {{ estatus }}</div>
+                                    </div>
+                                </div>
+
+                                                                <!-- Resumen de monto total -->
+                                <div class="flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-hidden">
+                                    <div class="flex items-start justify-between">
+                                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Monto Total:
+                                        </div>
+                                    </div>
+                                    <div class="flex flex-col items-center mt-2">
+                                        <div
+                                            class="text-2xl  font-bold tracking-tight leading-none info-cards">
+                                            {{ total ? ('$ ' + (total | number:'1.0-2':'es')) : '' }}</div>
+                                    </div>
+                                </div>
+
+                            </div>
+
+                            </div>
+                            <div class="main-container2 px-50  ">
+                                <!-- Tabla de operaciones -->
+                                <div
+                                    class="card-table sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-x-auto mb-30">
+                                    <div
+                                        class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl min-w-min">
+                                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Operaciones
+                                        </div>
+
+                                        <div class="flex flex-col flex-auto mt-2 overflow-x-auto results">
+                                            <div class="flex items-start justify-between">
+                                                <mat-form-field appearance="outline" class="input-filter-inter">
+                                                    <mat-label>Filtro</mat-label>
+                                                    <input matInput (keyup)="applyFilterH($event)" placeholder=""
+                                                        #input>
+                                                </mat-form-field>
+
+                                                
+
+                                                <div class="action-buttons">
+                                                    <button class="mat-raised-button mr-3"
+                                                        (click)="processSelectedRows()">Procesar</button>
+                                                    <button class="mat-raised-button mr-5" (click)="toggleDetalle()">{{ mostrarDetalle ? 'Ocultar detalle' : 'Mostrar detalle' }}</button>
+                                                    <button class="mat-raised-button mr-5 exportar-button"
+                                                        (click)="exportarExcel()">Exportar XLS</button>
+                                                    <button class="mat-raised-button mr-3"
+                                                        (click)="regresar()">Regresar</button>
+                                                    <button class="mat-raised-button mr-3"
+                                                        (click)="inicio()">Salir</button>
+                                                </div>
+
+                                            </div>
+
+                                            <ng-container
+                                            *ngIf="(exportProgressService.showExportProgress$ | async) || (exportProgressService.showExportStart$ | async)">
+                                            <app-export-progress class="w-full mt-10"
+                                                [showExportProgress]="exportProgressService.showExportProgress$ | async"
+                                                [exportProgress]="exportProgressService.exportProgress$ | async"
+                                                [generandoArchivo]="exportProgressService.generandoArchivo$ | async"
+                                                [mensajePreparandoDescarga]="exportProgressService.mensajePreparandoDescarga$ | async"
+                                                [showExportStart]="exportProgressService.showExportStart$ | async"
+                                                [mensajeConexionActual]="exportProgressService.mensajeConexionActual$ | async">
+                                            </app-export-progress>
+                                        </ng-container>
+                                            <div class="mat-elevation-z8 table-responsive">
+                                                <table mat-table [dataSource]="dataSourceH" [matSort]="sortH" class="table-operaciones w-full">
+                                                    <ng-container *ngFor="let col of displayedColumns" [ngSwitch]="col">
+                                                        <!-- Checkbox de selección -->
+                                                        <ng-container *ngSwitchCase="'select'" matColumnDef="select">
+                                                            <th mat-header-cell *matHeaderCellDef class="header-cell">
+                                                                <mat-checkbox (change)="selectAll()"
+                                                                    [checked]="isAllSelected()"
+                                                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                                                </mat-checkbox>
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                                <mat-checkbox (click)="$event.stopPropagation()"
+                                                                    (change)="onCheckboxChange($event, row)"
+                                                                    [checked]="selection.isSelected(row)">
+                                                                </mat-checkbox>
+                                                            </td>
+                                                        </ng-container>
+                                                        <!-- Columna de edición -->
+                                                        <ng-container *ngSwitchCase="'edit'" matColumnDef="edit">
+                                                            <th mat-header-cell *matHeaderCellDef class="header-cell">Editar</th>
+                                                            <td mat-cell *matCellDef="let row" style="text-align: center;">
+                                                                <mat-icon class="ml-5 icon-size-5 text-green-500 icon-bdv-icon-edit-m editar"
+                                                                    (click)="openEditDialog(row)"></mat-icon>
+                                                            </td>
+                                                        </ng-container>
+                                                        <!-- Columnas dinámicas -->
+                                                        <ng-container *ngSwitchDefault [matColumnDef]="col">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">{{ columnNames[col] || col }}</th>
+                                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                                {{ row[col] }}
+                                                            </td>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                    <tr class="mat-row" *matNoDataRow>
+                                                        <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">No Existe Resultado</td>
+                                                    </tr>
+                                                </table>
+
+                                                <div class="paginator-actions-row flex items-center justify-between">
+                                                    <!-- Paginador de la tabla -->
+                                                    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                                                        [showFirstLastButtons]="true" #paginatorH>
+                                                    </mat-paginator>
+                                                    <div class="action-buttons" *ngIf="paginatorH?.pageSize !== 5">
+                                                        <button class="mat-raised-button mr-3"
+                                                            (click)="processSelectedRows()">Procesar</button>
+                                                        <button class="mat-raised-button mr-5">Cerrar Lote</button>
+                                                        <button class="mat-raised-button mr-5 exportar-button"
+                                                            (click)="exportarExcel()">Exportar Ordenes</button>
+                                                        <button class="mat-raised-button mr-3"
+                                                            (click)="regresar()">Regresar</button>
+                                                        <button class="mat-raised-button mr-3"
+                                                            (click)="inicio()">Salir</button>
+                                                        </div>
+                                                    </div>
+                                                    <mat-progress-bar
+                                                        *ngIf="showExportProgress && paginatorH?.pageSize !== 5"
+                                                        mode="determinate"
+                                                        [value]="exportProgress"
+                                                        style="margin-bottom: 16px;">
+                                                        </mat-progress-bar>
+                                                        <div *ngIf="showExportProgress && paginatorH?.pageSize !== 5" class="text-center mb-2 text-sm text-gray-700">
+                                                        Generando archivo: {{exportProgress}}%
+                                                        </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </ng-template>
+                    </mat-tab>
+
+                </mat-tab-group>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+
+<!-- Diálogo de edición de operación -->
+<ng-template #editDialog let-data>
+  <h2 mat-dialog-title class="dialog-title">Editar Operación</h2>
+  <mat-dialog-content>
+    <form [formGroup]="editForm" class="dialog-form-container flex flex-col w-full">
+      <div class="campos-operaEdit flex flex-wrap gap-4">
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>ID Operación</mat-label>
+          <input matInput formControlName="ID_OPER" readonly disabled>
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Monto Operación</mat-label>
+          <input matInput type="number" formControlName="MTO_DIVISAS">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Monto Contravalor</mat-label>
+          <input matInput type="number" formControlName="MTO_CONTRAVALOR_USD">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Tasa de Cambio</mat-label>
+          <input matInput type="number" formControlName="TASA_CAMBIO">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Nacionalidad Ofertante</mat-label>
+          <input matInput formControlName="TIPO_PER_OFER">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Cédula Ofertante</mat-label>
+          <input matInput formControlName="CED_RIF_OFER">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Nombre Ofertante</mat-label>
+          <input matInput formControlName="NOM_OFER">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Cuenta Ofertante MN</mat-label>
+          <input matInput formControlName="CTA_OFER_MN">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Cuenta Ofertante ME</mat-label>
+          <input matInput formControlName="CTA_OFER_ME">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Nacionalidad Demandante</mat-label>
+          <input matInput formControlName="TIPO_PER_DEMA">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Cédula Demandante</mat-label>
+          <input matInput formControlName="CED_RIF_DEMA">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Nombre Demandante</mat-label>
+          <input matInput formControlName="NOM_DEMA">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Cuenta Demandante MN</mat-label>
+          <input matInput formControlName="CTA_DEMA_MN">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Cuenta Demandante ME</mat-label>
+          <input matInput formControlName="CTA_DEMA_ME">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Código Moneda</mat-label>
+          <input matInput formControlName="COD_DIVISAS">
+        </mat-form-field>
+        <mat-form-field appearance="outline" class="input-edit">
+          <mat-label>Tipo de Pacto</mat-label>
+          <input matInput formControlName="TIPO_PACTO">
+        </mat-form-field>
+      </div>
+    </form>
+  </mat-dialog-content>
+  <mat-dialog-actions class="dialog-actions flex justify-center w-full">
+    <div class="dialog-buttons flex gap-10">
+      <button class="mat-raised-button" (click)="closeEditDialog()">Cancelar</button>
+      <button class="mat-raised-button" (click)="saveEditDialog()" [disabled]="!editForm.valid">Guardar</button>
+    </div>
+  </mat-dialog-actions>
+</ng-template>
