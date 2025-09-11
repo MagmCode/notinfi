@@ -44,3 +44,34 @@ export interface pactoDirecto {
     HORA:                 string,
     MTO_CONTRAVALOR_USD:  string
 }
+
+
+export interface respuestaInterbancaria{
+    codigo: string,
+    mensajeCliente: string,
+    mensajeSistema: string,
+    cantidad: string,
+    totales: string,
+    respInter: Interbancaria[],
+    jornadasList: []
+}
+
+export interface Interbancaria {
+  ID: number;
+  TIPO_OPER: string;
+  RIF_CLIENTE: number;
+  NOMBRE_CLIENTE: string;
+  CODIGO_MONEDA: string;
+  MONTO: number;
+  TASA_CAMBIO: number;
+  FECHA: string; // Usar string para TIMESTAMP, puede ajustarse a Date si se requiere
+  CODIGO_INSTITUCION: string;
+  ID_JORNADA: string;
+  CUENTA_ME: string;
+  CUENTA_MN: string;
+  TIPO_INSTRUMENTO: string;
+  OBSERVACION: string;
+  ESTATUS: string;
+  ID_BCV: string;
+  TIPO_CLIENTE: string;
+}
