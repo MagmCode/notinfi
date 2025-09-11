@@ -6,7 +6,6 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { intervencion, respuestaIntervencion } from 'app/models/intervencion';
 import { pactoDirecto, respuestaPactoDireco } from 'app/models/mesa-cambio';
 import { ServiceService } from 'app/services/service.service';
 import { TooltipPosition } from '@angular/material/tooltip';
@@ -61,16 +60,17 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
 //#region Variables
 
   /** Formulario reactivo para los criterios de búsqueda */
-  operaInterForm: FormGroup;
+  operaPactoForm: FormGroup;
   /** Índice de la pestaña seleccionada */
   selectedTabIndex = 0; 
   /** Mensaje de error para archivos */
   fileErrorInter: string = '';
   /** Variables auxiliares para los filtros */
+  movimiento: string = '';
   nroCedRif: string = '';
   nacionalidad: string = '';
-  estatus: string = '';
-  codDivisas: string = '';
+  envioBCV: string = '';
+  tipoMesa: string = '';
   fechOper: string = '';
   /** Resumen de cantidad de operaciones */
   cantidad: string = '';
@@ -79,12 +79,12 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
   /** Jornada actual (string) */
   jornada: string = '';
   /** Estatus actual (string) */
-  // estatus: string = '';
+  estatus: string = '';
 
   /** IDs seleccionados en la tabla */
   selectedIds: Set<any> = new Set<any>();
 
-  jornadaSeleccionada: any = null;
+  // jornadaSeleccionada: any = null;
 
 
   /** Estado de carga para mostrar el loading bar */
@@ -137,9 +137,9 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
   /** Fuente de datos para la tabla de operaciones */
   dataSourceH: MatTableDataSource<pactoDirecto>;
   /** Fuente de datos auxiliar (no usada en este contexto) */
-  interven: MatTableDataSource<pactoDirecto>;
-  /** Lista de operaciones de intervención */
-  intervencion: any[] = [
+  operaPactoDirecto: MatTableDataSource<pactoDirecto>;
+  /** Lista de operaciones de Pacto Directo */
+  pactoDirecto: any[] = [
     {
       ID_OPER: '1001',
       ID_OC: 'OC-001',
@@ -225,7 +225,7 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
     private exportProgressService: ExportProgressService       
   ) 
   {
-    this.dataSourceH = new MatTableDataSource(this.intervencion); 
+    this.dataSourceH = new MatTableDataSource(this.pactoDirecto); 
   }
 
   /**
@@ -253,7 +253,7 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
       TIPO_PACTO: [row.TIPO_PACTO, Validators.required],
     });
     this.dialog.open(this.editDialogTemplate, {
-      width: '800px',
+      width: '770px',
       data: row
     });
   }
@@ -264,13 +264,13 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
 
   saveEditDialog(): void {
     if (this.editForm.valid) {
-      // Aquí puedes actualizar los datos en la tabla/intervencion
+      // Aquí puedes actualizar los datos en la tabla/pactoDirecto
       const updated = { ...this.selectedRow, ...this.editForm.getRawValue() };
-      // Actualiza el array intervencion
-      const idx = this.intervencion.findIndex(item => item.ID_OPER === updated.ID_OPER);
+      // Actualiza el array pactoDirecto
+      const idx = this.pactoDirecto.findIndex(item => item.ID_OPER === updated.ID_OPER);
       if (idx > -1) {
-        this.intervencion[idx] = updated;
-        this.dataSourceH.data = [...this.intervencion];
+        this.pactoDirecto[idx] = updated;
+        this.dataSourceH.data = [...this.pactoDirecto];
       }
       this.dialog.closeAll();
       this._snackBar.open('Operación actualizada correctamente.', 'Cerrar', { duration: 3000 });
@@ -291,13 +291,13 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
    */
   onTabChange(event: any): void {
     if (event.index === 0) {
-      localStorage.removeItem('operacionesIntervencionBusqueda');
-      localStorage.removeItem('operacionesIntervencionResultados');
-      localStorage.removeItem('operacionesIntervencionCantidad');
-      localStorage.removeItem('operacionesIntervencionTotal');
-      localStorage.removeItem('operacionesIntervencionJornada');
+      localStorage.removeItem('operacionespactoDirectoBusqueda');
+      localStorage.removeItem('operacionespactoDirectoResultados');
+      localStorage.removeItem('operacionespactoDirectoCantidad');
+      localStorage.removeItem('operacionespactoDirectoTotal');
+      localStorage.removeItem('operacionespactoDirectoJornada');
       this.dataSourceH = new MatTableDataSource([]);
-      this.intervencion = [];
+      this.pactoDirecto = [];
       this.cantidad = '';
       this.total = '';
       this.jornada = '';
@@ -312,10 +312,10 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
    * Inicializa el componente y recupera filtros/resultados desde localStorage si existen.
    */
   ngOnInit(): void {
-    const savedBusqueda = localStorage.getItem('operacionesIntervencionBusqueda');
+    const savedBusqueda = localStorage.getItem('operacionespactoDirectoBusqueda');
     if (savedBusqueda) {
       const busqueda = JSON.parse(savedBusqueda);
-      this.operaInterForm = this._formBuilder.group({
+      this.operaPactoForm = this._formBuilder.group({
         nroCedRif: [busqueda.nroCedRif],
         nacionalidad: [busqueda.nacionalidad],
         estatus: [busqueda.estatus],
@@ -324,12 +324,12 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
       });
 
       // Recupera los resultados guardados
-      const savedResultados = localStorage.getItem('operacionesIntervencionResultados');
+      const savedResultados = localStorage.getItem('operacionespactoDirectoResultados');
       if (savedResultados) {
         const resultados = JSON.parse(savedResultados);
         const safeResultados = Array.isArray(resultados) ? resultados : [];
         this.dataSourceH = new MatTableDataSource(safeResultados);
-        this.intervencion = safeResultados;
+        this.pactoDirecto = safeResultados;
         this.selectedTabIndex = 1;
         this.canViewTab = true;
       } else {
@@ -338,21 +338,21 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
       }
 
       // Recupera cantidad, total y jornada
-      const savedCantidad = localStorage.getItem('operacionesIntervencionCantidad');
+      const savedCantidad = localStorage.getItem('operacionespactoDirectoCantidad');
       if (savedCantidad) {
         this.cantidad = JSON.parse(savedCantidad);
       }
-      const savedTotal = localStorage.getItem('operacionesIntervencionTotal');
+      const savedTotal = localStorage.getItem('operacionespactoDirectoTotal');
       if (savedTotal) {
         this.total = JSON.parse(savedTotal);
       }
-      const savedJornada = localStorage.getItem('operacionesIntervencionJornada');
+      const savedJornada = localStorage.getItem('operacionespactoDirectoJornada');
       if (savedJornada) {
         this.jornada = JSON.parse(savedJornada);
       }
     } else {
       const today = new Date();
-      this.operaInterForm = this._formBuilder.group({
+      this.operaPactoForm = this._formBuilder.group({
         nroCedRif: [''],
         nacionalidad: [''],
         estatus: [''],
@@ -368,10 +368,10 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
    * Consulta las operaciones de intervención según los filtros seleccionados.
    * Guarda los resultados y filtros en localStorage.
    */
-  consultarIntervencion() {
+  consultarPactoDirecto() {
     this.isLoading = true;
     // Solo la fecha es requerida
-    if (this.operaInterForm.controls['fechOper'].invalid) {
+    if (this.operaPactoForm.controls['fechOper'].invalid) {
       this._snackBar.open('Por favor, completa todos los campos requeridos', 'Cerrar', {
         duration: 4000,
         horizontalPosition: 'center',
@@ -383,24 +383,24 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
     }
 
     // Mostrar solo los datos estáticos
-    this.dataSourceH = new MatTableDataSource(this.intervencion);
+    this.dataSourceH = new MatTableDataSource(this.pactoDirecto);
     this.dataSourceH.paginator = this.paginator;
     this.dataSourceH.sort = this.sortH;
     this.selectedTabIndex = 1;
     this.canViewTab = true;
-    this.cantidad = this.intervencion.length.toString();
-    this.total = this.intervencion.reduce((acc, curr) => acc + (curr.MTO_DIVISAS || 0), 0).toString();
+    this.cantidad = this.pactoDirecto.length.toString();
+    this.total = this.pactoDirecto.reduce((acc, curr) => acc + (curr.MTO_DIVISAS || 0), 0).toString();
     this.jornada = 'MS561166';
     this.estatus = 'precierre';
     this.isLoading = false;
 
     // Suscripción al servicio comentada para uso futuro
     /*
-    this._service.consultaIntervencion('intervencionFiltro',form).subscribe({
-      next: (resp: respuestaIntervencion) => {
+    this._service.consultapactoDirecto('pactoDirectoFiltro',form).subscribe({
+      next: (resp: respuestapactoDirecto) => {
         console.log("formulario enviado:", form);
-        this.intervencion = resp.respIntervencion;
-        this.dataSourceH = new MatTableDataSource(this.intervencion);
+        this.pactoDirecto = resp.resppactoDirecto;
+        this.dataSourceH = new MatTableDataSource(this.pactoDirecto);
         this.dataSourceH.paginator = this.paginator;
         this.dataSourceH.sort = this.sortH;
         this.selectedTabIndex = 1;
@@ -409,11 +409,11 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
         this.total = resp.totales;
         this.jornada = resp.jornadasList;
         // Guarda los criterios y resultados después de consultar
-        localStorage.setItem('operacionesIntervencionBusqueda', JSON.stringify(form));
-        localStorage.setItem('operacionesIntervencionResultados', JSON.stringify(this.intervencion));
-        localStorage.setItem('operacionesIntervencionCantidad', JSON.stringify(this.cantidad));
-        localStorage.setItem('operacionesIntervencionTotal', JSON.stringify(this.total));
-        localStorage.setItem('operacionesIntervencionJornada', JSON.stringify(this.jornada));
+        localStorage.setItem('operacionespactoDirectoBusqueda', JSON.stringify(form));
+        localStorage.setItem('operacionespactoDirectoResultados', JSON.stringify(this.pactoDirecto));
+        localStorage.setItem('operacionespactoDirectoCantidad', JSON.stringify(this.cantidad));
+        localStorage.setItem('operacionespactoDirectoTotal', JSON.stringify(this.total));
+        localStorage.setItem('operacionespactoDirectoJornada', JSON.stringify(this.jornada));
       },
       error: (err) => {
         console.error("Error", err);
@@ -458,13 +458,13 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
    */
   obtenerIdsSeleccionados() {
     const selectedIdsArray = Array.from(this.selectedIds);
-    const codigoJornada = this.jornadaSeleccionada?.codigo
+    // const codigoJornada = this.jornadaSeleccionada?.codigo
     const payload = {
       ids: selectedIdsArray,
-      codigoJornada: codigoJornada
+      // codigoJornada: codigoJornada
     }
     console.log('IDs seleccionados:', selectedIdsArray);
-    console.log('Código de jornada seleccionada:', codigoJornada);
+    // console.log('Código de jornada seleccionada:', codigoJornada);
   }
   
   /**
@@ -488,18 +488,14 @@ export class ConsultarDirectoMesaCambioComponent implements OnInit, AfterViewIni
    */
 processSelectedRows() {
   const selectedIdsArray = Array.from(this.selectedIds);
-  const codigoJornada = this.jornadaSeleccionada?.codigo;
+  // const codigoJornada = this.jornadaSeleccionada?.codigo;
 
-  if (!selectedIdsArray.length && !codigoJornada) {
+  if (!selectedIdsArray.length) {
     this._snackBar.open('Debe seleccionar una jornada y al menos una operación.', 'Cerrar', { duration: 3000 });
     return;
   }
   if (!selectedIdsArray.length) {
     this._snackBar.open('Debe seleccionar las operaciones a procesar.', 'Cerrar', { duration: 3000 });
-    return;
-  }
-  if (!codigoJornada) {
-    this._snackBar.open('Debe seleccionar una jornada.', 'Cerrar', { duration: 3000 });
     return;
   }
 
@@ -508,7 +504,7 @@ processSelectedRows() {
 
   let payload: any;
   if (todasSeleccionadas) {
-    payload = { todos: true, codigoJornada: codigoJornada };
+    payload = { todos: true };
   } else {
     // Filtrar operaciones seleccionadas
     const operacionesSeleccionadas = this.dataSourceH.data.filter(row => selectedIdsArray.includes(row.ID_OPER));
@@ -528,7 +524,7 @@ processSelectedRows() {
       );
     }
 
-    payload = { ids: idsValidos, codigoJornada: codigoJornada };
+    payload = { ids: idsValidos };
   }
 
   // Log para ver cómo le llega al backend
@@ -550,7 +546,7 @@ cerrarLote() {
   const selectedIdsArray = Array.from(this.selectedIds);
 
   // Obtén la fecha del formulario y formateala
-  const formFecha = this.operaInterForm.get('fechOper')?.value;
+  const formFecha = this.operaPactoForm.get('fechOper')?.value;
   const fechOper = formFecha ? this.formatFecha(formFecha) : undefined;
 
   if (!selectedIdsArray.length) {
@@ -621,7 +617,7 @@ exportarExcel(): void {
         this.exportProgressService.descargarArchivo(blob, fileName);
         this._snackBar.open('Archivo listo. La descarga comenzará en breve.', 'Cerrar', { duration: 4000 });
       },
-      () =>  this._service.exportarIntervencion('intervencionFiltroExportar', this.operaInterForm.value)
+      () =>  this._service.exportarIntervencion('pactoDirectoFiltroExportar', this.operaPactoForm.value)
     );
 }
 
@@ -648,10 +644,10 @@ applyFilterH(event: Event) {
   regresar(): void {
     this.selectedTabIndex = 0;
     this.canViewTab = false;
-    this.operaInterForm.reset();
+    this.operaPactoForm.reset();
     // Asigna la fecha del día nuevamente
     const today = new Date();
-    this.operaInterForm.get('fechOper')?.setValue(today);
+    this.operaPactoForm.get('fechOper')?.setValue(today);
 
     this.dataSourceH.data = [];
     this.isLoading = false;
@@ -659,11 +655,11 @@ applyFilterH(event: Event) {
     this.selection.clear();
     this.fileErrorInter = '';
     // Limpia localStorage al regresar a búsqueda
-    localStorage.removeItem('operacionesIntervencionBusqueda');
-    localStorage.removeItem('operacionesIntervencionResultados');
-    localStorage.removeItem('operacionesIntervencionCantidad');
-    localStorage.removeItem('operacionesIntervencionTotal');
-    localStorage.removeItem('operacionesIntervencionJornada');
+    localStorage.removeItem('operacionespactoDirectoBusqueda');
+    localStorage.removeItem('operacionespactoDirectoResultados');
+    localStorage.removeItem('operacionespactoDirectoCantidad');
+    localStorage.removeItem('operacionespactoDirectoTotal');
+    localStorage.removeItem('operacionespactoDirectoJornada');
     this.cantidad = '';
     this.total = '';
     this.jornada = '';
@@ -674,10 +670,10 @@ applyFilterH(event: Event) {
    * Limpia el localStorage al destruir el componente.
    */
   ngOnDestroy(): void {
-    localStorage.removeItem('operacionesIntervencionBusqueda');
-    localStorage.removeItem('operacionesIntervencionResultados');
-    localStorage.removeItem('operacionesIntervencionCantidad');
-    localStorage.removeItem('operacionesIntervencionTotal');
-    localStorage.removeItem('operacionesIntervencionJornada');
+    localStorage.removeItem('operacionespactoDirectoBusqueda');
+    localStorage.removeItem('operacionespactoDirectoResultados');
+    localStorage.removeItem('operacionespactoDirectoCantidad');
+    localStorage.removeItem('operacionespactoDirectoTotal');
+    localStorage.removeItem('operacionespactoDirectoJornada');
   }
 }

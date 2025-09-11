@@ -2,8 +2,8 @@
   consultar-directo-mesa-cambio.component.html
   Vista principal para la gestión de operaciones de pacto directo.
   Incluye dos pestañas: Búsqueda y Resultado.
-  - "Búsqueda": permite filtrar operaciones por criterios como tipo de documento, cédula/RIF, estatus, moneda y fecha.
-  - "Resultado": muestra los totales, la jornada y la tabla de operaciones filtradas, con acciones como exportar, procesar, editar y regresar.
+  - "Búsqueda": permite filtrar operaciones por criterios como movimiento, tipo de documento, cédula/RIF, envioBCV, tipo de mesa y fecha.
+  - "Resultado": muestra la cantidad de operaciones, los totales, la jornada y la tabla de operaciones filtradas, con acciones como exportar, procesar, editar y regresar.
   El paginador y los filtros permiten una navegación y búsqueda eficiente en los resultados.
   Solo se agregan comentarios de documentación, no se modifica la estructura ni los datos existentes.
 -->
@@ -16,7 +16,7 @@
             <!-- Outlet para rutas hijas si aplica -->
             <router-outlet *ngIf="true"></router-outlet>
             <mat-sidenav-content>
-                <!-- Grupo de pestañas para las operaciones de intervención -->
+                <!-- Grupo de pestañas para las operaciones de pacto directo -->
                 <mat-tab-group class="mat-tab-group flex items-center w-screen" [(selectedIndex)]="selectedTabIndex"
                     (selectedTabChange)="onTabChange($event)">
 
@@ -39,7 +39,7 @@
                                     <span>Seleccione Criterios</span>
                                 </div>
                                 <!-- Formulario de criterios de búsqueda -->
-                                <form class="card-form flex items-center w-full" [formGroup]="operaInterForm">
+                                <form class="card-form flex items-center w-full" [formGroup]="operaPactoForm">
 
                                     <div class="field-container px-6">
                                         
@@ -120,7 +120,7 @@
                                 <div class="buttons-container flex justify-center gap-6">
                                     <!-- Botón para procesar el archivo cargado -->
                                     <button class="mat-raised-button w-full px-7 py-0" type="submit"
-                                        (click)="consultarIntervencion()">Procesar</button>
+                                        (click)="consultarPactoDirecto()">Procesar</button>
                                     <!-- Botón para salir y regresar al menú principal -->
                                     <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
                                 </div>
@@ -327,7 +327,7 @@
   <h2 mat-dialog-title class="dialog-title">Editar Operación</h2>
   <mat-dialog-content>
     <form [formGroup]="editForm" class="dialog-form-container flex flex-col w-full">
-      <div class="campos-operaEdit flex flex-wrap gap-4">
+      <div class="campos-operaEdit flex flex-wrap gap-5">
         <mat-form-field appearance="outline" class="input-edit">
           <mat-label>ID Operación</mat-label>
           <input matInput formControlName="ID_OPER" readonly disabled>
