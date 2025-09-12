@@ -24,8 +24,7 @@ import { ExportProgressService } from 'app/services/export-progress.service';
   templateUrl: './consulta-interbancaria-mesa-cambio.component.html',
   styleUrls: ['./consulta-interbancaria-mesa-cambio.component.scss']
 })
-export class ConsultaInterbancariaMesaCambioComponent implements OnInit {
-  editForm: FormGroup;
+export class ConsultaInterbancariaMesaCambioComponent implements OnInit,  AfterViewInit, OnDestroy {
   selectedRow: any;
   /** Diccionario para mostrar nombres personalizados en los encabezados de la tabla */
   columnNames: { [key: string]: string } = {
@@ -175,54 +174,6 @@ export class ConsultaInterbancariaMesaCambioComponent implements OnInit {
   ) 
   {
     this.dataSourceH = new MatTableDataSource(this.interbancaria); 
-  }
-
-  /**
-   * Abre el diálogo de edición para una operación seleccionada.
-   * @param row Fila de la operación a editar.
-   */
-  openEditDialog(row: Interbancaria): void {
-    this.selectedRow = row;
-    this.editForm = this._formBuilder.group({
-      ID: [{ value: row.ID, disabled: true }],
-      TIPO_OPER: [row.TIPO_OPER, Validators.required],
-      RIF_CLIENTE: [row.RIF_CLIENTE, Validators.required],
-      NOMBRE_CLIENTE: [row.NOMBRE_CLIENTE, Validators.required],
-      CODIGO_MONEDA: [row.CODIGO_MONEDA, Validators.required],
-      MONTO: [row.MONTO, Validators.required],
-      TASA_CAMBIO: [row.TASA_CAMBIO, Validators.required],
-      FECHA: [row.FECHA, Validators.required],
-      CODIGO_INSTITUCION: [row.CODIGO_INSTITUCION, Validators.required],
-      ID_JORNADA: [row.ID_JORNADA, Validators.required],
-      CUENTA_ME: [row.CUENTA_ME, Validators.required],
-      CUENTA_MN: [row.CUENTA_MN, Validators.required],
-      TIPO_INSTRUMENTO: [row.TIPO_INSTRUMENTO, Validators.required],
-      OBSERVACION: [row.OBSERVACION],
-      ESTATUS: [row.ESTATUS, Validators.required],
-      ID_BCV: [row.ID_BCV, Validators.required],
-      TIPO_CLIENTE: [row.TIPO_CLIENTE, Validators.required],
-    });
-    this.dialog.open(this.editDialogTemplate, {
-      width: '770px',
-      data: row
-    });
-  }
-
-  closeEditDialog(): void {
-    this.dialog.closeAll();
-  }
-
-  saveEditDialog(): void {
-    if (this.editForm.valid) {
-      const updated = { ...this.selectedRow, ...this.editForm.getRawValue() };
-      const idx = this.interbancaria.findIndex(item => item.ID === updated.ID);
-      if (idx > -1) {
-        this.interbancaria[idx] = updated;
-        this.dataSourceH.data = [...this.interbancaria];
-      }
-      this.dialog.closeAll();
-      this._snackBar.open('Operación actualizada correctamente.', 'Cerrar', { duration: 3000 });
-    }
   }
 
   /**

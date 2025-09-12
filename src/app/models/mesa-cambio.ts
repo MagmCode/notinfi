@@ -75,3 +75,28 @@ export interface Interbancaria {
   ID_BCV: string;
   TIPO_CLIENTE: string;
 }
+export interface Canje {
+  ID: number;
+  TIPO_OPER: string;
+  TIPO_PER: string;
+  RIF_CLIENTE: number;
+  NOMBRE_CLIENTE: string;
+  CODIGO_MONEDA_ENT: string;
+  MONTO_ENT: number;
+  TIPO_INSTRU_ENT: string;
+  FECHA: string; // Puede ser Date si se requiere
+  CUENTA_ME_ENT: string;
+  CUENTA_MN_ENT: string;
+  CODIGO_MONEDA_REC: string;
+  MONTO_REC: number;
+  TIPO_INSTRU_REC: string;
+  CUENTA_ME_REC: string;
+  CUENTA_MN_REC: string;
+  MONTO_REC_BCV: number;
+  MONTO_CANJE_BASE: number;
+  TIPO_PACTO: string;
+  OBSERVACION: string;
+  ESTATUS: string;
+  ID_JORNADA: string;
+  ID_BCV: string;
+}

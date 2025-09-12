@@ -275,6 +275,62 @@
     cursor: pointer;
 }
 
+/* =============================
+   Estilos para el diálogo de edición
+   ============================= */
+.dialog-title {
+    color: #78ba49 !important;
+}
+
+.dialog-actions .mat-raised-button, .dialog-buttons .mat-raised-button {
+    color: #78ba49 !important;
+    font-weight: 500;
+    background-color: white !important;
+    border-radius: 8px;
+    transition: background 0.2s, color 0.2s;
+    margin-bottom: 5px;
+}
+.dialog-actions .mat-raised-button:hover, .dialog-buttons .mat-raised-button:hover {
+    background-color: #78ba49 !important;
+    color: white !important;
+}
+
+/* =============================
+   Estilos para los inputs del diálogo de edición
+   ============================= */
+.dialog-form-container .input-edit {
+    // @extend .input-cedula;
+    @extend .field-form;
+    width: 220px !important;
+    font-size: 0.95rem !important;
+    color: #1e293b;
+
+     input {
+            caret-color: #78ba49;
+            &[type="number"]::-webkit-outer-spin-button,
+            &[type="number"]::-webkit-inner-spin-button {
+                -webkit-appearance: none;
+                margin: 0;
+            }
+            &[type="number"] {
+                appearance: textfield;
+                -moz-appearance: textfield;
+            }
+        }
+
+    ::ng-deep {
+        .mat-form-field-outline-start {
+            min-width: 30px !important;
+        }
+
+        .mat-form-field-label-wrapper {
+            top: 0px !important;
+        }
+
+        }
+}
+
+
 ::ng-deep .results .mat-checkbox-checked.mat-accent .mat-checkbox-background,
 ::ng-deep .results .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background {
     background-color: #78ba49 !important;
@@ -513,56 +569,3 @@
 
 /* Fin de media queries responsivos */
 
-/* =============================
-   Estilos para los inputs del diálogo de edición
-   ============================= */
-.dialog-form-container .input-edit {
-    // @extend .input-cedula;
-    @extend .field-form;
-    width: 220px !important;
-    font-size: 0.95rem !important;
-    color: #1e293b;
-
-     input {
-            caret-color: #78ba49;
-            &[type="number"]::-webkit-outer-spin-button,
-            &[type="number"]::-webkit-inner-spin-button {
-                -webkit-appearance: none;
-                margin: 0;
-            }
-            &[type="number"] {
-                appearance: textfield;
-                -moz-appearance: textfield;
-            }
-        }
-
-    ::ng-deep {
-        .mat-form-field-outline-start {
-            min-width: 30px !important;
-        }
-
-        .mat-form-field-label-wrapper {
-            top: 0px !important;
-        }
-
-        }
-}
-/* =============================
-   Estilos para el diálogo de edición
-   ============================= */
-.dialog-title {
-    color: #78ba49 !important;
-}
-
-.dialog-actions .mat-raised-button, .dialog-buttons .mat-raised-button {
-    color: #78ba49 !important;
-    font-weight: 500;
-    background-color: white !important;
-    border-radius: 8px;
-    transition: background 0.2s, color 0.2s;
-    margin-bottom: 5px;
-}
-.dialog-actions .mat-raised-button:hover, .dialog-buttons .mat-raised-button:hover {
-    background-color: #78ba49 !important;
-    color: white !important;
-}
