@@ -1,302 +1,166 @@
-// @import url("//src/assets/styles/icons-bdv.css");
+/* ==========================================================================
+   Estilos generales del componente Cambio de Clave de Intervención
+   ========================================================================== */
 
-* {
-    font-family: 'Nunito', sans-serif !important;
-}
-
-// body {
-//     background-color: transparent !important;
-// }
-
-.operacionesMesaCambio-container-cambioClave {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    overflow-y: auto;
-    height: 80vh;
-    width: 100vw;
-    position: fixed;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background-color: #fff;
-}
-
-.menudeo-header-content-cambioClave {
-    width: 40%;
-    display: flex;
-    justify-content: space-between;
-    margin-bottom: 40px;
+/* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
+.header-container {
     color: #78ba49;
-    font-size: 3.6em;
+    width: 50%;
 }
 
-.head-icon-MesaCambio-cambioClave::before {
+/* Icono principal de la cabecera */
+.head-icon::before {
     color: #78ba49;
-    font-size: 2.9em;
-    opacity: 40%;
-    padding-top: 25px;
+    font-size: 2.2em;
 }
 
-.card-container-menudeo-cambioClave    {
+/* Texto debajo del icono en la cabecera */
+.text-head {
+    color: #78ba49;
+    font-size: 0.4em;
+    opacity: 0.4;
+}
+/* ==========================================================================
+   Tarjeta principal y formulario de criterios
+   ========================================================================== */
+.card-container {
     width: 650px;
     height: 480px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: space-between;
-    padding: 30px;
     color: #78ba49;
-    border-radius: 25px;
-    box-shadow: 0 4px 8px rgb(0 0 0 / 26%);
+    box-shadow: 0 4px 8px rgb(0 0 0 / 26%) !important;
 }
 
-
-.title-menudeo-cambioClave {
-    display: flex;
-    align-items: center;
-    margin-bottom: 20px;
-    font-size: 1.3em;
+/* Título de la tarjeta */
+.card-title {
+    color: #78ba49;
+    font-size: 1.3em; // Tamaño de fuente del título
 }
 
+/* ==========================================================================
+   Personalización de campos Angular Material (colores de borde, caret y etiqueta)
+   ========================================================================== */
+.field-form {
 
-.card-form-menudeo-cambioClave {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    width: 100%;
-}
+    /* Icono de ojo para mostrar/ocultar contraseña */
+    .eye-icon::before {
+        color: grey; // Color del icono del ojo
+    }
 
-.field-container-MesaCambio-cambioClave {
-    display: flex;
-    flex-direction: column;
-    width: 60%;
-    padding: 0px 23px;
-}
+    /* Estilo para el input y el cursor (caret) */
+    input {
+        caret-color: #78ba49; // Caret amarillo por defecto
+    }
 
-.card-form-menudeo-cambioClave .mat-form-field {
-    // flex: 1;
-    margin-right: 0px;
+    // Cambia el caret a rojo cuando el campo es inválido
+    ::ng-deep &.mat-form-field-invalid input {
+        caret-color: #eb3333 !important;
+    }
 
-}
+    /* Amarillo cuando está enfocado o válido */
+    ::ng-deep &.mat-form-field-appearance-outline.mat-focused .mat-form-field-outline-thick,
+    ::ng-deep &.mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-outline-thick {
+        color: #78ba49 !important;
+    }
 
-.campos-menudeo-cambioClave .tipoDocumentoInter {
-    margin-right: 0 !important;
-}
+    ::ng-deep &.mat-form-field-appearance-outline.mat-focused .mat-form-field-label,
+    ::ng-deep &.mat-form-field-appearance-outline.mat-form-field-valid .mat-form-field-label {
+        color: #78ba49 !important;
+    }
 
-.cedula-MesaCambio-cambioClave {
-    display: flex;
-}
-
-.campos-menudeo-cambioClave {
-    display: flex;
-    gap: 50px;
-    width: 245px;
-}
-
-.campos-menudeo-cambioClave .tipoDocumentoInter {
-    .mat-form-field-flex {
-        padding: 0 5px 0 6px !important;
+    /* Rojo cuando es inválido */
+    ::ng-deep &.mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-outline-thick,
+    ::ng-deep &.mat-form-field-appearance-outline.mat-form-field-invalid .mat-form-field-label {
+        color: #eb3333 !important; // Color para error
     }
 }
 
-.tipoDocumentoInter-cambioClave .mat-select-value {
-    padding-left: 25px;
-}
-
-.campos-menudeo-cambioClave .tipoDocumentoInter {
-    .mat-form-field-label {
-        width: 30px;
-    }
-}
-
-.input-cedula-inter-cambioClave .mat-form-field-wrapper {
-    width: 165px;
-}
-
-.input-cedula-inter-cambioClave {
-    color: #1e293b;
-
-    &.mat-focused {
-
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #78ba49 !important;
-        }
-    }
-}
-
-
-.campos-menudeo-cambioClave .documentoInter {
-    width: 80px;
-    /* Ancho fijo para el select */
-}
-
-
-.date-icon-inter-cambioClave:before {
-    color: grey;
-}
-
-.date-icon-inter-cambioClave:hover {
-    cursor: pointer;
-}
-
-
-.field-menudeo-cambioClave .mat-form-field-infix {
-    display: flex !important;
-    padding: 0 !important;
-    width: 220px !important;
-}
-
-.field-menudeo-cambioClave mat-icon {
-    padding: 9px 7px 0px 0px !important;
-    justify-content: end;
-    width: 25%;
-}
-
-.field-menudeo-cambioClave .mat-form-field-flex {
-    padding: 0 5px 0 20px !important;
-    margin-top: -0.25em !important;
-    position: relative !important;
-    opacity: 5 !important;
-}
-
-.field-menudeo-cambioClave mat-hint {
-    padding-left: 60px !important;
-    padding-top: 5px;
-    color: #78ba49 !important;
-    font-size: 1.23em;
-    font-weight: 400;
-}
-
-.field-menudeo-cambioClave .mat-form-field-flex:hover,
-.field-menudeo-cambioClave .mat-form-field-outline-thick {
-    opacity: 1 !important;
-}
-
-.field-menudeo-cambioClave input.mat-input-element {
-    margin: 0.7em 0em 0.9em 0em;
-    color: #1e293b;
-    white-space: nowrap;
-    overflow: hidden;
-    text-overflow: ellipsis;
-    max-width: 100%;
-}
-
-
-.tipoDocumentoInter-cambioClave {
-    .mat-form-field-wrapper {
-
-        width: 80px !important;
-    }
-}
-
-.tipoDocumentoInter-cambioClave .mat-form-field {
-    padding-left: 13px !important;
-    margin-right: 0px !important;
-}
-
-
-.field-menudeo-cambioClave .mat-form-field.mat-form-field-appearance-outline,
-.field-menudeo-cambioClave .mat-form-field-label-wrapper {
-    width: 50% !important;
-    top: -1px !important;
-    left: 1px !important;
-}
-
-
-.field-menudeo-cambioClave {
-    &.mat-form-field-invalid.mat-form-field-invalid {
-        .mat-form-field-outline-thick {
-            color: rgba(48, 48, 48, 0.247) !important;
-        }
-
-        .mat-form-field-label {
-            color: rgba(48, 48, 48, 0.616) !important;
-        }
-    }
-
-    &.mat-form-field-valid.mat-form-field-valid {
-
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #78ba49 !important;
-        }
-    }
-
-    &.mat-focused {
-
-        .mat-form-field-outline-thick,
-        .mat-form-field-label {
-            color: #78ba49 !important;
-        }
-    }
-}
-
-.buttons-menudeo-cambioClave   {
-    display: flex;
-    justify-content: center;
-    width: 100%;
-
-}
-
-.button-container-menudeo-cambioClave  button {
-    white-space: normal;
-    overflow-wrap: break-word;
-    width: 70%;
-    padding: 0 20px !important;
-    border-radius: 50px !important;
-}
-
-.button-container2-menudeo-cambioClave     {
-    display: flex;
-    justify-content: flex-end;
-    gap: 15px;
-
-    button {
-        padding: 0 20px !important;
-        border-radius: 50px !important;
-        width: 100px;
-        // background-color: lightblue;
-    }
-}
-
-.buttons-menudeo-cambioClave   .mat-raised-button {
-    color: #78ba49 !important;
+/* ==========================================================================
+   Botones de acción principales
+   ========================================================================== */
+.buttons-container .mat-raised-button {
+    color: #78ba49; // Color corporativo por defecto
     font-weight: 500;
-}
-
-.button-container-menudeo-cambioClave  .mat-raised-button,
-.button-container2-menudeo-cambioClave     .mat-raised-button {
-    transition: background-color 0s, color 0s;
-}
-
-.button-container-menudeo-cambioClave  .mat-raised-button:hover,
-.button-container2-menudeo-cambioClave     .mat-raised-button:hover {
-    background-color: #78ba49;
-    color: white !important;
-}
-
-
-
-.field-menudeo-cambioClave     .mat-select {
-
-    .mat-select-trigger {
-        display: inline-flex;
-        align-items: center;
-        width: 100%;
-        height: 35px !important;
+    &:hover {
+        background-color: #78ba49; // Fondo corporativo al pasar el mouse
+        color: white ;   // Texto blanco al pasar el mouse
     }
 }
 
-.field-menudeo-cambioClave     { 
- .mat-form-field-flex {
-    height: 53px;
-}
+
+/* ==========================================================================
+   Media queries para pantallas pequeñas (tablets y laptops)
+   ========================================================================== */
+
+/* Ajustes generales para pantallas <= 1024px */
+@media (max-width: 1400px) {
+
+    /* ==========================================================================
+   Cabecera de la página
+   ========================================================================== */
+    .header-container {
+        font-size: 2.6em !important;
+        width: 40vw !important;
+    }
+
+    /* Icono principal de la cabecera */
+    .head-icon::before {
+        font-size: 2.3em;
+    }
+
+    /* Texto debajo del icono en la cabecera */
+    .text-head {
+        font-size: 0.4em;
+    }
+
+    /* ==========================================================================
+   Contenedor principal de la tarjeta
+   ========================================================================== */
+    .card-container {
+       width: 506px;
+        height: 375px;
+        margin-bottom: 70px;
+    }
+
+    .card-form {
+        width: 350px !important;
+    }
+
+    /* Título de la tarjeta */
+    .card-title {
+        font-size: 1.0em;
+    }
+
+        .field-form {
+    ::ng-deep {
+        .mat-form-field-infix {
+            font-size: 0.76rem !important;
+        }
+
+        .mat-form-field-flex {
+            height: 46px !important ;
+        }
+    }   
 }
 
-.mat-select-panel {
-    border-radius: 15px !important;
-}
 
+    .eye-icon::before {
+        font-size: 0.8em;
+    }
+
+
+   .icon-bdv-icon-file2-m::before {
+        font-size: 0.8em;
+    }
+
+    /* ==========================================================================
+   Botones de acción
+   ========================================================================== */
+    .buttons-container { 
+        .mat-raised-button {
+            font-size: 0.7rem;
+        }
+    }
+
+}

@@ -1,58 +1,117 @@
-<!-- Loading Bar -->
-<fuse-loading-bar></fuse-loading-bar>
+<!--
+  cambio-clave-mesa-cambio.component.html
+  Vista principal para el cambio de clave de Mesa de Cambio.
+  Incluye formulario reactivo con validaciones y control de visibilidad de contraseñas.
+  Estructura y comentarios inspirados en sustituciones-pendientes.component.html.
+-->
 
-<!-- <main-layouts></main-layouts> -->
+<!-- Barra de carga superior (muestra progreso de operaciones globales) -->
+<fuse-loading-bar [show]="isLoading"></fuse-loading-bar>
+
 <mat-sidenav-container>
     <router-outlet *ngIf="true"></router-outlet>
     <mat-sidenav-content>
-        <!-- Contenido -->
-        <div class="operacionesMesaCambio-container-cambioClave">
-            <div class="menudeo-header-content-cambioClave">
+        <div class="main-container bg-white flex flex-col w-full h-full md:w-screen items-center px-2 md:px-0 "  >
+            <!-- Cabecera de la página -->
+            <div class="header-container flex justify-between my-10 text-7xl ">
                 <span>Cambio de Clave</span>
-                <mat-icon class="icon-size-10 icon-bdv-icon-bs-l head-icon-MesaCambio-cambioClave"></mat-icon>
-            </div>
-            <mat-card class="card-container-menudeo-cambioClave">
-                <div class="title-menudeo-cambioClave">
-                    <span>Clave de MesaCambio</span>
+                <div class="icon-container flex flex-col items-center mr-18">
+                    <!-- Icono representativo -->
+                     <mat-icon class="head-icon icon-size-10 icon-bdv-icon-bs-l opacity-40 pt-5"></mat-icon>
+                    <span class="text-head mt-10">Mesa de Cambio</span>
                 </div>
-                <!-- Carga Form -->
-                <form class="card-form-menudeo-cambioClave" #operacionesForm="ngForm" [formGroup]="cambioClaveeMesaCambioForm">
-
-                    <div class="field-container-MesaCambio-cambioClave">
-                        <!-- file  -->
-
-
-                <mat-form-field class="w-full field-menudeo-cambioClave" appearance="outline">
-                    <mat-label>Clave Actual</mat-label>
-                    <input matInput>
-                </mat-form-field>
-
-                <mat-form-field class="w-full field-menudeo-cambioClave" appearance="outline">
-                    <mat-label>Clave Nueva</mat-label>
-                    <input matInput>
-                </mat-form-field>
-
-                <mat-form-field class="w-full field-menudeo-cambioClave" appearance="outline">
-                    <mat-label>Confirmar Clave</mat-label>
-                    <input matInput>
-                </mat-form-field>
-
-            
-
-
-                       
-
-                        
-
-
             </div>
-    </form>
+            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-30">
+                <div class="card-title">
+                    <span>Seleccione Criterios</span>
+                </div>
+                <!-- Formulario reactivo para el cambio de clave -->
+                <form class="card-form w-full flex justify-center" [formGroup]="cambioClaveForm" (ngSubmit)="onSubmit()">
+                    <div class="form-container w-3/5">
+                        <!-- Campo: Clave Actual -->
+                        <mat-form-field class="field-form w-full" appearance="outline">
+                            <mat-label>Clave Actual</mat-label>
+                            <input matInput
+                                   [type]="showClaveActual ? 'text' : 'password'"
+                                   formControlName="claveActual">
+                            <!-- Botón para mostrar/ocultar clave -->
+                            <button mat-icon-button
+                                    matSuffix
+                                    type="button"
+                                    (click)="showClaveActual = !showClaveActual">
+                                <mat-icon *ngIf="!showClaveActual" class="eye-icon icon-size-6 icon-bdv-icon-show-m"></mat-icon>
+                                <mat-icon *ngIf="showClaveActual" class="eye-icon icon-size-6 icon-bdv-icon-hide-m"></mat-icon>
+                            </button>
+                            <mat-error
+                                *ngIf="cambioClaveForm.get('claveActual').hasError('required') && (cambioClaveForm.get('claveActual').touched || cambioClaveForm.get('claveActual').dirty)">
+                                La clave actual es obligatoria
+                            </mat-error>
+                        </mat-form-field>
 
-                <div class="buttons-menudeo-cambioClave">
-                    <div class="button-container2-menudeo-cambioClave">
-                        <button class="mat-raised-button" type="submit" form="cargaForm">Actualizar</button>
-                        <button class="mat-raised-button" type="submit" form="cargaForm" (click)="menuPrincipal()">Salir</button>
+                        <!-- Campo: Clave Nueva -->
+                        <mat-form-field class="w-full field-form" appearance="outline">
+                            <mat-label>Clave Nueva</mat-label>
+                            <input matInput
+                                   [type]="showClaveNueva ? 'text' : 'password'"
+                                   formControlName="claveNueva"
+                                   maxlength="10">
+                            <!-- Botón para mostrar/ocultar clave -->
+                            <button mat-icon-button
+                                    matSuffix
+                                    type="button"
+                                    (click)="showClaveNueva = !showClaveNueva">
+                                <mat-icon *ngIf="!showClaveNueva" class="eye-icon icon-size-6 icon-bdv-icon-show-m"></mat-icon>
+                                <mat-icon *ngIf="showClaveNueva" class="eye-icon icon-size-6 icon-bdv-icon-hide-m"></mat-icon>
+                            </button>
+                            <mat-error
+                                *ngIf="cambioClaveForm.get('claveNueva').hasError('required') && (cambioClaveForm.get('claveNueva').touched || cambioClaveForm.get('claveNueva').dirty)">
+                                La clave nueva es obligatoria
+                            </mat-error>
+                            <mat-error
+                                *ngIf="cambioClaveForm.get('claveNueva').hasError('minlength') && (cambioClaveForm.get('claveNueva').touched || cambioClaveForm.get('claveNueva').dirty)">
+                                La clave debe tener al menos 6 caracteres
+                            </mat-error>
+                            <mat-error
+                                *ngIf="cambioClaveForm.get('claveNueva').hasError('claveIgualActual') && (cambioClaveForm.get('claveNueva').touched || cambioClaveForm.get('claveNueva').dirty)">
+                                La clave nueva no puede ser igual a la clave actual
+                            </mat-error>
+                        </mat-form-field>
+
+                        <!-- Campo: Confirmar Clave -->
+                        <mat-form-field class="field-form w-full" appearance="outline">
+                            <mat-label>Confirmar Clave</mat-label>
+                            <input matInput
+                                   [type]="showConfirmarClave ? 'text' : 'password'"
+                                   formControlName="confirmarClave"
+                                   maxlength="10">
+                            <!-- Botón para mostrar/ocultar clave -->
+                            <button mat-icon-button
+                                    matSuffix
+                                    type="button"
+                                    (click)="showConfirmarClave = !showConfirmarClave">
+                                <mat-icon *ngIf="!showConfirmarClave" class="eye-icon icon-size-6 icon-bdv-icon-show-m"></mat-icon>
+                                <mat-icon *ngIf="showConfirmarClave" class="eye-icon icon-size-6 icon-bdv-icon-hide-m"></mat-icon>
+                            </button>
+                            <mat-error
+                                *ngIf="cambioClaveForm.get('confirmarClave').hasError('required') && (cambioClaveForm.get('confirmarClave').touched || cambioClaveForm.get('confirmarClave').dirty)">
+                                Debe confirmar la clave
+                            </mat-error>
+                            <mat-error
+                                *ngIf="cambioClaveForm.get('confirmarClave').hasError('clavesNoCoinciden') && (cambioClaveForm.get('confirmarClave').touched || cambioClaveForm.get('confirmarClave').dirty)">
+                                Las claves no coinciden
+                            </mat-error>
+                        </mat-form-field>
+
+                        <!-- Botón submit oculto para permitir enviar con Enter -->
+                        <button type="submit" style="display:none"></button>
                     </div>
+                </form>
+
+                <!-- Botones de acción principales (fuera del form por estilos) -->
+                <div class="buttons-container flex justify-center gap-6">
+                        <button class="mat-raised-button w-full px-7 py-0" type="button" (click)="onSubmit()"> Actualizar </button>
+                        <button class="mat-raised-button w-full px-7 py-0" type="button" (click)="inicio()">Salir</button>
+                    <!-- </div> -->
                 </div>
             </mat-card>
         </div>
