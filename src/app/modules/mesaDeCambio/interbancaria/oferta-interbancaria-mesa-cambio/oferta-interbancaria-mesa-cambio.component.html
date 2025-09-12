@@ -1,1 +1,77 @@
-<p>oferta-interbancaria-mesa-cambio works!</p>
+<!--
+  consultar-directo-mesa-cambio.component.html
+  Vista principal para la gestión de operaciones de OfertaInterbancaria.
+  Incluye dos pestañas: Búsqueda y Resultado.
+  - "Búsqueda": permite filtrar operaciones por criterios como movimiento, tipo de documento, cédula/RIF, envioBCV, tipo de mesa y fecha.
+  - "Resultado": muestra la cantidad de operaciones, los totales, la jornada y la tabla de operaciones filtradas, con acciones como exportar, procesar, editar y regresar.
+  El paginador y los filtros permiten una navegación y búsqueda eficiente en los resultados.
+  Solo se agregan comentarios de documentación, no se modifica la estructura ni los datos existentes.
+-->
+
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+            <!-- Outlet para rutas hijas si aplica -->
+            <router-outlet *ngIf="true"></router-outlet>
+            <mat-sidenav-content>
+                <!-- Grupo de pestañas para las operaciones de OfertaInterbancaria -->
+                <mat-tab-group class="mat-tab-group flex items-center w-screen">
+
+                    <!-- Pestaña de Búsqueda de jornadas activas -->
+                    <mat-tab label="Búsqueda">
+                        <div class="main-container mt-5 flex flex-col md:w-screen items-center px-2 md:px-0">
+                            <!-- Cabecera de la página -->
+                            <div class="header-container flex justify-between w-3/5 mb-5 text-6xl">
+                                <span>Interbancaria / Oferta</span>
+                                <div class="icon-container flex flex-col items-center ">
+                                    <!-- Icono representativo -->
+                                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-bs-l opacity-40 pt-5"></mat-icon>
+                                    <span class="text-head mt-10">Mesa de Cambio</span>
+                                </div>
+                            </div>
+                            <!-- Tarjeta principal con el formulario de búsqueda -->
+                            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-10">
+                                <!-- Título de la tarjeta -->
+                                <div class="card-title">
+                                    <span>Seleccione Criterios</span>
+                                </div>
+                                <!-- Formulario de criterios de búsqueda -->
+                                <form class="card-form flex items-center w-full" [formGroup]="operaOfertaInterbancariaForm">
+
+                                    <div class="field-container px-6">
+                                        
+                                        <div class="campos">
+                                        
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Movimiento</mat-label>
+                                                <mat-select [formControlName]="'movimiento'">
+                                                    <mat-option value="Pactos">Pactos</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Jornada</mat-label>
+                                                <input matInput [formControlName]="'jornada'" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- Botones de acción -->
+                                <div class="buttons-container flex justify-center gap-6">
+                                    <!-- Botón para procesar el archivo cargado -->
+                                    <button class="mat-raised-button w-full px-7 py-0" type="submit"
+                                        (click)="consultarOfertaInterbancaria()">Procesar</button>
+                                    <!-- Botón para salir y regresar al menú principal -->
+                                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </mat-tab>
+
+                   
+                </mat-tab-group>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+
