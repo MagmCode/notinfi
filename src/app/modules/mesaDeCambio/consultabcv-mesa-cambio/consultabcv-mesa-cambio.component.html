@@ -1,62 +1,201 @@
+<!--
+  consultar-directo-mesa-cambio.component.html
+  Vista principal para la gestión de operaciones de ConsultaBcv.
+  Incluye dos pestañas: Búsqueda y Resultado.
+  - "Búsqueda": permite filtrar operaciones por criterios como movimiento, tipo de documento, cédula/RIF, envioBCV, tipo de mesa y fecha.
+  - "Resultado": muestra la cantidad de operaciones, los totales, la jornada y la tabla de operaciones filtradas, con acciones como exportar, procesar, editar y regresar.
+  El paginador y los filtros permiten una navegación y búsqueda eficiente en los resultados.
+  Solo se agregan comentarios de documentación, no se modifica la estructura ni los datos existentes.
+-->
+
 <!-- Loading Bar -->
 <fuse-loading-bar></fuse-loading-bar>
 
 <!-- <main-layouts></main-layouts> -->
 <mat-sidenav-container>
-    <router-outlet *ngIf="true"></router-outlet>
-    <mat-sidenav-content>
-        <!-- Contenido -->
-        <div class="consultabcv-container-mesaCambio">
-            <div class="consultabcv-mesaCambio-header-content">
-                <span>Consulta BCV</span>
-                <mat-icon class="icon-size-10 icon-bdv-icon-bs-l head-icon-mesa"></mat-icon>
-            </div>
-            <mat-card class="card-container-consultabcv-mesaCambio">
-                <div class="title-consultabcv-mesaCambio">
-                    <span>Seleccione Criterios de Búsqueda</span>
-                </div>
-                <!-- Carga Form -->
-                <form class="card-form-consultabcv-mesaCambio" #operacionesForm="ngForm" [formGroup]="consultaBcvMesaCambioForm">
+            <!-- Outlet para rutas hijas si aplica -->
+            <router-outlet *ngIf="true"></router-outlet>
+            <mat-sidenav-content>
+                <!-- Grupo de pestañas para las operaciones de ConsultaBcv -->
+                <mat-tab-group class="mat-tab-group flex items-center w-screen" [(selectedIndex)]="selectedTabIndex"
+                    (selectedTabChange)="onTabChange($event)">
 
-                    <div class="field-container">
-                        <!-- file  -->
-                        <div class=" campos-consultabcv-mesaCambio">
+                    <!-- Pestaña de Búsqueda de jornadas activas -->
+                    <mat-tab label="Búsqueda">
+                        <div class="main-container mt-5 flex flex-col md:w-screen items-center px-2 md:px-0">
+                            <!-- Cabecera de la página -->
+                            <div class="header-container flex justify-between w-3/5 mb-5 text-6xl">
+                                <span>Consulta BCV</span>
+                                <div class="icon-container flex flex-col items-center ">
+                                    <!-- Icono representativo -->
+                                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-bs-l opacity-40 pt-5"></mat-icon>
+                                    <span class="text-head mt-10">Mesa de Cambio</span>
+                                </div>
+                            </div>
+                            <!-- Tarjeta principal con el formulario de búsqueda -->
+                            <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-10">
+                                <!-- Título de la tarjeta -->
+                                <div class="card-title">
+                                    <span>Seleccione Criterios</span>
+                                </div>
+                                <!-- Formulario de criterios de búsqueda -->
+                                <form class="card-form flex items-center w-full" [formGroup]="operaConsultaBcvForm">
 
+                                    <div class="field-container px-6">
+                                        
+                                        <div class="campos">
+                                        
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Movimiento</mat-label>
+                                                <mat-select [formControlName]="'movimiento'">
+                                                    <mat-option value="Pactos">Pactos</mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
 
-                       <div class="cedula">
-                    <mat-form-field appearance="outline" class="field-oper tipo">
-                        <mat-label>Tipo</mat-label>
-                        <mat-select class="agua">
-                            <mat-option value="V">V</mat-option>
-                            <mat-option value="E">E</mat-option>
-                        </mat-select>
-                    </mat-form-field>
+                                            <mat-form-field class="w-full field-form" appearance="outline">
+                                                <mat-label>Jornada</mat-label>
+                                                <input matInput [formControlName]="'jornada'" type="text">
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </form>
+                                <!-- Botones de acción -->
+                                <div class="buttons-container flex justify-center gap-6">
+                                    <!-- Botón para procesar el archivo cargado -->
+                                    <button class="mat-raised-button w-full px-7 py-0" type="submit"
+                                        (click)="consultarConsultaBcv()">Procesar</button>
+                                    <!-- Botón para salir y regresar al menú principal -->
+                                    <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
+                                </div>
+                            </mat-card>
+                        </div>
+                    </mat-tab>
 
-                    <mat-form-field appearance="outline" class="flex-grow-1 input-cedula">
-                        <mat-label>Cédula o RIF</mat-label>
-                        <input matInput>
-                    </mat-form-field>
-                </div>
+                    <!-- Pestaña de Resultados -->
+                    <mat-tab label="Resultado" *ngIf="canViewTab">
+                        <ng-template matTabContent>
+                            <div class="main-container2-info">
+                               <div class="header-container flex justify-between px-80 mt-1 text-6xl">
+                                <span> ConsultaBcv / Operaciones / Pactos</span>
+                                <div class="icon-container flex flex-col items-center ">
+                                    <!-- Icono representativo -->
+                                    <mat-icon class="head-icon icon-size-10 icon-bdv-icon-bs-l opacity-40 pt-5"></mat-icon>
+                                    <span class="text-head mt-10">Mesa de Cambio</span>
+                                </div>
+                            </div>
 
-                <mat-form-field class="w-full field-oper" appearance="outline">
-                    <mat-label>Jornada</mat-label>
-                    <mat-select class="agua">
-                        <mat-option value="one">First option</mat-option>
-                        <mat-option value="two">Second option</mat-option>
-                    </mat-select>
-                </mat-form-field>
-            </div>
+                            </div>
+                            <div class="main-container2 px-30  ">
+                                <!-- Tabla de operaciones -->
+                                <div
+                                    class="card-table sm:col-span-2 md:col-span-4 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl overflow-x-auto mb-30">
+                                    <div
+                                        class="sm:col-span-6 flex flex-col flex-auto p-6 bg-card shadow rounded-2xl min-w-min">
+                                        <div class="text-lg font-medium tracking-tight leading-6 truncate">Operaciones
+                                        </div>
 
-                    </div>
-                </form>
+                                        <div class="flex flex-col flex-auto mt-2 overflow-x-auto results">
+                                            <div class="flex items-start justify-between">
+                                                <mat-form-field appearance="outline" class="input-filter-inter">
+                                                    <mat-label>Filtro</mat-label>
+                                                    <input matInput (keyup)="applyFilterH($event)" placeholder=""
+                                                        #input>
+                                                </mat-form-field>
 
-                <div class="buttons-oper">
-                    <div class="button-container2-oper">
-                        <button class="mat-raised-button" type="submit" form="cargaForm">Procesar</button>
-                        <button class="mat-raised-button" type="submit" form="cargaForm">Salir</button>
-                    </div>
-                </div>
-            </mat-card>
-        </div>
-    </mat-sidenav-content>
-</mat-sidenav-container>
+                                                
+
+                                                <div class="action-buttons">
+                                                    <button class="mat-raised-button mr-5 exportar-button"
+                                                        (click)="exportarExcel()">Exportar XLS</button>
+                                                    <button class="mat-raised-button mr-3"
+                                                        (click)="regresar()">Regresar</button>
+                                                    <button class="mat-raised-button mr-3"
+                                                        (click)="inicio()">Salir</button>
+                                                </div>
+
+                                            </div>
+
+                                            <ng-container
+                                            *ngIf="(exportProgressService.showExportProgress$ | async) || (exportProgressService.showExportStart$ | async)">
+                                            <app-export-progress class="w-full mt-10"
+                                                [showExportProgress]="exportProgressService.showExportProgress$ | async"
+                                                [exportProgress]="exportProgressService.exportProgress$ | async"
+                                                [generandoArchivo]="exportProgressService.generandoArchivo$ | async"
+                                                [mensajePreparandoDescarga]="exportProgressService.mensajePreparandoDescarga$ | async"
+                                                [showExportStart]="exportProgressService.showExportStart$ | async"
+                                                [mensajeConexionActual]="exportProgressService.mensajeConexionActual$ | async">
+                                            </app-export-progress>
+                                        </ng-container>
+                                            <div class="mat-elevation-z8 table-responsive">
+                                                <table mat-table [dataSource]="dataSourceH" [matSort]="sortH" class="table-operaciones w-full">
+                                                    <ng-container *ngFor="let col of displayedColumns" [ngSwitch]="col">
+                                                        <!-- Checkbox de selección -->
+                                                        <ng-container *ngSwitchCase="'select'" matColumnDef="select">
+                                                            <th mat-header-cell *matHeaderCellDef class="header-cell">
+                                                                <mat-checkbox (change)="selectAll()"
+                                                                    [checked]="isAllSelected()"
+                                                                    [indeterminate]="selection.hasValue() && !isAllSelected()">
+                                                                </mat-checkbox>
+                                                            </th>
+                                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                                <mat-checkbox (click)="$event.stopPropagation()"
+                                                                    (change)="onCheckboxChange($event, row)"
+                                                                    [checked]="selection.isSelected(row)">
+                                                                </mat-checkbox>
+                                                            </td>
+                                                        </ng-container>
+
+                                                        <!-- Columnas dinámicas -->
+                                                        <ng-container *ngSwitchDefault [matColumnDef]="col">
+                                                            <th mat-header-cell *matHeaderCellDef mat-sort-header class="header-cell">{{ columnNames[col] || col }}</th>
+                                                            <td mat-cell *matCellDef="let row" class="table-cell">
+                                                                {{ row[col] }}
+                                                            </td>
+                                                        </ng-container>
+                                                    </ng-container>
+                                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                                                    <tr class="mat-row" *matNoDataRow>
+                                                        <td class="mat-cell text-center" [attr.colspan]="displayedColumns.length">No Existe Resultado</td>
+                                                    </tr>
+                                                </table>
+
+                                                <div class="paginator-actions-row flex items-center justify-between">
+                                                    <!-- Paginador de la tabla -->
+                                                    <mat-paginator [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]"
+                                                        [showFirstLastButtons]="true" #paginatorH>
+                                                    </mat-paginator>
+                                                    <div class="action-buttons" *ngIf="paginatorH?.pageSize !== 5">
+                                                        <button class="mat-raised-button mr-5 exportar-button"
+                                                            (click)="exportarExcel()">Exportar XLS</button>
+                                                        <button class="mat-raised-button mr-3"
+                                                            (click)="regresar()">Regresar</button>
+                                                        <button class="mat-raised-button mr-3"
+                                                            (click)="inicio()">Salir</button>
+                                                        </div>
+                                                    </div>
+                                                    <mat-progress-bar
+                                                        *ngIf="showExportProgress && paginatorH?.pageSize !== 5"
+                                                        mode="determinate"
+                                                        [value]="exportProgress"
+                                                        style="margin-bottom: 16px;">
+                                                        </mat-progress-bar>
+                                                        <div *ngIf="showExportProgress && paginatorH?.pageSize !== 5" class="text-center mb-2 text-sm text-gray-700">
+                                                        Generando archivo: {{exportProgress}}%
+                                                        </div>
+
+                                            </div>
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </ng-template>
+                    </mat-tab>
+
+                </mat-tab-group>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+
