@@ -1,3 +1,4 @@
+
 /* ==========================================================================
    Estilos generales del componente Operaciones Intervención
    ========================================================================== */
@@ -5,6 +6,11 @@
 /* Fondo blanco para el contenedor principal */
 ::ng-deep .mat-drawer-container {
     background-color: white !important;
+}
+
+/* Oculta el scrollbar del mat-drawer */
+::ng-deep .mat-drawer-content {
+    overflow: hidden !important;
 }
 
 /* ==========================================================================
@@ -61,7 +67,7 @@
    ========================================================================== */
 .card-container {
     width: 650px;
-    height: 480px;
+    height: 580px;
     color: #78ba49;
     box-shadow: 0 4px 8px rgb(0 0 0 / 26%) !important;
 }
@@ -124,6 +130,13 @@
     }
     .date-icon:hover {
         cursor: pointer;
+    }
+
+    .input-suffix {
+        color: #78ba49; 
+        top: 16px;
+        right: 12px;
+        position: relative;
     }
 }
 
