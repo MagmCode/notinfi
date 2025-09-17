@@ -1,1 +1,89 @@
-<p>pacto-interban-interbancaria-mesa-cambio works!</p>
+<!--
+  consultar-directo-mesa-cambio.component.html
+  Vista principal para la gestión de operaciones de Pacto Interbancario Interbancaria.
+  Incluye dos pestañas: Búsqueda y Resultado.
+  - "Búsqueda": permite filtrar operaciones por criterios como movimiento, tipo de documento, cédula/RIF, envioBCV, tipo de mesa y fecha.
+  -
+-->
+
+<!-- Loading Bar -->
+<fuse-loading-bar></fuse-loading-bar>
+
+<!-- <main-layouts></main-layouts> -->
+<mat-sidenav-container>
+            <!-- Outlet para rutas hijas si aplica -->
+            <router-outlet *ngIf="true"></router-outlet>
+            <mat-sidenav-content>
+                <div class="main-container mt-5 flex flex-col md:w-screen items-center px-2 md:px-0">
+                    <!-- Cabecera de la página -->
+                    <div class="header-container flex justify-between w-3/5 mb-5 text-6xl">
+                        <span>Interbancaria / Pacto Interbancario</span>
+                        <div class="icon-container flex flex-col items-center ">
+                            <!-- Icono representativo -->
+                            <mat-icon class="head-icon icon-size-10 icon-bdv-icon-bs-l opacity-40 pt-5"></mat-icon>
+                            <span class="text-head mt-10">Mesa de Cambio</span>
+                        </div>
+                    </div>
+                    <!-- Tarjeta principal con el formulario de búsqueda -->
+                    <mat-card class="card-container flex flex-col items-center justify-between p-8 rounded-3xl mb-30">
+                        <!-- Título de la tarjeta -->
+                        <div class="card-title">
+                            <span>Seleccione Criterios</span>
+                        </div>
+                        <!-- Formulario de criterios de búsqueda -->
+                        <form class="card-form flex items-center w-full" [formGroup]="pactoInterbancarioForm">
+                            <div class="field-container px-6">
+                                <div class="campos">
+
+                                     <mat-form-field class="w-full field-form" appearance="outline">
+                                        <mat-label>Código Jornada</mat-label>
+                                        <input matInput [formControlName]="'codigoJornada'" type="text">
+                                        <span matSuffix class="input-suffix">ABIERTO</span>
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-full field-form" appearance="outline">
+                                        <mat-label>Codigo Oferta</mat-label>
+                                        <input matInput [formControlName]="'codOferta'" type="text">
+                                    </mat-form-field>
+                                </div>
+                                <div class="campos">
+
+                                      <mat-form-field class="w-full field-form" appearance="outline">
+                                        <mat-label>Codigo Demanda</mat-label>
+                                        <input matInput [formControlName]="'codDemanda'" type="text">
+                                    </mat-form-field>
+
+                                     <mat-form-field class="w-full field-form" appearance="outline">
+                                        <mat-label>Monto</mat-label>
+                                        <input matInput [formControlName]="'monto'" type="text">
+                                    </mat-form-field>
+                                   
+                                </div>
+                                <div class="campos">
+                                    <mat-form-field class="w-full field-form" appearance="outline">
+                                        <mat-label>Tasa</mat-label>
+                                        <input matInput [formControlName]="'tasa'" type="text">
+                                    </mat-form-field>
+
+                                    <mat-form-field class="w-full field-form" appearance="outline">
+                                        <mat-label>Tipo de Pacto</mat-label>
+                                        <mat-select [formControlName]="'tipoPacto'">
+                                            <mat-option value="1">codigo - descripcion</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </form>
+                        <!-- Botones de acción -->
+                        <div class="buttons-container flex justify-center gap-6">
+                            <!-- Botón para procesar el archivo cargado -->
+                            <button class="mat-raised-button w-full px-7 py-0" type="submit"
+                                (click)="submit()">Registrar</button>
+                            <!-- Botón para salir y regresar al menú principal -->
+                            <button class="mat-raised-button w-full px-8 py-0" (click)="inicio()">Salir</button>
+                        </div>
+                    </mat-card>
+                </div>
+            </mat-sidenav-content>
+        </mat-sidenav-container>
+
