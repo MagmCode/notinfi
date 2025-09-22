@@ -1,4 +1,4 @@
-export interface respuestaPactoDireco{
+export interface respuestaPactoDirecto{
     codigo: string,
     mensajeCliente: string,
     mensajeSistema: string,

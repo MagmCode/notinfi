@@ -6,7 +6,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit, OnDestroy, TemplateRef } from '@angular/core';
 import { FormBuilder, FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
-import { pactoDirecto, respuestaPactoDireco } from 'app/models/mesa-cambio';
+import { pactoDirecto, respuestaPactoDirecto } from 'app/models/mesa-cambio';
 import { ServiceService } from 'app/services/service.service';
 import { TooltipPosition } from '@angular/material/tooltip';
 import { MatTableDataSource } from '@angular/material/table';
