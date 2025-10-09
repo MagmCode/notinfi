@@ -1,44 +1,66 @@
 <#
-  Packaging script for Windows (PowerShell).
-  Builds the production image locally, then saves it to a tar file and copies compose files
-  into a folder ready to be uploaded as a single artifact (e.g., GitHub Actions artifact).
+  package_delivery_dev.ps1
+
+  Builds the development Docker image (from Dockerfile.dev), saves it as a tar and
+  packages a runtime docker-compose file so the target server doesn't rebuild or
+  `npm install`.
+
+  Result: artifact_dev\notinfi-dev.tar + docker-compose.dev.run.yml + README_delivery_dev.txt
 #>
 
 param(
-  [string]$imageName = "asi-web:prod",
-  [string]$artifactDir = "artifact",
-  [string]$tarName = "asi-web-prod.tar"
+  [string]$imageName = "notinfi-dev",
+  [string]$artifactDir = "artifact_dev",
+  [string]$tarName = "notinfi-dev.tar"
 )
 
-Write-Host "Cleaning previous artifact folder..."
+Write-Host "Preparing artifact folder: $artifactDir"
 if (Test-Path $artifactDir) { Remove-Item $artifactDir -Recurse -Force }
 New-Item -ItemType Directory -Path $artifactDir | Out-Null
 
-Write-Host "Building production Docker image: $imageName"
-docker build -f Dockerfile.prod -t $imageName .
-if ($LASTEXITCODE -ne 0) { throw "Docker build failed" }
+Write-Host "Building dev image from Dockerfile.dev -> $imageName"
+docker build -f Dockerfile.dev -t $imageName .
+if ($LASTEXITCODE -ne 0) { throw "Docker build failed with exit code $LASTEXITCODE" }
 
 Write-Host "Saving image to tar: $tarName"
 docker save -o "$artifactDir\$tarName" $imageName
-if ($LASTEXITCODE -ne 0) { throw "Docker save failed" }
+if ($LASTEXITCODE -ne 0) { throw "Docker save failed with exit code $LASTEXITCODE" }
 
-Write-Host "Copying compose files and README to artifact folder"
-Copy-Item docker-compose.prod.yml $artifactDir -Force
-Copy-Item docker-compose.dev.run.yml $artifactDir -Force
-Copy-Item Dockerfile.prod $artifactDir -Force
+Write-Host "Including runtime compose file in artifact"
+if (Test-Path "docker-compose.dev.run.yml") {
+  Copy-Item "docker-compose.dev.run.yml" "$artifactDir\docker-compose.dev.run.yml" -Force
+} else {
+  # create a minimal compose that references the saved image so the server won't build
+  $compose = @'
+version: "3.8"
+services:
+  web:
+    image: notinfi-dev
+    ports:
+      - "4201:4201"
+    restart: unless-stopped
+'@
+  Set-Content -Path "$artifactDir\docker-compose.dev.run.yml" -Value $compose -Encoding UTF8
+}
 
+Write-Host "Writing README_delivery_dev.txt"
 $readme = @"
-Delivery contents:
-  - $tarName : Docker image tar. On the target server run `docker load -i $tarName` to import the image.
-  - docker-compose.prod.yml : Compose file referencing the image tag used by this tar. The application is mapped to host port 4201.
+Dev environment delivery (artifact):
 
-Example server steps (PowerShell):
-  Expand-Archive artifact.zip -DestinationPath ./artifact; docker load -i ./artifact/$tarName; docker-compose -f ./artifact/docker-compose.prod.yml up -d
+Files included:
+  - $tarName : Docker image tar for the development image (notinfi-dev)
+  - docker-compose.dev.run.yml : Compose file that references the preloaded image (no build)
+
+Server steps (PowerShell):
+  # copy artifact to server and extract (if zipped). Assuming artifact folder is present:
+  docker load -i .\artifact_dev\$tarName
+  docker-compose -f .\artifact_dev\docker-compose.dev.run.yml up -d
 
 Notes:
-  - The app will be served on host port 4201. If you run the dev container instead, it will expose port 4201 for ng serve.
+  - The compose binds host port 4201 to container 4201 (ng serve inside container).
+  - If your server is Linux, adapt paths accordingly and run the same docker commands.
 "@
 
-Set-Content -Path "$artifactDir\README_delivery.txt" -Value $readme
+Set-Content -Path "$artifactDir\README_delivery_dev.txt" -Value $readme -Encoding UTF8
 
-Write-Host "Packaging complete. Artifact directory: $artifactDir"
+Write-Host "Dev artifact packaging complete: $artifactDir\$tarName"
