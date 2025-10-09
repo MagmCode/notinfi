@@ -1,8 +1,8 @@
-node_modules
 dist
-tmp
-logs
 .git
 .gitignore
+.vscode
+.idea
+npm-debug.log
 Dockerfile*
-.env
+docker-compose*.yml
