@@ -7,7 +7,7 @@ WORKDIR /app
 COPY package*.json ./
 
 # Instalamos dependencias (incluyendo dev)
-RUN npm install
+RUN npm install --force 
 
 # ===== Stage 2: Código fuente =====
 FROM node:16.19-alpine AS dev
