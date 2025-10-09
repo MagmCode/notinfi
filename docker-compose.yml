@@ -1,0 +1,22 @@
+version: '3.8'
+
+services:
+  web-dev:
+    build:
+      context: .
+      dockerfile: Dockerfile.dev
+    image: notinfi-dev
+    container_name: notinfi-dev
+    ports:
+      - "4201:4201"
+    environment:
+      - NODE_ENV=development
+      - CHOKIDAR_USEPOLLING=1
+    restart: unless-stopped
+    networks:
+      - stack-net
+
+networks:
+  stack-net:
+    driver: bridge
+

@@ -1,0 +1,46 @@
+name: Build and Publish Docker image artifact
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v2
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v2
+
+      - name: Cache Docker layers
+        uses: actions/cache@v3
+        with:
+          path: /tmp/.buildx-cache
+          key: ${{ runner.os }}-buildx-${{ github.sha }}
+
+      - name: Build Docker image
+        run: |
+          docker build -f Dockerfile.prod -t asi-web:prod .
+
+      - name: Save image as tar
+        run: |
+          mkdir -p artifact
+          docker save -o artifact/asi-web-prod.tar asi-web:prod
+      - name: Copy compose files and README
+        run: |
+          cp docker-compose.prod.yml artifact/
+          cp docker-compose.dev.run.yml artifact/
+          cp Dockerfile.prod artifact/
+          echo "Delivery README" > artifact/README_delivery.txt
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: asi-web-image
+          path: artifact
