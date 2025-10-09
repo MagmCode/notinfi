@@ -1,66 +1,58 @@
 <#
-  package_delivery_dev.ps1
+package_delivery.ps1
+Usa este script para crear un ZIP listo para entregar que incluya:
+ - frontapp-dev.tar (ruta pasada como parámetro o ubicada en el directorio actual)
+ - docker-compose.dev.run.yml
+ - Dockerfile.dev
+ - Dockerfile.prod
+ - README_docker.md
+ - .dockerignore
 
-  Builds the development Docker image (from Dockerfile.dev), saves it as a tar and
-  packages a runtime docker-compose file so the target server doesn't rebuild or
-  `npm install`.
+Uso:
+ PowerShell> .\package_delivery.ps1 -TarPath .\frontapp-dev.tar
 
-  Result: artifact_dev\notinfi-dev.tar + docker-compose.dev.run.yml + README_delivery_dev.txt
+Si no se proporciona -TarPath, el script buscará `frontapp-dev.tar` en el directorio actual.
 #>
 
+[CmdletBinding()]
 param(
-  [string]$imageName = "notinfi-dev",
-  [string]$artifactDir = "artifact_dev",
-  [string]$tarName = "notinfi-dev.tar"
+    [Parameter(Mandatory=$false)]
+    [string]$TarPath = "frontapp-dev.tar",
+    [Parameter(Mandatory=$false)]
+    [string]$OutName = $("srd-front-delivery-{0}.zip" -f (Get-Date -Format yyyyMMdd_HHmm))
 )
 
-Write-Host "Preparing artifact folder: $artifactDir"
-if (Test-Path $artifactDir) { Remove-Item $artifactDir -Recurse -Force }
-New-Item -ItemType Directory -Path $artifactDir | Out-Null
+Write-Host "Creating delivery package..."
 
-Write-Host "Building dev image from Dockerfile.dev -> $imageName"
-docker build -f Dockerfile.dev -t $imageName .
-if ($LASTEXITCODE -ne 0) { throw "Docker build failed with exit code $LASTEXITCODE" }
-
-Write-Host "Saving image to tar: $tarName"
-docker save -o "$artifactDir\$tarName" $imageName
-if ($LASTEXITCODE -ne 0) { throw "Docker save failed with exit code $LASTEXITCODE" }
-
-Write-Host "Including runtime compose file in artifact"
-if (Test-Path "docker-compose.dev.run.yml") {
-  Copy-Item "docker-compose.dev.run.yml" "$artifactDir\docker-compose.dev.run.yml" -Force
-} else {
-  # create a minimal compose that references the saved image so the server won't build
-  $compose = @'
-version: "3.8"
-services:
-  web:
-    image: notinfi-dev
-    ports:
-      - "4201:4201"
-    restart: unless-stopped
-'@
-  Set-Content -Path "$artifactDir\docker-compose.dev.run.yml" -Value $compose -Encoding UTF8
+if (-Not (Test-Path $TarPath)) {
+    Write-Error "Tar file not found at '$TarPath'. Download the artifact from GitHub Actions and place it here, or pass -TarPath with the full path."
+    exit 1
 }
 
-Write-Host "Writing README_delivery_dev.txt"
-$readme = @"
-Dev environment delivery (artifact):
+$files = @(
+    $TarPath,
+    'docker-compose.dev.run.yml',
+    'docker-compose.dev.yml',
+    'Dockerfile.dev',
+    'Dockerfile.prod',
+    'README_docker.md',
+    '.dockerignore'
+)
 
-Files included:
-  - $tarName : Docker image tar for the development image (notinfi-dev)
-  - docker-compose.dev.run.yml : Compose file that references the preloaded image (no build)
+$existing = $files | Where-Object { Test-Path $_ }
 
-Server steps (PowerShell):
-  # copy artifact to server and extract (if zipped). Assuming artifact folder is present:
-  docker load -i .\artifact_dev\$tarName
-  docker-compose -f .\artifact_dev\docker-compose.dev.run.yml up -d
+if ($existing.Count -eq 0) {
+    Write-Error "No files found to include in the package."
+    exit 1
+}
 
-Notes:
-  - The compose binds host port 4201 to container 4201 (ng serve inside container).
-  - If your server is Linux, adapt paths accordingly and run the same docker commands.
-"@
+Write-Host "Files to include:`n$($existing -join "`n")"
 
-Set-Content -Path "$artifactDir\README_delivery_dev.txt" -Value $readme -Encoding UTF8
+if (Test-Path $OutName) {
+    Remove-Item $OutName -Force
+}
 
-Write-Host "Dev artifact packaging complete: $artifactDir\$tarName"
+Compress-Archive -Path $existing -DestinationPath $OutName -Force
+
+Write-Host "Package created: $OutName"
+Write-Host "Deliver this ZIP to the target team; they can run 'docker load -i <tar>' and then 'docker compose -f docker-compose.dev.run.yml up -d'"

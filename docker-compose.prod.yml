@@ -1,7 +1,8 @@
 version: '3.8'
 services:
   web:
-    image: asi-web:prod
+    image: notinfi-prod:latest
+    container_name: notinfi-prod
     ports:
       - "4201:80"
     restart: unless-stopped
