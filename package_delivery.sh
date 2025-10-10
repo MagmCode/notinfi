@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-TAR_PATH=${1:-frontapp-dev.tar}
+TAR_PATH=${1:-artifact_dev/notinfi-dev.tar}
 OUTNAME=${2:-srd-front-delivery-$(date +%Y%m%d_%H%M).zip}
 
 echo "Creating delivery package..."
@@ -45,4 +45,4 @@ fi
 zip -r "$OUTNAME" "${existing[@]}"
 
 echo "Package created: $OUTNAME"
-echo "Deliver this ZIP to the target team; they can run 'docker load -i <tar>' and then 'docker compose -f docker-compose.dev.run.yml up -d'"
+echo "Deliver this ZIP to the target team; they can run 'docker load -i artifact_dev/notinfi-dev.tar' and then 'docker compose -f docker-compose.dev.run.yml up -d --no-build'"

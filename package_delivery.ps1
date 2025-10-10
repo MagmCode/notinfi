@@ -17,7 +17,7 @@ Si no se proporciona -TarPath, el script buscará `frontapp-dev.tar` en el direc
 [CmdletBinding()]
 param(
     [Parameter(Mandatory=$false)]
-    [string]$TarPath = "frontapp-dev.tar",
+    [string]$TarPath = "artifact_dev\notinfi-dev.tar",
     [Parameter(Mandatory=$false)]
     [string]$OutName = $("srd-front-delivery-{0}.zip" -f (Get-Date -Format yyyyMMdd_HHmm))
 )
@@ -55,4 +55,4 @@ if (Test-Path $OutName) {
 Compress-Archive -Path $existing -DestinationPath $OutName -Force
 
 Write-Host "Package created: $OutName"
-Write-Host "Deliver this ZIP to the target team; they can run 'docker load -i <tar>' and then 'docker compose -f docker-compose.dev.run.yml up -d'"
+Write-Host "Deliver this ZIP to the target team; they can run 'docker load -i artifact_dev\notinfi-dev.tar' and then 'docker compose -f docker-compose.dev.run.yml up -d --no-build'"

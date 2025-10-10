@@ -1,7 +1,6 @@
-version: '3.8'
 services:
-  web:
-    image: notinfi-dev:lastest
+  notinfi-dev:
+    image: notinfi-dev:latest
     container_name: notinfi-dev
     ports:
       - "4201:4201"
@@ -9,3 +8,9 @@ services:
       - CHOKIDAR_USEPOLLING=1
       - NODE_ENV=development
     restart: unless-stopped
+    networks:
+      - stack-net
+
+networks:
+  stack-net:
+    external: true
