@@ -29,10 +29,11 @@ if (-Not (Test-Path $TarPath)) {
     exit 1
 }
 
+
+# Always include docker-compose.yml as the main compose file for delivery
 $files = @(
     $TarPath,
-    'docker-compose.dev.run.yml',
-    'docker-compose.dev.yml',
+    'docker-compose.yml',
     'Dockerfile.dev',
     'Dockerfile.prod',
     'README_docker.md',
@@ -55,4 +56,4 @@ if (Test-Path $OutName) {
 Compress-Archive -Path $existing -DestinationPath $OutName -Force
 
 Write-Host "Package created: $OutName"
-Write-Host "Deliver this ZIP to the target team; they can run 'docker load -i artifact_dev\notinfi-dev.tar' and then 'docker compose -f docker-compose.dev.run.yml up -d --no-build'"
+Write-Host "Deliver this ZIP to the target team; they can run 'docker load -i artifact_dev\notinfi-dev.tar' and then 'docker compose -f docker-compose.yml up -d --no-build'"

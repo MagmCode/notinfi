@@ -13,8 +13,7 @@ fi
 
 FILES=(
   "$TAR_PATH"
-  docker-compose.dev.run.yml
-  docker-compose.dev.yml
+  docker-compose.yml
   Dockerfile.dev
   Dockerfile.prod
   README_docker.md
@@ -45,4 +44,4 @@ fi
 zip -r "$OUTNAME" "${existing[@]}"
 
 echo "Package created: $OUTNAME"
-echo "Deliver this ZIP to the target team; they can run 'docker load -i artifact_dev/notinfi-dev.tar' and then 'docker compose -f docker-compose.dev.run.yml up -d --no-build'"
+echo "Deliver this ZIP to the target team; they can run 'docker load -i artifact_dev/notinfi-dev.tar' and then 'docker compose -f docker-compose.yml up -d --no-build'"
