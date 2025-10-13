@@ -9,7 +9,7 @@ import { tap, catchError } from 'rxjs/operators';
   providedIn: 'root',
 })
 export class LoginService {
-  private urlEndPoint: string = environment.urlEndPoint;
+  private urlEndPoint: string = environment.urlEndPoint2;
 
   constructor(private http: HttpClient) {}
 
