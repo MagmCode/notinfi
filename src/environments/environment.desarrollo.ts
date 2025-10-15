@@ -1,6 +1,7 @@
 export const environment = {
     production: false,
-    urlEndPoint:'http://sun23dl04n1.banvendes.corp:7008/asiWS/',
+    urlEndPoint: 'http://180.183.67.228:8084/',
+    urlEndPoint2: 'http://180.183.67.228:8082/',
     baseUrl: '/asi/',
 
 };

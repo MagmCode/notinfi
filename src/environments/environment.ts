@@ -2,6 +2,13 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// GATEWAY URL
+// export const environment = {
+//     production: false,
+//     urlEndPoint: 'http://180.183.67.228:8081/',
+//     baseUrl: '/',
+// };
+// BACKEND URL
 export const environment = {
     production: false,
     urlEndPoint: 'http://180.183.67.228:8084/',
