@@ -1,0 +1,44 @@
+name: Build and Publish Dev images (two envs)
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+jobs:
+  build-two-envs:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Prepare artifact folder
+        run: |
+          rm -rf artifact_dev || true
+          mkdir -p artifact_dev
+
+      - name: Build image using current environment.ts (local)
+        run: |
+          docker build -f Dockerfile.dev -t notinfi-dev:local .
+          docker save -o artifact_dev/notinfi-dev-local.tar notinfi-dev:local
+
+      - name: Build image using environment.desarrollo.ts
+        run: |
+          # Replace environment.ts with environment.desarrollo.ts for this build
+          cp src/environments/environment.desarrollo.ts src/environments/environment.ts
+          git status --porcelain || true
+          docker build -f Dockerfile.dev -t notinfi-dev:desarrollo .
+          docker save -o artifact_dev/notinfi-dev-desarrollo.tar notinfi-dev:desarrollo
+          # restore original environment.ts from git to keep workspace clean
+          git restore --source=HEAD --staged --worktree src/environments/environment.ts || true
+
+      - name: Include compose and Dockerfile
+        run: |
+          cp docker-compose.yml artifact_dev/ || true
+          cp Dockerfile.dev artifact_dev/ || true
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: notinfi-dev-images
+          path: artifact_dev
