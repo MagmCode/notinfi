@@ -23,7 +23,7 @@ jobs:
         run: |
           mkdir -p artifact_dev
           docker save -o artifact_dev/notinfi-dev.tar notinfi-dev
-          if [ -f docker-compose.dev.run.yml ]; then cp docker-compose.dev.run.yml artifact_dev/; fi
+          cp docker-compose.yml artifact_dev/ || true
           cp Dockerfile.dev artifact_dev/ || true
 
       - name: Upload artifact

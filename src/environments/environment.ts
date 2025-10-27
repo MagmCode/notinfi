@@ -3,18 +3,19 @@
 // The list of file replacements can be found in `angular.json`.
 
 // GATEWAY URL
-// export const environment = {
-//     production: false,
-//     urlEndPoint: 'http://180.183.67.228:8081/',
-//     baseUrl: '/',
-// };
-// BACKEND URL
 export const environment = {
     production: false,
-    urlEndPoint: 'http://host.docker.internal:8084/',
-    urlEndPoint2: 'http://host.docker.internal:8082/',
+    // urlEndPoint: 'http://180.183.67.228:8081/',
+    urlEndPoint: 'http://DLNTFI01.banvendes.corp:8081/',
     baseUrl: '/',
 };
+// BACKEND URL
+// export const environment = {
+//     production: false,
+//     urlEndPoint: 'http://host.docker.internal:8084/',
+//     urlEndPoint2: 'http://host.docker.internal:8082/',
+//     baseUrl: '/',
+// };
 /*
  * For easier debugging in development mode, you can import the following file
  * to ignore zone related error stack frames such as `zone.run`, `zoneDelegate.invokeTask`.
