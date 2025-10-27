@@ -97,11 +97,11 @@ me
         this.signInForm.disable();
         this.showAlert = false;
 
-        const { usuario: codUsuario, password: clave } = this.signInForm.value;
+        const { usuario: codUsuario, password: password } = this.signInForm.value;
 
         const loginPayload = {
             codUsuario,
-            clave,
+            password,
             siglasApplic: 'NOTINFI' //Descomentar para trabajar en gateway
         }
 

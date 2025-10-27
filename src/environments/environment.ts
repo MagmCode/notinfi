@@ -6,8 +6,9 @@
 export const environment = {
     production: false,
     // urlEndPoint: 'http://180.183.67.228:8081/',
-    urlEndPoint: 'http://180.183.172.74:8081/',
-    // urlEndPoint: 'http://DLNTFI01.banvendes.corp:8081/',
+    // urlEndPoint2: 'http://180.183.67.228:8082/',
+    // urlEndPoint: 'http://180.183.172.74:8081/',
+    urlEndPoint: 'http://DLNTFI01.banvendes.corp:8081/',
     baseUrl: '/',
 };
 // BACKEND URL
