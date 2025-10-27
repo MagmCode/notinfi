@@ -2,14 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Observable, throwError } from 'rxjs';
 import { environment } from 'environments/environment';
-import { loginLdap } from 'app/models/login'; // Ajusta la ruta según tu proyecto
+import { loginLdap } from 'app/models/login';
 import { tap, catchError } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',
 })
 export class LoginService {
-  private urlEndPoint: string = environment.urlEndPoint2;
+  private urlEndPoint: string = environment.urlEndPoint;
 
   constructor(private http: HttpClient) {}
 
